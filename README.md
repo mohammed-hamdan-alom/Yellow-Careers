@@ -80,23 +80,17 @@ pip3 install -r requirements.txt
 python3 manage.py makemigrations
 python3 manage.py migrate
 ```
-Now intsall the node packages:
-```
-cd react-frontend
-```
-Then run:
-```
-npm install
-```
-
-### Usage
-In terminal run 
-
+Start the REST api:
 ```
 python3 manage.py runserver
 ```
-Open a new terminal:
+Now install the node packages:
 ```
-cd react-frontend
+npm install
+```
+now enter the react-frontend directory with ```cd react-frontend``` and enter the following command:
+```
+npm install
 npm start
 ```
+
