@@ -63,9 +63,13 @@ Create a new virtual environment (make sure you are in the right directory) :
 ```
 virtualenv venv
 ```
-
+(Mac)
 ```
-source venv/bin/activate
+source venv/bin/activate 
+```
+(Windows)
+```
+venv/Scripts/activate
 ```
 Install all the dependencies:
 
