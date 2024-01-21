@@ -59,7 +59,7 @@ Install virtualenv:
 pip3 install virtualenv
 ```
 
-Create a new virtual environment (make sure you are in the right directory) :
+Create a new virtual environment (make sure you are in the root directory) :
 ```
 virtualenv venv
 ```
