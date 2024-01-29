@@ -26,8 +26,8 @@ class Education(models.Model):
         BACHELORS = "BA" ,_('Bachelors')
         MASTERS = "MA" ,_('Masters')
         DOCTORATE = "PHD" ,_('Doctorate')
-    start_date = models.DateTimeField(blank=False)
-    end_date = models.DateTimeField(blank=False)
+    start_date = models.DateField(blank=False)
+    end_date = models.DateField(blank=False)
     address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
     level = models.CharField(max_length=15,choices=Levels.choices) 
     institution = models.CharField(max_length=100)
@@ -35,8 +35,8 @@ class Education(models.Model):
 
 
 class Resume(models.Model):
-    github = models.URLField(max_length=250)
-    linkedin = models.URLField(max_length=250)
+    github = models.URLField(max_length=250,blank=True)
+    linkedin = models.URLField(max_length=250,blank=True)
     soft_skills = models.ManyToManyField(SoftSkill)
     technical_skills = models.ManyToManyField(TechnicalSkill)
     education = models.ManyToManyField(Education)

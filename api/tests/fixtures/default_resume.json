@@ -1,0 +1,59 @@
+[
+    {
+        "model": "api.address",
+        "pk": 1,
+        "fields": {
+            "street": "123 Test St",
+            "city": "Test City",
+            "state": "Test State",
+            "zip": "12345"
+        }
+    },
+    {
+        "model": "api.education",
+        "pk": 1,
+        "fields": {
+            "start_date": "2022-01-01",
+            "end_date": "2022-12-31",
+            "address": 1,
+            "level": "BA",
+            "institution": "Test University",
+            "grade": "A"
+        }
+    },
+    {
+        "model": "api.softskill",
+        "pk": 1,
+        "fields": {
+            "skill": "Teamwork"
+        }
+    },
+    {
+        "model": "api.technicalskill",
+        "pk": 1,
+        "fields": {
+            "skill": "Python"
+        }
+    },
+    {
+        "model": "api.language",
+        "pk": 1,
+        "fields": {
+            "language": "English",
+            "spoken_proficiency": "F",
+            "written_proficiency": "F"
+        }
+    },
+    {
+        "model": "api.resume",
+        "pk": 1,
+        "fields": {
+            "github": "https://github.com/test",
+            "linkedin": "https://linkedin.com/test",
+            "soft_skills": [1],
+            "technical_skills": [1],
+            "education": [1],
+            "language": [1]
+        }
+    }
+]
