@@ -9,7 +9,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50, blank=False)
     last_name = models.CharField(max_length=50, blank=False)
     other_names = models.CharField(max_length=50, blank=True)
-    email = models.EmailField(unique=True, blank=False, primary_key=True)
+    email = models.EmailField(unique=True, blank=False)
     #needs regex for phone number
     phone_number = models.CharField(unique=True,blank=False, max_length=15, validators=[RegexValidator(r'^\+?1?\d{9,15}$')])
     class Meta:
