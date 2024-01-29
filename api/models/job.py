@@ -1,6 +1,5 @@
 from django.db import models
 from .user import User
-from .company import Company
 from django.utils.translation import gettext as _
 
 
@@ -14,8 +13,8 @@ class Job(models.Model):
     title = models.CharField(max_length=50,blank=False)
     description = models.CharField(max_length=1000,blank=False)
     salary = models.PositiveIntegerField(blank=True)
-    location = models.CharField(max_length=100,blank=False)
-    job_type = models.CharField(choices=JobType.choices)
-    company = models.ForeignKey(Company,on_delete=models.CASCADE)
+    location = models.OneToOneField('Address',blank=True,on_delete=models.CASCADE)
+    job_type = models.CharField(max_length=20,choices=JobType.choices)
+    company = models.ForeignKey('Company',on_delete=models.CASCADE,)
 
     ##questions field we need to add

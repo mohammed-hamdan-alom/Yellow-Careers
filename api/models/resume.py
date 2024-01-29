@@ -11,10 +11,16 @@ class TechnicalSkill(models.Model):
     skill = models.CharField(max_length=30)
 
 class Language(models.Model):
+    class Proficiency(models.TextChoices):
+        BASIC = 'B', _('Basic')
+        INTERMEDIATE = 'I',_('Intermediate')
+        ADVANCED = 'A', _('Advanced')
+        FLUENT = 'F',_('Fluent')
     language = models.CharField(max_length=30)
+    spoken_proficiency = models.CharField(max_length=1,choices=Proficiency.choices)
+    written_proficiency = models.CharField(max_length=1,choices=Proficiency.choices)
 
 class Education(models.Model):
-    ##other?
     class Levels(models.TextChoices):
         HIGH_SCHOOL = "HS" ,_('High School')
         BACHELORS = "BA" ,_('Bachelors')
@@ -23,7 +29,7 @@ class Education(models.Model):
     start_date = models.DateTimeField(blank=False)
     end_date = models.DateTimeField(blank=False)
     address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
-    level = models.CharField(choices=Levels.choices) 
+    level = models.CharField(max_length=15,choices=Levels.choices) 
     institution = models.CharField(max_length=100)
     grade = models.CharField(max_length=15, blank=False)
 
@@ -33,22 +39,6 @@ class Resume(models.Model):
     linkedin = models.URLField(max_length=250)
     soft_skills = models.ManyToManyField(SoftSkill)
     technical_skills = models.ManyToManyField(TechnicalSkill)
-    education = models.ManyToManyField(Education,on_delete=models.CASCADE)
+    education = models.ManyToManyField(Education)
     language = models.ManyToManyField(Language)
-    job_seeker = models.ForeignKey(JobSeeker,on_delete=models.CASCADE,null=False)
     
-    ##Like this or charfield?
-    # class SoftSkills(models.TextChoices):
-    #     COMMUNICATION = 'M', _('Male')
-    #     TEAMWORK = 'F',_('Female')
-    #     PROBLEM_SOLVING = 'M', _('Male')
-    #     ADAPTABILITY = 'F',_('Female')
-    #     LEADERSHIP = 'M', _('Male')
-    #     TIME_MANAGEMENT = 'F',_('Female')
-    #     DECISION_MAKING = 'M', _('Male')
-    #     FLEXIBILITY = 'F',_('Female')
-    #     RESPONSIBILITY = 'M', _('Male')
-    #     EMPATHY = 'F',_('Female')
-
-    
-

@@ -1,8 +1,6 @@
 from django.db import models
-from .user import User
-
 class Company(models.Model):
     company_name = models.CharField(max_length=100,blank=False)
+    admin = models.ForeignKey('Employer',on_delete=models.CASCADE, null=False,related_name='admin_companies')
+    website = models.URLField(max_length=200,blank=True)        
 
-    ##TO DO: should we do it like this?
-    admin = models.ForeignKey(User,on_delete=models.SET_NULL, null=False)
