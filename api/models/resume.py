@@ -40,5 +40,5 @@ class Resume(models.Model):
     soft_skills = models.ManyToManyField(SoftSkill)
     technical_skills = models.ManyToManyField(TechnicalSkill)
     education = models.ManyToManyField(Education)
-    language = models.ManyToManyField(Language)
+    languages = models.ManyToManyField(Language)
     

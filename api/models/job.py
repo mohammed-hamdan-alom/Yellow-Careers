@@ -15,6 +15,6 @@ class Job(models.Model):
     salary = models.PositiveIntegerField(blank=True)
     location = models.OneToOneField('Address',blank=True,on_delete=models.CASCADE)
     job_type = models.CharField(max_length=20,choices=JobType.choices)
-    company = models.ForeignKey('Company',on_delete=models.CASCADE,)
+    #company = models.ForeignKey('Company',on_delete=models.CASCADE)
 
     ##questions field we need to add
