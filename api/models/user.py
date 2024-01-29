@@ -29,6 +29,7 @@ class JobSeeker(User):
     
 
 class Employer(User):
-    company = models.ForeignKey('Company', on_delete=models.CASCADE, null=False, related_name='employers')
+    company = models.ForeignKey('Company', on_delete=models.CASCADE, null=False)
+    is_Admin = models.BooleanField(default=False)
 
     
