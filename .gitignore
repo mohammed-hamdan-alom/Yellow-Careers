@@ -23,6 +23,7 @@ sketch
 *.log
 *.pot
 *.pyc
+.migrations/
 __pycache__
 db.sqlite3
 media

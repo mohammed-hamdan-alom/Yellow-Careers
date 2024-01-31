@@ -3,7 +3,6 @@
         "model" : "api.user",
         "pk" : 2,
         "fields" : {
-            "username" : "johndoe2@example.com",
             "first_name" : "John2",
             "last_name" : "Doe",
             "other_names" : "Charles",
@@ -17,7 +16,6 @@
         "model" : "api.user",
         "pk" : 3,
         "fields" : {
-            "username" : "johndoe3@example.com",
             "first_name" : "John3",
             "last_name" : "Doe",
             "other_names" : "Charles",
@@ -31,7 +29,6 @@
         "model" : "api.user",
         "pk" : 4,
         "fields" : {
-            "username" : "johndoe4@example.com",
             "first_name" : "John4",
             "last_name" : "Doe",
             "other_names" : "Charles",

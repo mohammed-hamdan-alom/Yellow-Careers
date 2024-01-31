@@ -1,5 +1,13 @@
 [
     {
+        "model": "api.resume",
+        "pk": 1,
+        "fields": {
+            "github": "https://github.com/test",
+            "linkedin": "https://linkedin.com/test"
+        }
+    },
+    {
         "model": "api.address",
         "pk": 1,
         "fields": {
@@ -15,24 +23,27 @@
         "fields": {
             "start_date": "2022-01-01",
             "end_date": "2022-12-31",
-            "address": 1,
+            "address": [1],
             "level": "BA",
             "institution": "Test University",
-            "grade": "A"
+            "grade": "A",
+            "resume": [1]
         }
     },
     {
         "model": "api.softskill",
         "pk": 1,
         "fields": {
-            "skill": "Teamwork"
+            "skill": "Teamwork",
+            "resume": [1]
         }
     },
     {
         "model": "api.technicalskill",
         "pk": 1,
         "fields": {
-            "skill": "Python"
+            "skill": "Python",
+            "resume": [1]
         }
     },
     {
@@ -41,19 +52,9 @@
         "fields": {
             "language": "English",
             "spoken_proficiency": "F",
-            "written_proficiency": "F"
-        }
-    },
-    {
-        "model": "api.resume",
-        "pk": 1,
-        "fields": {
-            "github": "https://github.com/test",
-            "linkedin": "https://linkedin.com/test",
-            "soft_skills": [1],
-            "technical_skills": [1],
-            "education": [1],
-            "language": [1]
+            "written_proficiency": "F",
+            "resume": [1]
         }
     }
+    
 ]
