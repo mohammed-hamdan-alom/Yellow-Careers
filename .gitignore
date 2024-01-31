@@ -23,6 +23,9 @@ sketch
 *.log
 *.pot
 *.pyc
+migrations/*
+migrations/*.py
+!migrations/__init__.py
 __pycache__
 db.sqlite3
 media

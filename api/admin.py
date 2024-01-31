@@ -1,6 +1,8 @@
 from django.contrib import admin
-from api.models import user_models  
+from .models import User, Job
 
-@admin.register(user_models.User)
+@admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username','first_name','last_name','email','phone_number','is_staff','is_active','is_superuser','date_joined']
+    list_display = ['first_name','last_name','email','phone_number','is_staff','is_active','is_superuser','date_joined']
+    ordering = ['last_name', 'first_name']
+
