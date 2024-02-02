@@ -2,7 +2,6 @@ from django.db import models
 from .user import User
 from django.utils.translation import gettext as _
 
-
 class Job(models.Model):
     """Model that represents a job"""
     class JobType(models.TextChoices):
@@ -14,5 +13,5 @@ class Job(models.Model):
     title = models.CharField(max_length=50,blank=False)
     description = models.CharField(max_length=1000,blank=False)
     salary = models.PositiveIntegerField(blank=True)
-    location = models.OneToOneField('Address',blank=True,on_delete=models.CASCADE)
+    address = models.OneToOneField('Address',blank=True,on_delete=models.CASCADE)
     job_type = models.CharField(max_length=20,choices=JobType.choices)

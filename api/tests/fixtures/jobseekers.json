@@ -1,0 +1,27 @@
+[
+    {
+        "model" : "api.jobseeker",
+        "pk" : 1,
+        "fields" : {
+            "user_ptr_id" : 1,
+            "dob" : "1999-01-01",
+            "address" : 1,
+            "nationality" : "British",
+            "sex" : "M",
+            "resume" : 1
+        }
+    },
+    {
+        "model" : "api.jobseeker",
+        "pk" : 2,
+        "fields" : {
+            "user_ptr_id" : 2,
+            "dob" : "1980-04-01",
+            "address" : 2,
+            "nationality" : "Indian",
+            "sex" : "F",
+            "resume" : 2
+        }
+    }
+
+]

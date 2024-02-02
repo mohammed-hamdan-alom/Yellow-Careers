@@ -1,0 +1,60 @@
+[
+    {
+        "model": "api.job",
+        "pk": 1,
+        "fields": {
+            "title": "Software Engineer",
+            "description": "Create new software",
+            "address": 1,
+            "salary": 100000,
+            "job_type": "FT"
+        }
+    },
+    {
+        "model" : "api.employerjobrelation",
+        "pk" : 1,
+        "fields" : {
+            "employer" : 3,
+            "job" : 1
+        }
+    },
+    
+    {
+        "model": "api.job",
+        "pk": 2,
+        "fields": {
+            "title": "Retail Sales Associate",
+            "description": "Sell products",
+            "address": 2,
+            "salary": 50000,
+            "job_type": "PT"
+        }
+    },
+    {
+        "model" : "api.employerjobrelation",
+        "pk" : 2,
+        "fields" : {
+            "employer" : 4,
+            "job" : 2
+        }
+    },
+    {
+        "model": "api.job",
+        "pk": 3,
+        "fields": {
+            "title": "Economist",
+            "description": "Analyze economic data",
+            "address": 3,
+            "salary": 30000,
+            "job_type": "FT"
+        }
+    },
+    {
+        "model" : "api.employerjobrelation",
+        "pk" : 3,
+        "fields" : {
+            "employer" : 3,
+            "job" : 3
+        }
+    }
+]

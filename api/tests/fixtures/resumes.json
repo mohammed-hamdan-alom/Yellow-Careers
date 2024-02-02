@@ -1,0 +1,103 @@
+[
+    {
+        "model": "api.resume",
+        "pk": 1,
+        "fields": {
+            "github": "https://github.com/test",
+            "linkedin": "https://linkedin.com/test",
+            "about" : "I am a test developer",
+            "experience" : "I have 5 years of experience"
+        }
+    },
+    {
+        "model": "api.education",
+        "pk": 1,
+        "fields": {
+            "start_date": "2022-01-01",
+            "end_date": "2022-12-31",
+            "address": 1,
+            "level": "BA",
+            "institution": "Test University",
+            "grade": "A",
+            "resume": 1
+        }
+    },
+    {
+        "model": "api.softskill",
+        "pk": 1,
+        "fields": {
+            "skill": "Teamwork",
+            "resume": 1
+        }
+    },
+    {
+        "model": "api.technicalskill",
+        "pk": 1,
+        "fields": {
+            "skill": "Python",
+            "resume": 1
+        }
+    },
+    {
+        "model": "api.language",
+        "pk": 1,
+        "fields": {
+            "language": "English",
+            "spoken_proficiency": "F",
+            "written_proficiency": "F",
+            "resume": 1
+        }
+    },
+
+
+    {
+        "model": "api.resume",
+        "pk": 2,
+        "fields": {
+            "github": "https://github.com/test2",
+            "linkedin": "https://linkedin.com/test2",
+            "about" : "I am a test2 developer",
+            "experience" : "I have 10 years of experience"
+        }
+    },
+    {
+        "model": "api.education",
+        "pk": 2,
+        "fields": {
+            "start_date": "2022-01-01",
+            "end_date": "2022-12-31",
+            "address": 2,
+            "level": "BA",
+            "institution": "Test University",
+            "grade": "A",
+            "resume": 2
+        }
+    },
+    {
+        "model": "api.softskill",
+        "pk": 2,
+        "fields": {
+            "skill": "Teamwork",
+            "resume": 2
+        }
+    },
+    {
+        "model": "api.technicalskill",
+        "pk": 2,
+        "fields": {
+            "skill": "Python",
+            "resume": 2
+        }
+    },
+    {
+        "model": "api.language",
+        "pk": 2,
+        "fields": {
+            "language": "English",
+            "spoken_proficiency": "F",
+            "written_proficiency": "F",
+            "resume": 2
+        }
+    }
+    
+]

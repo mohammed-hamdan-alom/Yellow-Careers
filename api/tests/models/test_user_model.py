@@ -9,11 +9,16 @@ from api.models import JobSeeker
 class UserModelTestCase(TestCase):
     """Unit tests for the User model"""
 
-    fixtures= [
-        'api/tests/fixtures/default_user.json',
-        'api/tests/fixtures/other_users.json',
-        'api/tests/fixtures/jobseeker.json'
-    ]
+    fixtures = ['api/tests/fixtures/addresses.json',
+                'api/tests/fixtures/answers.json',
+                'api/tests/fixtures/applications.json',
+                'api/tests/fixtures/companies.json',
+                'api/tests/fixtures/employers.json',
+                'api/tests/fixtures/jobs.json',
+                'api/tests/fixtures/jobseekers.json',
+                'api/tests/fixtures/questions.json',
+                'api/tests/fixtures/resumes.json',
+                'api/tests/fixtures/users.json',]
 
     def setUp(self):
         self.user = User.objects.get(email='johndoe@example.com')

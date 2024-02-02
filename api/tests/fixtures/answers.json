@@ -1,0 +1,38 @@
+[
+    {
+        "model" : "api.answer",
+        "pk" : 1,
+        "fields" : {
+            "application" : 1,
+            "question" : 1,
+            "answer" : "Because I have a passion for this job."
+        }
+    },
+    {
+        "model" : "api.answer",
+        "pk" : 2,
+        "fields" : {
+            "application" : 1,
+            "question" : 2,
+            "answer" : "I have experience coding in python and I am familiar with the Django framework."
+        }
+    },
+    {
+        "model" : "api.answer",
+        "pk" : 3,
+        "fields" : {
+            "application" : 2,
+            "question" : 3,
+            "answer" : "Because I love what this company stands for"
+        }
+    },
+    {
+        "model" : "api.answer",
+        "pk" : 4,
+        "fields" : {
+            "application" : 3,
+            "question" : 4,
+            "answer" : "Because I need money"
+        }
+    }
+]
