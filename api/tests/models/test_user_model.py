@@ -1,9 +1,7 @@
 """Unit tests for the User model."""
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from api.models.user import User
-from api.models.resume import Resume
-from api.models.address import Address
+from api.models import User
 from api.models import JobSeeker
 from api.models import Employer
 
@@ -30,6 +28,8 @@ class UserModelTestCase(TestCase):
 
         self.employer = Employer.objects.get(user_ptr_id=3)
 
+    #the tests below this are for a 'general' user
+        
     def test_valid_user(self):
         self._assert_user_is_valid(self.user)
 
@@ -124,6 +124,8 @@ class UserModelTestCase(TestCase):
         self.user.phone_number = '2'*16
         self._assert_user_is_invalid(self.user)
 
+    #the tests below this are for jobseeker users
+
     def test_valid_jobseeker(self):
         self._assert_user_is_valid(self.jobseeker)
 
@@ -139,6 +141,8 @@ class UserModelTestCase(TestCase):
         #Django Date field must be in the format YYYY-MM-DD
         self.jobseeker.dob='01-01-1999'
         self._assert_user_is_invalid(self.jobseeker)
+        self.jobseeker.dob='1999-01-01'
+        self._assert_user_is_valid(self.jobseeker)
 
     def test_address_has_to_be_address_field(self):
         with self.assertRaises(ValueError):
@@ -168,6 +172,8 @@ class UserModelTestCase(TestCase):
         with self.assertRaises(ValueError):
             self.jobseeker.resume = ''
 
+    #the tests below this are for employer users
+
     def test_company_for_employer_cannot_be_empty(self):
         self.employer.company = None
         self._assert_user_is_invalid(self.employer)
@@ -187,7 +193,7 @@ class UserModelTestCase(TestCase):
         try:
             user.full_clean()  
         except (ValidationError):
-            self.fail('test user should be valid')
+            self.fail(f"{user}should be valid")
 
     def _assert_user_is_invalid(self,user):
         with self.assertRaises(ValidationError):
