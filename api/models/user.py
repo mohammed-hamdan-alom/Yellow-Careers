@@ -22,7 +22,7 @@ class User(AbstractUser):
     class Meta:
         ordering = ['last_name', 'first_name']
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.email
 
 class JobSeeker(User):
     """Model that represents a job seeker and inherits from User"""

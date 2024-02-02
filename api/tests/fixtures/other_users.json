@@ -8,7 +8,8 @@
             "other_names" : "Charles",
             "email" : "johndoe2@example.com",
             "phone_number" : "080123456782",
-            "is_active" : "true"
+            "is_active" : true,
+            "password" : "Password123"
 
         }
     },
@@ -21,12 +22,13 @@
             "other_names" : "Charles",
             "email" : "johndoe3@example.com",
             "phone_number" : "080123456783",
-            "is_active" : "false"
+            "is_active" : false,
+            "password" : "Password123"
 
         }
     },
     {
-        "model" : "api.user",
+        "model" : "api.jobseeker",
         "pk" : 4,
         "fields" : {
             "first_name" : "John4",
@@ -34,7 +36,20 @@
             "other_names" : "Charles",
             "email" : "johndoe4@example.com",
             "phone_number" : "080123456784",
-            "is_active" : "true"
+            "is_active" : false,
+            "password" : "Password123",
+            "resume" : null,
+            "address" : 5,
+            "dob" : "1999-01-12"
+        }
+    },
+    {
+        "model": "api.address",
+        "pk": 5 ,
+        "fields": {
+            "city": "Anytown",
+            "post_code": "12345",
+            "country": "CA"
         }
     }
 ]
