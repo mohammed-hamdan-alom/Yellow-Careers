@@ -5,6 +5,7 @@ from api.models.user import User
 from api.models.resume import Resume
 from api.models.address import Address
 from api.models import JobSeeker
+from api.models import Employer
 
 class UserModelTestCase(TestCase):
     """Unit tests for the User model"""
@@ -23,9 +24,12 @@ class UserModelTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.get(email='johndoe@example.com')
         self.user2 = User.objects.get(email='johndoe2@example.com')
-        #self.user3 = JobSeeker.objects.get(email='peterneedsajob@example.com')
-        #self.jobseeker = self.user3
-    
+
+        self.jobseeker = JobSeeker.objects.get(user_ptr_id=1)
+        self.jobseeker2 = JobSeeker.objects.get(user_ptr_id=2)
+
+        self.employer = Employer.objects.get(user_ptr_id=3)
+
     def test_valid_user(self):
         self._assert_user_is_valid(self.user)
 
@@ -120,9 +124,61 @@ class UserModelTestCase(TestCase):
         self.user.phone_number = '2'*16
         self._assert_user_is_invalid(self.user)
 
+    def test_valid_jobseeker(self):
+        self._assert_user_is_valid(self.jobseeker)
+
+    def test_sex_choices(self):
+        self.jobseeker.sex='this is not one of the choices'
+        self._assert_user_is_invalid(self.jobseeker)
     
+    def test_dob_cannot_be_blank(self):
+        self.jobseeker.dob=''
+        self._assert_user_is_invalid(self.jobseeker)
     
+    def test_dob_has_to_be_correct_format(self):
+        #Django Date field must be in the format YYYY-MM-DD
+        self.jobseeker.dob='01-01-1999'
+        self._assert_user_is_invalid(self.jobseeker)
+
+    def test_address_has_to_be_address_field(self):
+        with self.assertRaises(ValueError):
+            self.jobseeker.address = ''
     
+    def test_address_cannot_be_null(self):
+        self.jobseeker.address = None
+        self._assert_user_is_invalid(self.jobseeker)
+    
+    def test_nationality_can_be_up_to_100_characters(self):
+        self.jobseeker.nationality = 'x'*100
+        self._assert_user_is_valid(self.jobseeker)
+    
+    def test_nationality_cannot_be_more_than_100_characters(self):
+        self.jobseeker.nationality = 'x'*101
+        self._assert_user_is_invalid(self.jobseeker)
+    
+    def test_nationality_cannot_be_blank(self):
+        self.jobseeker.nationality = ''
+        self._assert_user_is_invalid(self.jobseeker)
+    
+    def test_nationality_need_not_be_unique(self):
+        self.jobseeker.nationality = self.jobseeker2.nationality
+        self._assert_user_is_valid(self.jobseeker)
+    
+    def test_resume_has_be_resume_instance(self):
+        with self.assertRaises(ValueError):
+            self.jobseeker.resume = ''
+
+    def test_company_for_employer_cannot_be_empty(self):
+        self.employer.company = None
+        self._assert_user_is_invalid(self.employer)
+
+    def test_company_for_employer_must_be_company_instance(self):
+        with self.assertRaises(ValueError):
+            self.employer.company=''
+
+    def test_is_company_admin_field_is_boolean(self):
+        self.employer.is_company_admin = 'asd'
+        self._assert_user_is_invalid(self.employer)    
 
 
 
