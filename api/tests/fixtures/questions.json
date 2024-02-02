@@ -1,0 +1,34 @@
+[
+    {
+        "model" : "api.question",
+        "pk" : 1,
+        "fields" : {
+            "job" : 1,
+            "question" : "Why do you want to apply for this job?"
+        }
+    },
+    {
+        "model" : "api.question",
+        "pk" : 2,
+        "fields" : {
+            "job" : 1,
+            "question" : "What is your experience in this field?"
+        }
+    },
+    {
+        "model" : "api.question",
+        "pk" : 3,
+        "fields" : {
+            "job" : 2,
+            "question" : "Why do you want to apply for this job?"
+        }
+    },
+    {
+        "model" : "api.question",
+        "pk" : 4,
+        "fields" : {
+            "job" : 3,
+            "question" : "Why do you want to apply for this job?"
+        }
+    }
+]

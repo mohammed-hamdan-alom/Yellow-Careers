@@ -1,0 +1,18 @@
+[
+    {
+        "model" : "api.company",
+        "pk" : 1,
+        "fields" : {
+            "company_name": "Yellow Card",
+            "website": "https://yellowcard.io/"
+        }
+    },
+    {
+        "model" : "api.company",
+        "pk" : 2,
+        "fields" : {
+            "company_name": "Google",
+            "website": "https://www.google.com/"
+        }
+    }
+]

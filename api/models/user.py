@@ -42,4 +42,6 @@ class Employer(User):
     company = models.ForeignKey('Company', on_delete=models.CASCADE, null=False)
     is_company_admin = models.BooleanField(default=False)
 
+
+
     
