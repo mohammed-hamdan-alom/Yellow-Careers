@@ -6,7 +6,7 @@ class Application(models.Model):
     resume = models.ForeignKey('Resume', on_delete=models.CASCADE, null=False)
     job = models.ForeignKey('Job', on_delete=models.CASCADE, null=False)
     date_applied = models.DateField(auto_now_add=True)
-    
+
     class Meta:
         unique_together = (('job_seeker', 'job'),)
     
@@ -16,4 +16,8 @@ class Application(models.Model):
     def delete(self):
         self.resume.delete()
         super().delete()
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
     

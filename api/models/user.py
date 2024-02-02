@@ -35,12 +35,16 @@ class JobSeeker(User):
     nationality = models.CharField(max_length=100, blank=False)
     sex = models.CharField(max_length=6,choices=Sex.choices)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=True)
+    class Meta:
+        verbose_name = 'Job Seeker'
     
 
 class Employer(User):
     """Model that represent an employer and inherits from User"""
     company = models.ForeignKey('Company', on_delete=models.CASCADE, null=False)
     is_company_admin = models.BooleanField(default=False)
+    class Meta:
+        verbose_name = 'Employer'
 
 
 
