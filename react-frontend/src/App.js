@@ -3,12 +3,14 @@ import LoginPage from "./components/login/LoginPage";
 import DashBoardPage from "./components/dashboard/DashBoardPage";
 import JobSeekerLayout from "./components/layout/JobSeekerLayout";
 import SearchPage from "./components/search/SearchPage";
+import LandingPage from "./components/landing_page/LandingPage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
 
         <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
           <Route path="dashboard" element={<DashBoardPage />} />
