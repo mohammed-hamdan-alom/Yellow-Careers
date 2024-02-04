@@ -1,55 +1,48 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import AuthContext from '../../context/AuthContext';
 import './LoginPage.css';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
+  const {loginUser} = useContext(AuthContext)
+  const handleSubmit = e => {
+    e.preventDefault()
+    const email = e.target.email.value
+    const password = e.target.password.value
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
+    email.length > 0 && loginUser(email, password)
+  }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Logging in with', { username, password });
-  };
 
-  const handleCancel = () => {
-    setUsername('');
-    setPassword('');
-  };
 
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit} className="login-form">
         <h2>Login</h2>
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={handleUsernameChange}
+            name='email'
+            type="email"
+            id="email"
             required
           />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
+            name='password'
             type="password"
             id="password"
-            value={password}
-            onChange={handlePasswordChange}
             required
           />
         </div>
         <div className="form-actions">
           <button type="submit" className="button primary">Log In</button>
-          <button type="button" className="button secondary" onClick={handleCancel}>Cancel</button>
+          <Link to="/register">
+            New here? Click here to create an account
+          </Link>
         </div>
       </form>
     </div>

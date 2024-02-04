@@ -19,7 +19,7 @@ class RegisterView(generics.CreateAPIView):
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
-def dashboard(request):
+def test_api_endpoint(request):
 	if request.method == 'GET':
 		response = f"Hey {request.user}, You are seeing a GET response"
 		return Response({'response': response}, status=status.HTTP_200_OK)
