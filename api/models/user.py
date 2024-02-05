@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext as _
 from .address import Address
+from .employerJobRelation import EmployerJobRelation
 from .managers import CustomUserManager
 from django.core.validators import RegexValidator
 
@@ -23,9 +24,6 @@ class User(AbstractUser):
         ordering = ['last_name', 'first_name']
     def __str__(self):
         return self.email
-    
-    def users(self):
-        return User.objects.all()
 
 
 class JobSeeker(User):
@@ -51,8 +49,12 @@ class Employer(User):
     def get_posted_jobs_by_self(self):
         return self.employerjobrelation_set.all()
 
-    def get_all_posted_jobs(self):
-        return self.company.jobs.all()
+    # def get_all_posted_jobs(self):
+    #     if self.is_company_admin:
+    #         company_name = self.company
+    #         return company_name.job_set.all()
+    #     else:
+    #         return None
 
     
     

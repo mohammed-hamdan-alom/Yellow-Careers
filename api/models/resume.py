@@ -52,3 +52,15 @@ class Resume(models.Model):
 
     def get_jobseeker(self):
         return JobSeeker.objects.get(resume_id=self.id)
+    
+    def get_education(self):
+        return self.education_set.all()
+    
+    def get_technical_skills(self):
+        return self.technicalskill_set.all()
+    
+    def get_soft_skills(self):
+        return self.siftskill_set.all()
+    
+    def get_languages(self):
+        return self.language_set.all()
