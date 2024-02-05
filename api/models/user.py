@@ -40,16 +40,21 @@ class JobSeeker(User):
     sex = models.CharField(max_length=6,choices=Sex.choices)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=True)
     
-    def jobSeekers(self):
-        return JobSeeker.objects.all()
+    def get_applied_jobs(self):
+        return self.application_set.all()
 
 class Employer(User):
     """Model that represent an employer and inherits from User"""
     company = models.ForeignKey('Company', on_delete=models.CASCADE, null=False)
     is_company_admin = models.BooleanField(default=False)
 
-    def employers(self):
-        return Employer.objects.all()
+    def get_posted_jobs_by_self(self):
+        return self.employerjobrelation_set.all()
+
+    def get_all_posted_jobs(self):
+        return self.company.jobs.all()
+
+    
     
 
 

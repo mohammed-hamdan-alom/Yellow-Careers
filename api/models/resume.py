@@ -51,7 +51,4 @@ class Resume(models.Model):
     experience = models.TextField(max_length=2000,blank=True)
 
     def get_jobseeker(self):
-        try:
-            return JobSeeker.objects.get(resume_id=self.id)
-        except JobSeeker.DoesNotExist:
-            None 
+        return JobSeeker.objects.get(resume_id=self.id)
