@@ -49,4 +49,9 @@ class Resume(models.Model):
     linkedin = models.URLField(max_length=250,blank=True)
     about = models.TextField(max_length=2000,blank=True)
     experience = models.TextField(max_length=2000,blank=True)
-    
+
+    def get_jobseeker(self):
+        try:
+            return JobSeeker.objects.get(resume_id=self.id)
+        except JobSeeker.DoesNotExist:
+            None 

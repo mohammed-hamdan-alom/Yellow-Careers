@@ -23,6 +23,10 @@ class User(AbstractUser):
         ordering = ['last_name', 'first_name']
     def __str__(self):
         return self.email
+    
+    def users(self):
+        return User.objects.all()
+
 
 class JobSeeker(User):
     """Model that represents a job seeker and inherits from User"""
@@ -36,12 +40,17 @@ class JobSeeker(User):
     sex = models.CharField(max_length=6,choices=Sex.choices)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=True)
     
+    def jobSeekers(self):
+        return JobSeeker.objects.all()
 
 class Employer(User):
     """Model that represent an employer and inherits from User"""
     company = models.ForeignKey('Company', on_delete=models.CASCADE, null=False)
     is_company_admin = models.BooleanField(default=False)
 
+    def employers(self):
+        return Employer.objects.all()
+    
 
 
     
