@@ -6,10 +6,6 @@ class Company(models.Model):
     company_name = models.CharField(max_length=100,blank=False)
     website = models.URLField(max_length=200,blank=True)
     about = models.CharField(max_length=1000,blank=True)  
-
-    def delete(self):
-        self.address.delete()
-        super().delete()
     
     def get_employees(self):
         return Employer.objects.filter(company=self)
