@@ -1,5 +1,6 @@
 from django.db import models
-from .user import User
+from .application import Application
+from .employerJobRelation import EmployerJobRelation
 from django.utils.translation import gettext as _
 
 class Job(models.Model):
@@ -15,3 +16,9 @@ class Job(models.Model):
     salary = models.PositiveIntegerField(blank=True)
     address = models.OneToOneField('Address',blank=True,on_delete=models.CASCADE)
     job_type = models.CharField(max_length=20,choices=JobType.choices)
+
+    def get_applications(self):
+        return Application.objects.filter(job=self)
+    
+    def get_employers(self):
+        return EmployerJobRelation.objects.filter(job=self).values_list('employer', flat=True)

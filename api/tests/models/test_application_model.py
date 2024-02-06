@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from api.models import Application, Resume
+from api.models import Application, JobSeeker, Resume
 
 class ApplicationModelTestCase(TestCase):
 
@@ -55,14 +55,15 @@ class ApplicationModelTestCase(TestCase):
         self.assertTrue(self.application1.job)
     
     def test_if_application_is_deleted_job_seeker_is_not_deleted(self):
+        job_seeker_id = self.application1.job_seeker.id
         self.application1.delete()
-        self.assertTrue(self.application1.job_seeker)
+        self.assertTrue(JobSeeker.objects.get(id=job_seeker_id))
     
-    # def test_if_application_is_deleted_resume_is_deleted(self):
-    #     resume_id = self.application1.resume.id
-    #     self.application1.delete()
-    #     with self.assertRaises(Resume.DoesNotExist):
-    #         Resume.objects.get(id=resume_id)
+    def test_if_application_is_deleted_resume_is_deleted(self):
+        resume_id = self.application1.resume.id
+        self.application1.delete()
+        with self.assertRaises(Resume.DoesNotExist):
+            Resume.objects.get(id=resume_id)
 
     def test_jobseeker_and_job_must_be_unique_together(self):
         application = Application(job_seeker=self.application1.job_seeker, resume=self.application1.resume, job=self.application1.job)

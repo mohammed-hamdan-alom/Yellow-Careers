@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext as _
 from .address import Address
 from .managers import CustomUserManager
+
 from django.core.validators import RegexValidator
 
 

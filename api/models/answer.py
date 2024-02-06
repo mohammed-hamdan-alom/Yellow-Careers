@@ -1,5 +1,7 @@
 from django.db import models
 
+from api.models.user import JobSeeker
+
 class Answer(models.Model):
     """Model that represents an answer to a job question"""
     application = models.ForeignKey('Application', on_delete=models.CASCADE, null=False)

@@ -1,4 +1,5 @@
 from django.db import models
+from .user import Employer
 
 class Company(models.Model):
     """Model that represents a company"""
@@ -6,13 +7,13 @@ class Company(models.Model):
     website = models.URLField(max_length=200,blank=True)
     about = models.CharField(max_length=1000,blank=True)  
 
-    # def __str__(self):
-    #     return self.company_name
-
-    # def delete(self):
-    #     self.address.delete()
-    #     super().delete()
+    def delete(self):
+        self.address.delete()
+        super().delete()
     
-    # def employees(self):
-    #     return self.employer_set.all()
+    def get_employees(self):
+        return Employer.objects.filter(company=self)
+
+    def get_company_admins(self):
+        return Employer.objects.filter(company=self,is_company_admin=True)
 
