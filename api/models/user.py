@@ -49,12 +49,13 @@ class Employer(User):
     def get_posted_jobs_by_self(self):
         return self.employerjobrelation_set.all()
 
-    # def get_all_posted_jobs(self):
-    #     if self.is_company_admin:
-    #         company_name = self.company
-    #         return company_name.job_set.all()
-    #     else:
-    #         return None
+    def get_all_posted_jobs(self):
+        if self.is_company_admin:
+            company_id = self.company.id
+            posted_jobs = EmployerJobRelation.objects.filter(self.company.id==company_id).values_list('job',flat=True)
+            return posted_jobs
+        else:
+            return self.employerjobrelation_set.all()
 
     
     
