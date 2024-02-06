@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext as _
 from .address import Address
+from .employerJobRelation import EmployerJobRelation
 from .managers import CustomUserManager
 
 from django.core.validators import RegexValidator
@@ -23,7 +24,8 @@ class User(AbstractUser):
     class Meta:
         ordering = ['last_name', 'first_name']
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.email
+
 
 class JobSeeker(User):
     """Model that represents a job seeker and inherits from User"""
@@ -39,6 +41,8 @@ class JobSeeker(User):
     class Meta:
         verbose_name = 'Job Seeker'
     
+    def get_applied_jobs(self):
+        return self.application_set.all()
 
 class Employer(User):
     """Model that represent an employer and inherits from User"""
@@ -47,6 +51,19 @@ class Employer(User):
     class Meta:
         verbose_name = 'Employer'
 
+    def get_posted_jobs_by_self(self):
+        return self.employerjobrelation_set.all()
+
+    def get_all_posted_jobs(self):
+        if self.is_company_admin:
+            company_id = self.company.id
+            posted_jobs = EmployerJobRelation.objects.filter(self.company.id==company_id).values_list('job',flat=True)
+            return posted_jobs
+        else:
+            return self.employerjobrelation_set.all()
+
+    
+    
 
 
     

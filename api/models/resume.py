@@ -49,4 +49,18 @@ class Resume(models.Model):
     linkedin = models.URLField(max_length=250,blank=True)
     about = models.TextField(max_length=2000,blank=True)
     experience = models.TextField(max_length=2000,blank=True)
+
+    def get_jobseeker(self):
+        return JobSeeker.objects.get(resume_id=self.id)
     
+    def get_education(self):
+        return self.education_set.all()
+    
+    def get_technical_skills(self):
+        return self.technicalskill_set.all()
+    
+    def get_soft_skills(self):
+        return self.siftskill_set.all()
+    
+    def get_languages(self):
+        return self.language_set.all()
