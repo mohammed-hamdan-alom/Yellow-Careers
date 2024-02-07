@@ -6,12 +6,12 @@ from api.models import SoftSkill
 from api.models import TechnicalSkill
 from api.models import Language
 from api.models import Education
+from api.models import ProfessionalExperience
 from api.models import User
 from api.models import JobSeeker
 from api.models import Employer
 
 class UserModelTestCase(TestCase):
-    """Unit tests for the User model"""
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
@@ -26,10 +26,23 @@ class UserModelTestCase(TestCase):
     
     def setUp(self):
         self.soft_skill = SoftSkill.objects.get(pk=1)
+        self.soft_skill2 = SoftSkill.objects.get(pk=2)
+
         self.technical_skill = TechnicalSkill.objects.get(pk=1)
+        self.technical_skill2 = TechnicalSkill.objects.get(pk=2)
+
         self.language = Language.objects.get(pk=1)
+        self.language2 = Language.objects.get(pk=2)
+
         self.education = Education.objects.get(pk=1)
+        self.education2 = Education.objects.get(pk=2)
+
+        self.professional_experience = ProfessionalExperience.objects.get(pk=1)
+        self.professional_experience2 = ProfessionalExperience.objects.get(pk=2)
+
         self.resume = Resume.objects.get(pk=1)
+        self.jobseeker = JobSeeker.objects.get(user_ptr_id=1)
+
 
     #the tests below are for soft and technical skills
     def test_soft_skill_can_be_30_characters_long(self):
@@ -166,6 +179,61 @@ class UserModelTestCase(TestCase):
         with self.assertRaises(ValueError):
             self.education.resume = ''
 
+    #the tests below are for professional experience
+            
+    def test_professional_experience_start_date_cannot_be_blank(self):
+        self.professional_experience.start_date = ''
+        self._assert_is_invalid(self.professional_experience)
+    
+    def test_professional_experience_end_date_cannot_be_blank(self):
+        self.professional_experience.end_date = ''
+        self._assert_is_invalid(self.professional_experience)
+    
+    def test_professional_experience_start_date_must_be_correct_format(self):
+        #Django Date field must be in the format YYYY-MM-DD
+        self.professional_experience.start_date = '01-01-1999'
+        self._assert_is_invalid(self.professional_experience)
+        self.professional_experience.start_date = '1999-01-01'
+        self._assert_is_valid(self.professional_experience)
+    
+    def test_professional_experience_end_date_must_be_correct_format(self):
+        #Django Date field must be in the format YYYY-MM-DD
+        self.professional_experience.end_date = '01-01-2000'
+        self._assert_is_invalid(self.professional_experience)
+        self.professional_experience.end_date = '2000-01-01'
+        self._assert_is_valid(self.professional_experience)
+
+    def test_professional_experience_address_must_be_address_instance(self):
+        with self.assertRaises(ValueError):
+            self.professional_experience.address = ''
+
+    def test_professional_experience_company_can_be_100_characters(self):
+        self.professional_experience.company = 'x'*100
+        self._assert_is_valid(self.professional_experience)
+
+    def test_professional_experience_company_cannot_be_over_100_characters(self):
+        self.professional_experience.company = 'x'*101
+        self._assert_is_invalid(self.professional_experience)
+
+    def test_professional_experience_position_can_be_100_characters(self):
+        self.professional_experience.position = 'x'*100
+        self._assert_is_valid(self.professional_experience)
+
+    def test_professional_experience_position_cannot_be_over_100_characters(self):
+        self.professional_experience.position = 'x'*101
+        self._assert_is_invalid(self.professional_experience)
+
+    def test_professional_experience_description_can_be_2000_characters(self):
+        self.professional_experience.description = 'x'*2000
+        self._assert_is_valid(self.professional_experience)
+
+    def test_professional_experience_description_can_be_blank(self):
+        self.professional_experience.description =  ''
+        self._assert_is_valid(self.professional_experience)
+    
+    def test_resume_field_for_professional_experience_must_be_resume(self):
+        with self.assertRaises(ValueError):
+            self.professional_experience.resume = ''
 
     #the tests below are for resume
             
@@ -201,8 +269,55 @@ class UserModelTestCase(TestCase):
     def test_resume_experience_can_be_blank(self):
         self.resume.experience = ''
         self._assert_is_valid(self.resume)
-
     
+    def test_get_job_seeker(self):
+        retrieved_jobseeker = self.resume.get_jobseeker()
+        self.assertTrue(retrieved_jobseeker,self.jobseeker)
+
+    def test_get_education(self):
+        retrieved_education = self.resume.get_education()
+        self.assertIn(self.education,retrieved_education)
+        self.education2.resume = self.resume
+        self.education2.save()
+        retrieved_education2 = self.resume.get_education()
+        self.assertIn(self.education,retrieved_education2)
+        self.assertIn(self.education2,retrieved_education2)
+    
+    def test_get_technical_skills(self):
+        retrieved_technical_skills = self.resume.get_technical_skills()
+        self.assertIn(self.technical_skill,retrieved_technical_skills)
+        self.technical_skill2.resume = self.resume
+        self.technical_skill2.save()
+        retrieved_technical_skills2 = self.resume.get_technical_skills()
+        self.assertIn(self.technical_skill,retrieved_technical_skills2)
+        self.assertIn(self.technical_skill2,retrieved_technical_skills2)
+    
+    def test_get_soft_skills(self):
+        retrieved_soft_skills = self.resume.get_soft_skills()
+        self.assertIn(self.soft_skill,retrieved_soft_skills)
+        self.soft_skill2.resume = self.resume
+        self.soft_skill2.save()
+        retrieved_soft_skills2 = self.resume.get_soft_skills()
+        self.assertIn(self.soft_skill,retrieved_soft_skills2)
+        self.assertIn(self.soft_skill2,retrieved_soft_skills2)
+
+    def test_get_languages(self):
+        retrieved_languages = self.resume.get_languages()
+        self.assertIn(self.language,retrieved_languages)
+        self.language2.resume = self.resume
+        self.language2.save()
+        retrieved_languages2 = self.resume.get_languages()
+        self.assertIn(self.language,retrieved_languages2)
+        self.assertIn(self.language2,retrieved_languages2)
+
+    def test_get_professional_experience(self):
+        retrieved_professional_experience = self.resume.get_professional_experience()
+        self.assertIn(self.professional_experience,retrieved_professional_experience)
+        self.professional_experience2.resume = self.resume
+        self.professional_experience2.save()
+        retrieved_professional_experience2 = self.resume.get_professional_experience()
+        self.assertIn(self.professional_experience,retrieved_professional_experience2)
+        self.assertIn(self.professional_experience2,retrieved_professional_experience2)
     
     
 

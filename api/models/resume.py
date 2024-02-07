@@ -69,7 +69,7 @@ class Resume(models.Model):
         return self.technicalskill_set.all()
     
     def get_soft_skills(self):
-        return self.siftskill_set.all()
+        return self.softskill_set.all()
     
     def get_languages(self):
         return self.language_set.all()

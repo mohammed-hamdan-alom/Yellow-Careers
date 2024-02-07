@@ -4,9 +4,10 @@ from django.test import TestCase
 from api.models import User
 from api.models import JobSeeker
 from api.models import Employer
+from api.models import EmployerJobRelation
+from api.models import Application
 
 class UserModelTestCase(TestCase):
-    """Unit tests for the User model"""
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
@@ -26,7 +27,17 @@ class UserModelTestCase(TestCase):
         self.jobseeker = JobSeeker.objects.get(user_ptr_id=1)
         self.jobseeker2 = JobSeeker.objects.get(user_ptr_id=2)
 
+        self.applied_job = Application.objects.get(pk=1)
+        self.applied_job2 = Application.objects.get(pk=2)
+        self.applied_job3 = Application.objects.get(pk=3)
+
         self.employer = Employer.objects.get(user_ptr_id=3)
+        self.employer2 = Employer.objects.get(user_ptr_id=4)
+
+        self.employer_job_relation = EmployerJobRelation.objects.get(pk=1)
+        self.employer_job_relation2 = EmployerJobRelation.objects.get(pk=2)
+        self.employer_job_relation3 = EmployerJobRelation.objects.get(pk=3)
+        
 
     #the tests below this are for a 'general' user
         
@@ -172,6 +183,20 @@ class UserModelTestCase(TestCase):
         with self.assertRaises(ValueError):
             self.jobseeker.resume = ''
 
+    def test_get_applied_jobs(self):
+        applied_jobs = self.jobseeker.get_applied_jobs()
+        self.assertIn(self.applied_job,applied_jobs)
+        self.assertIn(self.applied_job3,applied_jobs)
+        self.assertNotIn(self.applied_job2,applied_jobs) #not originally in jobseeker's applied jobs
+
+        self.applied_job2.job_seeker = self.jobseeker
+        self.applied_job2.save()
+
+        applied_jobs2 = self.jobseeker.get_applied_jobs()
+        self.assertIn(self.applied_job,applied_jobs2)
+        self.assertIn(self.applied_job3,applied_jobs2)
+        self.assertIn(self.applied_job2,applied_jobs2)
+
     #the tests below this are for employer users
 
     def test_company_for_employer_cannot_be_empty(self):
@@ -185,10 +210,39 @@ class UserModelTestCase(TestCase):
     def test_is_company_admin_field_is_boolean(self):
         self.employer.is_company_admin = 'asd'
         self._assert_user_is_invalid(self.employer)    
-
-
-
     
+    def test_get_posted_jobs_by_self(self):
+        retrieved_posted_jobs = self.employer.get_posted_jobs_by_self()
+        self.assertIn(self.employer_job_relation,retrieved_posted_jobs)
+        self.assertIn(self.employer_job_relation3,retrieved_posted_jobs)
+        self.employer_job_relation2.employer = self.employer
+        self.employer_job_relation2.save()
+        retrieved_posted_jobs2 = self.employer.get_posted_jobs_by_self()
+        self.assertIn(self.employer_job_relation,retrieved_posted_jobs2)
+        self.assertIn(self.employer_job_relation2,retrieved_posted_jobs2)
+        self.assertIn(self.employer_job_relation3,retrieved_posted_jobs2)
+
+    def test_get_all_posted_jobs_without_admin(self):
+        #if employer is not admin, this should be the same as self.get_posted_jobs_by_self()
+        self.employer.is_company_admin = False
+        self.employer2.company = self.employer.company
+        self.employer2.save()
+        retrieved_posted_jobs = self.employer.get_all_posted_jobs()
+        self.assertIn(self.employer_job_relation,retrieved_posted_jobs)
+        self.assertIn(self.employer_job_relation3,retrieved_posted_jobs)
+        self.assertNotIn(self.employer_job_relation2,retrieved_posted_jobs)
+
+    def test_get_all_posted_jobs_as_admin(self):
+        #should show all jobs that the company the employer is part of has posted        
+        self.employer2.company = self.employer.company
+        self.employer2.save()
+        retrieved_posted_jobs = self.employer.get_all_posted_jobs()
+        self.assertIn(self.employer_job_relation,retrieved_posted_jobs)
+        self.assertIn(self.employer_job_relation3,retrieved_posted_jobs)
+        self.assertIn(self.employer_job_relation2,retrieved_posted_jobs) #this is a job posted by employer2
+
+
+
     def _assert_user_is_valid(self,user):
         try:
             user.full_clean()  

@@ -44,6 +44,9 @@ class JobSeeker(User):
     def get_applied_jobs(self):
         return self.application_set.all()
 
+
+
+
 class Employer(User):
     """Model that represent an employer and inherits from User"""
     company = models.ForeignKey('Company', on_delete=models.CASCADE, null=False)
@@ -56,11 +59,11 @@ class Employer(User):
 
     def get_all_posted_jobs(self):
         if self.is_company_admin:
-            company_id = self.company.id
-            posted_jobs = EmployerJobRelation.objects.filter(self.company.id==company_id).values_list('job',flat=True)
+            posted_jobs = EmployerJobRelation.objects.filter(employer__company_id=self.company.id)
             return posted_jobs
         else:
             return self.employerjobrelation_set.all()
+
 
     
     

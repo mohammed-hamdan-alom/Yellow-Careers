@@ -48,6 +48,19 @@
             "resume": 1
         }
     },
+    {
+        "model": "api.professionalexperience",
+        "pk": 1,
+        "fields": {
+            "start_date": "2020-01-01",
+            "end_date": "2021-01-01",
+            "address": 1,
+            "company": 1,
+            "position" : "CEO",
+            "description" : "i was the boss",
+            "resume" : 1
+        }
+    },
 
 
     {
@@ -97,6 +110,19 @@
             "spoken_proficiency": "F",
             "written_proficiency": "F",
             "resume": 2
+        }
+    },
+    {
+        "model": "api.professionalexperience",
+        "pk": 2,
+        "fields": {
+            "start_date": "2021-01-01",
+            "end_date": "2022-01-01",
+            "address": 2,
+            "company": 2,
+            "position" : "maanger",
+            "description" : "i was the manager",
+            "resume" : 2
         }
     }
     
