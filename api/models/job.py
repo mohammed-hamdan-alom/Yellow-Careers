@@ -20,5 +20,5 @@ class Job(models.Model):
     def get_applications(self):
         return Application.objects.filter(job=self)
     
-    def get_employers(self):
-        return EmployerJobRelation.objects.filter(job=self).values_list('employer', flat=True)
+    def get_employers_ids(self):
+        return EmployerJobRelation.objects.filter(job_id=self.id).values_list('employer', flat=True)

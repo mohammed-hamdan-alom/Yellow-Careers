@@ -69,6 +69,6 @@ class EmployerJobRelationModelTest(TestCase):
     
     def _assert_employer_job_relation_is_invalid(self):
         with self.assertRaises(ValidationError):
-            self.employer_job_relation1.full_clean()
             self.employer_job_relation2.full_clean()
             self.employer_job_relation3.full_clean()
+            self.employer_job_relation1.full_clean()

@@ -71,8 +71,6 @@ class QuestionModelTestCase(TestCase):
         self.question1.job.delete()
         with self.assertRaises(Question.DoesNotExist):
             Question.objects.get(job=job_id)   
-
-    
     
     def _assert_question_is_valid(self):
         self.question1.full_clean()
@@ -82,8 +80,9 @@ class QuestionModelTestCase(TestCase):
     
     def _assert_question_is_invalid(self):
         with self.assertRaises(ValidationError):
-            self.question1.full_clean()
-            self.question2.full_clean()
             self.question3.full_clean()
             self.question4.full_clean()
+            self.question1.full_clean()
+            self.question2.full_clean()
+            
 

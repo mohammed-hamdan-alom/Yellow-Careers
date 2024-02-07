@@ -65,37 +65,6 @@ class ApplicationManager(models.Manager):
                     resume = new_resume
                 )
 
-            # # Duplicate the resume instance
-            # old_resume_pk = resume.pk
-            # resume.pk = None
-            # resume.save()
-
-            # # Duplicate related Language, Education, SoftSkill, and TechnicalSkill instances
-            # for language in Language.objects.filter(resume_id=old_resume_pk):
-            #     language.pk = None
-            #     language.resume = resume
-            #     language.save()
-
-            # for education in Education.objects.filter(resume_id=old_resume_pk):
-            #     old_address = education.address
-            #     old_address.pk = None
-            #     old_address.save()
-                
-            #     education.pk = None
-            #     education.resume = resume
-            #     education.address = old_address
-            #     education.save()
-
-            # for soft_skill in SoftSkill.objects.filter(resume_id=old_resume_pk):
-            #     soft_skill.pk = None
-            #     soft_skill.resume = resume
-            #     soft_skill.save()
-
-            # for technical_skill in TechnicalSkill.objects.filter(resume_id=old_resume_pk):
-            #     technical_skill.pk = None
-            #     technical_skill.resume = resume
-            #     technical_skill.save()
-
             kwargs['resume'] = new_resume
         return super().create(*args, **kwargs)
 

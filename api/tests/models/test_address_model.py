@@ -82,10 +82,7 @@ class AddressModelTestCase(TestCase):
 
 
     def _assert_address_is_valid(self):
-        try:
-            self.address.full_clean()
-        except (ValidationError):
-            self.fail('Test address should be valid')
+        self.address.full_clean()
 
     def _assert_address_is_invalid(self):
         with self.assertRaises(ValidationError):

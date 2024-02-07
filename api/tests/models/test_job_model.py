@@ -17,6 +17,8 @@ class JobModelTestCase(TestCase):
     
     def setUp(self):
         self.job = Job.objects.get(pk=1)
+        self.job2 = Job.objects.get(pk=2)
+        self.job3 = Job.objects.get(pk=3)
     
     def test_valid_job(self):
         self._assert_job_is_valid()
@@ -65,8 +67,8 @@ class JobModelTestCase(TestCase):
         self.job.salary = None
         self._assert_job_is_valid()
     
-    def test_location_can_be_null(self):
-        self.job.location = None
+    def test_address_can_be_null(self):
+        self.job.address = None
         self._assert_job_is_valid()
     
     def test_title_can_contain_special_characters(self):
@@ -92,16 +94,17 @@ class JobModelTestCase(TestCase):
     def test_get_applications_method(self):
         self.assertEqual(self.job.get_applications().count(), Application.objects.filter(job_id=self.job.id).count())
 
-    def test_get_employers_method(self):
-        self.assertEqual(self.job.get_employers().count(), EmployerJobRelation.objects.filter(job_id=self.job.id).values_list('employer', flat=True).count())
+    def test_get_employers_ids_method(self):
+        self.assertEqual(self.job.get_employers_ids().count(), EmployerJobRelation.objects.filter(job_id=self.job.id).values_list('employer_id', flat=True).count())
     
     def _assert_job_is_valid(self):
-        try:
-            self.job.full_clean()
-        except (ValidationError):
-            self.fail('Test address should be valid')
+        self.job.full_clean()
+        self.job2.full_clean()
+        self.job3.full_clean()
 
     def _assert_job_is_invalid(self):
         with self.assertRaises(ValidationError):
+            self.job2.full_clean()
+            self.job3.full_clean()
             self.job.full_clean()
 

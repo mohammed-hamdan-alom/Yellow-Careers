@@ -119,6 +119,6 @@ class ApplicationModelTestCase(TestCase):
     
     def _assert_application_is_invalid(self):
         with self.assertRaises(ValidationError):
-            self.application1.full_clean()
             self.application2.full_clean()
             self.application3.full_clean()
+            self.application1.full_clean()
