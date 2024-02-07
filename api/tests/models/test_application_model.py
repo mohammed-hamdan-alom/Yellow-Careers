@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from api.models import Application, JobSeeker, Resume
+from api.models import Application, JobSeeker, Resume, Language, Education, SoftSkill, TechnicalSkill, ProfessionalExperience
 
 class ApplicationModelTestCase(TestCase):
 
@@ -70,7 +70,48 @@ class ApplicationModelTestCase(TestCase):
         application = Application(job_seeker=self.application1.job_seeker, resume=self.application1.resume, job=self.application1.job)
         with self.assertRaises(ValidationError):
             application.full_clean()
+    
+    def test_create_application_method(self):
+        resume = self.application2.resume
+        application_count_before = Application.objects.count()
+        language_count_before = Language.objects.count()
+        education_count_before = Education.objects.count()
+        soft_skill_count_before = SoftSkill.objects.count()
+        technical_skill_count_before = TechnicalSkill.objects.count()
+        professional_experience_count_before = ProfessionalExperience.objects.count()
+        application = Application.objects.create(job_seeker=self.application2.job_seeker, resume=self.application2.resume, job=self.application1.job)
+        self.assertEqual(Application.objects.count(), application_count_before + 1)
+        self.assertEqual(Language.objects.count(), language_count_before + Language.objects.filter(resume_id=resume.id).count())
+        self.assertEqual(Education.objects.count(), education_count_before + Education.objects.filter(resume_id=resume.id).count())
+        self.assertEqual(SoftSkill.objects.count(), soft_skill_count_before + SoftSkill.objects.filter(resume_id=resume.id).count())
+        self.assertEqual(TechnicalSkill.objects.count(), technical_skill_count_before + TechnicalSkill.objects.filter(resume_id=resume.id).count())
+        self.assertEqual(ProfessionalExperience.objects.count(), professional_experience_count_before + ProfessionalExperience.objects.filter(resume_id=resume.id).count())
+    
+    def test_delete_application_method(self):
+        application = Application.objects.create(job_seeker=self.application2.job_seeker, resume=self.application2.resume, job=self.application1.job)
         
+        application_languages_count = Language.objects.filter(resume_id=application.resume.id).count()
+        application_educations_count = Education.objects.filter(resume_id=application.resume.id).count()
+        application_soft_skills_count = SoftSkill.objects.filter(resume_id=application.resume.id).count()
+        application_technical_skills_count = TechnicalSkill.objects.filter(resume_id=application.resume.id).count()
+        application_professional_experiences_count = ProfessionalExperience.objects.filter(resume_id=application.resume.id).count()
+
+        application_count_before = Application.objects.count()
+        language_count_before = Language.objects.count()
+        education_count_before = Education.objects.count()
+        soft_skill_count_before = SoftSkill.objects.count()
+        technical_skill_count_before = TechnicalSkill.objects.count()
+        professional_experience_count_before = ProfessionalExperience.objects.count()
+        
+        application.delete()
+        
+        self.assertEqual(Application.objects.count(), application_count_before - 1)
+        self.assertEqual(Language.objects.count(), language_count_before - application_languages_count)
+        self.assertEqual(Education.objects.count(), education_count_before - application_educations_count)
+        self.assertEqual(SoftSkill.objects.count(), soft_skill_count_before - application_soft_skills_count)
+        self.assertEqual(TechnicalSkill.objects.count(), technical_skill_count_before - application_technical_skills_count)
+        self.assertEqual(ProfessionalExperience.objects.count(), professional_experience_count_before - application_professional_experiences_count)
+    
     def _assert_application_is_valid(self):
         self.application1.full_clean()
         self.application2.full_clean()

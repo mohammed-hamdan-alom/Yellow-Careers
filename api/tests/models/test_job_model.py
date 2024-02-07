@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from api.models import Job
+from api.models import Job, Application, EmployerJobRelation
 
 class JobModelTestCase(TestCase):
 
@@ -88,7 +88,13 @@ class JobModelTestCase(TestCase):
     def test_title_can_contain_spaces(self):
         self.job.title = 'a '
         self._assert_job_is_valid()
+    
+    def test_get_applications_method(self):
+        self.assertEqual(self.job.get_applications().count(), Application.objects.filter(job_id=self.job.id).count())
 
+    def test_get_employers_method(self):
+        self.assertEqual(self.job.get_employers().count(), EmployerJobRelation.objects.filter(job_id=self.job.id).values_list('employer', flat=True).count())
+    
     def _assert_job_is_valid(self):
         try:
             self.job.full_clean()
