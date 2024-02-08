@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from 'react-router-dom';
+import { Router, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert2'
 
 const AuthContext = createContext();
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
             setAuthTokens(data);
             setUser(jwtDecode(data.access));
             localStorage.setItem("authTokens", JSON.stringify(data));
-            navigate("/");
+            navigate("/job-seeker/dashboard");
             swal.fire({
                 title: "Login Successful",
                 icon: "success",
@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }) => {
         setAuthTokens(null);
         setUser(null);
         localStorage.removeItem("authTokens");
-        navigate("/login");
+        navigate("/");
         swal.fire({
             title: "You have been logged out...",
             icon: "success",

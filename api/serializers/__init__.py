@@ -1,1 +1,1 @@
-from .user_serialzers import *
+from .user_serializers import *

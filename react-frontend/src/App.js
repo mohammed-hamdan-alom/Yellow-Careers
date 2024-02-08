@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import LoginPage from "./components/login/LoginPage";
 import Register from './components/register/Register';
 import { AuthProvider } from './context/AuthContext';
@@ -12,8 +12,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+      <AuthProvider>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -24,8 +23,7 @@ function App() {
           </Route>
           {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}
         </Routes>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
   );
 }
 
