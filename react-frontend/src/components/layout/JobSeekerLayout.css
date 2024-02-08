@@ -1,25 +1,18 @@
 .job-seeker-layout {
     display: flex;
-}
-
-.sidebar {
-    width: 200px;
-    background-color: #333;
-    color: white;
-    padding: 20px;
+    height: 100vh;
 }
 
 .content {
-    flex: 1;
-    padding: 20px;
-    background-color: #f0f0f0;
-    /* Change the background color as needed */
+    transition: margin-left .5s;
+    margin-left: 120px;
+    width: calc(100% -120px);
+    /* Full width minus sidebar width */
+    overflow: auto;
+    /* In case of scroll */
 }
 
-/* DashBoardPage.css */
-.dashboard-page {
-    background-color: #fff;
-    /* Change the background color as needed */
-    padding: 20px;
-    border: 1px solid #ccc;
+.content.collapsed {
+    margin-left: 0;
+    width: 100%;
 }

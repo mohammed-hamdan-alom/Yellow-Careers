@@ -1,15 +1,20 @@
-import React from "react";
 import SideBar from "../sidebar/SideBar";
-import "./JobSeekerLayout.css";
 import { Outlet } from "react-router-dom";
-
+import React, { useState } from 'react';
+import './JobSeekerLayout.css';
 
 function JobSeekerLayout() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="job-seeker-layout">
-      <SideBar />
-      <div className="content">
-        <Outlet /> {/* This is where nested routes will be rendered */}
+      <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <div className={`content ${!isSidebarOpen ? 'collapsed' : ''}`}>
+        <Outlet />
       </div>
     </div>
   );

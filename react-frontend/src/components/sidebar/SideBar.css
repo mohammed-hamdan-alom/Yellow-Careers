@@ -1,0 +1,17 @@
+.burger-icon {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+
+}
+
+.burger-icon:hover {
+    transform: scale(1.1);
+}
+
+.burger-icon.active {
+    transform: rotate(90deg);
+}
+
+.side-bar{
+    background-color: #333;
+}

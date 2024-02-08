@@ -1,5 +1,6 @@
 import React from "react";
 import "./DashBoardPage.css";
+
 import JobSummary from "../job_summary/JobSummary";
 // import "bootstrap/dist/css/bootstrap.css";
 // import "bootstrap-icons/font/bootstrap-icons.css";
@@ -48,6 +49,5 @@ Responsibilities:
       ))}
     </div>
   );
-};
-
+}
 export default DashBoardPage;
