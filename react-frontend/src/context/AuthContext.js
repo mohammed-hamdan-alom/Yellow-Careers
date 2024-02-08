@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
             // console.log(response.status);
             // console.log("there was a server issue");
             swal.fire({
-                title: "Username or password does not exists",
+                title: "Username or password does not exist",
                 icon: "error",
                 toast: true,
                 timer: 6000,
