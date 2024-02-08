@@ -11,10 +11,10 @@ from django.core.validators import RegexValidator
 class User(AbstractUser):
     """Custom user model with email as primary key"""
     username = None
+    email = models.EmailField(unique=True, blank=False)
     first_name = models.CharField(max_length=50, blank=False)
     last_name = models.CharField(max_length=50, blank=False)
     other_names = models.CharField(max_length=50, blank=True)
-    email = models.EmailField(unique=True, blank=False)
     phone_number = models.CharField(blank=False, max_length=15, validators=[RegexValidator(r'^\+?1?\d{9,15}$')])
     
     USERNAME_FIELD = 'email'
@@ -25,7 +25,6 @@ class User(AbstractUser):
         ordering = ['last_name', 'first_name']
     def __str__(self):
         return self.email
-
 
 class JobSeeker(User):
     """Model that represents a job seeker and inherits from User"""
