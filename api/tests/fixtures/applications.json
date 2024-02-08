@@ -1,0 +1,32 @@
+[
+    {
+        "model" : "api.application",
+        "pk" : 1,
+        "fields" : {
+            "job_seeker" : 1,
+            "resume"  : 1,
+            "job" : 1,
+            "date_applied" : "2024-01-01"
+        }
+    },
+    {
+        "model" : "api.application",
+        "pk" : 2,
+        "fields" : {
+            "job_seeker" : 2,
+            "resume"  : 2,
+            "job" : 2,
+            "date_applied" : "2023-05-19"
+        }
+    },
+    {
+        "model" : "api.application",
+        "pk" : 3,
+        "fields" : {
+            "job_seeker" : 1,
+            "resume"  : 1,
+            "job" : 3,
+            "date_applied" : "2024-01-01"
+        }
+    }
+]
