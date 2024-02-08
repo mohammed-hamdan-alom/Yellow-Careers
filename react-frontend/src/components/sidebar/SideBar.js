@@ -134,11 +134,11 @@ function SideBar({ isOpen, toggleSidebar }) {
   return (
     <>
       <Icon
-        name="bars"
         size="large"
         onClick={toggleSidebar}
-        className={`burger-icon ${isOpen ? "active" : ""}`}
+        className={`icon ${isOpen ? "active" : ""}`}
         aria-label="Toggle sidebar"
+        name="chevron left" // This sets the icon to a left arrow
       />
 
       <Sidebar
