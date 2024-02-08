@@ -1,4 +1,4 @@
-from api.models import User
+from api.models import User, Employer, JobSeeker
 
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -44,3 +44,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 		user.save()
 
 		return user
+
+class JobSeekerRegister(serializers.ModelSerializer):
+	class Meta:
+		model = JobSeeker
+		fields = ['email', 'first_name', 'last_name', 'password', 'password2', 'other_names', 'phone_number', 'dob', 'nationality', 'address', ]
