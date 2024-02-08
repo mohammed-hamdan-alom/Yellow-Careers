@@ -1,5 +1,5 @@
 .icon {
-    --primary-blue: #023e7d;
+    color: --primary-blue;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
 }
