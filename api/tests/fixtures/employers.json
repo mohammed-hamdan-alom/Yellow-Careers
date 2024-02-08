@@ -1,0 +1,20 @@
+[
+    {
+        "model" : "api.employer",
+        "pk" : 1,
+        "fields" : {
+            "user_ptr_id" : 3,
+            "company" : 1,
+            "is_company_admin" : true
+        }
+    },
+    {
+        "model" : "api.employer",
+        "pk" : 2,
+        "fields" : {
+            "user_ptr_id" : 4,
+            "company" : 2,
+            "is_company_admin" : false
+        }
+    }
+]
