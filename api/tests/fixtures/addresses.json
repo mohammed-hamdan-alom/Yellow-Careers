@@ -1,0 +1,30 @@
+[
+    {
+        "model" : "api.address",
+        "pk" : 1,
+        "fields":{
+            "city" : "London",
+            "post_code" : "L9K 1AA",
+            "country" : "United Kingdom"
+        }
+    },
+    {
+        "model" : "api.address",
+        "pk" : 2,
+        "fields":{
+            "city" : "New York",
+            "post_code" : "LA9 1AA",
+            "country" : "USA"
+        }
+    },
+    {
+        "model" : "api.address",
+        "pk" : 3,
+        "fields":{
+            "city" : "Syhlet",
+            "post_code" : "BD9 1AA",
+            "country" : "Bangladesh"
+        }
+    }
+    
+]

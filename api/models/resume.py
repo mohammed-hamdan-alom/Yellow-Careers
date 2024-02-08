@@ -41,6 +41,15 @@ class Education(models.Model):
     grade = models.CharField(max_length=15, blank=False)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=False)
 
+class ProfessionalExperience(models.Model):
+    """Model that represents a professional experience"""
+    start_date = models.DateField(blank=False)
+    end_date = models.DateField(blank=False)
+    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
+    company = models.CharField(max_length=100)
+    position = models.CharField(max_length=100)
+    description = models.TextField(max_length=2000,blank=True)
+    resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=False)
 
 
 class Resume(models.Model):
@@ -49,4 +58,21 @@ class Resume(models.Model):
     linkedin = models.URLField(max_length=250,blank=True)
     about = models.TextField(max_length=2000,blank=True)
     experience = models.TextField(max_length=2000,blank=True)
+
+    def get_jobseeker(self):
+        return JobSeeker.objects.get(resume_id=self.id)
     
+    def get_education(self):
+        return self.education_set.all()
+    
+    def get_technical_skills(self):
+        return self.technicalskill_set.all()
+    
+    def get_soft_skills(self):
+        return self.softskill_set.all()
+    
+    def get_languages(self):
+        return self.language_set.all()
+    
+    def get_professional_experience(self):
+        return self.professionalexperience_set.all()
