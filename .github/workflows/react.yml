@@ -24,9 +24,11 @@ jobs:
 
       - name: Navigate to React Frontend directory
         run: cd react-frontend
-
+        
       - name: Install Dependencies
+        working-directory: react-frontend
         run: npm install
 
       - name: Run Tests
+        working-directory: react-frontend
         run: npm test
