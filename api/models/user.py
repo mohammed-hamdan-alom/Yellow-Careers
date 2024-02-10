@@ -32,7 +32,7 @@ class JobSeeker(User):
         MALE = 'M', _('Male')
         FEMALE = 'F',_('Female')
 
-    dob = models.DateField(blank=False)
+    dob = models.DateField(blank=True)
     address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
     nationality = models.CharField(max_length=100, blank=False)
     sex = models.CharField(max_length=6,choices=Sex.choices)

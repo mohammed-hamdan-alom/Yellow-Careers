@@ -43,8 +43,8 @@ class Education(models.Model):
 
 class ProfessionalExperience(models.Model):
     """Model that represents a professional experience"""
-    start_date = models.DateField(blank=False)
-    end_date = models.DateField(blank=False)
+    start_date = models.DateField(blank=True)
+    end_date = models.DateField(blank=True)
     address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
     company = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
