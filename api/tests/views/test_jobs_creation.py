@@ -23,7 +23,7 @@ class JobsCreationTestCase(APITestCase):
             "description" : "TestDescription",
             "salary" : 7000,
             "job_type" : "FT",
-            "location" : 1
+            "address" : 1
         }
 
     def test_job_create_rejects_GET(self):
@@ -36,19 +36,20 @@ class JobsCreationTestCase(APITestCase):
         response = self.view(request)
 
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
+        self.assertEquals(Job.objects.count, 1)
         self.assertEquals(response.data["title"], self.job_data["title"])
         self.assertEquals(response.data["description"], self.job_data["description"])
         self.assertEquals(response.data["salary"], self.job_data["salary"])
         self.assertEquals(response.data["job_type"], self.job_data["job_type"])
-        self.assertEquals(response.data["location"], self.job_data["location"])
-    
+        self.assertEquals(response.data["address"], self.job_data["address"])
+
     def test_job_can__be_created_without_address(self):
-        self.job_data.pop('location', None)
+        self.job_data.pop('address', None)
         request = self.factory.post(self.url, self.job_data, format="json")
         response = self.view(request)
 
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-        self.assertEquals(response.data["location"], None)
+        self.assertEquals(response.data["address"], None)
 
     def test_job_can_be_created_without_salary(self):
         self.job_data.pop('salary', None)
@@ -82,14 +83,14 @@ class JobsListTestCase(APITestCase):
             description = "TestDescription",
             salary = 7000,
             job_type = "FT",
-            location = self.address_one
+            address = self.address_one
         )
         self.job_two = Job.objects.create(
             title = "TestJob2",
             description = "TestDescription2",
             salary = 7000,
             job_type = "FT",
-            location = self.address_two
+            address = self.address_two
         )
         self.job_one.save()
         self.job_two.save()
