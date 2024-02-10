@@ -16,7 +16,7 @@ function JobCreationForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        AxiosInstance.post('api/jobs/create-job/', {
+        AxiosInstance.post('api/jobs/create-job', {
             title: formData.title,
             description: formData.description,
             salary: formData.salary,
