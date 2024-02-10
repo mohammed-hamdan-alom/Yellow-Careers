@@ -33,8 +33,8 @@ class Education(models.Model):
         BACHELORS = "BA" ,_('Bachelors')
         MASTERS = "MA" ,_('Masters')
         DOCTORATE = "PHD" ,_('Doctorate')
-    start_date = models.DateField(blank=False)
-    end_date = models.DateField(blank=False)
+    start_date = models.DateField(blank=True) # TODO: I CHANGED THIS TO BLANK=TRUE
+    end_date = models.DateField(blank=True) # TODO: I CHANGED THIS TO BLANK=TRUE
     address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
     level = models.CharField(max_length=15,choices=Levels.choices) 
     institution = models.CharField(max_length=100)
