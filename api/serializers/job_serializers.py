@@ -12,7 +12,7 @@ class JobSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
-        instance.location = validated_data.get('location', instance.location)
+        instance.address = validated_data.get('address', instance.address)
         instance.job_type = validated_data.get('job_type', instance.job_type)
         instance.salary = validated_data.get('salary', instance.salary)
         instance.save()

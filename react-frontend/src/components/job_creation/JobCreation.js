@@ -10,23 +10,23 @@ function JobCreationForm() {
         title: '',
         description: '',
         salary: '',
-        location: '',
+        address: '',
         job_type: ''
     });
 
     const handleSubmit = (event) => {
         event.preventDefault();
-            AxiosInstance.post('api/jobs/create-job/', {
-                title: formData.title,
-                description: formData.description,
-                salary: formData.salary,
-                location: formData.location,
-                job_type: formData.job_type
-            }).then((response) => {
-                console.log(response);
-            }).catch((error) => {
-                console.log(error);
-            });
+        AxiosInstance.post('api/jobs/create-job/', {
+            title: formData.title,
+            description: formData.description,
+            salary: formData.salary,
+            address: formData.address,
+            job_type: formData.job_type
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+        });
     };
 
     const handleChange = (event) => {
@@ -61,18 +61,18 @@ function JobCreationForm() {
                 <div className="form-group">
                     <label htmlFor="salary">Salary</label>
                     <input
-                        type="text"
+                        type="number"
                         name="salary"
                         value={formData.salary}
                         onChange={handleChange}
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="location">Location</label>
+                    <label htmlFor="address">Address</label>
                     <input
                         type="text"
-                        name="location"
-                        value={formData.location}
+                        name="address"
+                        value={formData.address}
                         onChange={handleChange}
                     />
                 </div>
@@ -83,9 +83,10 @@ function JobCreationForm() {
                         value={formData.job_type}
                         onChange={handleChange}
                     >
-                        <option value="full-time">Full Time</option>
-                        <option value="part-time">Part Time</option>
-                        <option value="contract">Contract</option>
+                        <option value="FT">Full Time</option>
+                        <option value="PT">Part Time</option>
+                        <option value="IN">Internship</option>
+                        <option value="TM">Temporary</option>
                     </select>
                 </div>
                 <div className='form-actions'>
