@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
 import './JobCreation.css';
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
+import AxiosInstance from '../../Axios';
+import { Axios } from 'axios';
 
 function JobCreationForm() {
     const [formData, setFormData] = useState({
@@ -12,7 +16,17 @@ function JobCreationForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(formData);
+            AxiosInstance.post('api/jobs/create-job/', {
+                title: formData.title,
+                description: formData.description,
+                salary: formData.salary,
+                location: formData.location,
+                job_type: formData.job_type
+            }).then((response) => {
+                console.log(response);
+            }).catch((error) => {
+                console.log(error);
+            });
     };
 
     const handleChange = (event) => {
