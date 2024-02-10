@@ -1,0 +1,17 @@
+
+.job-seeker-layout {
+    display: flex;
+    background-color: #f0f0f0;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.dashboard-page {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
