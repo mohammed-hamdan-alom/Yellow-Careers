@@ -33,8 +33,8 @@ class Education(models.Model):
         BACHELORS = "BA" ,_('Bachelors')
         MASTERS = "MA" ,_('Masters')
         DOCTORATE = "PHD" ,_('Doctorate')
-    start_date = models.DateField(blank=True) # TODO: I CHANGED THIS TO BLANK=TRUE
-    end_date = models.DateField(blank=True) # TODO: I CHANGED THIS TO BLANK=TRUE
+    start_date = models.DateField(blank=False)
+    end_date = models.DateField(blank=False)
     address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
     level = models.CharField(max_length=15,choices=Levels.choices) 
     institution = models.CharField(max_length=100)
@@ -43,8 +43,8 @@ class Education(models.Model):
 
 class ProfessionalExperience(models.Model):
     """Model that represents a professional experience"""
-    start_date = models.DateField(blank=True)
-    end_date = models.DateField(blank=True)
+    start_date = models.DateField(blank=False)
+    end_date = models.DateField(blank=False)
     address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
     company = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
