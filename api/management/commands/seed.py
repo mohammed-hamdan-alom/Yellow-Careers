@@ -150,6 +150,7 @@ class Command(BaseCommand):
 
             job_seeker = JobSeeker.objects.create(
                 email=self.faker.email(),
+                password=self.PASSWORD,
                 first_name=self.faker.first_name(),
                 last_name=self.faker.last_name(),
                 other_names='bean + cheese + begel',
@@ -160,3 +161,4 @@ class Command(BaseCommand):
                 resume=random_resume,
                 sex=random.choice(['M', 'F'])
             )
+            job_seeker.save()
