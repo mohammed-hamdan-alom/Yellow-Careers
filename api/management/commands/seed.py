@@ -1,7 +1,7 @@
 import random
 from django.core.management.base import BaseCommand, CommandError
 from faker import Faker
-from api.models import User, JobSeeker, Employer, Job, Application, Resume, SoftSkill, TechnicalSkill, Language, Education, ProfessionalExperience, Address, Company, Question, Answer
+from api.models import User, JobSeeker, Employer, Job, Application, Resume, SoftSkill, TechnicalSkill, Language, Education, ProfessionalExperience, Address, Company, Question, Answer, EmployerJobRelation
 from faker.providers import BaseProvider
 
 class CustomWordProvider(BaseProvider):
@@ -26,6 +26,7 @@ class Command(BaseCommand):
     COMPANY_COUNT = 30
     JOB_COUNT = QUESTION_COUNT = 200
     SOFT_SKILL_COUNT = TECHNICAL_SKILL_COUNT = LANGUAGE_COUNT = EDUCATION_COUNT = PROFFESSIONAL_EXPERIENCE_COUNT = 200
+    EMPLOYER_JOB_RELATION_COUNT = 200
 
 
     def __init__(self):
@@ -40,6 +41,7 @@ class Command(BaseCommand):
         self.seed_employers()
         self.seed_jobs()
         self.seed_questions()
+        self.seed_employer_job_relationship()
         
     def seed_address(self):
         '''Seed an adress'''
@@ -48,7 +50,6 @@ class Command(BaseCommand):
             post_code=self.faker.postcode(),
             country=self.faker.country()
         )
-        address.save()
         return address
 
 
@@ -66,13 +67,12 @@ class Command(BaseCommand):
         for i in range(self.JOB_SEEKER_COUNT):
             print(f"Seeding resume {i}/{self.RESUME_COUNT}", end='\r')
 
-            resume = Resume.objects.create(
+            Resume.objects.create(
                 github=self.faker.url(),
                 linkedin=self.faker.url(),
                 about=self.faker.paragraph_with_max_length(),
                 experience=self.faker.paragraph_with_max_length(),
             )
-            resume.save()
     
     def seed_soft_skills(self):
         '''Seeding the soft skills'''
@@ -81,8 +81,7 @@ class Command(BaseCommand):
             for i in range (self.SOFT_SKILL_COUNT):
                 print(f"Seeding soft skill {i}/{self.SOFT_SKILL_COUNT}", end='\r')
                 random_resume = random.choice(resumes)
-                soft_skill = SoftSkill.objects.create(skill = self.faker.word_with_max_length(), resume=random_resume)
-                soft_skill.save()
+                SoftSkill.objects.create(skill = self.faker.word_with_max_length(), resume=random_resume)
 
     def seed_technical_skills(self):
         ''''Seeding the technical skills'''
@@ -92,8 +91,7 @@ class Command(BaseCommand):
                 print(f"Seeding technical skill {i}/{self.TECHNICAL_SKILL_COUNT}", end='\r')
 
                 random_resume = random.choice(resumes)
-                technical_skill = TechnicalSkill.objects.create(skill = self.faker.word_with_max_length(), resume=random_resume)
-                technical_skill.save()
+                TechnicalSkill.objects.create(skill = self.faker.word_with_max_length(), resume=random_resume)
 
     def seed_languages(self):
         '''Seeding the languages'''
@@ -103,8 +101,7 @@ class Command(BaseCommand):
                 print(f"Seeding language {i}/{self.LANGUAGE_COUNT}", end='\r')
 
                 random_resume = random.choice(resumes)
-                new_language = Language.objects.create(language=self.faker.word_with_max_length(), resume=random_resume)
-                new_language.save()
+                Language.objects.create(language=self.faker.word_with_max_length(), resume=random_resume)
 
     def seed_educations(self):
         '''Seeding the educations'''
@@ -120,7 +117,7 @@ class Command(BaseCommand):
                 start_date = self.faker.date_between(start_date='-10y', end_date='-1y')
                 end_date = self.faker.date_between(start_date=start_date, end_date='today')
 
-                education = Education.objects.create(
+                Education.objects.create(
                     start_date=start_date,
                     end_date=end_date,
                     address=new_address,
@@ -129,7 +126,6 @@ class Command(BaseCommand):
                     grade=self.faker.random_int(min=1, max=100),
                     resume=random_resume
                 )
-                education.save()
 
     def seed_professional_experience(self):
         '''Seeding the professional experience'''
@@ -145,7 +141,7 @@ class Command(BaseCommand):
                 start_date = self.faker.date_between(start_date='-10y', end_date='-1y')
                 end_date = self.faker.date_between(start_date=start_date, end_date='today')
 
-                professional_experience = ProfessionalExperience.objects.create(
+                ProfessionalExperience.objects.create(
                     start_date=start_date,
                     end_date=end_date,
                     address=new_address,
@@ -154,7 +150,6 @@ class Command(BaseCommand):
                     description=self.faker.paragraph_with_max_length(),
                     resume=random_resume
                 )
-                professional_experience.save()
 
     def generate_unique_email(self):
         email = self.faker.email()
@@ -173,7 +168,7 @@ class Command(BaseCommand):
             random_resume = random.choice(resumes)
             resumes.remove(random_resume)
 
-            job_seeker = JobSeeker.objects.create(
+            JobSeeker.objects.create(
                 email=self.generate_unique_email(),
                 password=self.PASSWORD,
                 first_name=self.faker.first_name(),
@@ -186,19 +181,17 @@ class Command(BaseCommand):
                 resume=random_resume,
                 sex=random.choice(['M', 'F'])
             )
-            job_seeker.save()
 
     def seed_companies(self):
         '''Seeding the companies'''
         for i in range(self.COMPANY_COUNT):
             print(f"Seeding company {i}/{self.COMPANY_COUNT}", end='\r')
 
-            company = Company.objects.create(
+            Company.objects.create(
                 company_name=self.faker.company(),
                 website=self.faker.url(),
                 about=self.faker.paragraph_with_max_length(max_length=1000),
             )
-            company.save()
     
     def seed_employers(self):
         '''Seeding the employers'''
@@ -208,7 +201,7 @@ class Command(BaseCommand):
 
             random_company = random.choice(companies)
 
-            employer = Employer.objects.create(
+            Employer.objects.create(
                 email=self.generate_unique_email(),
                 password=self.PASSWORD,
                 first_name=self.faker.first_name(),
@@ -218,7 +211,6 @@ class Command(BaseCommand):
                 company=random_company,
                 is_company_admin=self.faker.boolean(),
             )
-            employer.save()
         
     def seed_jobs(self):
         '''Seeding the jobs'''
@@ -227,14 +219,13 @@ class Command(BaseCommand):
 
             new_address = self.seed_address()
 
-            job = Job.objects.create(
+            Job.objects.create(
                 title=self.faker.job(),
                 description=self.faker.paragraph_with_max_length(max_length=1000),
                 salary=random.randint(30000, 100000),
                 address=new_address,
                 job_type=random.choice([choice[0] for choice in Job.JobType.choices])
             )
-            job.save()
     
     def seed_questions(self):
         '''Seeding the questions'''
@@ -244,8 +235,26 @@ class Command(BaseCommand):
 
             random_job = random.choice(jobs)
 
-            question = Question.objects.create(
+            Question.objects.create(
                 question=self.faker.paragraph_with_max_length(max_length=400),
                 job=random_job
             )
-            question.save()
+
+    def seed_employer_job_relationship(self):
+        '''Seeding the employer job relationship'''
+        employers = Employer.objects.all()
+        jobs = Job.objects.all()
+        for i in range(self.EMPLOYER_JOB_RELATION_COUNT):
+            print(f"Seeding employer job relationship {i}/{self.EMPLOYER_JOB_RELATION_COUNT}", end='\r')
+
+            random_employer = random.choice(employers)
+            random_job = random.choice(jobs)
+
+        
+
+            while EmployerJobRelation.objects.filter(employer=random_employer, job=random_job).exists():
+                random_employer = random.choice(employers)
+                random_job = random.choice(jobs)
+
+            EmployerJobRelation.objects.create(employer=random_employer, job=random_job)
+    
