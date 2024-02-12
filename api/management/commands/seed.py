@@ -24,6 +24,7 @@ class Command(BaseCommand):
     JOB_SEEKER_COUNT = RESUME_COUNT = 100
     EMPLOYER_COUNT = 100
     COMPANY_COUNT = 30
+    JOB_COUNT = 200
     SOFT_SKILL_COUNT = TECHNICAL_SKILL_COUNT = LANGUAGE_COUNT = EDUCATION_COUNT = PROFFESSIONAL_EXPERIENCE_COUNT = 200
 
 
@@ -37,6 +38,7 @@ class Command(BaseCommand):
         self.seed_job_seekers()
         self.seed_companies()
         self.seed_employers()
+        self.seed_jobs()
         
     def seed_address(self):
         '''Seed an adress'''
@@ -217,3 +219,18 @@ class Command(BaseCommand):
             )
             employer.save()
         
+    def seed_jobs(self):
+        '''Seeding the jobs'''
+        for i in range(self.JOB_COUNT):
+            print(f"Seeding job {i}/{self.JOB_COUNT}", end='\r')
+
+            new_address = self.seed_address()
+
+            job = Job.objects.create(
+                title=self.faker.job(),
+                description=self.faker.paragraph_with_max_length(max_length=1000),
+                salary=random.randint(30000, 100000),  # Adjust salary range as needed
+                address=new_address,
+                job_type=random.choice([choice[0] for choice in Job.JobType.choices])
+            )
+            job.save()
