@@ -31,32 +31,10 @@ class Command(BaseCommand):
         super().__init__()
         self.faker = Faker('en_GB')
         self.faker.add_provider(CustomWordProvider)
-        print('seeding')
-
-        JobSeeker.objects.all().delete()
-        jobby = JobSeeker.objects.create_user(
-            email="beans@cheese.com",
-            first_name="Beans",
-            last_name="Cheese",
-            password="Password123",
-            phone_number="1234567890",
-            dob="1999-01-01",
-            nationality="Nigerian",
-            sex="M",
-        )
-        jobby.save()
-            
-
 
     def handle(self, *args, **options):
         self.seed_resumes()
-
-        job_seeker = JobSeeker.objects.get(email='beans@cheese.com')
-        random_resume = random.choice(Resume.objects.all())
-
-        job_seeker.resume = random_resume
-        job_seeker.save()
-
+        self.seed_job_seekers()
         
     def seed_address(self):
         '''Seed an adress'''
@@ -80,7 +58,7 @@ class Command(BaseCommand):
 
     def seed_base_resumes(self):
         '''Seeding the base resumes'''
-        for _ in range(self.JOB_SEEKER_COUNT):
+        for i in range(self.JOB_SEEKER_COUNT):
             resume = Resume.objects.create(
                 github=self.faker.url(),
                 linkedin=self.faker.url(),
@@ -93,7 +71,7 @@ class Command(BaseCommand):
         '''Seeding the soft skills'''
         resumes = Resume.objects.all()
         if resumes.exists():
-            for _ in range (self.SOFT_SKILL_COUNT):
+            for i in range (self.SOFT_SKILL_COUNT):
                 random_resume = random.choice(resumes)
                 soft_skill = SoftSkill.objects.create(skill = self.faker.word_with_max_length(), resume=random_resume)
                 soft_skill.save()
@@ -102,7 +80,7 @@ class Command(BaseCommand):
         ''''Seeding the technical skills'''
         resumes = Resume.objects.all()
         if resumes.exists():
-            for _ in range (self.TECHNICAL_SKILL_COUNT):
+            for i in range (self.TECHNICAL_SKILL_COUNT):
                 random_resume = random.choice(resumes)
                 technical_skill = TechnicalSkill.objects.create(skill = self.faker.word_with_max_length(), resume=random_resume)
                 technical_skill.save()
@@ -111,7 +89,7 @@ class Command(BaseCommand):
         '''Seeding the languages'''
         resumes = Resume.objects.all()
         if resumes.exists():
-            for _ in range (self.LANGUAGE_COUNT):
+            for i in range (self.LANGUAGE_COUNT):
                 random_resume = random.choice(resumes)
                 new_language = Language.objects.create(language=self.faker.word_with_max_length(), resume=random_resume)
                 new_language.save()
@@ -121,7 +99,7 @@ class Command(BaseCommand):
         resumes = Resume.objects.all()
 
         if resumes.exists():
-            for _ in range (self.EDUCATION_COUNT):
+            for i in range (self.EDUCATION_COUNT):
                 random_resume = random.choice(resumes)
                 new_address = self.seed_address()
 
@@ -144,7 +122,7 @@ class Command(BaseCommand):
         resumes = Resume.objects.all()
 
         if resumes.exists():
-            for _ in range (self.PROFFESSIONAL_EXPERIENCE_COUNT):
+            for i in range (self.PROFFESSIONAL_EXPERIENCE_COUNT):
                 random_resume = random.choice(resumes)
                 new_address = self.seed_address()
 
@@ -161,3 +139,24 @@ class Command(BaseCommand):
                     resume=random_resume
                 )
                 professional_experience.save()
+
+    def seed_job_seekers(self):
+        resumes = list(Resume.objects.all())
+        for i in range(self.JOB_SEEKER_COUNT):
+
+            new_address = self.seed_address()
+            random_resume = random.choice(resumes)
+            resumes.remove(random_resume)
+
+            job_seeker = JobSeeker.objects.create(
+                email=self.faker.email(),
+                first_name=self.faker.first_name(),
+                last_name=self.faker.last_name(),
+                other_names='bean + cheese + begel',
+                phone_number=self.faker.phone_number(),
+                dob=self.faker.date_of_birth(minimum_age=18, maximum_age=65),
+                address=new_address,
+                nationality = self.faker.country(),
+                resume=random_resume,
+                sex=random.choice(['M', 'F'])
+            )
