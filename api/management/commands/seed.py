@@ -1,7 +1,7 @@
 import random
 from django.core.management.base import BaseCommand, CommandError
 from faker import Faker
-from api.models import User, JobSeeker, Employer, Job, Application, Resume, SoftSkill, TechnicalSkill, Language, Education, ProfessionalExperience, Address, Company
+from api.models import User, JobSeeker, Employer, Job, Application, Resume, SoftSkill, TechnicalSkill, Language, Education, ProfessionalExperience, Address, Company, Question, Answer
 from faker.providers import BaseProvider
 
 class CustomWordProvider(BaseProvider):
@@ -24,7 +24,7 @@ class Command(BaseCommand):
     JOB_SEEKER_COUNT = RESUME_COUNT = 100
     EMPLOYER_COUNT = 100
     COMPANY_COUNT = 30
-    JOB_COUNT = 200
+    JOB_COUNT = QUESTION_COUNT = 200
     SOFT_SKILL_COUNT = TECHNICAL_SKILL_COUNT = LANGUAGE_COUNT = EDUCATION_COUNT = PROFFESSIONAL_EXPERIENCE_COUNT = 200
 
 
@@ -39,6 +39,7 @@ class Command(BaseCommand):
         self.seed_companies()
         self.seed_employers()
         self.seed_jobs()
+        self.seed_questions()
         
     def seed_address(self):
         '''Seed an adress'''
@@ -229,8 +230,22 @@ class Command(BaseCommand):
             job = Job.objects.create(
                 title=self.faker.job(),
                 description=self.faker.paragraph_with_max_length(max_length=1000),
-                salary=random.randint(30000, 100000),  # Adjust salary range as needed
+                salary=random.randint(30000, 100000),
                 address=new_address,
                 job_type=random.choice([choice[0] for choice in Job.JobType.choices])
             )
             job.save()
+    
+    def seed_questions(self):
+        '''Seeding the questions'''
+        jobs = Job.objects.all()
+        for i in range(self.QUESTION_COUNT):
+            print(f"Seeding question {i}/{self.QUESTION_COUNT}", end='\r')
+
+            random_job = random.choice(jobs)
+
+            question = Question.objects.create(
+                question=self.faker.paragraph_with_max_length(max_length=400),
+                job=random_job
+            )
+            question.save()
