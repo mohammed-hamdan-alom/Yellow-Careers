@@ -21,14 +21,10 @@ class Command(BaseCommand):
     help = 'Seeds the database with fake data'
 
     PASSWORD = 'Password123'
-    JOB_SEEKER_COUNT = RESUME_COUNT = 10
-    EMPLOYER_COUNT = 10
-    COMPANY_COUNT = 10
-    SOFT_SKILL_COUNT = 20
-    TECHNICAL_SKILL_COUNT = 20
-    LANGUAGE_COUNT = 20
-    EDUCATION_COUNT = 20
-    PROFFESSIONAL_EXPERIENCE_COUNT = 20
+    JOB_SEEKER_COUNT = RESUME_COUNT = 100
+    EMPLOYER_COUNT = 100
+    COMPANY_COUNT = 30
+    SOFT_SKILL_COUNT = TECHNICAL_SKILL_COUNT = LANGUAGE_COUNT = EDUCATION_COUNT = PROFFESSIONAL_EXPERIENCE_COUNT = 200
 
 
     def __init__(self):
@@ -40,6 +36,7 @@ class Command(BaseCommand):
         self.seed_resumes()
         self.seed_job_seekers()
         self.seed_companies()
+        self.seed_employers()
         
     def seed_address(self):
         '''Seed an adress'''
@@ -156,6 +153,14 @@ class Command(BaseCommand):
                 )
                 professional_experience.save()
 
+    def generate_unique_email(self):
+        email = self.faker.email()
+
+        while User.objects.filter(email=email).exists():
+            email = self.faker.email()
+
+        return email
+
     def seed_job_seekers(self):
         resumes = list(Resume.objects.all())
         for i in range(self.JOB_SEEKER_COUNT):
@@ -166,7 +171,7 @@ class Command(BaseCommand):
             resumes.remove(random_resume)
 
             job_seeker = JobSeeker.objects.create(
-                email=self.faker.email(),
+                email=self.generate_unique_email(),
                 password=self.PASSWORD,
                 first_name=self.faker.first_name(),
                 last_name=self.faker.last_name(),
@@ -191,3 +196,24 @@ class Command(BaseCommand):
                 about=self.faker.paragraph_with_max_length(max_length=1000),
             )
             company.save()
+    
+    def seed_employers(self):
+        '''Seeding the employers'''
+        companies = Company.objects.all()
+        for i in range(self.EMPLOYER_COUNT):
+            print(f"Seeding employer {i}/{self.EMPLOYER_COUNT}", end='\r')
+
+            random_company = random.choice(companies)
+
+            employer = Employer.objects.create(
+                email=self.generate_unique_email(),
+                password=self.PASSWORD,
+                first_name=self.faker.first_name(),
+                last_name=self.faker.last_name(),
+                other_names='bean + cheese + begel',
+                phone_number=self.faker.phone_number(),
+                company=random_company,
+                is_company_admin=self.faker.boolean(),
+            )
+            employer.save()
+        
