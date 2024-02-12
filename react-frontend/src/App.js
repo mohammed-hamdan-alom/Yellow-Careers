@@ -6,6 +6,7 @@ import DashBoardPage from "./components/dashboard/DashBoardPage";
 import JobSeekerLayout from "./components/layout/JobSeekerLayout";
 import SearchPage from "./components/search/SearchPage";
 import LandingPage from "./components/landing_page/LandingPage";
+import EmployerRegister from "./components/register/employer_register/EmployerRegister";
 // import PrivateRoute from './utils/PrivateRoute';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
@@ -15,6 +16,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/register/employer"  element={<EmployerRegister />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path='/register' element={<Register />} />
           <Route path="/job-seeker/*" element={<JobSeekerLayout />}>

@@ -1,4 +1,4 @@
-.icon {
+/* .icon {
     color: --primary-blue;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
@@ -10,4 +10,4 @@
 
 .icon.active {
     transform: rotate(90deg);
-}
+} */

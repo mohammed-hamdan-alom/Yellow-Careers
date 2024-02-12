@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User,JobSeeker,Employer,Job,Application,Resume
+from .models import User, JobSeeker, Employer, Job, Application, Resume, Company
 
 
 @admin.register(User)
@@ -27,3 +27,6 @@ class ApplicationAdmin(admin.ModelAdmin):
 class ResumeAdmin(admin.ModelAdmin):
     list_display = ['about','experience']
 
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ['company_name', 'website', 'about']
