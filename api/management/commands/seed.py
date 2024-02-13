@@ -27,6 +27,7 @@ class Command(BaseCommand):
     JOB_COUNT = QUESTION_COUNT = 200
     SOFT_SKILL_COUNT = TECHNICAL_SKILL_COUNT = LANGUAGE_COUNT = EDUCATION_COUNT = PROFFESSIONAL_EXPERIENCE_COUNT = 200
     EMPLOYER_JOB_RELATION_COUNT = 200
+    APPLICATION_COUNT = 100
 
 
     def __init__(self):
@@ -42,6 +43,7 @@ class Command(BaseCommand):
         self.seed_jobs()
         self.seed_questions()
         self.seed_employer_job_relationship()
+        self.seed_applications()
         
     def seed_address(self):
         '''Seed an adress'''
@@ -257,4 +259,20 @@ class Command(BaseCommand):
                 random_job = random.choice(jobs)
 
             EmployerJobRelation.objects.create(employer=random_employer, job=random_job)
+
+    def seed_applications(self):
+        '''Seeding the applications'''
+        job_seekers = JobSeeker.objects.all()
+        jobs = Job.objects.all()
+        for i in range(self.APPLICATION_COUNT):
+            print(f"Seeding application {i}/{self.APPLICATION_COUNT}", end='\r')
+
+            random_job_seeker = random.choice(job_seekers)
+            random_job = random.choice(jobs)
+
+            Application.objects.create(
+                job_seeker=random_job_seeker,
+                resume=random_job_seeker.resume,
+                job=random_job
+            )
     
