@@ -24,7 +24,7 @@ class Command(BaseCommand):
     JOB_SEEKER_COUNT = RESUME_COUNT = 100
     EMPLOYER_COUNT = 100
     COMPANY_COUNT = 30
-    JOB_COUNT = QUESTION_COUNT = 200
+    JOB_COUNT = QUESTION_COUNT = ANSWER_COUNT = 200 
     SOFT_SKILL_COUNT = TECHNICAL_SKILL_COUNT = LANGUAGE_COUNT = EDUCATION_COUNT = PROFFESSIONAL_EXPERIENCE_COUNT = 200
     EMPLOYER_JOB_RELATION_COUNT = 200
     APPLICATION_COUNT = 100
@@ -44,6 +44,7 @@ class Command(BaseCommand):
         self.seed_questions()
         self.seed_employer_job_relationship()
         self.seed_applications()
+        self.seed_answers()
         
     def seed_address(self):
         '''Seed an adress'''
@@ -276,3 +277,26 @@ class Command(BaseCommand):
                 job=random_job
             )
     
+    def seed_answers(self):
+        '''Seeding the answers'''
+        jobs = Job.objects.all()
+        for i in range(self.ANSWER_COUNT):
+            print(f"Seeding answer {i}/{self.ANSWER_COUNT}", end='\r')
+
+            job = random.choice(jobs)
+            questions = job.question_set.all()
+
+            applications = Application.objects.filter(job=job)
+
+            chosen_applications = Answer.objects.values_list('application', flat=True).distinct()
+            available_applications = applications.exclude(pk__in=chosen_applications)
+
+            if available_applications.exists():
+                application = random.choice(available_applications)
+
+                for question in questions:
+                    Answer.objects.create(
+                        application=application,
+                        question=question,
+                        answer=self.faker.paragraph_with_max_length(max_length=400)
+                    )
