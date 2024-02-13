@@ -9,9 +9,9 @@ function JobCreationForm() {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        salary: '',
+        salary: 0,
         address: '',
-        job_type: ''
+        job_type: 'FT'
     });
 
     const handleSubmit = (event) => {
