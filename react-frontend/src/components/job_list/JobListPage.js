@@ -6,18 +6,19 @@ import AxiosInstance from '../../Axios';;
 
 
 const JobListPage = () => {
-    const [job, setJob] = useState([]);
+    const [jobs, setJobs] = useState([]);
 
     useEffect(() => {
         AxiosInstance.get("api/jobs/all-jobs")
-            .then((res) => setJob(res.data))
+            .then((res) => setJobs(res.data))
     }, []);
+
 
     return (
         <div>
             <h1>All jobs</h1>
             <ul className='job-summary'>
-                {job.map(job => (
+                {jobs.map(job => (
                     <JobSummary
                         key={job.id}
                         id={job.id}
