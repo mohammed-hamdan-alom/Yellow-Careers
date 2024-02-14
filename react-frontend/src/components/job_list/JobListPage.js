@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import './JobListPage.css';
+import '../job_summary/JobSummary.css';
 import JobSummary from "../job_summary/JobSummary";
 import AxiosInstance from '../../Axios';;
 
