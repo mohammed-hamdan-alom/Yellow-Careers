@@ -14,6 +14,12 @@ function JobCreationForm() {
         job_type: 'FT'
     });
 
+    const [addressData, setAddressData] = useState({
+        city: '',
+        post_code: '',
+        country: ''
+    });
+
     const handleSubmit = (event) => {
         event.preventDefault();
         AxiosInstance.post('api/jobs/create-job', {
@@ -29,13 +35,39 @@ function JobCreationForm() {
         });
     };
 
+    const handleAddressSubmit = (event) => {
+        event.preventDefault();
+        AxiosInstance.post('api/jobs/create-address', {
+            city: addressData.city,
+            country: addressData.country,
+            post_code: addressData.post_code
+        }).then((response) => {
+            console.log(response);
+            setFormData({
+                ...formData,
+                ['address']: response.data.id
+            });
+
+        }).catch((error) => {
+            console.log(error);
+        });
+    };
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value
         });
-    }
+    };
+
+    const handleAddressChange = (event) => {
+        const { name, value } = event.target;
+        setAddressData({
+            ...addressData,
+            [name]: value
+        });
+    };
 
     return (
         <div className="job-creation-form">
@@ -67,34 +99,41 @@ function JobCreationForm() {
                         onChange={handleChange}
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="post_code">Postcode</label>
-                    <input
-                        type="text"
-                        name="post_code"
-                        value={formData.address.post_code}
-                        onChange={handleChange}
+                <div className="address-creation-form">
+                    <form className="address-creation-form">
+                        <div className="form-group">
+                            <label htmlFor="post_code">Postcode</label>
+                            <input
+                                type="text"
+                                name="post_code"
+                                value={addressData.post_code}
+                                onChange={handleAddressChange}
 
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="city">City</label>
-                    <input
-                        type="text"
-                        name="city"
-                        value={formData.address.city}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="country">Country</label>
-                    <input
-                        type="text"
-                        name="country"
-                        value={formData.address.country}
-                        onChange={handleChange}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="city">City</label>
+                            <input
+                                type="text"
+                                name="city"
+                                value={addressData.city}
+                                onChange={handleAddressChange}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="country">Country</label>
+                            <input
+                                type="text"
+                                name="country"
+                                value={addressData.country}
+                                onChange={handleAddressChange}
 
-                    />
+                            />
+                        </div>
+                        <div className='form-actions'>
+                            <button type="button" onClick={handleAddressSubmit}>Submit Address</button>
+                        </div>
+                    </form>
                 </div>
                 <div className="form-group">
                     <label htmlFor="job_type">Job Type</label>
