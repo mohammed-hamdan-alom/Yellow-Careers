@@ -4,10 +4,18 @@ from rest_framework import serializers
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = '__all__'
+        fields = ['title', 'description', 'address', 'job_type', 'salary']
         
     def create(self, validated_data):
-        return Job.objects.create(**validated_data)
+        job = Job.objects.create(
+            title=validated_data['title'],
+            description=validated_data['description'],
+            address=validated_data['address'],
+            job_type=validated_data['job_type'],
+            salary=validated_data['salary']
+        )
+        job.save()
+        return job
     
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)

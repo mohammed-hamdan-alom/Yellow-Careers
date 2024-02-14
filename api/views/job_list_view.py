@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from api.models import Job
 
-from api.serializers.job_serializers import JobSerializer
+from api.serializers.job_serializer import JobSerializer
 
 @api_view(['GET'])
 def job_list(request):

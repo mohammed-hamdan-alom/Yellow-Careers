@@ -68,12 +68,32 @@ function JobCreationForm() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="address">Address</label>
+                    <label htmlFor="post_code">Postcode</label>
                     <input
                         type="text"
-                        name="address"
-                        value={formData.address}
+                        name="post_code"
+                        value={formData.address.post_code}
                         onChange={handleChange}
+
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="city">City</label>
+                    <input
+                        type="text"
+                        name="city"
+                        value={formData.address.city}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="country">Country</label>
+                    <input
+                        type="text"
+                        name="country"
+                        value={formData.address.country}
+                        onChange={handleChange}
+
                     />
                 </div>
                 <div className="form-group">
