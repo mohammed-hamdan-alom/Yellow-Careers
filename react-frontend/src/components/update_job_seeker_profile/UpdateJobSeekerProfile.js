@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const EditProfile = () => {
+const UpdateJobSeekerProfile = () => {
   const { user, updateUserProfile } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     first_name: '',
@@ -99,4 +99,4 @@ const EditProfile = () => {
   );
 }
 
-export default EditProfile;
+export default UpdateJobSeekerProfile;

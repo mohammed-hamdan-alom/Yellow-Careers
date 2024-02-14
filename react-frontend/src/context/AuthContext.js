@@ -8,21 +8,21 @@ const AuthContext = createContext();
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-    const [authTokens, setAuthTokens] = useState(() =>
-        localStorage.getItem("authTokens")
-            ? JSON.parse(localStorage.getItem("authTokens"))
-            : null
-    );
+    const navigate = useNavigate();
+    const [authTokens, setAuthTokens] = useState(() => {
+        const token = localStorage.getItem("authTokens");
+        return token ? JSON.parse(token) : null;
+    });
     
-    const [user, setUser] = useState(() => 
-        localStorage.getItem("authTokens")
-            ? jwtDecode(localStorage.getItem("authTokens").access)
-            : null
-    );
+    const [user, setUser] = useState(() => {
+        const token = localStorage.getItem("authTokens");
+        return token ? jwtDecode(JSON.parse(token).access) : null;
+    });
 
     const [loading, setLoading] = useState(true);
 
-    const navigate = useNavigate();
+    const userEmail = authTokens ? jwtDecode(authTokens.access).email : null;
+
 
     const loginUser = async (email, password) => {
         const response = await fetch("http://127.0.0.1:8000/api/token/", {
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const updateUserProfile = async (formData) => {
-        const response = await fetch('http://127.0.0.1:8000/api/edit-profile/', {
+        const response = await fetch(`http://127.0.0.1:8000/api/job_seeker_update/${userEmail}/`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -108,13 +108,12 @@ export const AuthProvider = ({ children }) => {
         });
         
         if (response.ok) {
-        const updatedUser = await response.json();
-        // Update user state with updated information
-        // setUser(updatedUser); Assuming you have a setUser method to update the user state
-        swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
+            const updatedUser = await response.json();
+            // Update user state with updated information
+            // setUser(updatedUser); Assuming you have a setUser method to update the user state
+            swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
         } else {
-        // Handle errors
-        swal.fire("Update Failed", "There was an error updating your profile.", "error");
+            swal.fire("Update Failed", "There was an error updating your profile.", "error");
         }
     };
 
@@ -142,14 +141,17 @@ export const AuthProvider = ({ children }) => {
         registerUser,
         loginUser,
         logoutUser,
+        updateUserProfile,
     };
 
     useEffect(() => {
-        if (authTokens) {
-            setUser(jwtDecode(authTokens.access));
+        const tokens = localStorage.getItem("authTokens");
+        if (tokens) {
+            const parsedTokens = JSON.parse(tokens);
+            setUser(jwtDecode(parsedTokens.access));
         }
         setLoading(false);
-    }, [authTokens, loading]);
+    }, []);
 
     return (
         <AuthContext.Provider value={contextData}>

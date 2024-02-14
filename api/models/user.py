@@ -33,7 +33,7 @@ class JobSeeker(User):
         FEMALE = 'F',_('Female')
 
     dob = models.DateField(blank=False)
-    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
+    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=True)
     nationality = models.CharField(max_length=100, blank=False)
     sex = models.CharField(max_length=6,choices=Sex.choices)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=True)
