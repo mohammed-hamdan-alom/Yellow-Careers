@@ -6,6 +6,8 @@ import DashBoardPage from "./components/dashboard/DashBoardPage";
 import JobSeekerLayout from "./components/layout/JobSeekerLayout";
 import SearchPage from "./components/search/SearchPage";
 import LandingPage from "./components/landing_page/LandingPage";
+import JobCreation from "./components/job_creation/JobCreation";
+import JobListPage from "./components/job_list/JobListPage";
 // import PrivateRoute from './utils/PrivateRoute';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ProfilePage from "./components/profile/ProfilePage";
@@ -24,7 +26,8 @@ function App() {
           <Route path="search" element={<SearchPage />} />
           <Route path="resume" element={<ResumePage />} />
           <Route path="profile" element={<ProfilePage />} />
-        </Route>
+        <Route path='/create-job' element={<JobCreation />} />
+        <Route path="/all-jobs" element={<JobListPage />} />
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}
       </Routes>
     </AuthProvider>
