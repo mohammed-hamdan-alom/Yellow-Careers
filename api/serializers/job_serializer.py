@@ -4,7 +4,7 @@ from rest_framework import serializers
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = ['title', 'description', 'address', 'job_type', 'salary']
+        fields = ['id','title', 'description', 'address', 'job_type', 'salary']
         
     def create(self, validated_data):
         job = Job.objects.create(
