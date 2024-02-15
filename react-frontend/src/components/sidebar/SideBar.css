@@ -1,13 +1,16 @@
-.icon {
-    color: --primary-blue;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-}
-
-.icon:hover {
+.custom-icon:hover {
     transform: scale(1.1);
 }
 
-.icon.active {
+.custom-icon.active {
     transform: rotate(90deg);
+}
+
+.custom-icon {
+    color: #023e7d;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    font-size: 2em !important;
+    margin-left: 20px !important;
+    margin-top: 30px !important;
 }
