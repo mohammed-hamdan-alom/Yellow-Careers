@@ -171,9 +171,8 @@ class Command(BaseCommand):
             random_resume = random.choice(resumes)
             resumes.remove(random_resume)
 
-            JobSeeker.objects.create(
+            jobseeker = JobSeeker.objects.create(
                 email=self.generate_unique_email(),
-                password=self.PASSWORD,
                 first_name=self.faker.first_name(),
                 last_name=self.faker.last_name(),
                 other_names='bean + cheese + begel',
@@ -184,6 +183,8 @@ class Command(BaseCommand):
                 resume=random_resume,
                 sex=random.choice(['M', 'F'])
             )
+            jobseeker.set_password(self.PASSWORD)
+            jobseeker.save()
 
     def seed_companies(self):
         '''Seeding the companies'''
@@ -204,9 +205,8 @@ class Command(BaseCommand):
 
             random_company = random.choice(companies)
 
-            Employer.objects.create(
+            employer = Employer.objects.create(
                 email=self.generate_unique_email(),
-                password=self.PASSWORD,
                 first_name=self.faker.first_name(),
                 last_name=self.faker.last_name(),
                 other_names='bean + cheese + begel',
@@ -214,6 +214,8 @@ class Command(BaseCommand):
                 company=random_company,
                 is_company_admin=self.faker.boolean(),
             )
+            employer.set_password(self.PASSWORD)
+            employer.save()
         
     def seed_jobs(self):
         '''Seeding the jobs'''
@@ -265,11 +267,18 @@ class Command(BaseCommand):
         '''Seeding the applications'''
         job_seekers = JobSeeker.objects.all()
         jobs = Job.objects.all()
+        created_applications = set() 
         for i in range(self.APPLICATION_COUNT):
             print(f"Seeding application {i}/{self.APPLICATION_COUNT}", end='\r')
 
-            random_job_seeker = random.choice(job_seekers)
-            random_job = random.choice(jobs)
+            while True:
+                random_job_seeker = random.choice(job_seekers)
+                random_job = random.choice(jobs)
+                application_key = (random_job_seeker.id, random_job.id)
+                if application_key not in created_applications:
+                    
+                    created_applications.add(application_key)
+                    break
 
             Application.objects.create(
                 job_seeker=random_job_seeker,
