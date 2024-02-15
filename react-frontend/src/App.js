@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import LoginPage from "./components/login/LoginPage";
 import Register from './components/register/Register';
 import { AuthProvider } from './context/AuthContext';
@@ -10,6 +10,8 @@ import JobCreation from "./components/job_creation/JobCreation";
 import JobListPage from "./components/job_list/JobListPage";
 // import PrivateRoute from './utils/PrivateRoute';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import ProfilePage from "./components/profile/ProfilePage";
+import ResumePage from "./components/resume/ResumePage";
 
 
 function App() {
@@ -18,11 +20,12 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path='/register' element={<Register />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
           <Route path="dashboard" element={<DashBoardPage />} />
           <Route path="search" element={<SearchPage />} />
-        </Route>
+          <Route path="resume" element={<ResumePage />} />
+          <Route path="profile" element={<ProfilePage />} />
         <Route path='/create-job' element={<JobCreation />} />
         <Route path="/all-jobs" element={<JobListPage />} />
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}
