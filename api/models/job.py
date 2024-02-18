@@ -13,8 +13,8 @@ class Job(models.Model):
 
     title = models.CharField(max_length=50,blank=False)
     description = models.CharField(max_length=1000,blank=False)
-    salary = models.PositiveIntegerField(blank=True)
-    address = models.OneToOneField('Address',blank=True,on_delete=models.CASCADE)
+    salary = models.PositiveIntegerField(blank=True, null=True)
+    address = models.OneToOneField('Address',blank=True,null=True, on_delete=models.CASCADE)
     job_type = models.CharField(max_length=20,choices=JobType.choices)
 
     def get_applications(self):

@@ -1,6 +1,6 @@
 import React from "react";
-import "./SideBar.css";
 import "semantic-ui-css/semantic.min.css";
+import "./SideBar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Sidebar, Menu, Icon } from "semantic-ui-react";
 import { Link, useLocation } from "react-router-dom";
@@ -15,9 +15,9 @@ function SideBar({ isOpen, toggleSidebar }) {
       <Icon
         size="large"
         onClick={toggleSidebar}
-        className={`icon ${isOpen ? "active" : ""}`}
+        className={`custom-icon ${isOpen ? "active" : ""}`}
         aria-label="Toggle sidebar"
-        name="chevron left" 
+        name="chevron left"
       />
 
       <Sidebar
@@ -34,7 +34,7 @@ function SideBar({ isOpen, toggleSidebar }) {
         <Menu.Item
           as={Link}
           to="/job-seeker/dashboard"
-          active={isActive("/job-seeker/dahsboard")}
+          active={isActive("/dahsboard")}
           onClick={toggleSidebar}
         >
           <Icon name="block layout" />
@@ -50,6 +50,28 @@ function SideBar({ isOpen, toggleSidebar }) {
           <Icon name="search" />
           Search
         </Menu.Item>
+
+        <Menu.Item
+          as={Link}
+          to="/job-seeker/resume"
+          active={isActive("/resume")}
+          onClick={toggleSidebar}
+        >
+          <Icon name="edit" />
+          Resume
+        </Menu.Item>
+
+        <Menu.Item
+          as={Link}
+          to="/job-seeker/profile"
+          active={isActive("/profile")}
+          onClick={toggleSidebar}
+        >
+          <Icon name="user" />
+          Profile
+        </Menu.Item>
+
+
       </Sidebar>
     </>
   );

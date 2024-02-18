@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* .icon {
     color: --primary-blue;
     cursor: pointer;
@@ -5,9 +6,25 @@
 }
 
 .icon:hover {
+=======
+.custom-icon:hover {
+>>>>>>> cf550612a75db660332aa6d244761931c71e1572
     transform: scale(1.1);
 }
 
-.icon.active {
+.custom-icon.active {
     transform: rotate(90deg);
+<<<<<<< HEAD
 } */
+=======
+}
+
+.custom-icon {
+    color: #023e7d;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    font-size: 2em !important;
+    margin-left: 20px !important;
+    margin-top: 30px !important;
+}
+>>>>>>> cf550612a75db660332aa6d244761931c71e1572
