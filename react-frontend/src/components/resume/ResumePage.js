@@ -15,14 +15,14 @@ function UpdateResumePage() {
 
   const [resumeId, setResumeId] = useState(null);
 
+  const [softSkills, setSoftSkills] = useState([]);
+
   const [errors, setErrors] = useState({
     github: '',
     linkedin: '',
     about: '',
     experience: '',
   });
-
-
   
 // Decode token to get user information
   let authTokens = localStorage.getItem("authTokens");
@@ -68,6 +68,12 @@ function UpdateResumePage() {
     fetch(`http://localhost:8000/api/resumes/${resumeId}/update/`)
       .then(response => response.json())
       .then(data => setResume(data));
+
+      fetch(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/`)
+      .then(response => response.json())
+      .then(data => setSoftSkills(data.map(item => item.skill)))
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
   }, [resumeId]);
 
   const handleChange = (event) => {
@@ -126,37 +132,48 @@ function UpdateResumePage() {
 };
 
 return (
-  <form onSubmit={handleSubmit}>
-    <div>
-      <label>
-        GitHub:
-        <input type="text" name="github" value={resume.github} onChange={handleChange} />
-        {errors.github && <p>{errors.github}</p>}
-      </label>
-    </div>
-    <div>
-      <label>
-        LinkedIn:
-        <input type="text" name="linkedin" value={resume.linkedin} onChange={handleChange} />
-        {errors.linkedin && <p>{errors.linkedin}</p>}
-      </label>
-    </div>
-    <div>
-      <label>
-        About:
-        <textarea name="about" value={resume.about} onChange={handleChange} />
-        {errors.about && <p>{errors.about}</p>}
-      </label>
-    </div>
-    <div>
-      <label>
-        Experience:
-        <textarea name="experience" value={resume.experience} onChange={handleChange} />
-        {errors.experience && <p>{errors.experience}</p>}
-      </label>
-    </div>
-    <button type="submit">Update Resume</button>
-  </form>
+  <div>
+    <h2>Resume info</h2>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>
+          GitHub:
+          <input type="text" name="github" value={resume.github} onChange={handleChange} />
+          {errors.github && <p>{errors.github}</p>}
+        </label>
+      </div>
+      <div>
+        <label>
+          LinkedIn:
+          <input type="text" name="linkedin" value={resume.linkedin} onChange={handleChange} />
+          {errors.linkedin && <p>{errors.linkedin}</p>}
+        </label>
+      </div>
+      <div>
+        <label>
+          About:
+          <textarea name="about" value={resume.about} onChange={handleChange} />
+          {errors.about && <p>{errors.about}</p>}
+        </label>
+      </div>
+      <div>
+        <label>
+          Experience:
+          <textarea name="experience" value={resume.experience} onChange={handleChange} />
+          {errors.experience && <p>{errors.experience}</p>}
+        </label>
+      </div>
+      <button type="submit">Update Resume</button>
+    </form>
+
+    <h2>Soft Skills</h2>
+    <ul>
+    {softSkills.map((skill, index) => (
+      <li key={index}>{skill}</li>
+    ))}
+  </ul>
+
+  </div>
 );
 }
 
