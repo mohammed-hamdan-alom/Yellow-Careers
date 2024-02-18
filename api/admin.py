@@ -17,7 +17,7 @@ class EmployerAdmin(admin.ModelAdmin):
 
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
-    list_display = ['id','title','job_type','salary']
+    list_display = ['id','title','job_type','salary','address']
     ordering=['id']
 
 @admin.register(Application)

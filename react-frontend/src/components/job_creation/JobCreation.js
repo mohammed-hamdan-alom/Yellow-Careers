@@ -37,7 +37,7 @@ function JobCreationForm() {
 
     const handleAddressSubmit = (event) => {
         event.preventDefault();
-        AxiosInstance.post('api/jobs/create-address', {
+        AxiosInstance.post('api/addresses/create/', {
             city: addressData.city,
             country: addressData.country,
             post_code: addressData.post_code

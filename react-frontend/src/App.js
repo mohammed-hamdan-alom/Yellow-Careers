@@ -1,4 +1,4 @@
-import {Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginPage from "./components/login/LoginPage";
 import Register from './components/register/Register';
 import { AuthProvider } from './context/AuthContext';
@@ -26,6 +26,7 @@ function App() {
           <Route path="search" element={<SearchPage />} />
           <Route path="resume" element={<ResumePage />} />
           <Route path="profile" element={<ProfilePage />} />
+        </Route>
         <Route path='/create-job' element={<JobCreation />} />
         <Route path="/all-jobs" element={<JobListPage />} />
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}

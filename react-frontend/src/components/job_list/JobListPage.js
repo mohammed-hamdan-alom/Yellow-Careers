@@ -2,15 +2,26 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import '../job_summary/JobSummary.css';
 import JobSummary from "../job_summary/JobSummary";
-import AxiosInstance from '../../Axios';;
-
+import AxiosInstance from '../../Axios';
 
 const JobListPage = () => {
     const [jobs, setJobs] = useState([]);
+    const [address, setAddress] = useState([]);
+
+    function GetLocation(id) {
+        const current = address.find(address => address.id === id)
+        if (current != undefined) {
+            return current.city + ", " + current.country
+        }
+        return ""
+    }
 
     useEffect(() => {
         AxiosInstance.get("api/jobs/all-jobs")
-            .then((res) => setJobs(res.data))
+            .then((res) => setJobs(res.data)
+            )
+        AxiosInstance.get("api/addresses/")
+            .then((res) => setAddress(res.data))
     }, []);
 
 
@@ -25,7 +36,7 @@ const JobListPage = () => {
                         title={job.title}
                         hirer={job.hirer}
                         description={job.description}
-                        location={job.address}
+                        location={GetLocation(job.address)}
                     />
                 ))}
             </ul>

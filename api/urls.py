@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-from api.views.job_list_view import JobListingView, AddressRetrieveView
+from api.views.job_list_view import JobListingView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -11,7 +11,6 @@ urlpatterns = [
     path('dashboard/', test_api_endpoint, name="test"),
     path('jobs/create-job', JobCreationView.as_view(), name='create_job'),
     path('jobs/all-jobs', JobListingView.as_view(), name='all_jobs'),
-    path('jobs/get-address/<int:pk>', AddressRetrieveView.as_view(), name='get_address'),
 
     path('addresses/', AddressListView.as_view(), name='address-list'),
     path('addresses/<int:pk>/', AddressRetrieveView.as_view(), name='address-get'),
