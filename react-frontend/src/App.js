@@ -26,9 +26,9 @@ function App() {
           <Route path="search" element={<SearchPage />} />
           <Route path="resume" element={<ResumePage />} />
           <Route path="profile" element={<ProfilePage />} />
+          <Route path="all-jobs" element={<JobListPage />} />
         </Route>
         <Route path='/create-job' element={<JobCreation />} />
-        <Route path="/all-jobs" element={<JobListPage />} />
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}
       </Routes>
     </AuthProvider>

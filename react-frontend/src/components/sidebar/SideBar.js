@@ -34,7 +34,7 @@ function SideBar({ isOpen, toggleSidebar }) {
         <Menu.Item
           as={Link}
           to="/job-seeker/dashboard"
-          active={isActive("/dahsboard")}
+          active={isActive("/dashboard")}
           onClick={toggleSidebar}
         >
           <Icon name="block layout" />
@@ -69,6 +69,16 @@ function SideBar({ isOpen, toggleSidebar }) {
         >
           <Icon name="user" />
           Profile
+        </Menu.Item>
+
+        <Menu.Item
+          as={Link}
+          to="/job-seeker/all-jobs"
+          active={isActive("/all-jobs")}
+          onClick={toggleSidebar}
+        >
+          <Icon name="briefcase" />
+          All Jobs
         </Menu.Item>
 
 
