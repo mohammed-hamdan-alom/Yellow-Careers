@@ -1,6 +1,6 @@
 from rest_framework import generics
-from api.models import Resume
-from api.serializers.resume_serializer import ResumeSerializer
+from api.models import Resume, SoftSkill
+from api.serializers.resume_serializer import ResumeSerializer, ResumeSoftSkillsSerializer
 
 
 class BaseResumeView:
@@ -18,3 +18,14 @@ class ResumeCreateView(BaseResumeView, generics.CreateAPIView):
 
 class ResumeUpdateView(BaseResumeView, generics.RetrieveUpdateDestroyAPIView):
     pass
+
+class ResumeSoftSkillsListView(BaseResumeView, generics.ListAPIView):
+    serializer_class = ResumeSoftSkillsSerializer
+    def get_queryset(self):
+        """
+        This view should return a list of all the soft skills
+        for the resume as determined by the resume_id portion of the URL.
+        """
+        resume_id = self.kwargs['resume_id']
+        return SoftSkill.objects.filter(resume=resume_id)
+    
