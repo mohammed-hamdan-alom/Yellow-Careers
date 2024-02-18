@@ -16,12 +16,14 @@ function UpdateResumePage() {
   const [resumeId, setResumeId] = useState(null);
 
   const [softSkills, setSoftSkills] = useState([]);
+  const [softSkill, setSoftSkill] = useState([]);
 
   const [errors, setErrors] = useState({
     github: '',
     linkedin: '',
     about: '',
     experience: '',
+    softSkill: '',
   });
   
 // Decode token to get user information
@@ -59,7 +61,7 @@ function UpdateResumePage() {
   }, [userId]);
   console.log('resume',resumeId);
 
-  // Fetch tthe user's resume details
+  // Fetch the user's resume details
   useEffect(() => {
     if (resumeId === null) {
       return;
@@ -76,15 +78,19 @@ function UpdateResumePage() {
       .catch(error => console.error('Error:', error));
   }, [resumeId]);
 
-  const handleChange = (event) => {
+  const handleResumeChange = (event) => {
     setResume({
       ...resume,
       [event.target.name]: event.target.value
     });
   };
 
+  const handleSoftSkillChange = (event) => {
+    setSoftSkill(event.target.value);
+  };
+
   // PUT request when form submitted
-  const handleSubmit = (event) => {
+  const handleSubmitResume = (event) => {
     event.preventDefault();
     AxiosInstance.put(`http://localhost:8000/api/resumes/${resumeId}/update/`, {
         github: resume.github,
@@ -102,7 +108,6 @@ function UpdateResumePage() {
           timerProgressBar: true,
           showConfirmButton: false,
       });
-
 
       setErrors({
         github: '',
@@ -131,35 +136,79 @@ function UpdateResumePage() {
 
 };
 
+const handleSubmitSoftSkills = (event) => {
+  event.preventDefault();
+  AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/create/`, {
+      skill:softSkill
+  }).then((response) => {
+      console.log('Success: ',response);
+      swal.fire({
+        title: "Soft Skill Added",
+        icon: "success",
+        toast: true,
+        timer: 6000,
+        position: 'top-right',
+        timerProgressBar: true,
+        showConfirmButton: false,
+    });
+    setSoftSkill('');
+    setErrors({
+      softSkill: '',
+    });
+
+    setSoftSkills(prevSoftSkills => [...prevSoftSkills, softSkill]);
+
+  }).catch((error) => {
+      console.error('Error:', error);
+      let errorMessages = '';
+      if (error.response && error.response.data) {
+        // Parse the error response
+        // TODO: Doesnt show error properly
+        errorMessages = Object.values(error.response.data).join(' ');
+        setErrors(error.response.data);};
+      swal.fire({
+        title: "Creating Soft Skill Failed",
+        icon: "error",
+        toast: true,
+        timer: 6000,
+        position: 'top-right',
+        timerProgressBar: true,
+        showConfirmButton: false,
+    });
+  });
+
+};
+
+
 return (
   <div>
     <h2>Resume info</h2>
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmitResume}>
       <div>
         <label>
           GitHub:
-          <input type="text" name="github" value={resume.github} onChange={handleChange} />
+          <input type="text" name="github" value={resume.github} onChange={handleResumeChange} />
           {errors.github && <p>{errors.github}</p>}
         </label>
       </div>
       <div>
         <label>
           LinkedIn:
-          <input type="text" name="linkedin" value={resume.linkedin} onChange={handleChange} />
+          <input type="text" name="linkedin" value={resume.linkedin} onChange={handleResumeChange} />
           {errors.linkedin && <p>{errors.linkedin}</p>}
         </label>
       </div>
       <div>
         <label>
           About:
-          <textarea name="about" value={resume.about} onChange={handleChange} />
+          <textarea name="about" value={resume.about} onChange={handleResumeChange} />
           {errors.about && <p>{errors.about}</p>}
         </label>
       </div>
       <div>
         <label>
           Experience:
-          <textarea name="experience" value={resume.experience} onChange={handleChange} />
+          <textarea name="experience" value={resume.experience} onChange={handleResumeChange} />
           {errors.experience && <p>{errors.experience}</p>}
         </label>
       </div>
@@ -172,6 +221,16 @@ return (
       <li key={index}>{skill}</li>
     ))}
   </ul>
+  <form onSubmit={handleSubmitSoftSkills}>
+    <div>
+      <label>
+        Soft Skill:
+        <input type="text" name="softSkill" value={softSkill} onChange={handleSoftSkillChange} />
+        {errors.softSkill && <p>{errors.softSkill}</p>}
+      </label>
+    </div>
+    <button type="submit">Add Soft Skill</button>
+  </form>
 
   </div>
 );

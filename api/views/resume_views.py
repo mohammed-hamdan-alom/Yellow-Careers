@@ -28,4 +28,9 @@ class ResumeSoftSkillsListView(BaseResumeView, generics.ListAPIView):
         """
         resume_id = self.kwargs['resume_id']
         return SoftSkill.objects.filter(resume=resume_id)
-    
+
+class ResumeSoftSkillsCreateView(BaseResumeView, generics.CreateAPIView):
+    serializer_class = ResumeSoftSkillsSerializer
+    def perform_create(self, serializer):
+        resume_id = self.kwargs['resume_id']
+        serializer.save(resume_id=resume_id)

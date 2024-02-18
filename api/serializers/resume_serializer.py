@@ -10,5 +10,5 @@ class ResumeSerializer(serializers.ModelSerializer):
 class ResumeSoftSkillsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SoftSkill
-        fields = ('skill',)
+        fields = ('id','skill')
         read_only_fields = ('id', 'created_at', 'updated_at')
