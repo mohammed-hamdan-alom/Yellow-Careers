@@ -104,7 +104,11 @@ class Command(BaseCommand):
                 print(f"Seeding language {i}/{self.LANGUAGE_COUNT}", end='\r')
 
                 random_resume = random.choice(resumes)
-                Language.objects.create(language=self.faker.word_with_max_length(), resume=random_resume)
+                Language.objects.create(
+                    language=self.faker.word_with_max_length(),
+                    spoken_proficiency=random.choice([choice[0] for choice in Language.Proficiency.choices]),
+                    written_proficiency=random.choice([choice[0] for choice in Language.Proficiency.choices]),
+                    resume=random_resume)
 
     def seed_educations(self):
         '''Seeding the educations'''
