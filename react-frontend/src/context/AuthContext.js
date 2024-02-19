@@ -64,14 +64,59 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const registerUser = async (email, password, password2) => {
-        const response = await fetch("http://127.0.0.1:8000/api/register/", {
+    // const registerUser = async (email, password, password2, userType, additionalFields) => {
+    //     let url = '';
+    //     let successMessage = '';
+    //     let requestBody = { email, password, password2, ...additionalFields };
+    
+    // if (userType === 'employer') {
+    //     url = "http://127.0.0.1:8000/api/employer-register/";
+    //     successMessage = "Employer registration successful. Proceed to login.";
+    // } else if (userType === 'jobseeker') {
+    //     url = "http://127.0.0.1:8000/api/jobseeker-register/";
+    //     successMessage = "Job Seeker registration successful. Proceed to login.";
+    // }
+        
+    //     const response = await fetch(url, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type":"application/json"
+    //         },
+    //         body: JSON.stringify(requestBody)
+    //     });
+    //     console.log(response.body)
+    //     if(response.status === 201){
+    //         navigate("/login");
+    //         swal.fire({
+    //             title: successMessage,
+    //             icon: "success",
+    //             toast: true,
+    //             timer: 6000,
+    //             position: 'top-right',
+    //             timerProgressBar: true,
+    //             showConfirmButton: false,
+    //         });
+    //     } else {
+    //         swal.fire({
+    //             title: "An Error Occurred " + response.status,
+    //             icon: "error",
+    //             toast: true,
+    //             timer: 6000,
+    //             position: 'top-right',
+    //             timerProgressBar: true,
+    //             showConfirmButton: false,
+    //         });
+    //     }
+    // };
+
+    const registerJobSeeker = async (email, password, password2, first_name, last_name, other_names, dob, phone_number, nationality, sex) => {
+        const response = await fetch("http://127.0.0.1:8000/api/jobseeker-register/", {
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
             },
             body: JSON.stringify({
-                email, password, password2
+                email, password, password2, first_name, last_name, other_names, dob, phone_number, nationality, sex
             })
         });
         if(response.status === 201){
@@ -87,7 +132,7 @@ export const AuthProvider = ({ children }) => {
             });
         } else {
             swal.fire({
-                title: "An Error Occured " + response.status,
+                title: "An Error Occurred " + response.status,
                 icon: "error",
                 toast: true,
                 timer: 6000,
@@ -97,6 +142,7 @@ export const AuthProvider = ({ children }) => {
             });
         }
     };
+    
 
     const logoutUser = () => {
         setAuthTokens(null);
@@ -119,7 +165,7 @@ export const AuthProvider = ({ children }) => {
         setUser,
         authTokens,
         setAuthTokens,
-        registerUser,
+        registerJobSeeker,
         loginUser,
         logoutUser,
     };

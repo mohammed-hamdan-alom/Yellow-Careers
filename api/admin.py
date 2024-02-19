@@ -29,10 +29,6 @@ class ApplicationAdmin(admin.ModelAdmin):
 class ResumeAdmin(admin.ModelAdmin):
     list_display = ['about','experience']
 
-@admin.register(Company)
-class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['company_name', 'website', 'about']
-
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     list_display = ['id','city','post_code', 'country']
