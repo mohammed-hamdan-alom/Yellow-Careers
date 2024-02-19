@@ -12,11 +12,15 @@ function UpdateResumePage() {
     about: '',
     experience: '',
   });
-
   const [resumeId, setResumeId] = useState(null);
-
   const [softSkills, setSoftSkills] = useState([]);
   const [softSkill, setSoftSkill] = useState([]);
+  const [languages, setLanguages] = useState([]);
+  const[language, setLanguage] = useState({
+    language: '',
+    spoken_proficiency: '',
+    written_proficiency: '',
+  });
 
   const [errors, setErrors] = useState({
     github: '',
@@ -66,28 +70,43 @@ function UpdateResumePage() {
     if (resumeId === null) {
       return;
     }
-    // Fetch the current resume details when the component mounts
+    // Fetch the current resume details 
     fetch(`http://localhost:8000/api/resumes/${resumeId}/update/`)
       .then(response => response.json())
       .then(data => setResume(data));
 
-      fetch(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/`)
-      .then(response => response.json())
-      .then(data => setSoftSkills(data.map(item => item.skill)))
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
+    // Fetch the current resume's soft skills
+    fetch(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/`)
+    .then(response => response.json())
+    .then(data => setSoftSkills(data.map(item => item.skill)))
+    // .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+
+    //Fetch the current resume's languages
+    fetch(`http://localhost:8000/api/resumes/${resumeId}/languages/`)
+    .then(response => response.json())
+    .then(data => setLanguages(data))
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
   }, [resumeId]);
 
+
+  // Handle changes in the forms
   const handleResumeChange = (event) => {
     setResume({
       ...resume,
       [event.target.name]: event.target.value
     });
   };
-
   const handleSoftSkillChange = (event) => {
     setSoftSkill(event.target.value);
   };
+  const handleLanguageChange = (event) => {
+    setLanguage({
+      ...language,
+      [event.target.name]: event.target.value
+    }
+    )};
 
   // PUT request when form submitted
   const handleSubmitResume = (event) => {
@@ -220,20 +239,32 @@ return (
     {softSkills.map((skill, index) => (
       <li key={index}>{skill}</li>
     ))}
+    </ul>
+    <form onSubmit={handleSubmitSoftSkills}>
+      <div>
+        <label>
+          Soft Skill:
+          <input type="text" name="softSkill" value={softSkill} onChange={handleSoftSkillChange} />
+          {errors.softSkill && <p>{errors.softSkill}</p>}
+        </label>
+      </div>
+      <button type="submit">Add Soft Skill</button>
+    </form>
+
+    <h2>Languages</h2>
+    <ul>
+    {languages.map((language, index) => (
+      <li key={index}>
+        <p>Language: {language.language}</p>
+        <p>Spoken proficiency: {language.spoken_proficiency || 'Not provided'}</p>
+        <p>Written proficiency: {language.written_proficiency || 'Not provided'}</p>
+      </li>
+    ))}
   </ul>
-  <form onSubmit={handleSubmitSoftSkills}>
-    <div>
-      <label>
-        Soft Skill:
-        <input type="text" name="softSkill" value={softSkill} onChange={handleSoftSkillChange} />
-        {errors.softSkill && <p>{errors.softSkill}</p>}
-      </label>
-    </div>
-    <button type="submit">Add Soft Skill</button>
-  </form>
+
 
   </div>
-);
+  );
 }
 
 export default UpdateResumePage;

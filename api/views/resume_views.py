@@ -1,6 +1,6 @@
 from rest_framework import generics
 from api.models import Resume, SoftSkill
-from api.serializers.resume_serializer import ResumeSerializer, ResumeSoftSkillsSerializer
+from api.serializers.resume_serializer import *
 
 
 class BaseResumeView:
@@ -19,8 +19,8 @@ class ResumeCreateView(BaseResumeView, generics.CreateAPIView):
 class ResumeUpdateView(BaseResumeView, generics.RetrieveUpdateDestroyAPIView):
     pass
 
-class ResumeSoftSkillsListView(BaseResumeView, generics.ListAPIView):
-    serializer_class = ResumeSoftSkillsSerializer
+class ResumeSoftSkillListView(BaseResumeView, generics.ListAPIView):
+    serializer_class = ResumeSoftSkillSerializer
     def get_queryset(self):
         """
         This view should return a list of all the soft skills
@@ -29,8 +29,24 @@ class ResumeSoftSkillsListView(BaseResumeView, generics.ListAPIView):
         resume_id = self.kwargs['resume_id']
         return SoftSkill.objects.filter(resume=resume_id)
 
-class ResumeSoftSkillsCreateView(BaseResumeView, generics.CreateAPIView):
-    serializer_class = ResumeSoftSkillsSerializer
+class ResumeSoftSkillCreateView(BaseResumeView, generics.CreateAPIView):
+    serializer_class = ResumeSoftSkillSerializer
+    def perform_create(self, serializer):
+        resume_id = self.kwargs['resume_id']
+        serializer.save(resume_id=resume_id)
+
+class ResumeLanguageListView(BaseResumeView, generics.ListAPIView):
+    serializer_class = ResumeLanguageSerializer
+    def get_queryset(self):
+        """
+        This view should return a list of all the languages
+        for the resume as determined by the resume_id portion of the URL.
+        """
+        resume_id = self.kwargs['resume_id']
+        return Language.objects.filter(resume=resume_id)
+
+class ResumeLanguageCreateView(BaseResumeView, generics.CreateAPIView):
+    serializer_class = ResumeLanguageSerializer
     def perform_create(self, serializer):
         resume_id = self.kwargs['resume_id']
         serializer.save(resume_id=resume_id)
