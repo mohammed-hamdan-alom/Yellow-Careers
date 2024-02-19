@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
     const [loading, setLoading] = useState(true);
 
-    const userEmail = authTokens ? jwtDecode(authTokens.access).email : null;
+    const userId = authTokens ? jwtDecode(authTokens.access).user_id : null;
 
 
     const loginUser = async (email, password) => {
@@ -99,18 +99,25 @@ export const AuthProvider = ({ children }) => {
     };
 
     const updateUserProfile = async (formData) => {
-        const response = await fetch(`http://127.0.0.1:8000/api/job_seeker_update/${userEmail}/`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        const updatedFormData = {
+            ...formData,
+            user_id: userId,
+        };
+    
+        const response = await fetch(`http://127.0.0.1:8000/api/job_seeker_update/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                // If you need to send a token for authentication, include it here
+                // 'Authorization': `Bearer ${authTokens.access}`,
+            },
+            body: JSON.stringify(updatedFormData),
         });
-        
+    
         if (response.ok) {
             const updatedUser = await response.json();
             // Update user state with updated information
-            // setUser(updatedUser); Assuming you have a setUser method to update the user state
+            // setUser(updatedUser); // Assuming you have a setUser method to update the user state
             swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
         } else {
             swal.fire("Update Failed", "There was an error updating your profile.", "error");

@@ -1,23 +1,30 @@
-from api.models import JobSeeker
-
+from api.models import JobSeeker, Address
 from rest_framework import serializers
 
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ['city', 'post_code', 'country']
+
+
 class JobSeekerSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+
     class Meta:
         model = JobSeeker
-        fields = ['first_name', 'last_name', 'other_names', 'phone_number', 'dob', 'sex', 'nationality']
-
-    def create(self, validated_data):
-        return JobSeeker.objects.create(**validated_data)
+        fields = ['email', 'first_name', 'last_name', 'other_names', 'phone_number', 'dob', 'sex', 'nationality', 'address']
+        extra_kwargs = {
+            'email': {'read_only': True}
+        }
 
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.other_names = validated_data.get('other_names', instance.other_names)
-        instance.phone_number = validated_data.get('phone_number', instance.phone_number)
-        instance.dob = validated_data.get('dob', instance.dob)
-        instance.address = validated_data.get('address', instance.address)
-        instance.sex = validated_data.get('sex', instance.sex)
-        instance.nationality = validated_data.get('nationality', instance.nationality)
+        address_data = validated_data.pop('address', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        if address_data:
+            AddressSerializer().update(instance.address, address_data)
+
         instance.save()
         return instance
