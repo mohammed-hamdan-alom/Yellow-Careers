@@ -13,6 +13,12 @@ class ResumeSoftSkillSerializer(serializers.ModelSerializer):
         fields = ('id','skill')
         read_only_fields = ('id', 'created_at', 'updated_at')
 
+class ResumeTechnicalSkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TechnicalSkill
+        fields = ('id','skill')
+        read_only_fields = ('id', 'created_at', 'updated_at')
+
 class ResumeLanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language

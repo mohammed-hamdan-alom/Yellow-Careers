@@ -9,7 +9,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(JobSeeker)
 class JobSeekerAdmin(admin.ModelAdmin):
-    list_display = ['id', 'first_name','last_name','email','phone_number','dob','nationality']
+    list_display = ['id', 'first_name','last_name','email','phone_number','dob','nationality','resume']
 
 @admin.register(Employer)
 class EmployerAdmin(admin.ModelAdmin):
@@ -26,7 +26,7 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 @admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
-    list_display = ['about','experience']
+    list_display = ['id','about','experience']
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
@@ -49,7 +49,7 @@ class CompanyAdmin(admin.ModelAdmin):
     ordering = ['id']
 
 @admin.register(EmployerJobRelation)
-class CompanyAdmin(admin.ModelAdmin):
+class employerJobRelationAdmin(admin.ModelAdmin):
     list_display = ['employer','job']
     ordering = ['employer']
 

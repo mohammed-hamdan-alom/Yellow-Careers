@@ -51,6 +51,9 @@ urlpatterns = [
     path('resumes/<int:resume_id>/soft-skills/', ResumeSoftSkillListView.as_view(), name='resume-soft-skills-list'),
     path('resumes/<int:resume_id>/soft-skills/create/', ResumeSoftSkillCreateView.as_view(), name='resume-soft-skills-post'),
     
+    path('resumes/<int:resume_id>/technical-skills/', ResumeTechnicalSkillListView.as_view(), name='resume-technical-skills-list'),
+    path('resumes/<int:resume_id>/technical-skills/create/', ResumeTechnicalSkillCreateView.as_view(), name='resume-technical-skills-post'),
+
     path('resumes/<int:resume_id>/languages/', ResumeLanguageListView.as_view(), name='resume-languages-list'),
     path('resumes/<int:resume_id>/languages/create/', ResumeLanguageCreateView.as_view(), name='resume-languages-post'),
     path('job-seekers/', JobSeekerListView.as_view(), name='job-seeker-list'),

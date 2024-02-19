@@ -15,6 +15,8 @@ function UpdateResumePage() {
   const [resumeId, setResumeId] = useState(null);
   const [softSkills, setSoftSkills] = useState([]);
   const [softSkill, setSoftSkill] = useState([]);
+  const [technicalSkills, setTechnicalSkills] = useState([]);
+  const [technicalSkill, setTechnicalSkill] = useState([]);
   const [languages, setLanguages] = useState([]);
   const[language, setLanguage] = useState({
     language: '',
@@ -28,6 +30,7 @@ function UpdateResumePage() {
     about: '',
     experience: '',
     softSkill: '',
+    techSkill: ''
   });
   
 // Decode token to get user information
@@ -82,6 +85,12 @@ function UpdateResumePage() {
     // .then(data => console.log(data))
     .catch(error => console.error('Error:', error));
 
+    // Fetch the current resume's technical skills
+    fetch(`http://localhost:8000/api/resumes/${resumeId}/technical-skills/`)
+    .then(response => response.json())
+    .then(data => setTechnicalSkills(data.map(item=>item.skill)))
+    .catch(error=>console.error('Error:', error));
+
     //Fetch the current resume's languages
     fetch(`http://localhost:8000/api/resumes/${resumeId}/languages/`)
     .then(response => response.json())
@@ -98,9 +107,15 @@ function UpdateResumePage() {
       [event.target.name]: event.target.value
     });
   };
+
   const handleSoftSkillChange = (event) => {
     setSoftSkill(event.target.value);
   };
+
+  const handleTechnicalSkillChange = (event) => {
+    setTechnicalSkill(event.target.value);
+  };
+
   const handleLanguageChange = (event) => {
     setLanguage({
       ...language,
@@ -199,6 +214,103 @@ const handleSubmitSoftSkills = (event) => {
 };
 
 
+const handleSubmitTechnicalSkills = (event) => {
+  event.preventDefault();
+  AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/technical-skills/create/`, {
+      skill:technicalSkill
+  }).then((response) => {
+      console.log('Success: ',response);
+      swal.fire({
+        title: "Technical Skill Added",
+        icon: "success",
+        toast: true,
+        timer: 6000,
+        position: 'top-right',
+        timerProgressBar: true,
+        showConfirmButton: false,
+    });
+    setTechnicalSkill('');
+    setErrors({
+      technicalSkill: '',
+    });
+
+    setTechnicalSkills(prevTechnicalSkills => [...prevTechnicalSkills, technicalSkill]);
+
+  }).catch((error) => {
+      console.error('Error:', error);
+      let errorMessages = '';
+      if (error.response && error.response.data) {
+        // Parse the error response
+        // TODO: Doesnt show error properly
+        errorMessages = Object.values(error.response.data).join(' ');
+        setErrors(error.response.data);};
+      swal.fire({
+        title: "Creating Technical Skill Failed",
+        icon: "error",
+        toast: true,
+        timer: 6000,
+        position: 'top-right',
+        timerProgressBar: true,
+        showConfirmButton: false,
+    });
+  });
+
+};
+
+
+const handleSubmitLanguages = (event) => {
+  event.preventDefault();
+  AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/languages/create/`, {
+      language:language.language,
+      spoken_proficiency:language.spoken_proficiency,
+      written_proficiency:language.written_proficiency
+  }).then((response) => {
+      console.log('Success: ',response);
+      swal.fire({
+        title: "Language Added",
+        icon: "success",
+        toast: true,
+        timer: 6000,
+        position: 'top-right',
+        timerProgressBar: true,
+        showConfirmButton: false,
+    });
+    setLanguage({
+      language: '',
+      spoken_proficiency : '',
+      written_proficiency : ''
+    });
+    setErrors({
+      language: '',
+      spoken_proficiency : '',
+      written_proficiency : ''
+    });
+    
+
+    setLanguages(prevLanguages => [...prevLanguages, language]);
+
+  }).catch((error) => {
+      console.error('Error:', error);
+      let errorMessages = '';
+      if (error.response && error.response.data) {
+        // Parse the error response
+        // TODO: Doesnt show error properly
+        errorMessages = Object.values(error.response.data).join(' ');
+        setErrors(error.response.data);};
+      swal.fire({
+        title: "Creating Langauge Failed",
+        icon: "error",
+        toast: true,
+        timer: 6000,
+        position: 'top-right',
+        timerProgressBar: true,
+        showConfirmButton: false,
+    });
+  });
+
+};
+
+
 return (
   <div>
     <h2>Resume info</h2>
@@ -251,20 +363,73 @@ return (
       <button type="submit">Add Soft Skill</button>
     </form>
 
+    <h2>Technical Skills</h2>
+    <ul>
+    {technicalSkills.map((skill, index) => (
+      <li key={index}>{skill}</li>
+    ))}
+    </ul>
+    <form onSubmit={handleSubmitTechnicalSkills}>
+      <div>
+        <label>
+          Technical Skill:
+          <input type="text" name="technicalSkill" value={technicalSkill} onChange={handleTechnicalSkillChange} />
+          {errors.technicalSkill && <p>{errors.technicalSkill}</p>}
+        </label>
+      </div>
+      <button type="submit">Add Technical Skill</button>
+    </form>
+
     <h2>Languages</h2>
     <ul>
     {languages.map((language, index) => (
       <li key={index}>
         <p>Language: {language.language}</p>
-        <p>Spoken proficiency: {language.spoken_proficiency || 'Not provided'}</p>
-        <p>Written proficiency: {language.written_proficiency || 'Not provided'}</p>
+        <p>Spoken proficiency: {language.spoken_proficiency}</p>
+        <p>Written proficiency: {language.written_proficiency}</p>
       </li>
     ))}
-  </ul>
+    </ul>
+    <form onSubmit={handleSubmitLanguages}>
+      <div>
+        <label>
+          Language:
+          <input type="text" name="language" value={language.language} onChange={handleLanguageChange} />
+          {errors.language && <p>{errors.language}</p>}
+        </label>
+      </div>
+      <div>
+        <label>
+          Spoken Proficiency:
+          <select name="spoken_proficiency" value={language.spoken_proficiency} onChange={handleLanguageChange}>
+          <option value="">Select Proficiency</option>
+          <option value="B">Basic</option>
+          <option value="I">Intermediate</option>
+          <option value="A">Advanced</option>
+          <option value="F">Fluent</option>
+          </select>
+          {errors.spoken_proficiency && <p>{errors.spoken_proficiency}</p>}
+        </label>
+      </div>
+      <div>
+        <label>
+        Written Proficiency:
+          <select name="written_proficiency" value={language.written_proficiency} onChange={handleLanguageChange}>
+          <option value="">Select Proficiency</option>
+          <option value="B">Basic</option>
+          <option value="I">Intermediate</option>
+          <option value="A">Advanced</option>
+          <option value="F">Fluent</option>
+          </select>
+          {errors.written_proficiency && <p>{errors.written_proficiency}</p>}
+        </label>
+      </div>
+      <button type="submit">Add Language</button>
+    </form>
 
 
-  </div>
-  );
+      </div>
+    );
 }
 
 export default UpdateResumePage;
