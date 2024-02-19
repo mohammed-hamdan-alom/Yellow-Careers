@@ -1,17 +1,21 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import JobSummary from "../job_summary/JobSummary";
 const SearchDatabase = ({ database }) => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
 
-    const handleSearch = (database) => {
-        const results = database.filter(item => item.title.toLowerCase().includes(query.toLowerCase()));
+    const handleSearch = () => {
+        const results = database.filter(item => item.title.toLowerCase().startsWith(query.toLowerCase()));
         setResults(results);
     };
 
     const handleChange = event => {
         setQuery(event.target.value);
     };
+
+    useEffect(() => {
+        setResults(database);
+    }, [database]);
 
     return (
         <div>
@@ -20,9 +24,18 @@ const SearchDatabase = ({ database }) => {
                 onChange={handleChange} />
             <button onClick={() => handleSearch(database)}>Search</button>
             <ul>
-                {results.map(item => (
-                    <li key={item.id}>{item.title}</li>
+            <ul className='job-summary'>
+                {results.map(job => (
+                    <JobSummary
+                        key={job.id}
+                        id={job.id}
+                        title={job.title}
+                        hirer={job.hirer}
+                        description={job.description}
+                        location={job.address}
+                    />
                 ))}
+            </ul>
             </ul>
         </div>
     );

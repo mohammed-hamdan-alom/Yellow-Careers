@@ -17,6 +17,8 @@ const JobListPage = () => {
         return ""
     }
 
+    
+
     useEffect(() => {
         AxiosInstance.get("api/jobs/all-jobs")
             .then((res) => {
@@ -30,18 +32,6 @@ const JobListPage = () => {
         <div>
             <h1>All jobs</h1>
             <SearchDatabase database={jobs} />
-            <ul className='job-summary'>
-                {jobs.map(job => (
-                    <JobSummary
-                        key={job.id}
-                        id={job.id}
-                        title={job.title}
-                        hirer={job.hirer}
-                        description={job.description}
-                        location={GetLocation(job.address)}
-                    />
-                ))}
-            </ul>
         </div>
     )
 };
