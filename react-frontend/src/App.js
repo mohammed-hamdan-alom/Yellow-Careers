@@ -4,7 +4,6 @@ import Register from './components/register/Register';
 import { AuthProvider } from './context/AuthContext';
 import DashBoardPage from "./components/dashboard/DashBoardPage";
 import JobSeekerLayout from "./components/layout/JobSeekerLayout";
-import SearchPage from "./components/search/SearchPage";
 import LandingPage from "./components/landing_page/LandingPage";
 import JobCreation from "./components/job_creation/JobCreation";
 import JobListPage from "./components/job_list/JobListPage";
@@ -23,7 +22,6 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
           <Route path="dashboard" element={<DashBoardPage />} />
-          <Route path="search" element={<SearchPage />} />
           <Route path="resume" element={<ResumePage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="all-jobs" element={<JobListPage />} />
