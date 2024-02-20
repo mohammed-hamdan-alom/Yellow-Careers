@@ -1,6 +1,7 @@
 from django.test import TestCase
-from api.models import Resume, SoftSkill, TechnicalSkill, Language
-from api.serializers import ResumeSerializer, ResumeSoftSkillSerializer, ResumeTechnicalSkillSerializer, ResumeLanguageSerializer
+from api.models import Resume, SoftSkill, TechnicalSkill, Language, ProfessionalExperience, Education
+from api.serializers import ResumeSerializer, ResumeSoftSkillSerializer, ResumeTechnicalSkillSerializer, ResumeLanguageSerializer, ProfessionalExperienceSerializer, EducationSerializer
+import datetime
 
 class ResumeSerializerTestCase(TestCase):
 
@@ -189,4 +190,57 @@ class ResumeLanguageSerializerTestCase(TestCase):
             'written_proficiency' : 'B'
         }
         serializer = ResumeLanguageSerializer(data=invalid_data)
+        self.assertFalse(serializer.is_valid())
+
+class ProfessionalExperienceSerializerTestCase(TestCase):
+
+    fixtures = ['api/tests/fixtures/addresses.json',
+                'api/tests/fixtures/answers.json',
+                'api/tests/fixtures/applications.json',
+                'api/tests/fixtures/companies.json',
+                'api/tests/fixtures/employers.json',
+                'api/tests/fixtures/jobs.json',
+                'api/tests/fixtures/jobseekers.json',
+                'api/tests/fixtures/questions.json',
+                'api/tests/fixtures/resumes.json',
+                'api/tests/fixtures/users.json',]
+    
+    def setUp(self):
+        self.professional_experience = ProfessionalExperience.objects.get(pk=1)
+        self.serializer = ProfessionalExperienceSerializer(instance=self.professional_experience)
+    
+    def test_serializer_fields(self):
+        serializer = ProfessionalExperienceSerializer()
+        expected_fields = {'id' ,'start_date', 'end_date', 'company', 'position', 'description'}
+        self.assertEqual(set(serializer.fields.keys()), expected_fields)
+
+
+    # def test_serializer_data(self):
+    #     expected_data = {
+    #         'id' : self.professional_experience.id,
+    #         'start_date' : self.professional_experience.start_date,
+    #         'end_date' : self.professional_experience.end_date,
+    #         'company' : self.professional_experience.company,
+    #         'position' : self.professional_experience.position,
+    #         'description' : self.professional_experience.description
+    #     }
+    #     self.assertEqual(self.serializer.data, expected_data)
+
+    
+    def test_serializer_validation(self):
+        # Test validation with empty data
+        serializer = ProfessionalExperienceSerializer(data={})
+        self.assertFalse(serializer.is_valid())
+
+
+        # Test validation with invalid data (incorrect field names)
+        invalid_data = {
+            'incorrect_field': 'random',
+            'start_date' : '12-02-2003',
+            'end_date' : '12-02-2004',
+            'company' : 2,
+            'position' : 'manager',
+            'descriptionnn' : 'too many ns'
+        }
+        serializer = ProfessionalExperienceSerializer(data=invalid_data)
         self.assertFalse(serializer.is_valid())

@@ -54,6 +54,12 @@ urlpatterns = [
     path('resumes/<int:resume_id>/technical-skills/', ResumeTechnicalSkillListView.as_view(), name='resume-technical-skills-list'),
     path('resumes/<int:resume_id>/technical-skills/create/', ResumeTechnicalSkillCreateView.as_view(), name='resume-technical-skills-post'),
 
+    path('resumes/<int:resume_id>/educations/', EducationListView.as_view(), name='resume-education-list'),
+    path('resumes/<int:resume_id>/educations/create/', EducationCreateView.as_view(), name='resume-educations-post'),
+
+    path('resumes/<int:resume_id>/professional-experiences/', ProfessionalExperienceListView.as_view(), name='resume-professional-experiences-list'),
+    path('resumes/<int:resume_id>/professional-experiences/create/', ProfessionalExperienceCreateView.as_view(), name='resume-professional-experiences-post'),
+
     path('resumes/<int:resume_id>/languages/', ResumeLanguageListView.as_view(), name='resume-languages-list'),
     path('resumes/<int:resume_id>/languages/create/', ResumeLanguageCreateView.as_view(), name='resume-languages-post'),
     path('job-seekers/', JobSeekerListView.as_view(), name='job-seeker-list'),

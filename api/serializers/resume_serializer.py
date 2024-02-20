@@ -24,3 +24,18 @@ class ResumeLanguageSerializer(serializers.ModelSerializer):
         model = Language
         fields = ('id','language','spoken_proficiency','written_proficiency')
         read_only_fields = ('id', 'created_at', 'updated_at')
+
+class EducationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Education
+        fields = ('id','start_date', 'end_date', 'level', 'institution', 'grade')
+        read_only_fields = ('id', 'created_at', 'updated_at')
+
+class ProfessionalExperienceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProfessionalExperience
+        fields = ('id' ,'start_date', 'end_date', 'company', 'position', 'description')
+        read_only_fields = ('id', 'created_at', 'updated_at')
+
+
+
