@@ -43,22 +43,23 @@ class JobSeekerRegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = JobSeeker.objects.create(
+        jobseeker = JobSeeker.objects.create(
             email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            other_names=validated_data['other_names'],
             dob=validated_data['dob'],
+            phone_number=validated_data['phone_number'],
             nationality=validated_data['nationality'],
             sex=validated_data['sex'],
         )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
+        jobseeker.set_password(validated_data['password'])
+        jobseeker.save()
+        return jobseeker
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
         token['email'] = user.email
-        token['first_name'] = user.first_name
-        token['last_name'] = user.last_name
-        token['phone_number'] = user.phone_number
         return token

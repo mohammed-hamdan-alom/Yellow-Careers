@@ -8,19 +8,19 @@ const AuthContext = createContext();
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-    const [authTokens, setAuthTokens] = useState(() =>
+    let [authTokens, setAuthTokens] = useState(() =>
         localStorage.getItem("authTokens")
             ? JSON.parse(localStorage.getItem("authTokens"))
-            : null
+            : {access: null, refresh: null}
     );
     
-    const [user, setUser] = useState(() => 
-        localStorage.getItem("authTokens")
-            ? jwtDecode(localStorage.getItem("authTokens").access)
+    let [user, setUser] = useState(() => 
+        authTokens && authTokens.access
+            ? jwtDecode(authTokens.access)
             : null
     );
 
-    const [loading, setLoading] = useState(true);
+    let [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -64,51 +64,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // const registerUser = async (email, password, password2, userType, additionalFields) => {
-    //     let url = '';
-    //     let successMessage = '';
-    //     let requestBody = { email, password, password2, ...additionalFields };
-    
-    // if (userType === 'employer') {
-    //     url = "http://127.0.0.1:8000/api/employer-register/";
-    //     successMessage = "Employer registration successful. Proceed to login.";
-    // } else if (userType === 'jobseeker') {
-    //     url = "http://127.0.0.1:8000/api/jobseeker-register/";
-    //     successMessage = "Job Seeker registration successful. Proceed to login.";
-    // }
-        
-    //     const response = await fetch(url, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type":"application/json"
-    //         },
-    //         body: JSON.stringify(requestBody)
-    //     });
-    //     console.log(response.body)
-    //     if(response.status === 201){
-    //         navigate("/login");
-    //         swal.fire({
-    //             title: successMessage,
-    //             icon: "success",
-    //             toast: true,
-    //             timer: 6000,
-    //             position: 'top-right',
-    //             timerProgressBar: true,
-    //             showConfirmButton: false,
-    //         });
-    //     } else {
-    //         swal.fire({
-    //             title: "An Error Occurred " + response.status,
-    //             icon: "error",
-    //             toast: true,
-    //             timer: 6000,
-    //             position: 'top-right',
-    //             timerProgressBar: true,
-    //             showConfirmButton: false,
-    //         });
-    //     }
-    // };
-
     const registerJobSeeker = async (email, password, password2, first_name, last_name, other_names, dob, phone_number, nationality, sex) => {
         const response = await fetch("http://127.0.0.1:8000/api/jobseeker-register/", {
             method: "POST",
@@ -142,6 +97,30 @@ export const AuthProvider = ({ children }) => {
             });
         }
     };
+
+    let updateToken = async () => {
+        let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'refresh':authTokens?.refresh})
+        })
+
+        let data = await response.json()
+        
+        if (response.status === 200) {
+            setAuthTokens(data)
+            setUser(jwtDecode(data.access))
+            localStorage.setItem('authTokens', JSON.stringify(data))
+        } else {
+            logoutUser()
+        }
+
+        if (loading) {
+            setLoading(false)
+        }
+    }
     
 
     const logoutUser = () => {
@@ -170,12 +149,22 @@ export const AuthProvider = ({ children }) => {
         logoutUser,
     };
 
-    useEffect(() => {
-        if (authTokens) {
-            setUser(jwtDecode(authTokens.access));
+    useEffect(()=> {
+
+        if(loading){
+            updateToken()
         }
-        setLoading(false);
-    }, [authTokens, loading]);
+
+        let fourMinutes = 1000 * 60 * 4
+
+        let interval =  setInterval(()=> {
+            if (authTokens) {
+                updateToken()
+            }
+        }, fourMinutes)
+        return () => clearInterval(interval)
+
+    }, [authTokens, loading])
 
     return (
         <AuthContext.Provider value={contextData}>

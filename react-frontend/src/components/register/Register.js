@@ -258,7 +258,7 @@ const Register = () => {
             name='first_name'
             type='text'
             id='firstName'
-            onChange={e => setFirstName(e.target.value.trim())}
+            onChange={e => setFirstName(e.target.value)}
             required
           />
         </div>
@@ -268,7 +268,7 @@ const Register = () => {
             name='last_name'
             type='text'
             id='lastName'
-            onChange={e => setLastName(e.target.value.trim())}
+            onChange={e => setLastName(e.target.value)}
             required
           />
         </div>
@@ -278,7 +278,7 @@ const Register = () => {
             name='other_names'
             type='text'
             id='otherNames'
-            onChange={e => setOtherNames(e.target.value.trim())}
+            onChange={e => setOtherNames(e.target.value)}
           />
         </div>
         <div className="form-group">
