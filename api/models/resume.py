@@ -35,7 +35,7 @@ class Education(models.Model):
         DOCTORATE = "PHD" ,_('Doctorate')
     start_date = models.DateField(blank=False)
     end_date = models.DateField(blank=False)
-    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=True)
+    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
     level = models.CharField(max_length=15,choices=Levels.choices) 
     institution = models.CharField(max_length=100)
     grade = models.CharField(max_length=15, blank=False)
@@ -45,7 +45,7 @@ class ProfessionalExperience(models.Model):
     """Model that represents a professional experience"""
     start_date = models.DateField(blank=False)
     end_date = models.DateField(blank=False)
-    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=True)
+    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
     company = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
     description = models.TextField(max_length=2000,blank=True)
