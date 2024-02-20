@@ -23,6 +23,32 @@ function UpdateResumePage() {
     spoken_proficiency: '',
     written_proficiency: '',
   });
+  const [educations, setEducations] = useState([])
+  const [education, setEducation] = useState({
+    start_date : '',
+    end_date : '',
+    level:'',
+    institution:'',
+    grade:'',
+    address:{
+      city:'',
+      post_code:'',
+      country:''
+    }
+  })
+  const [professionalExperiences, setProfessionalExperiences] = useState([])
+  const [professionalExperience, setProfessionalExperience] = useState({
+    start_date:'',
+    end_date:'',
+    company:'',
+    position:'',
+    description:'',
+    address:{
+      city:'',
+      post_code:'',
+      country:''
+    }
+  })
 
   const [errors, setErrors] = useState({
     github: '',
@@ -30,7 +56,8 @@ function UpdateResumePage() {
     about: '',
     experience: '',
     softSkill: '',
-    techSkill: ''
+    techSkill: '',
+    education:''
   });
   
 // Decode token to get user information
@@ -97,7 +124,23 @@ function UpdateResumePage() {
     .then(data => setLanguages(data))
     .then(data => console.log(data))
     .catch(error => console.error('Error:', error));
+
+    //Fetch the current resume's educations
+    fetch(`http://localhost:8000/api/resumes/${resumeId}/educations/`)
+    .then(response => response.json())
+    .then(data => setEducations(data))
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+
+    //Fetch the current resume's professional experiences
+    fetch(`http://localhost:8000/api/resumes/${resumeId}/professional-experiences/`)
+    .then(response => response.json())
+    .then(data => setProfessionalExperiences(data))
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+
   }, [resumeId]);
+
 
 
   // Handle changes in the forms
@@ -122,6 +165,33 @@ function UpdateResumePage() {
       [event.target.name]: event.target.value
     }
     )};
+
+  const handleEducationChange = (event) => {
+    setEducation({
+      ...education,
+      [event.target.name]: event.target.value
+    }
+    )};
+
+  const handleProfessionalExperienceChange = (event) => {
+    const { name, value } = event.target;
+    if (name.includes("address")) {
+      const addressField = name.split(".")[1]; // Extract the address field name
+      setProfessionalExperience({
+        ...professionalExperience,
+        address: {
+          ...professionalExperience.address,
+          [addressField]: value,
+        },
+      });
+    } else {
+      setProfessionalExperience({
+        ...professionalExperience,
+        [name]: value,
+      });
+    }
+  };
+  
 
   // PUT request when form submitted
   const handleSubmitResume = (event) => {
@@ -311,6 +381,150 @@ const handleSubmitLanguages = (event) => {
 };
 
 
+const handleSubmitProfessionalExperiences = (event) => {
+  event.preventDefault();
+  AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/professional-experiences/create/`, {
+      start_date:professionalExperience.start_date,
+      end_date : professionalExperience.end_date,
+      company: professionalExperience.company,
+      description: professionalExperience.description,
+      address:{
+        city:professionalExperience.address.city,
+        post_code:professionalExperience.address.post_code,
+        country:professionalExperience.address.country
+      }
+  }).then((response) => {
+      console.log('Success: ',response);
+      swal.fire({
+        title: "Professional Experience Added",
+        icon: "success",
+        toast: true,
+        timer: 6000,
+        position: 'top-right',
+        timerProgressBar: true,
+        showConfirmButton: false,
+    });
+    setProfessionalExperience({
+      start_date : '',
+      end_date : '',
+      company:'',
+      position:'',
+      address:{
+        city:'',
+        post_code:'',
+        country:''
+      }
+    });
+    setErrors({
+      start_date : '',
+      end_date : '',
+      company:'',
+      position:'',
+      address:{
+        city:'',
+        post_code:'',
+        country:''
+      }
+    });
+
+    setProfessionalExperiences(prevProfessionalExperiences => [...prevProfessionalExperiences, professionalExperience]);
+
+    
+  }).catch((error) => {
+      console.error('Error:', error);
+      let errorMessages = '';
+      if (error.response && error.response.data) {
+        // Parse the error response
+        // TODO: Doesnt show error properly
+        errorMessages = Object.values(error.response.data).join(' ');
+        setErrors(error.response.data);};
+      swal.fire({
+        title: "Creating professional experience Failed",
+        icon: "error",
+        toast: true,
+        timer: 6000,
+        position: 'top-right',
+        timerProgressBar: true,
+        showConfirmButton: false,
+    });
+  });
+
+};
+
+const handleSubmitEducations = (event) => {
+  event.preventDefault();
+  AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/educations/create/`, {
+      start_date:education.start_date,
+      end_date : education.end_date,
+      level: education.level,
+      institution: education.institution,
+      grade: education.grade,
+      address:{
+        city:education.address.city,
+        post_code:education.address.post_code,
+        country:education.address.country
+      }
+  }).then((response) => {
+      console.log('Success: ',response);
+      swal.fire({
+        title: "Education Added",
+        icon: "success",
+        toast: true,
+        timer: 6000,
+        position: 'top-right',
+        timerProgressBar: true,
+        showConfirmButton: false,
+    });
+    setEducation({
+      start_date : '',
+      end_date : '',
+      level:'',
+      institution:'',
+      grade:'',
+      address:{
+        city:'',
+        post_code:'',
+        country:''
+      }
+    });
+    setErrors({
+      start_date : '',
+      end_date : '',
+      level:'',
+      institution:'',
+      grade:'',
+      address:{
+        city:'',
+        post_code:'',
+        country:''
+      }
+    });
+
+    setEducations(prevEducations => [...prevEducations, education]);
+
+    
+  }).catch((error) => {
+      console.error('Error:', error);
+      let errorMessages = '';
+      if (error.response && error.response.data) {
+        // Parse the error response
+        // TODO: Doesnt show error properly
+        errorMessages = Object.values(error.response.data).join(' ');
+        setErrors(error.response.data);};
+      swal.fire({
+        title: "Creating Education Failed",
+        icon: "error",
+        toast: true,
+        timer: 6000,
+        position: 'top-right',
+        timerProgressBar: true,
+        showConfirmButton: false,
+    });
+  });
+
+};
+
+
 return (
   <div>
     <h2>Resume info</h2>
@@ -426,6 +640,157 @@ return (
       </div>
       <button type="submit">Add Language</button>
     </form>
+
+    <h2>Education</h2>
+    <ul>
+    {educations.map((education, index) => (
+      <li key={index}>
+        <p>start date: {education.start_date}</p>
+        <p>end:date :  {education.end_date}</p>
+        <p>level: {education.level}</p>
+        <p>institution :  {education.institution}</p>
+        <p>grade: {education.grade}</p>
+        {education.address && ( 
+            <>
+              <p>City: {education.address.city}</p>
+              <p>Post Code: {education.address.post_code}</p>
+              <p>Country: {education.address.country}</p>
+            </>
+          )}
+      </li>
+    ))}
+    </ul>
+
+    <form onSubmit={handleSubmitEducations}>
+      <div>
+        <label>
+          start date:
+          <input type="date" name="start-date" defaultValue={education.start_date} onChange={handleEducationChange} />
+          {errors.education && <p>{errors.education}</p>}
+        </label>
+        <label>
+          end date:
+          <input type="date" name="end-date" defaultValue={education.end_date} onChange={handleEducationChange} />
+          {errors.education && <p>{errors.education}</p>}
+        </label>
+      </div>
+      <div>
+        <label>
+          level:
+          <select name="level" value={education.level} onChange={handleEducationChange}>
+          <option value="">Select level</option>
+          <option value="HS">High School</option>
+          <option value="BA">Bachelors</option>
+          <option value="MA">Masters</option>
+          <option value="PHD">Doctorate</option>
+          </select>
+          {errors.education && <p>{errors.education}</p>}
+        </label>
+      </div>
+      <label>
+          institution:
+          <input type="text" name="institution" value={education.institution} onChange={handleEducationChange} />
+          {errors.education && <p>{errors.education}</p>}
+        </label>
+        <label>
+          grade:
+          <input type="text" name="grade" value={education.grade} onChange={handleEducationChange} />
+          {errors.education && <p>{errors.education}</p>}
+        </label>
+
+          <h3>ADDRESS</h3>
+        <label>
+          city:
+          <input type="text" name="city" defaultValue={education.address.city} onChange={handleEducationChange} />
+          {errors.education && <p>{errors.education}</p>}
+        </label>
+
+        <label>
+          post code:
+          <input type="text" name="post-code" defaultValue={education.address.post_code} onChange={handleEducationChange} />
+          {errors.education && <p>{errors.education}</p>}
+        </label>
+
+        <label>
+          country:
+          <input type="text" name="country" defaultValue={education.address.country} onChange={handleEducationChange} />
+          {errors.education && <p>{errors.education}</p>}
+        </label>
+      
+      <button type="submit">Add Education</button>
+    </form>
+
+    <h2>Professional Experience</h2>
+    <ul>
+    {professionalExperiences.map((professionalExperience, index) => (
+      <li key={index}>
+        <p>start date: {professionalExperience.start_date}</p>
+        <p>end:date :  {professionalExperience.end_date}</p>
+        <p>company: {professionalExperience.company}</p>
+        <p>position :  {professionalExperience.position}</p>
+        {professionalExperience.address && ( 
+            <>
+              <p>City: {professionalExperience.address.city}</p>
+              <p>Post Code: {professionalExperience.address.post_code}</p>
+              <p>Country: {professionalExperience.address.country}</p>
+            </>
+          )}
+      </li>
+    ))}
+    </ul>
+
+    <form onSubmit={handleSubmitProfessionalExperiences}>
+      <div>
+        <label>
+          start date:
+          <input type="date" name="start_date" value={professionalExperience.start_date} onChange={handleProfessionalExperienceChange} />
+          {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+        </label>
+        <label>
+          end date:
+          <input type="date" name="end-date" value={professionalExperience.end_date} onChange={handleProfessionalExperienceChange} />
+          {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+        </label>
+      </div>
+      <label>
+          company:
+          <input type="text" name="company" value={professionalExperience.company} onChange={handleProfessionalExperienceChange} />
+          {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+        </label>
+        <label>
+          position:
+          <input type="text" name="position" value={professionalExperience.position} onChange={handleProfessionalExperienceChange} />
+          {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+        </label>
+        <label>
+          description:
+          <input type="text" name="description" value={professionalExperience.description} onChange={handleProfessionalExperienceChange} />
+          {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+        </label>
+
+          <h3>ADDRESS</h3>
+        <label>
+          city:
+          <input type="text" name="city" value={professionalExperience.address.city} onChange={handleProfessionalExperienceChange} />
+          {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+        </label>
+
+        <label>
+          post code:
+          <input type="text" name="post_code" value={professionalExperience.address.post_code} onChange={handleProfessionalExperienceChange} />
+          {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+        </label>
+
+        <label>
+          country:
+          <input type="text" name="country" value={professionalExperience.address.country} onChange={handleProfessionalExperienceChange} />
+          {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+        </label>
+      
+      <button type="submit">Add professional experience</button>
+    </form>
+    
+
 
 
       </div>
