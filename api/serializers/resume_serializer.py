@@ -40,6 +40,25 @@ class EducationSerializer(serializers.ModelSerializer):
         education = Education.objects.create(address=address, **validated_data)
         return education
 
+    def update(self, instance, validated_data):
+        address_data = validated_data.pop('address', None)
+        if address_data:
+            address_serializer = AddressSerializer(instance.address, data=address_data)
+            if address_serializer.is_valid():
+                address_serializer.save()
+            else:
+                raise serializers.ValidationError(address_serializer.errors)
+
+        # Update the Education instance
+        instance.start_date = validated_data.get('start_date', instance.start_date)
+        instance.end_date = validated_data.get('end_date', instance.end_date)
+        instance.level = validated_data.get('level', instance.level)
+        instance.institution = validated_data.get('institution', instance.institution)
+        instance.grade = validated_data.get('grade', instance.grade)
+        instance.save()
+
+        return instance
+
 class ProfessionalExperienceSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     class Meta:
@@ -53,6 +72,24 @@ class ProfessionalExperienceSerializer(serializers.ModelSerializer):
 
         professional_experience = ProfessionalExperience.objects.create(address=address, **validated_data)
         return professional_experience
+    
+    def update(self, instance, validated_data):
+        address_data = validated_data.pop('address', None)
+        if address_data:
+            address_serializer = AddressSerializer(instance.address, data=address_data)
+            if address_serializer.is_valid():
+                address_serializer.save()
+            else:
+                raise serializers.ValidationError(address_serializer.errors)
+
+        # Update the Education instance
+        instance.start_date = validated_data.get('start_date', instance.start_date)
+        instance.end_date = validated_data.get('end_date', instance.end_date)
+        instance.company = validated_data.get('company', instance.company)
+        instance.position = validated_data.get('position', instance.position)
+        instance.save()
+
+        return instance
 
 
 

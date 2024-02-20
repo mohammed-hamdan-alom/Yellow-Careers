@@ -35,6 +35,12 @@ class ResumeSoftSkillCreateView(BaseResumeView, generics.CreateAPIView):
         resume_id = self.kwargs['resume_id']
         serializer.save(resume_id=resume_id)
 
+class ResumeSoftSkillUpdateView(BaseResumeView,generics.RetrieveUpdateDestroyAPIView):
+    queryset = SoftSkill.objects.all()
+    serializer_class = ResumeSoftSkillSerializer
+    lookup_url_kwarg = 'pk'
+    
+
 class ResumeTechnicalSkillListView(BaseResumeView, generics.ListAPIView):
     serializer_class = ResumeTechnicalSkillSerializer
     def get_queryset(self):
@@ -50,6 +56,11 @@ class ResumeTechnicalSkillCreateView(BaseResumeView, generics.CreateAPIView):
     def perform_create(self, serializer):
         resume_id = self.kwargs['resume_id']
         serializer.save(resume_id=resume_id)
+
+class ResumeTechnicalSkillUpdateView(BaseResumeView,generics.RetrieveUpdateDestroyAPIView):
+    queryset = TechnicalSkill.objects.all()
+    serializer_class = ResumeTechnicalSkillSerializer
+    lookup_url_kwarg = 'pk'
 
 class ResumeLanguageListView(BaseResumeView, generics.ListAPIView):
     serializer_class = ResumeLanguageSerializer
@@ -67,6 +78,11 @@ class ResumeLanguageCreateView(BaseResumeView, generics.CreateAPIView):
         resume_id = self.kwargs['resume_id']
         serializer.save(resume_id=resume_id)
 
+class ResumeLanguageUpdateView(BaseResumeView,generics.RetrieveUpdateDestroyAPIView):
+    queryset = Language.objects.all()
+    serializer_class = ResumeLanguageSerializer
+    lookup_url_kwarg = 'pk'
+
 class EducationListView(BaseResumeView, generics.ListAPIView):
     serializer_class = EducationSerializer
     def get_queryset(self):
@@ -82,6 +98,11 @@ class EducationCreateView(BaseResumeView, generics.CreateAPIView):
     def perform_create(self, serializer):
         resume_id = self.kwargs['resume_id']
         serializer.save(resume_id=resume_id)
+
+class EducationUpdateView(BaseResumeView,generics.RetrieveUpdateDestroyAPIView):
+    queryset = Education.objects.all()
+    serializer_class = EducationSerializer
+    lookup_url_kwarg = 'pk'
 
 
 class ProfessionalExperienceListView(BaseResumeView, generics.ListAPIView):
@@ -99,3 +120,8 @@ class ProfessionalExperienceCreateView(BaseResumeView, generics.CreateAPIView):
     def perform_create(self, serializer):
         resume_id = self.kwargs['resume_id']
         serializer.save(resume_id=resume_id)
+
+class ProfessionalExperienceUpdateView(BaseResumeView,generics.RetrieveUpdateDestroyAPIView):
+    queryset = ProfessionalExperience.objects.all()
+    serializer_class = ProfessionalExperienceSerializer
+    lookup_url_kwarg = 'pk'
