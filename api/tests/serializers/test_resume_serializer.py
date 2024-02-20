@@ -1,0 +1,192 @@
+from django.test import TestCase
+from api.models import Resume, SoftSkill, TechnicalSkill, Language
+from api.serializers import ResumeSerializer, ResumeSoftSkillSerializer, ResumeTechnicalSkillSerializer, ResumeLanguageSerializer
+
+class ResumeSerializerTestCase(TestCase):
+
+    fixtures = ['api/tests/fixtures/addresses.json',
+                'api/tests/fixtures/answers.json',
+                'api/tests/fixtures/applications.json',
+                'api/tests/fixtures/companies.json',
+                'api/tests/fixtures/employers.json',
+                'api/tests/fixtures/jobs.json',
+                'api/tests/fixtures/jobseekers.json',
+                'api/tests/fixtures/questions.json',
+                'api/tests/fixtures/resumes.json',
+                'api/tests/fixtures/users.json',]
+    
+    def setUp(self):
+        self.resume = Resume.objects.get(pk=1)
+        self.serializer = ResumeSerializer(instance=self.resume)
+    
+    def test_serializer_fields(self):
+        serializer = ResumeSerializer()
+        expected_fields = {'id','github','linkedin', 'about', 'experience'}
+        self.assertEqual(set(serializer.fields.keys()), expected_fields)
+
+
+    def test_serializer_data(self):
+        expected_data = {
+            'id' : self.resume.id,
+            'github' : self.resume.github,
+            'linkedin' : self.resume.linkedin,
+            'about' : self.resume.about,
+            'experience' : self.resume.experience
+        }
+        self.assertEqual(self.serializer.data, expected_data)
+
+    
+    def test_serializer_validation(self):
+        # Test resume with empty data - is valid
+        serializer = ResumeSerializer(data={})
+        self.assertTrue(serializer.is_valid())
+
+
+        # Test validation with invalid data (missing required fields)
+        invalid_data = {
+            'githubb' : 'random', #doesn't exist
+            'linkedin' : 'random',
+            'about' : 'random',
+            'experience' :'random'
+        }
+        serializer = ResumeSerializer(data=invalid_data)
+        self.assertFalse(serializer.is_valid())
+
+
+class ResumeSoftSkillSerializerTestCase(TestCase):
+
+    fixtures = ['api/tests/fixtures/addresses.json',
+                'api/tests/fixtures/answers.json',
+                'api/tests/fixtures/applications.json',
+                'api/tests/fixtures/companies.json',
+                'api/tests/fixtures/employers.json',
+                'api/tests/fixtures/jobs.json',
+                'api/tests/fixtures/jobseekers.json',
+                'api/tests/fixtures/questions.json',
+                'api/tests/fixtures/resumes.json',
+                'api/tests/fixtures/users.json',]
+    
+    def setUp(self):
+        self.soft_skill = SoftSkill.objects.get(pk=1)
+        self.serializer = ResumeSoftSkillSerializer(instance=self.soft_skill)
+    
+    def test_serializer_fields(self):
+        serializer = ResumeSoftSkillSerializer()
+        expected_fields = {'id','skill'}
+        self.assertEqual(set(serializer.fields.keys()), expected_fields)
+
+
+    def test_serializer_data(self):
+        expected_data = {
+            'id' : self.soft_skill.id,
+            'skill' : self.soft_skill.skill,
+        }
+        self.assertEqual(self.serializer.data, expected_data)
+
+    
+    def test_serializer_validation(self):
+        # Test validation with empty data
+        serializer = ResumeSoftSkillSerializer(data={})
+        self.assertFalse(serializer.is_valid())
+
+
+        # Test validation with invalid data (missing required fields)
+        invalid_data = {
+            'incorrect_field': 'random',
+        }
+        serializer = ResumeSoftSkillSerializer(data=invalid_data)
+        self.assertFalse(serializer.is_valid())
+
+
+class ResumeTechnicalSkillSerializerTestCase(TestCase):
+
+    fixtures = ['api/tests/fixtures/addresses.json',
+                'api/tests/fixtures/answers.json',
+                'api/tests/fixtures/applications.json',
+                'api/tests/fixtures/companies.json',
+                'api/tests/fixtures/employers.json',
+                'api/tests/fixtures/jobs.json',
+                'api/tests/fixtures/jobseekers.json',
+                'api/tests/fixtures/questions.json',
+                'api/tests/fixtures/resumes.json',
+                'api/tests/fixtures/users.json',]
+    
+    def setUp(self):
+        self.technical_skill = TechnicalSkill.objects.get(pk=1)
+        self.serializer = ResumeTechnicalSkillSerializer(instance=self.technical_skill)
+    
+    def test_serializer_fields(self):
+        serializer = ResumeTechnicalSkillSerializer()
+        expected_fields = {'id','skill'}
+        self.assertEqual(set(serializer.fields.keys()), expected_fields)
+
+
+    def test_serializer_data(self):
+        expected_data = {
+            'id' : self.technical_skill.id,
+            'skill' : self.technical_skill.skill,
+        }
+        self.assertEqual(self.serializer.data, expected_data)
+
+    
+    def test_serializer_validation(self):
+        # Test validation with empty data
+        serializer = ResumeTechnicalSkillSerializer(data={})
+        self.assertFalse(serializer.is_valid())
+
+
+        # Test validation with invalid data (missing required fields)
+        invalid_data = {
+            'incorrect_field': 'random',
+        }
+        serializer = ResumeTechnicalSkillSerializer(data=invalid_data)
+        self.assertFalse(serializer.is_valid())
+
+
+class ResumeLanguageSerializerTestCase(TestCase):
+
+    fixtures = ['api/tests/fixtures/addresses.json',
+                'api/tests/fixtures/answers.json',
+                'api/tests/fixtures/applications.json',
+                'api/tests/fixtures/companies.json',
+                'api/tests/fixtures/employers.json',
+                'api/tests/fixtures/jobs.json',
+                'api/tests/fixtures/jobseekers.json',
+                'api/tests/fixtures/questions.json',
+                'api/tests/fixtures/resumes.json',
+                'api/tests/fixtures/users.json',]
+    
+    def setUp(self):
+        self.language = Language.objects.get(pk=1)
+        self.serializer = ResumeLanguageSerializer(instance=self.language)
+    
+    def test_serializer_fields(self):
+        serializer = ResumeLanguageSerializer()
+        expected_fields = {'id','language', 'spoken_proficiency', 'written_proficiency'}
+        self.assertEqual(set(serializer.fields.keys()), expected_fields)
+
+
+    def test_serializer_data(self):
+        expected_data = {
+            'id' : self.language.id,
+            'language' : self.language.language,
+            'spoken_proficiency' : self.language.spoken_proficiency,
+            'written_proficiency' : self.language.written_proficiency,
+        }
+        self.assertEqual(self.serializer.data, expected_data)
+
+    
+    def test_serializer_validation(self):
+        # Test validation with empty data
+        serializer = ResumeLanguageSerializer(data={})
+        self.assertFalse(serializer.is_valid())
+
+
+        # Test validation with invalid data (incorrect field names)
+        invalid_data = {
+            'incorrect_field': 'random',
+            'spoken_proficiency' : 'B',
+            'written_proficiency' : 'B'
+        }
+        serializer = ResumeLanguageSerializer(data=invalid_data)
+        self.assertFalse(serializer.is_valid())
