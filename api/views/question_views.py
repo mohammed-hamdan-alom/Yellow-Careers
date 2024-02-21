@@ -8,7 +8,7 @@ class BaseQuestionView:
     serializer_class = QuestionSerializer
 
 class QuestionListView(BaseQuestionView, generics.ListAPIView):
-
+    '''Retrieve all the questions of a job. The job id is passed as a parameter in the url.'''
     def get_queryset(self):
         job_id = self.kwargs['pk']
         job = Job.objects.get(id=job_id)

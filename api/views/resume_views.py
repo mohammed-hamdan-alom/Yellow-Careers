@@ -13,6 +13,10 @@ class ResumeListView(BaseResumeView, generics.ListAPIView):
     pass
 
 class ResumeRetrieveView(BaseResumeView, generics.RetrieveAPIView):
+    pass
+
+class UserResumeRetrieveView(BaseResumeView, generics.RetrieveAPIView):
+    '''Retrieve the resume of a job seeker. The job seeker id is passed as a parameter in the url.'''
     def get_object(self):
         job_seeker_id = self.kwargs['pk']
         job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id)

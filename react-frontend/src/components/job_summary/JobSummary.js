@@ -6,6 +6,7 @@ const JobSummary = ({ id, title, hirer, description, location }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    // navigate to the job details page
     navigate(`/job-seeker/job-detail/${id}`);
   };
 

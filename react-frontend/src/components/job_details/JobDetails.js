@@ -7,9 +7,6 @@ function JobDetails () {
     // get the user id from the context
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
-    
-
-    const applicationId = 1;  // Replace with your application id
 
     // get the job id from the url
     const { jobId } = useParams();
@@ -21,14 +18,13 @@ function JobDetails () {
     const [address, setAddress] = useState({}); // this is for the address
     const [company, setCompany] = useState({}); // this is for the company
 
-    // get the job details
     useEffect(() => {
         Promise.all([
-            AxiosInstance.get(`api/jobs/${jobId}/`),
-            AxiosInstance.get(`api/jobs/${jobId}/questions/`),
-            AxiosInstance.get(`api/job-seekers/${userId}/resume/`),
-            AxiosInstance.get(`api/jobs/${jobId}/address/`),
-            AxiosInstance.get(`api/jobs/${jobId}/company/`)
+            AxiosInstance.get(`api/jobs/${jobId}/`), // get the job details
+            AxiosInstance.get(`api/jobs/${jobId}/questions/`), // get the questions for the job
+            AxiosInstance.get(`api/job-seekers/${userId}/resume/`), // get the resume data of the job seeker
+            AxiosInstance.get(`api/jobs/${jobId}/address/`), // get the address data of the job
+            AxiosInstance.get(`api/jobs/${jobId}/company/`) // get the company data of the job
         ]).then((responses) => {
             setJob(responses[0].data);
             setQuestions(responses[1].data);
@@ -48,10 +44,10 @@ function JobDetails () {
 
     // this is to save the answer to the database
     const createAnswers = (applicationId) => {
-        // Send a POST request for each answer
+        // send a POST request for each answer
         for (const questionId in answers) {
             AxiosInstance.post(`api/answers/create/`, {
-                application: applicationId,  // Replace with your application id
+                application: applicationId,  
                 question: questionId,
                 answer: answers[questionId],
             })
@@ -60,20 +56,22 @@ function JobDetails () {
     };
 
 
-
+    // this is for applying for the job
     const handleApply = () => {
+        // create the application data
         const applicationData = {
             job_seeker: userId,
             job: jobId,
             resume: resume.id,
         }
         
+        // send a POST request to create the application
         AxiosInstance.post('api/applications/create/', applicationData)
         .then((response) => {
             const application = response.data;
             console.log('Created application:', application);
 
-            // The application's ID is now available as application.id
+            // the application's ID is now available as application.id
             createAnswers(application.id);
         })
         .catch((error) => console.error('Error creating application:', error));
@@ -90,6 +88,7 @@ function JobDetails () {
             <h1>{job.title}</h1>
             <h2>{address.country}</h2>
             <h3>{company.company_name}</h3>
+            {/* dispay each question and allow an answer */}
             {questions.map((question) => (
                 <div key={question.id}>
                     <h4>{question.question}</h4>

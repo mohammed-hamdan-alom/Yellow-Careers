@@ -8,6 +8,7 @@ import AuthContext from "../../context/AuthContext";
 
 const DashBoardPage = () => {
 
+  // get the user id from the context
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
 
@@ -15,6 +16,7 @@ const DashBoardPage = () => {
     <div className="dashboard-page">
       <h2>Dashboard Page</h2>
       <p>Jobs tailored for you!</p>
+      {/* lists all the matched jobs */}
       {<JobListPage></JobListPage>}
     </div>
   );

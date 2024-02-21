@@ -12,7 +12,7 @@ import JobListPage from "./components/job_list/JobListPage";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ProfilePage from "./components/profile/ProfilePage";
 import ResumePage from "./components/resume/ResumePage";
-import JobDetails from "./components/Job-details/JobDetails";
+import JobDetails from "./components/job_details/JobDetails";
 
 
 function App() {

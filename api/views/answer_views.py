@@ -9,6 +9,7 @@ class BaseAnswerView:
     serializer_class = AnswerSerializer
 
 class AnswerListView(BaseAnswerView, generics.ListAPIView):
+    '''Retrieve all the answers of a question. The question id is passed as a parameter in the url.'''
     def get_queryset(self):
         question_id = self.kwargs['question_id']
         question = get_object_or_404(Question, id=question_id)

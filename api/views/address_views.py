@@ -14,6 +14,7 @@ class AddressRetrieveView(BaseAddressView, generics.RetrieveAPIView):
     pass
 
 class AddressRetrieveJobView(BaseAddressView, generics.RetrieveAPIView):
+    '''Retrieve the address of a job. The job id is passed as a parameter in the url.'''
     def get_object(self):
         job_id = self.kwargs['pk']
         job = get_object_or_404(Job, id=job_id)
