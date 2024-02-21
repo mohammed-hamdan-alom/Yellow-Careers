@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import '../job_summary/JobSummary.css';
 import JobSummary from "../job_summary/JobSummary";
 import AxiosInstance from '../../Axios';
-import SearchDatabase from '../searchbar/SearchBar';
+import SearchBar from '../searchbar/SearchBar';
 
 const JobListPage = () => {
     const [jobs, setJobs] = useState([]);
@@ -18,7 +18,7 @@ const JobListPage = () => {
     return (
         <div>
             <h1>All jobs</h1>
-            <SearchDatabase database={jobs} />
+            <SearchBar database={jobs} />
         </div>
     )
 };
