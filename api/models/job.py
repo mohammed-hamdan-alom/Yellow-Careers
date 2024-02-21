@@ -22,6 +22,3 @@ class Job(models.Model):
     
     def get_employers_ids(self):
         return EmployerJobRelation.objects.filter(job_id=self.id).values_list('employer', flat=True)
-    
-    def get_company_name(self):
-        return EmployerJobRelation.objects.filter(job_id=self.id).first().employer.company.name
