@@ -32,8 +32,6 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
                 console.error('Error:', error);
                 let errorMessages = '';
                 if (error.response && error.response.data) {
-                    // Parse the error response
-                    // TODO: Doesnt show error properly
                     errorMessages = Object.values(error.response.data).join(' ');
                     setErrors({softSkill : error.response.data.skill[0]});
                 };
