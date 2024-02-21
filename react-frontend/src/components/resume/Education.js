@@ -29,11 +29,23 @@ function Education({ resumeId, showError, showSuccess }) {
     }, [resumeId]);
 
     const handleEducationChange = (event) => {
-        setEducation({
-          ...education,
-          [event.target.name]: event.target.value
+        const { name, value } = event.target;
+        if (name.includes("address")) {
+          const addressField = name.split(".")[1]; // Extract the address field name
+          setEducation({
+            ...education,
+            address: {
+              ...education.address,
+              [addressField]: value,
+            },
+          });
+        } else {
+          setEducation({
+            ...education,
+            [name]: value,
+          });
         }
-        )};
+      };
     
         const handleSubmitEducations = (event) => {
             event.preventDefault();
@@ -95,12 +107,12 @@ function Education({ resumeId, showError, showSuccess }) {
                 <div>
                     <label>
                     start date:
-                    <input type="date" name="start-date" defaultValue={education.start_date} onChange={handleEducationChange} />
+                    <input type="date" name="start_date" value={education.start_date} onChange={handleEducationChange} />
                     {errors.education && <p>{errors.education}</p>}
                     </label>
                     <label>
                     end date:
-                    <input type="date" name="end-date" defaultValue={education.end_date} onChange={handleEducationChange} />
+                    <input type="date" name="end_date" value={education.end_date} onChange={handleEducationChange} />
                     {errors.education && <p>{errors.education}</p>}
                     </label>
                 </div>
@@ -131,19 +143,19 @@ function Education({ resumeId, showError, showSuccess }) {
                     <h3>ADDRESS</h3>
                     <label>
                     city:
-                    <input type="text" name="city" defaultValue={education.address.city} onChange={handleEducationChange} />
+                    <input type="text" name="address.city" value={education.address.city} onChange={handleEducationChange} />
                     {errors.education && <p>{errors.education}</p>}
                     </label>
                     {/* I dont think these errors work */}
                     <label>
                     post code:
-                    <input type="text" name="post-code" defaultValue={education.address.post_code} onChange={handleEducationChange} />
+                    <input type="text" name="address.post_code" value={education.address.post_code} onChange={handleEducationChange} />
                     {errors.education && <p>{errors.education}</p>}
                     </label>
 
                     <label>
                     country:
-                    <input type="text" name="country" defaultValue={education.address.country} onChange={handleEducationChange} />
+                    <input type="text" name="address.country" value={education.address.country} onChange={handleEducationChange} />
                     {errors.education && <p>{errors.education}</p>}
                     </label>
                 
