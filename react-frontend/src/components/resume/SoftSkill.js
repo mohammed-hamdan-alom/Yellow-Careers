@@ -10,8 +10,7 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
     useEffect(() => {
         if (!resumeId) {return;}
         AxiosInstance.get(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/`)
-            .then((response) => {setSoftSkills(response.data)})
-            .then((response) => console.log(response))
+        .then((response) => {setSoftSkills(response.data)})
             .catch((error) => console.error('Error:', error));
     }, [resumeId]);
 
@@ -25,7 +24,6 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
         AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/create/`, {
             skill:softSkill
         }).then((response) => {
-            console.log('Success: ',response);
             showSuccess('Soft Skill Added');
             setSoftSkill('');
             setErrors({softSkill: '',});
@@ -37,8 +35,6 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
                     // Parse the error response
                     // TODO: Doesnt show error properly
                     errorMessages = Object.values(error.response.data).join(' ');
-                    console.log(error.response.data);
-                    console.log(error.response.data.skill[0]);
                     setErrors({softSkill : error.response.data.skill[0]});
                 };
             showError('Creating Soft Skill Failed');
@@ -50,7 +46,6 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
         console.log(skillObj);
         AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/update/${skillObj.id}`)
         .then((response) => {
-            console.log('Success: ',response);
             showSuccess('Soft Skill Deleted');
             setSoftSkills(prevSoftSkills => prevSoftSkills.filter(item => item !== skillObj));
         }).catch((error) => {
