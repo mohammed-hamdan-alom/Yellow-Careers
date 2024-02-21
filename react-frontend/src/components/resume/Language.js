@@ -66,25 +66,42 @@ function Language({ resumeId, showError, showSuccess }) {
         });
     }
 
-    //Update language
-    const handleUpdateField = (languageObj, fieldName) => {
-        const newValue = prompt(`Enter new value for ${fieldName}:`);
-        if (newValue === null) return; 
+    const [editingLanguageId, setEditingLanguageId] = useState(null); // State to track which language is being edited
+
+    const LanguageInput = ({ value, onChange }) => (
+        <input
+            type="text"
+            value={value}
+            onChange={onChange}
+        />
+    );
     
-        const updatedLanguage = { ...languageObj, [fieldName]: newValue };
+    const handleUpdateLanguage = (languageObj) => {
+        setEditingLanguageId(languageObj.id); // Set the id of the language being edited
+    };
     
-        AxiosInstance.put(`http://localhost:8000/api/resumes/${resumeId}/languages/update/${languageObj.id}`, updatedLanguage)
+    const handleFieldChange = (languageObj, field, newValue) => {
+        setLanguages(prevLanguages => prevLanguages.map(item => {
+            if (item.id === languageObj.id) {
+                return { ...item, [field]: newValue };
+            }
+            return item;
+        }));
+    };
+    
+    const handleSaveLanguage = (languageObj) => {
+        // Perform the save operation similar to the previous logic
+        
+        AxiosInstance.put(`http://localhost:8000/api/resumes/${resumeId}/languages/update/${languageObj.id}`, languageObj)
             .then((response) => {
                 const updatedLanguage = response.data;
-                setLanguages(prevLanguages => {
-                    return prevLanguages.map(item => {
-                        if (item.id === updatedLanguage.id) {
-                            return updatedLanguage;
-                        } else {
-                            return item;
-                        }
-                    });
-                });
+                setLanguages(prevLanguages => prevLanguages.map(item => {
+                    if (item.id === updatedLanguage.id) {
+                        return updatedLanguage;
+                    }
+                    return item;
+                }));
+                setEditingLanguageId(null); // Reset editing state
                 showSuccess('Language Updated');
             })
             .catch((error) => {
@@ -98,26 +115,49 @@ function Language({ resumeId, showError, showSuccess }) {
         <div>
             <h2>Languages</h2>
             <ul>
-                {languages.map((languageObj, index) => (
-                    <li key={index}>
-                        <div>
-                            <p>
-                                Language: {languageObj.language}
-                                <button onClick={() => handleUpdateField(languageObj, 'language')}>Update</button>
-                            </p>
-                            <p>
-                                Spoken proficiency: {languageObj.spoken_proficiency}
-                                <button onClick={() => handleUpdateField(languageObj, 'spoken_proficiency')}>Update</button>
-                            </p>
-                            <p>
-                                Written proficiency: {languageObj.written_proficiency}
-                                <button onClick={() => handleUpdateField(languageObj, 'written_proficiency')}>Update</button>
-                            </p>
-                        </div>
-                        <button onClick={() => handleDeleteLanguage(languageObj)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
+            {languages.map((languageObj, index) => (
+                <li key={index}>
+                    <div>
+                        <p>
+                            Language: {editingLanguageId === languageObj.id ? (
+                                <LanguageInput
+                                    value={languageObj.language}
+                                    onChange={(e) => handleFieldChange(languageObj, 'language', e.target.value)}
+                                />
+                            ) : (
+                                languageObj.language
+                            )}
+                        </p>
+                        <p>
+                            Spoken proficiency: {editingLanguageId === languageObj.id ? (
+                                <LanguageInput
+                                    value={languageObj.spoken_proficiency}
+                                    onChange={(e) => handleFieldChange(languageObj, 'spoken_proficiency', e.target.value)}
+                                />
+                            ) : (
+                                languageObj.spoken_proficiency
+                            )}
+                        </p>
+                        <p>
+                            Written proficiency: {editingLanguageId === languageObj.id ? (
+                                <LanguageInput
+                                    value={languageObj.written_proficiency}
+                                    onChange={(e) => handleFieldChange(languageObj, 'written_proficiency', e.target.value)}
+                                />
+                            ) : (
+                                languageObj.written_proficiency
+                            )}
+                        </p>
+                        {editingLanguageId === languageObj.id ? (
+                            <button onClick={() => handleSaveLanguage(languageObj)}>Save</button>
+                        ) : (
+                            <button onClick={() => handleUpdateLanguage(languageObj)}>Update</button>
+                        )}
+                    </div>
+                    <button onClick={() => handleDeleteLanguage(languageObj)}>Delete</button>
+                </li>
+            ))}
+        </ul>
             <form onSubmit={handleSubmitLanguages}>
             <div>
                 <label>
