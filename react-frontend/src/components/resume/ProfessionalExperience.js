@@ -51,6 +51,7 @@ function ProfessionalExperience({ resumeId, showError, showSuccess }) {
         AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/professional-experiences/create/`, {
             start_date:professionalExperience.start_date,
             end_date : professionalExperience.end_date,
+            position: professionalExperience.position,
             company: professionalExperience.company,
             description: professionalExperience.description,
             address:{
@@ -104,48 +105,48 @@ function ProfessionalExperience({ resumeId, showError, showSuccess }) {
             <div>
                 <label>
                 start date:
-                <input type="date" name="start_date" value={professionalExperience.start_date} onChange={handleProfessionalExperienceChange} />
-                {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+                <input type="date" name="start_date" value={professionalExperience.start_date} onChange={handleProfessionalExperienceChange} pattern="\d{4}-\d{2}-\d{2}"/>
+                {errors.start_date && <p>{errors.start_date}</p>}
                 </label>
                 <label>
                 end date:
-                <input type="date" name="end-date" value={professionalExperience.end_date} onChange={handleProfessionalExperienceChange} />
-                {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+                <input type="date" name="end_date" value={professionalExperience.end_date} onChange={handleProfessionalExperienceChange} pattern="\d{4}-\d{2}-\d{2}"/>
+                {errors.end_date && <p>{errors.end_date}</p>}
                 </label>
             </div>
             <label>
                 company:
                 <input type="text" name="company" value={professionalExperience.company} onChange={handleProfessionalExperienceChange} />
-                {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+                {errors.company && <p>{errors.company}</p>}
                 </label>
                 <label>
                 position:
                 <input type="text" name="position" value={professionalExperience.position} onChange={handleProfessionalExperienceChange} />
-                {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+                {errors.position && <p>{errors.position}</p>}
                 </label>
                 <label>
                 description:
                 <input type="text" name="description" value={professionalExperience.description} onChange={handleProfessionalExperienceChange} />
-                {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+                {errors.description && <p>{errors.description}</p>}
                 </label>
 
                 <h3>ADDRESS</h3>
                 <label>
                 city:
-                <input type="text" name="city" value={professionalExperience.address.city} onChange={handleProfessionalExperienceChange} />
-                {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+                <input type="text" name="address.city" value={professionalExperience.address.city} onChange={handleProfessionalExperienceChange} />
+                {errors.address && errors.address.city && <p>{errors.address.city}</p>}
                 </label>
 
                 <label>
                 post code:
-                <input type="text" name="post_code" value={professionalExperience.address.post_code} onChange={handleProfessionalExperienceChange} />
-                {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+                <input type="text" name="address.post_code" value={professionalExperience.address.post_code} onChange={handleProfessionalExperienceChange} />
+                {errors.address && errors.address.post_code && <p>{errors.address.post_code}</p>}
                 </label>
 
                 <label>
                 country:
-                <input type="text" name="country" value={professionalExperience.address.country} onChange={handleProfessionalExperienceChange} />
-                {errors.professionalExperience && <p>{errors.professionalExperience}</p>}
+                <input type="text" name="address.country" value={professionalExperience.address.country} onChange={handleProfessionalExperienceChange} />
+                {errors.address && errors.address.country && <p>{errors.address.country}</p>}
                 </label>
             
             <button type="submit">Add professional experience</button>
