@@ -7,8 +7,12 @@ const SearchBar = ({ database }) => {
     const handleSearch = (e) => {
         const query = e.target.value
         setQuery(query)
-        const results = database.filter(item => item.title.toLowerCase().startsWith(query.toLowerCase()));
-        setResults(results);
+        const results = database.filter(item => item.title
+            .split(" ").find(size => size.toLowerCase().startsWith(query.toLowerCase())))
+        const moreResults = database.filter(item => item.title
+            .toLowerCase().startsWith(query.toLowerCase()))
+        const actualResults = [...new Set([...results, ...moreResults])]
+        setResults(actualResults)
     };
 
     useEffect(() => {
