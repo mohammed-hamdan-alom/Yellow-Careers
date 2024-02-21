@@ -1,6 +1,6 @@
 from rest_framework.test import APITestCase, APIRequestFactory
 from django.urls import reverse
-from api.views import job_create
+from api.views.job__views import JobCreationView
 from rest_framework import status
 from api.models import Job, Address 
 from api.serializers import JobSerializer
@@ -8,7 +8,7 @@ from api.serializers import JobSerializer
 class JobsCreationTestCase(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
-        self.view = job_create
+        self.view = JobCreationView.as_view()
         self.url = reverse("create_job")
         self.address = Address.objects.create(
             city = "London",

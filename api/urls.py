@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-from api.views.job_list_view import JobListingView
+from .views.job__views import JobCreationView, JobListingView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
