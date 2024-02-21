@@ -82,7 +82,7 @@ class ProfessionalExperienceSerializer(serializers.ModelSerializer):
             else:
                 raise serializers.ValidationError(address_serializer.errors)
 
-        # Update the Education instance
+        # Update the Professional experience instance
         instance.start_date = validated_data.get('start_date', instance.start_date)
         instance.end_date = validated_data.get('end_date', instance.end_date)
         instance.company = validated_data.get('company', instance.company)

@@ -53,17 +53,70 @@ function Language({ resumeId, showError, showSuccess }) {
       
     };
 
+    //Delete language
+    const handleDeleteLanguage = (languageObj) => {
+        console.log(languageObj);
+        AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/languages/update/${languageObj.id}`)
+        .then((response) => {
+            showSuccess('Language Deleted');
+            setLanguages(prevLanguages => prevLanguages.filter(item => item !== languageObj));
+        }).catch((error) => {
+            console.error('Error:', error);
+            showError('Deleting Language Failed');
+        });
+    }
+
+    //Update language
+    const handleUpdateField = (languageObj, fieldName) => {
+        const newValue = prompt(`Enter new value for ${fieldName}:`);
+        if (newValue === null) return; 
+    
+        const updatedLanguage = { ...languageObj, [fieldName]: newValue };
+    
+        AxiosInstance.put(`http://localhost:8000/api/resumes/${resumeId}/languages/update/${languageObj.id}`, updatedLanguage)
+            .then((response) => {
+                const updatedLanguage = response.data;
+                setLanguages(prevLanguages => {
+                    return prevLanguages.map(item => {
+                        if (item.id === updatedLanguage.id) {
+                            return updatedLanguage;
+                        } else {
+                            return item;
+                        }
+                    });
+                });
+                showSuccess('Language Updated');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                showError('Updating Language Failed');
+            });
+    };
+    
+
     return (
         <div>
             <h2>Languages</h2>
             <ul>
-            {languages.map((language, index) => (
-            <li key={index}>
-                <p>Language: {language.language}</p>
-                <p>Spoken proficiency: {language.spoken_proficiency}</p>
-                <p>Written proficiency: {language.written_proficiency}</p>
-            </li>
-            ))}
+                {languages.map((languageObj, index) => (
+                    <li key={index}>
+                        <div>
+                            <p>
+                                Language: {languageObj.language}
+                                <button onClick={() => handleUpdateField(languageObj, 'language')}>Update</button>
+                            </p>
+                            <p>
+                                Spoken proficiency: {languageObj.spoken_proficiency}
+                                <button onClick={() => handleUpdateField(languageObj, 'spoken_proficiency')}>Update</button>
+                            </p>
+                            <p>
+                                Written proficiency: {languageObj.written_proficiency}
+                                <button onClick={() => handleUpdateField(languageObj, 'written_proficiency')}>Update</button>
+                            </p>
+                        </div>
+                        <button onClick={() => handleDeleteLanguage(languageObj)}>Delete</button>
+                    </li>
+                ))}
             </ul>
             <form onSubmit={handleSubmitLanguages}>
             <div>

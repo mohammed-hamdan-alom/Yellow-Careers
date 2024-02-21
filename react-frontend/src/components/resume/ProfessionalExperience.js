@@ -79,27 +79,90 @@ function ProfessionalExperience({ resumeId, showError, showSuccess }) {
         });
     
     };
+    
+    //Delete a professional experience
+    const handleDeleteProfessionalExperience = (professionalExperienceObj) => {
+        console.log(professionalExperienceObj);
+        AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`)
+        .then((response) => {
+            showSuccess('Professional Experience Deleted');
+            setProfessionalExperiences(prevprofessionalExperiences => prevprofessionalExperiences.filter(item => item !== professionalExperienceObj));
+        }).catch((error) => {
+            console.error('Error:', error);
+            showError('Deleting Professional Experience Failed');
+        });
+    }
+
+    //Update professional experience
+    const handleUpdateField = (professionalExperienceObj, fieldName) => {
+        const newValue = prompt(`Enter new value for ${fieldName}:`);
+        if (newValue === null) return; 
+    
+        const updatedProfessionalExperience = { ...professionalExperienceObj, [fieldName]: newValue };
+    
+        AxiosInstance.put(`http://localhost:8000/api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`, updatedProfessionalExperience)
+            .then((response) => {
+                const updatedProfessionalExperience = response.data;
+                setProfessionalExperiences(prevProfessionalExperiences => {
+                    return prevProfessionalExperiences.map(item => {
+                        if (item.id === updatedProfessionalExperience.id) {
+                            return updatedProfessionalExperience;
+                        } else {
+                            return item;
+                        }
+                    });
+                });
+                showSuccess('Professional Experience Updated');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                showError('Updating Professional Experience Failed');
+            });
+    };
 
     return (
         <div>
             <h2>Professional Experience</h2>
             <ul>
-            {professionalExperiences.map((professionalExperience, index) => (
-            <li key={index}>
-                <p>start date: {professionalExperience.start_date}</p>
-                <p>end:date :  {professionalExperience.end_date}</p>
-                <p>company: {professionalExperience.company}</p>
-                <p>position :  {professionalExperience.position}</p>
-                {professionalExperience.address && ( 
-                    <>
-                    <p>City: {professionalExperience.address.city}</p>
-                    <p>Post Code: {professionalExperience.address.post_code}</p>
-                    <p>Country: {professionalExperience.address.country}</p>
-                    </>
-                )}
-            </li>
-            ))}
+                {professionalExperiences.map((professionalExperience, index) => (
+                    <li key={index}>
+                        <div>
+                            <p>Start date: {professionalExperience.start_date}</p>
+                            <button onClick={() => handleUpdateField(professionalExperience, 'start_date')}>Update Start Date</button>
+                        </div>
+                        <div>
+                            <p>End date: {professionalExperience.end_date}</p>
+                            <button onClick={() => handleUpdateField(professionalExperience, 'end_date')}>Update End Date</button>
+                        </div>
+                        <div>
+                            <p>Company: {professionalExperience.company}</p>
+                            <button onClick={() => handleUpdateField(professionalExperience, 'company')}>Update Company</button>
+                        </div>
+                        <div>
+                            <p>Position: {professionalExperience.position}</p>
+                            <button onClick={() => handleUpdateField(professionalExperience, 'position')}>Update Position</button>
+                        </div>
+                        {professionalExperience.address && ( 
+                            <>
+                                <div>
+                                    <p>City: {professionalExperience.address.city}</p>
+                                    <button onClick={() => handleUpdateField(professionalExperience.address, 'city')}>Update City</button>
+                                </div>
+                                <div>
+                                    <p>Post Code: {professionalExperience.address.post_code}</p>
+                                    <button onClick={() => handleUpdateField(professionalExperience.address, 'post_code')}>Update Post Code</button>
+                                </div>
+                                <div>
+                                    <p>Country: {professionalExperience.address.country}</p>
+                                    <button onClick={() => handleUpdateField(professionalExperience.address, 'country')}>Update Country</button>
+                                </div>
+                            </>
+                        )}
+                        <button onClick={() => handleDeleteProfessionalExperience(professionalExperience)}>Delete</button>
+                    </li>
+                ))}
             </ul>
+
 
             <form onSubmit={handleSubmitProfessionalExperiences}>
             <div>

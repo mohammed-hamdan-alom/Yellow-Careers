@@ -4,7 +4,7 @@ from .models import User,JobSeeker,Employer,Job,Application,Resume, SoftSkill, T
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['first_name','last_name','email','phone_number','is_staff','is_active','is_superuser','date_joined']
+    list_display = ['id','first_name','last_name','email','phone_number','is_staff','is_active','is_superuser','date_joined']
     ordering = ['last_name', 'first_name']
 
 @admin.register(JobSeeker)
