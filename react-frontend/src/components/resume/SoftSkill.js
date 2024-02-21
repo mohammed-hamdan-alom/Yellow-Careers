@@ -6,10 +6,11 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
     const [softSkill, setSoftSkill] = useState([]);
     const [errors, setErrors] = useState({softSkill: ''});
 
+    // Fetch soft skills
     useEffect(() => {
         if (!resumeId) {return;}
         AxiosInstance.get(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/`)
-            .then((response) => {setSoftSkills(response.data.map(item => item.skill))})
+            .then((response) => {setSoftSkills(response.data)})
             .then((response) => console.log(response))
             .catch((error) => console.error('Error:', error));
     }, [resumeId]);
@@ -18,6 +19,7 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
         setSoftSkill(event.target.value);
       };
     
+    //Create soft skill
     const handleSubmitSoftSkills = (event) => {
         event.preventDefault();
         AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/create/`, {
@@ -27,7 +29,7 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
             showSuccess('Soft Skill Added');
             setSoftSkill('');
             setErrors({softSkill: '',});
-            setSoftSkills(prevSoftSkills => [...prevSoftSkills, softSkill]);
+            setSoftSkills(prevSoftSkills => [...prevSoftSkills, response.data]);
             }).catch((error) => {
                 console.error('Error:', error);
                 let errorMessages = '';
@@ -35,17 +37,36 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
                     // Parse the error response
                     // TODO: Doesnt show error properly
                     errorMessages = Object.values(error.response.data).join(' ');
-                    setErrors(error.response.data);
+                    console.log(error.response.data);
+                    console.log(error.response.data.skill[0]);
+                    setErrors({softSkill : error.response.data.skill[0]});
                 };
             showError('Creating Soft Skill Failed');
         });
     };
+    
+    //Delete soft skill
+    const handleDeleteSoftSkill = (skillObj) => {
+        console.log(skillObj);
+        AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/update/${skillObj.id}`)
+        .then((response) => {
+            console.log('Success: ',response);
+            showSuccess('Soft Skill Deleted');
+            setSoftSkills(prevSoftSkills => prevSoftSkills.filter(item => item !== skillObj));
+        }).catch((error) => {
+            console.error('Error:', error);
+            showError('Deleting Soft Skill Failed');
+        });
+    }
 
     return (
         <div>
             <h2>Soft Skills</h2>
             <ul>
-            {softSkills.map((skill, index) => (<li key={index}>{skill}</li>))}
+            {softSkills.map((skillObj, index) => (<li key={index}>
+                {skillObj.skill}
+                <button onClick = {() => handleDeleteSoftSkill(skillObj)}>Delete</button>
+                </li>))}
             </ul>
             <form onSubmit={handleSubmitSoftSkills}>
             <div>
