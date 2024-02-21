@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import *
-from api.views.job_list_view import JobListingView, AddressRetrieveView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -9,17 +8,19 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', RegisterView.as_view(), name='auth_register'),
     path('dashboard/', test_api_endpoint, name="test"),
+
     path('jobs/create-job', JobCreationView.as_view(), name='create_job'),
     path('jobs/all-jobs', JobListingView.as_view(), name='all_jobs'),
-    path('jobs/get-address/<int:pk>', AddressRetrieveView.as_view(), name='get_address'),
+    path('jobs/<int:pk>/', JobRetrieveView.as_view(), name='get_job'),
+    path('jobs/<int:pk>/questions/', QuestionListView.as_view(), name='job-question-list'),
+    path('jobs/<int:pk>/address/', AddressRetrieveJobView.as_view(), name='job-address'),
+    path('jobs/<int:pk>/company/', JobCompanyRetrieveView.as_view(), name='job-company'),
 
     path('addresses/', AddressListView.as_view(), name='address-list'),
     path('addresses/<int:pk>/', AddressRetrieveView.as_view(), name='address-get'),
     path('addresses/create/', AddressCreateView.as_view(), name='address-post'),
     path('addresses/<int:pk>/update/', AddressUpdateView.as_view(), name='address-put'),
 
-    path('answers/', AnswerListView.as_view(), name='answer-list'),
-    #need to make a url for getting answers for a specific question
     path('answers/create/', AnswerCreateView.as_view(), name='answer-post'),
     path('answers/<int:pk>/update/', AnswerUpdateView.as_view(), name='answer-put'),
 
@@ -38,8 +39,8 @@ urlpatterns = [
     path('employer-job-relations/create/', EmployerJobRelationCreateView.as_view(), name='employer-job-relation-post'),
     path('employer-job-relations/<int:pk>/update/', EmployerJobRelationUpdateView.as_view(), name='employer-job-relation-put'),
 
-    path('questions/', QuestionListView.as_view(), name='question-list'),
     path('questions/<int:pk>/', QuestionRetrieveView.as_view(), name='question-get'),
+    path('questions/<int:question_id>/answers/', AnswerListView.as_view(), name='answer-list'),
     path('questions/create/', QuestionCreateView.as_view(), name='question-post'),
     path('questions/<int:pk>/update/', QuestionUpdateView.as_view(), name='question-put'),
 
@@ -50,6 +51,7 @@ urlpatterns = [
 
     path('job-seekers/', JobSeekerListView.as_view(), name='job-seeker-list'),
     path('job-seekers/<int:pk>/', JobSeekerRetrieveView.as_view(), name='job-seeker-get'),
+    path('job-seekers/<int:pk>/resume/', ResumeRetrieveView.as_view(), name='get-resume'),
     path('job-seekers/create/', JobSeekerCreateView.as_view(), name='job0seeker-post'),
     path('job-seekers/<int:pk>/update/', JobSeekerUpdateView.as_view(), name='job-seeker-put'),
 
