@@ -1,26 +1,28 @@
-/* LandingPage.css */
+/*
+
+LandingPage.css
 
 .landing-container {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    /* Use full screen height */
+
     background-color: #fff;
-    /* Use a light background */
+
     background-image: url('../../assets/backgroundPic.avif');
-    /* Optional: add a background image */
+
     background-size: cover;
 }
 
 .landing-content {
     text-align: center;
     background: rgba(255, 255, 255, 0.8);
-    /* Semi-transparent white background */
+
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Optional: add a shadow for depth */
+ 
 }
 
 .button-group button {
@@ -35,24 +37,24 @@
 
 .btn-primary {
     background-color: #fdd835;
-    /* Primary button color */
+
     color: #ffffff;
 }
 
 .btn-primary:hover {
     background-color: #e6c800;
-    /* Darker on hover */
 }
 
 .btn-secondary {
     background-color: #ffffff;
-    /* Secondary button color */
+ 
     color: #fdd835;
     border: 2px solid #fdd835;
 }
 
 .btn-secondary:hover {
     background-color: #fdd835;
-    /* Fill color on hover */
+   
     color: #ffffff;
 }
+*/

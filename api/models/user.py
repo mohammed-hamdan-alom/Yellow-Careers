@@ -26,6 +26,7 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+
 class JobSeeker(User):
     """Model that represents a job seeker and inherits from User"""
     class Sex(models.TextChoices):
@@ -33,7 +34,7 @@ class JobSeeker(User):
         FEMALE = 'F',_('Female')
 
     dob = models.DateField(blank=False)
-    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
+    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=True) # null changed for testing purposes
     nationality = models.CharField(max_length=100, blank=False)
     sex = models.CharField(max_length=6,choices=Sex.choices)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=True)
@@ -42,8 +43,6 @@ class JobSeeker(User):
     
     def get_applied_jobs(self):
         return self.application_set.all()
-
-
 
 
 class Employer(User):
