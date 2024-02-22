@@ -1,22 +1,17 @@
 from api.models import JobSeeker, Address
 from rest_framework import serializers
 
-
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ['city', 'post_code', 'country']
-
 
 class JobSeekerSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
 
     class Meta:
         model = JobSeeker
-        fields = ['id','email','first_name', 'last_name', 'other_names', 'phone_number', 'dob', 'nationality' , 'sex' , 'address', 'resume']
-        extra_kwargs = {
-            'email': {'read_only': True}
-        }
+        fields = ['id', 'email', 'first_name', 'last_name', 'other_names', 'phone_number', 'dob', 'nationality' , 'sex' , 'address', 'resume']
 
     def update(self, instance, validated_data):
         address_data = validated_data.pop('address', None)

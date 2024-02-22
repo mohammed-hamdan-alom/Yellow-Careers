@@ -1,10 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../context/AuthContext';
+import AxiosInstance from '../../Axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import swal from 'sweetalert2'
 
 const UpdateJobSeekerProfile = () => {
-  const { user, updateUserProfile } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
+  
+
   const [formData, setFormData] = useState({
+    email: '',
     first_name: '',
     last_name: '',
     other_names: '',
@@ -20,6 +25,7 @@ const UpdateJobSeekerProfile = () => {
   useEffect(() => {
     if (user) {
       setFormData({
+        email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
         other_names: user.other_names || '',
@@ -27,21 +33,49 @@ const UpdateJobSeekerProfile = () => {
         dob: user.dob || '',
         nationality: user.nationality || '',
         sex: user.sex || '',
-        city: user.address?.city || '',
-        post_code: user.address?.post_code || '',
-        country: user.address?.country || '',
+        address: {
+          city: user.address?.city || '',
+          post_code: user.address?.post_code || '',
+          country: user.address?.country || '',
+        },
       });
     }
   }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (['city', 'post_code', 'country'].includes(name)) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        address: {
+          ...prevFormData.address,
+          [name]: value,
+        },
+      }));
+    } else {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    updateUserProfile(formData);
+    const userId = user?.user_id;
+
+    try {
+      const response = await AxiosInstance.put(`/api/job-seekers/${userId}/update/`, formData);
+
+      if (response.status === 200) {
+        setUser(response.data);
+        swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
+      } else {
+        swal.fire("Update Failed", `Error: ${response.status}`, "error");
+      }
+    } catch (error) {
+      swal.fire("Update Failed", error.message, "error");
+    }
   };
 
   return (
