@@ -251,21 +251,18 @@ class Command(BaseCommand):
 
     def seed_employer_job_relationship(self):
         '''Seeding the employer job relationship'''
-        employers = Employer.objects.all()
-        jobs = Job.objects.all()
-        for i in range(self.EMPLOYER_JOB_RELATION_COUNT):
-            print(f"Seeding employer job relationship {i}/{self.EMPLOYER_JOB_RELATION_COUNT}", end='\r')
+        employers = list(Employer.objects.all())
+        jobs = list(Job.objects.all())
+
+        if len(employers) < len(jobs):
+            print("Warning: There are more jobs than employers. Some jobs will not be assigned an employer.")
+        
+        for i, job in enumerate(jobs):
+            print(f"Seeding employer job relationship {i}/{len(jobs)}", end='\r')
 
             random_employer = random.choice(employers)
-            random_job = random.choice(jobs)
 
-        
-
-            while EmployerJobRelation.objects.filter(employer=random_employer, job=random_job).exists():
-                random_employer = random.choice(employers)
-                random_job = random.choice(jobs)
-
-            EmployerJobRelation.objects.create(employer=random_employer, job=random_job)
+            EmployerJobRelation.objects.create(employer=random_employer, job=job)
 
     def seed_applications(self):
         '''Seeding the applications'''
