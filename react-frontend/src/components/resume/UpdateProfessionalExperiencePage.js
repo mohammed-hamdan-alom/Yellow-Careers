@@ -1,60 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
-import axios from 'axios'
+import AxiosInstance from '../../Axios';
 import { showError, showSuccess } from './notificationUtils';
 
 
 function UpdateProfessionalExperiencePage() {
     const{id} = useParams();
-    const [values, setValues] = useState({
-        id:id,
-        start_date:'',
-        end_date:'',
-        company:'',
-        position:'',
-        description:'',
-        address:{
-            city:'',
-            post_code:'',
-            country:''
-        }
-    })
-    const location = useLocation()
-    const resumeId = location.state.resumeId
+    const navigate = useNavigate()
+    const defaultExperienceState = useLocation().state.defaultExperienceState
+    const resumeId = useLocation().state.resumeId
+    const [errors, setErrors] = useState(defaultExperienceState);
+    const [experience, setExperience] = useState(defaultExperienceState);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/resumes/${resumeId}/professional-experiences/update/${id}`)
-        .then(res => {
-            console.log(res.data.address.city)
-            setValues({
-                ...values, start_date:res.data.start_date,
-                end_date:res.data.end_date,
-                company:res.data.company,
-                position:res.data.position,
-                description:res.data.description,
-                address:{
-                    ...values.address,
-                    city:res.data.address.city,
-                    post_code:res.data.address.post_code,
-                    country:res.data.address.country
-                }
-                
-            })
-        })
-        .catch(err => console.log(err))
+        AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/update/${id}`)
+        .then(res => {setExperience(res.data)})
+        .catch(err => console.error(err))
     }, [])
 
-    const navigate = useNavigate()
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        if (name.includes("address")) {
+          const addressField = name.split(".")[1]; // Extract the address field name
+          setExperience({
+            ...experience,
+            address: {
+              ...experience.address,
+              [addressField]: value,
+            },
+          });
+        } else {
+          setExperience({...experience, [name]: value,});
+        }
+      };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`http://127.0.0.1:8000/api/resumes/${resumeId}/professional-experiences/update/${id}`, values)
+        AxiosInstance.put(`api/resumes/${resumeId}/professional-experiences/update/${id}`, experience)
         .then(res =>{
-            navigate(-1);
             showSuccess('Professional Experience Updated');
+            navigate(-1);
+            setErrors(defaultExperienceState);
+            setExperience(defaultExperienceState);
+            
         })
-        .catch(err => console.log(err))
-        showError('Updating Professional Experience Failed');
+        .catch((error) => {
+            console.error(error)
+            let errorMessages = '';
+            if (error.response && error.response.data) {
+                errorMessages = Object.values(error.response.data).join(' ');
+                setErrors(error.response.data);
+            };        
+            showError('Updating Professional Experience Failed');
+
+        })
     }
 
     return(
@@ -62,37 +61,45 @@ function UpdateProfessionalExperiencePage() {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Start Date</label>
-                    <input type="date" value={values.start_date} onChange={e => setValues({...values, start_date:e.target.value})}/>
+                    <input type="date"  name="start_date" value={experience.start_date} onChange={handleChange}/>
+                    {errors.start_date && <p>{errors.start_date}</p>}
                 </div>
                 <div>
                     <label>End Date</label>
-                    <input type="date" value={values.end_date} onChange={e => setValues({...values, end_date:e.target.value})}/>
+                    <input type="date" name="end_date" value={experience.end_date} onChange={handleChange}/>
+                    {errors.end_date && <p>{errors.end_date}</p>}
                 </div>
                 <div>
                     <label>company</label>
-                    <input type="text" value={values.level} onChange={e => setValues({...values, company:e.target.value})}/>
+                    <input type="text" name="company" value={experience.company} onChange={handleChange}/>
+                    {errors.company && <p>{errors.company}</p>}
                 </div>
                 <div>
                     <label>position</label>
-                    <input type="text" value={values.position} onChange={e => setValues({...values, position:e.target.value})}/>
+                    <input type="text" name="position" value={experience.position} onChange={handleChange}/>
+                    {errors.position && <p>{errors.position}</p>}
                 </div>
                 <div>
                     <label>description</label>
-                    <input type="text" value={values.description} onChange={e => setValues({...values, description:e.target.value})}/>
+                    <input type="text" name="description" value={experience.description} onChange={handleChange}/>
+                    {errors.description && <p>{errors.description}</p>}
                 </div>
-                {values.address && ( 
+                {experience.address && ( 
                         <>
                         <div>
                             <label>city</label>
-                            <input type="text" value={values.address.city} onChange={e => setValues(prevState => ({ ...prevState, address: { ...prevState.address, city: e.target.value } }))} />
+                            <input type="text" name="address.city" value={experience.address.city} onChange={handleChange}/>
+                            {errors.address && errors.address.city && <p>{errors.address.city}</p>}
                         </div>
                         <div>
                             <label>post code</label>
-                            <input type="text" value={values.address.post_code} onChange={e => setValues(prevState => ({ ...prevState, address: { ...prevState.address, post_code: e.target.value } }))} />
+                            <input type="text" name="address.post_code" value={experience.address.post_code} onChange={handleChange}/>
+                            {errors.address && errors.address.post_code && <p>{errors.address.post_code}</p>}
                         </div>
                         <div>
                             <label>country</label>
-                            <input type="text" value={values.address.country} onChange={e => setValues(prevState => ({ ...prevState, address: { ...prevState.address, country: e.target.value } }))} />
+                            <input type="text" name="address.country" value={experience.address.country} onChange={handleChange}/>
+                            {errors.address && errors.address.country && <p>{errors.address.country}</p>}
                         </div>
                         </>
                     )}

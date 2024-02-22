@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AxiosInstance from '../../Axios';
 import { Link } from 'react-router-dom';
+import { showError, showSuccess } from './notificationUtils';
 
 
-function Language({ resumeId, showError, showSuccess }) {
+
+function Language({resumeId,}) {
     const defaultLanguageState = {
         language: '',
         spoken_proficiency: '',
@@ -16,9 +18,8 @@ function Language({ resumeId, showError, showSuccess }) {
 
     useEffect(() => {
         if (!resumeId) {return;}
-        AxiosInstance.get(`http://localhost:8000/api/resumes/${resumeId}/languages/`)
+        AxiosInstance.get(`api/resumes/${resumeId}/languages/`)
             .then((response) => {setLanguages(response.data)})
-            .then((response) => console.log(response))
             .catch((error) => console.error('Error:', error));
     }, [resumeId]);
 
@@ -31,11 +32,8 @@ function Language({ resumeId, showError, showSuccess }) {
 
     const handleSubmitLanguages = (event) => {
         event.preventDefault();
-        AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/languages/create/`, {
-            language:language.language,
-            spoken_proficiency:language.spoken_proficiency,
-            written_proficiency:language.written_proficiency
-        }).then((response) => {
+        AxiosInstance.post(`api/resumes/${resumeId}/languages/create/`, language
+        ).then((response) => {
             console.log('Success: ',response);
             showSuccess('Language Added');
             setLanguage(defaultLanguageState);
@@ -46,8 +44,6 @@ function Language({ resumeId, showError, showSuccess }) {
             console.error('Error:', error);
             let errorMessages = '';
             if (error.response && error.response.data) {
-              // Parse the error response
-              // TODO: Doesnt show error properly
               errorMessages = Object.values(error.response.data).join(' ');
               setErrors(error.response.data);};
             showError('Creating Language Failed');
@@ -58,7 +54,7 @@ function Language({ resumeId, showError, showSuccess }) {
     //Delete language
     const handleDeleteLanguage = (languageObj) => {
         console.log(languageObj);
-        AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/languages/update/${languageObj.id}`)
+        AxiosInstance.delete(`api/resumes/${resumeId}/languages/update/${languageObj.id}`)
         .then((response) => {
             showSuccess('Language Deleted');
             setLanguages(prevLanguages => prevLanguages.filter(item => item !== languageObj));
@@ -78,7 +74,7 @@ function Language({ resumeId, showError, showSuccess }) {
                 <p>Language: {language.language}</p>
                 <p>Spoken proficiency: {language.spoken_proficiency}</p>
                 <p>Written proficiency: {language.written_proficiency}</p>
-                <Link to={`/job-seeker/language/update/${language.id}`} state={{resumeId:resumeId}}>Update</Link>
+                <Link to={`/job-seeker/language/update/${language.id}`} state={{resumeId:resumeId,defaultLanguageState:defaultLanguageState}}>Update</Link>
                 <button onClick={() => handleDeleteLanguage(language)}>Delete</button>
             </li>
             ))}

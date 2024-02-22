@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import AxiosInstance from '../../Axios';
+import { showError, showSuccess } from './notificationUtils';
 
-function SoftSkill({ resumeId, showError, showSuccess }) {
+
+function SoftSkill({ resumeId,}) {
     const [softSkills, setSoftSkills] = useState([]);
     const [softSkill, setSoftSkill] = useState([]);
     const [errors, setErrors] = useState({softSkill: ''});
@@ -9,7 +11,7 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
     // Fetch soft skills
     useEffect(() => {
         if (!resumeId) {return;}
-        AxiosInstance.get(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/`)
+        AxiosInstance.get(`api/resumes/${resumeId}/soft-skills/`)
         .then((response) => {setSoftSkills(response.data)})
             .catch((error) => console.error('Error:', error));
     }, [resumeId]);
@@ -21,7 +23,7 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
     //Create soft skill
     const handleSubmitSoftSkills = (event) => {
         event.preventDefault();
-        AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/create/`, {
+        AxiosInstance.post(`api/resumes/${resumeId}/soft-skills/create/`, {
             skill:softSkill
         }).then((response) => {
             showSuccess('Soft Skill Added');
@@ -42,7 +44,7 @@ function SoftSkill({ resumeId, showError, showSuccess }) {
     //Delete soft skill
     const handleDeleteSoftSkill = (skillObj) => {
         console.log(skillObj);
-        AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/soft-skills/update/${skillObj.id}`)
+        AxiosInstance.delete(`api/resumes/${resumeId}/soft-skills/update/${skillObj.id}`)
         .then((response) => {
             showSuccess('Soft Skill Deleted');
             setSoftSkills(prevSoftSkills => prevSoftSkills.filter(item => item !== skillObj));

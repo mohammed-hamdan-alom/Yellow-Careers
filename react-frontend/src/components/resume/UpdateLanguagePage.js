@@ -1,42 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
-import axios from 'axios'
+import AxiosInstance from '../../Axios';
 import { showError, showSuccess } from './notificationUtils';
 
 
 function UpdateLanguagePage() {
-    const{id} = useParams();
-    const [values, setValues] = useState({
-        id:id,
-        language:'',
-        spoken_proficiency:'',
-        written_proficiency:''
-    })
-    const location = useLocation()
-    const resumeId = location.state.resumeId
+    const{id} = useParams();    
+    const navigate = useNavigate()
+    const defaultLanguageState = useLocation().state.defaultLanguageState
+    const resumeId = useLocation().state.resumeId
+    const [errors, setErrors] = useState(defaultLanguageState);
+
+    const [language, setLanguage] = useState(defaultLanguageState);
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/resumes/${resumeId}/languages/update/${id}`)
-        .then(res => {
-            setValues({
-                ...values, language:res.data.language,
-                spoken_proficiency:res.data.spoken_proficiency,
-                written_proficiency:res.data.written_proficiency
-            })
-        })
-        .catch(err => console.log(err))
+        AxiosInstance.get(`api/resumes/${resumeId}/languages/update/${id}`)
+        .then(res => {setLanguage(res.data)})
+        .catch(err => console.error(err))
     }, [])
 
-    const navigate = useNavigate()
+
+    const handleChange = (event) => {
+        setLanguage({...language, [event.target.name]: event.target.value})};
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`http://127.0.0.1:8000/api/resumes/${resumeId}/languages/update/${id}`, values)
+        AxiosInstance.put(`api/resumes/${resumeId}/languages/update/${id}`, language)
         .then(res =>{
             navigate(-1);
             showSuccess("Language Updated")
+            setErrors(defaultLanguageState);
+            setLanguage(defaultLanguageState);
         })
-        .catch(err => console.log(err))
-        showError('Updating Language Failed');
+        .catch((error) => {
+            console.error(error)
+            let errorMessages = '';
+            if (error.response && error.response.data) {
+                errorMessages = Object.values(error.response.data).join(' ');
+                setErrors(error.response.data);
+            };
+            showError('Updating Language Failed');
+        })
+        
     }
 
     return(
@@ -44,27 +48,30 @@ function UpdateLanguagePage() {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Language</label>
-                    <input type="text" value={values.language} onChange={e => setValues({...values, language:e.target.value})}/>
+                    <input type="text" name= "language" value={language.language} onChange={handleChange}/>
+                    {errors.language && <p>{errors.language}</p>}
                 </div>
                 <div>
                     <label>Spoken Proficiency:</label>
-                    <select name="spoken_proficiency" value={values.spoken_proficiency} onChange={e => setValues({...values, spoken_proficiency:e.target.value})}>
+                    <select name="spoken_proficiency" value={language.spoken_proficiency} onChange={handleChange}>
                         <option value="">Select Proficiency</option>
                         <option value="B">Basic</option>
                         <option value="I">Intermediate</option>
                         <option value="A">Advanced</option>
                         <option value="F">Fluent</option>
                     </select>
+                    {errors.spoken_proficiency && <p>{errors.spoken_proficiency}</p>}
                 </div>
                 <div>
                     <label>Written Proficiency:</label>
-                    <select name="written_proficiency" value={values.written_proficiency} onChange={e => setValues({...values, written_proficiency:e.target.value})}>
+                    <select name="written_proficiency" value={language.written_proficiency} onChange={handleChange}>
                         <option value="">Select Proficiency</option>
                         <option value="B">Basic</option>
                         <option value="I">Intermediate</option>
                         <option value="A">Advanced</option>
                         <option value="F">Fluent</option>
                     </select>
+                    {errors.written_proficiency && <p>{errors.written_proficiency}</p>}
                 </div> <br />
                 <button> Update</button>
             </form>

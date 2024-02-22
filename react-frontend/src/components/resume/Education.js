@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import AxiosInstance from '../../Axios';
 import { Link } from 'react-router-dom';
+import { showError, showSuccess } from './notificationUtils';
 
 
-function Education({ resumeId, showError, showSuccess }) {
+function Education({ resumeId }) {
     const defaultEducationState = {
         start_date : '',
         end_date : '',
@@ -23,9 +24,8 @@ function Education({ resumeId, showError, showSuccess }) {
 
     useEffect(() => {
         if (!resumeId) {return;}
-        AxiosInstance.get(`http://localhost:8000/api/resumes/${resumeId}/educations/`)
+        AxiosInstance.get(`api/resumes/${resumeId}/educations/`)
             .then((response) => {setEducations(response.data)})
-            .then((response) => console.log(response))
             .catch((error) => console.error('Error:', error));
 
     }, [resumeId]);
@@ -34,36 +34,20 @@ function Education({ resumeId, showError, showSuccess }) {
         const { name, value } = event.target;
         if (name.includes("address")) {
           const addressField = name.split(".")[1]; // Extract the address field name
-          setEducation({
-            ...education,
+          setEducation({...education,
             address: {
-              ...education.address,
-              [addressField]: value,
-            },
-          });
+                ...education.address, 
+                [addressField]: value, },
+            });
         } else {
-          setEducation({
-            ...education,
-            [name]: value,
-          });
+            setEducation({...education,[name]: value,});
         }
       };
     
         const handleSubmitEducations = (event) => {
             event.preventDefault();
-            AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/educations/create/`, {
-                start_date:education.start_date,
-                end_date : education.end_date,
-                level: education.level,
-                institution: education.institution,
-                grade: education.grade,
-                address:{
-                  city:education.address.city,
-                  post_code:education.address.post_code,
-                  country:education.address.country
-                }
-            }).then((response) => {
-                console.log('Success: ',response);
+            AxiosInstance.post(`api/resumes/${resumeId}/educations/create/`,education
+            ).then((response) => {
                 const newEducation = response.data
                 showSuccess('Education Added');
                 setEducation(defaultEducationState);
@@ -74,8 +58,6 @@ function Education({ resumeId, showError, showSuccess }) {
                 console.error('Error:', error);
                 let errorMessages = '';
                 if (error.response && error.response.data) {
-                    // Parse the error response
-                    // TODO: Doesnt show error properly
                     errorMessages = Object.values(error.response.data).join(' ');
                     setErrors(error.response.data);
                 };
@@ -117,7 +99,7 @@ function Education({ resumeId, showError, showSuccess }) {
                         <p>Country: {education.address.country}</p>
                         </>
                     )}
-                <Link to={`/job-seeker/education/update/${education.id}`} state={{resumeId:resumeId}}>Update</Link>
+                <Link to={`/job-seeker/education/update/${education.id}`} state={{resumeId:resumeId, defaultEducationState:defaultEducationState}}>Update</Link>
                 <button onClick={() => handleDeleteEducation(education)}>Delete</button>
                 </li>
                 ))}
@@ -129,12 +111,12 @@ function Education({ resumeId, showError, showSuccess }) {
                     <label>
                     start date:
                     <input type="date" name="start_date" value={education.start_date} onChange={handleEducationChange} />
-                    {errors.education && <p>{errors.education}</p>}
+                    {errors.start_date && <p>{errors.start_date}</p>}
                     </label>
                     <label>
                     end date:
                     <input type="date" name="end_date" value={education.end_date} onChange={handleEducationChange} />
-                    {errors.education && <p>{errors.education}</p>}
+                    {errors.end_date && <p>{errors.end_date}</p>}
                     </label>
                 </div>
                 <div>
@@ -147,37 +129,36 @@ function Education({ resumeId, showError, showSuccess }) {
                     <option value="MA">Masters</option>
                     <option value="PHD">Doctorate</option>
                     </select>
-                    {errors.education && <p>{errors.education}</p>}
+                    {errors.level && <p>{errors.level}</p>}
                     </label>
                 </div>
                 <label>
                     institution:
                     <input type="text" name="institution" value={education.institution} onChange={handleEducationChange} />
-                    {errors.education && <p>{errors.education}</p>}
+                    {errors.institution && <p>{errors.institution}</p>}
                     </label>
                     <label>
                     grade:
                     <input type="text" name="grade" value={education.grade} onChange={handleEducationChange} />
-                    {errors.education && <p>{errors.education}</p>}
+                    {errors.grade && <p>{errors.grade}</p>}
                     </label>
 
                     <h3>ADDRESS</h3>
                     <label>
                     city:
                     <input type="text" name="address.city" value={education.address.city} onChange={handleEducationChange} />
-                    {errors.education && <p>{errors.education}</p>}
+                    {errors.address && errors.address.city && <p>{errors.address.city}</p>}
                     </label>
-                    {/* I dont think these errors work */}
                     <label>
                     post code:
                     <input type="text" name="address.post_code" value={education.address.post_code} onChange={handleEducationChange} />
-                    {errors.education && <p>{errors.education}</p>}
+                    {errors.address && errors.address.post_code && <p>{errors.address.post_code}</p>}
                     </label>
 
                     <label>
                     country:
                     <input type="text" name="address.country" value={education.address.country} onChange={handleEducationChange} />
-                    {errors.education && <p>{errors.education}</p>}
+                    {errors.address && errors.address.country && <p>{errors.address.country}</p>}
                     </label>
                 
                 <button type="submit">Add Education</button>

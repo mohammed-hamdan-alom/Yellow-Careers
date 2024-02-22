@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AxiosInstance from '../../Axios';
 import { Link } from 'react-router-dom';
+import { showError, showSuccess } from './notificationUtils';
 
 
-function ProfessionalExperience({ resumeId, showError, showSuccess }) {
+
+function ProfessionalExperience({ resumeId,}) {
     const defaultExperienceState = {
         start_date:'',
         end_date:'',
@@ -22,9 +24,8 @@ function ProfessionalExperience({ resumeId, showError, showSuccess }) {
 
     useEffect(() => {
         if (!resumeId) {return;}
-        AxiosInstance.get(`http://localhost:8000/api/resumes/${resumeId}/professional-experiences/`)
+        AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`)
             .then((response) => {setProfessionalExperiences(response.data)})
-            .then((response) => console.log(response))
             .catch((error) => console.error('Error:', error));
     }, [resumeId]);
 
@@ -40,29 +41,15 @@ function ProfessionalExperience({ resumeId, showError, showSuccess }) {
             },
           });
         } else {
-          setProfessionalExperience({
-            ...professionalExperience,
-            [name]: value,
-          });
+          setProfessionalExperience({...professionalExperience,[name]: value,});
         }
       };
     
     
     const handleSubmitProfessionalExperiences = (event) => {
         event.preventDefault();
-        AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/professional-experiences/create/`, {
-            start_date:professionalExperience.start_date,
-            end_date : professionalExperience.end_date,
-            position: professionalExperience.position,
-            company: professionalExperience.company,
-            description: professionalExperience.description,
-            address:{
-                city:professionalExperience.address.city,
-                post_code:professionalExperience.address.post_code,
-                country:professionalExperience.address.country
-            }
-        }).then((response) => {
-            console.log('Success: ',response);
+        AxiosInstance.post(`api/resumes/${resumeId}/professional-experiences/create/`, professionalExperience
+        ).then((response) => {
             const newProfessionalExperience = response.data
             showSuccess('Professional Experience Added');
             setProfessionalExperience(defaultExperienceState);
@@ -73,8 +60,6 @@ function ProfessionalExperience({ resumeId, showError, showSuccess }) {
             console.error('Error:', error);
             let errorMessages = '';
             if (error.response && error.response.data) {
-                // Parse the error response
-                // TODO: Doesnt show error properly
                 errorMessages = Object.values(error.response.data).join(' ');
                 setErrors(error.response.data);
             };
@@ -85,8 +70,7 @@ function ProfessionalExperience({ resumeId, showError, showSuccess }) {
     
     //Delete a professional experience
     const handleDeleteProfessionalExperience = (professionalExperienceObj) => {
-        console.log(professionalExperienceObj);
-        AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`)
+        AxiosInstance.delete(`api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`)
         .then((response) => {
             showSuccess('Professional Experience Deleted');
             setProfessionalExperiences(prevprofessionalExperiences => prevprofessionalExperiences.filter(item => item !== professionalExperienceObj));
@@ -103,7 +87,7 @@ function ProfessionalExperience({ resumeId, showError, showSuccess }) {
             {professionalExperiences.map((professionalExperience, index) => (
             <li key={index}>
                 <p>start date: {professionalExperience.start_date}</p>
-                <p>end:date :  {professionalExperience.end_date}</p>
+                <p>end date :  {professionalExperience.end_date}</p>
                 <p>company: {professionalExperience.company}</p>
                 <p>position :  {professionalExperience.position}</p>
                 {professionalExperience.address && ( 
@@ -113,7 +97,7 @@ function ProfessionalExperience({ resumeId, showError, showSuccess }) {
                     <p>Country: {professionalExperience.address.country}</p>
                     </>
                 )}
-                <Link to={`/job-seeker/professional-experience/update/${professionalExperience.id}`} state={{resumeId:resumeId}}>Update</Link>
+                <Link to={`/job-seeker/professional-experience/update/${professionalExperience.id}`} state={{resumeId:resumeId,defaultExperienceState:defaultExperienceState}}>Update</Link>
                 <button onClick={() => handleDeleteProfessionalExperience(professionalExperience)}>Delete</button>
             </li>
             ))}

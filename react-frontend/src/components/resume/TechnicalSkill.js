@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import AxiosInstance from '../../Axios';
+import { showError, showSuccess } from './notificationUtils';
 
-function TechnicalSkill({ resumeId, showError, showSuccess }) {
+
+function TechnicalSkill({ resumeId,}) {
     const [technicalSkills, setTechnicalSkills] = useState([]);
     const [technicalSkill, setTechnicalSkill] = useState([]);
     const [errors, setErrors] = useState({technicalSkill: ''});
@@ -9,14 +11,12 @@ function TechnicalSkill({ resumeId, showError, showSuccess }) {
     // Fetch technical skills
     useEffect(() => {
         if (!resumeId) {return;}
-        AxiosInstance.get(`http://localhost:8000/api/resumes/${resumeId}/technical-skills/`)
+        AxiosInstance.get(`api/resumes/${resumeId}/technical-skills/`)
             .then((response) => {setTechnicalSkills(response.data)})
             .catch((error) => console.error('Error:', error));
     }, [resumeId]);
 
-    const handleTechnicalSkillChange = (event) => {
-        setTechnicalSkill(event.target.value);
-        };
+    const handleTechnicalSkillChange = (event) => {setTechnicalSkill(event.target.value);};
     
     //Create technical skill
     const handleSubmitTechnicalSkills = (event) => {
@@ -42,7 +42,7 @@ function TechnicalSkill({ resumeId, showError, showSuccess }) {
     //Delete technical skill
     const handleDeleteTechnicalSkill = (skillObj) => {
         console.log(skillObj);
-        AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/technical-skills/update/${skillObj.id}`)
+        AxiosInstance.delete(`api/resumes/${resumeId}/technical-skills/update/${skillObj.id}`)
         .then((response) => {
             showSuccess('Technical Skill Deleted');
             setTechnicalSkills(prevSoftSkills => prevSoftSkills.filter(item => item !== skillObj));
