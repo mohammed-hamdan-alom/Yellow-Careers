@@ -51,7 +51,7 @@ function QuestionCreationForm() {
                     </div>
                 </div>
             </form>
-            <button type="button" onClick={handleSkip}>Skip Question</button>
+            <button type="button" onClick={handleSkip}>Finish</button>
         </div>
     )
 }

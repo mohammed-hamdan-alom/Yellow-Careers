@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import JobSummary from "../job_summary/JobSummary";
-const SearchBar = ({ database }) => {
+import './JobSearchBar.css'
+const JobSearchBar = ({ database }) => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
 
@@ -20,8 +21,8 @@ const SearchBar = ({ database }) => {
     }, [database]);
 
     return (
-        <div>
-            <input type="text"
+        <>
+            <input class="form-control" type="text"
                 value={query}
                 onChange={handleSearch} />
             <ul>
@@ -38,8 +39,9 @@ const SearchBar = ({ database }) => {
                     ))}
                 </ul>
             </ul>
-        </div>
+        </>
+
     );
 };
 
-export default SearchBar;
+export default JobSearchBar;
