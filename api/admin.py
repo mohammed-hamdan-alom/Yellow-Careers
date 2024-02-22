@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import User,JobSeeker,Employer,Job,Application,Resume, Address, Question, Answer, Company, EmployerJobRelation
 
 
@@ -9,7 +10,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(JobSeeker)
 class JobSeekerAdmin(admin.ModelAdmin):
-    list_display = ['id', 'first_name','last_name','email','phone_number','dob','nationality']
+    list_display = ['id', 'email', 'first_name', 'last_name', 'other_names', 'dob','phone_number', 'nationality', 'sex']
 
 @admin.register(Employer)
 class EmployerAdmin(admin.ModelAdmin):
@@ -49,7 +50,7 @@ class CompanyAdmin(admin.ModelAdmin):
     ordering = ['id']
 
 @admin.register(EmployerJobRelation)
-class CompanyAdmin(admin.ModelAdmin):
+class EmployerJobRelationAdmin(admin.ModelAdmin):
     list_display = ['employer','job']
     ordering = ['employer']
 

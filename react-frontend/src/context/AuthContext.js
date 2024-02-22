@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from 'react-router-dom';
+import { Router, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert2'
 
 const AuthContext = createContext();
@@ -8,20 +8,20 @@ const AuthContext = createContext();
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-    const [authTokens, setAuthTokens] = useState(() =>
-        localStorage.getItem("authTokens")
-            ? JSON.parse(localStorage.getItem("authTokens"))
-            : null
-    );
+    const [authTokens, setAuthTokens] = useState(() => {
+        const token = localStorage.getItem("authTokens");
+        return token ? JSON.parse(token) : null;
+    });
     
-    const [user, setUser] = useState(() => 
-        localStorage.getItem("authTokens")
-            ? jwtDecode(localStorage.getItem("authTokens").access)
-            : null
-    );
+    const [user, setUser] = useState(() => {
+        const token = localStorage.getItem("authTokens");
+        return token ? jwtDecode(JSON.parse(token).access) : null;
+    });
 
-    const [loading, setLoading] = useState(true);
-
+    let [loading, setLoading] = useState(true);
+    const [userId, setUserID] = useState(() => {
+        return authTokens ? jwtDecode(authTokens.access).user_id : null;
+    })
     const navigate = useNavigate();
 
     const loginUser = async (email, password) => {
@@ -64,14 +64,14 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const registerUser = async (email, password, password2) => {
-        const response = await fetch("http://127.0.0.1:8000/api/register/", {
+    const registerJobSeeker = async (email, password, password2, first_name, last_name, other_names, dob, phone_number, nationality, sex) => {
+        const response = await fetch("http://127.0.0.1:8000/api/jobseeker-register/", {
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
             },
             body: JSON.stringify({
-                email, password, password2
+                email, password, password2, first_name, last_name, other_names, dob, phone_number, nationality, sex
             })
         });
         if(response.status === 201){
@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }) => {
             });
         } else {
             swal.fire({
-                title: "An Error Occured " + response.status,
+                title: "An Error Occurred " + response.status,
                 icon: "error",
                 toast: true,
                 timer: 6000,
@@ -97,6 +97,66 @@ export const AuthProvider = ({ children }) => {
             });
         }
     };
+
+    const registerEmployer = async (email, password, password2, company) => {
+        const response = await fetch("http://127.0.0.1:8000/api/employer-register/", {
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                email, password, password2, company
+            })
+        });
+        if (response.status === 201) {
+            navigate("/login");
+            swal.fire({
+                title: "Registration Successful, Login Now",
+                icon: "success",
+                toast: true,
+                timer: 6000,
+                position: 'top-right',
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+        } else {
+            swal.fire({
+                title: "An Error Occurred " + response.status,
+                icon: "error",
+                toast: true,
+                timer: 6000,
+                position: 'top-right',
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+        }
+    };
+
+
+    let updateToken = async () => {
+        let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'refresh':authTokens?.refresh})
+        })
+
+        let data = await response.json()
+        
+        if (response.status === 200) {
+            setAuthTokens(data)
+            setUser(jwtDecode(data.access))
+            localStorage.setItem('authTokens', JSON.stringify(data))
+        } else {
+            logoutUser()
+        }
+
+        if (loading) {
+            setLoading(false)
+        }
+    }
+    
 
     const logoutUser = () => {
         setAuthTokens(null);
@@ -119,17 +179,23 @@ export const AuthProvider = ({ children }) => {
         setUser,
         authTokens,
         setAuthTokens,
-        registerUser,
+        updateToken,
+        registerJobSeeker,
+        registerEmployer,
         loginUser,
         logoutUser,
     };
 
     useEffect(() => {
-        if (authTokens) {
-            setUser(jwtDecode(authTokens.access));
+        const tokens = localStorage.getItem("authTokens");
+        if (tokens) {
+            const parsedTokens = JSON.parse(tokens);
+            setUser(jwtDecode(parsedTokens.access));
+        } else {
+            logoutUser();
         }
         setLoading(false);
-    }, [authTokens, loading]);
+    }, []);
 
     return (
         <AuthContext.Provider value={contextData}>
@@ -137,3 +203,9 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+/*
+
+
+
+*/

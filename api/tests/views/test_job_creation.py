@@ -1,6 +1,6 @@
 from rest_framework.test import APITestCase, APIRequestFactory
 from django.urls import reverse
-from api.views.job__views import JobCreationView
+from api.views.job_views import JobCreationView
 from rest_framework import status
 from api.models import Job, Address 
 from api.serializers import JobSerializer

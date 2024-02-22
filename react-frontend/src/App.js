@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./components/login/LoginPage";
-import Register from './components/register/Register';
 import { AuthProvider } from './context/AuthContext';
 import DashBoardPage from "./components/dashboard/DashBoardPage";
 import JobSeekerLayout from "./components/layout/JobSeekerLayout";
 import LandingPage from "./components/landing_page/LandingPage";
+import EmployerRegister from "./components/register/employer_register/EmployerRegister";
 import JobCreation from "./components/job_creation/JobCreation";
 import JobListPage from "./components/job_list/JobListPage";
 import QuestionCreation from "./components/job_creation/QuestionCreation";
@@ -12,6 +12,8 @@ import QuestionCreation from "./components/job_creation/QuestionCreation";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ProfilePage from "./components/profile/ProfilePage";
 import ResumePage from "./components/resume/ResumePage";
+import JobDetails from "./components/job_details/JobDetails";
+import JobSeekerRegister from "./components/register/jobseeker_register/JobSeekerRegister";
 
 
 function App() {
@@ -19,13 +21,15 @@ function App() {
     <AuthProvider>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/register/employer" element={<EmployerRegister />} />
+        <Route path="/register/jobseeker" element={<JobSeekerRegister />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
+        <Route path="/job-seeker/*" element={<JobSeekerLayout />} >
           <Route path="dashboard" element={<DashBoardPage />} />
           <Route path="resume" element={<ResumePage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="all-jobs" element={<JobListPage />} />
+          <Route path="job-detail/:jobId" element={<JobDetails />} />
         </Route>
         <Route path='/create-job' element={<JobCreation />} />
         <Route path='/create-job/questions/:jobId' element={<QuestionCreation />} />

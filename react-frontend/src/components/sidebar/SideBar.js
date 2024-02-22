@@ -63,6 +63,26 @@ function SideBar({ isOpen, toggleSidebar }) {
 
         <Menu.Item
           as={Link}
+          to="/job-seeker/applied-jobs"
+          active={isActive("/applied-jobs")}
+          onClick={toggleSidebar}
+        >
+          <Icon name="tasks" />
+          Applied Jobs
+        </Menu.Item>
+
+        <Menu.Item
+          as={Link}
+          to="/job-seeker/saved-jobs"
+          active={isActive("/saved-jobs")}
+          onClick={toggleSidebar}
+        >
+          <Icon name="tags" />
+          Saved Jobs
+        </Menu.Item>
+
+        <Menu.Item
+          as={Link}
           to="/job-seeker/profile"
           active={isActive("/profile")}
           onClick={toggleSidebar}
