@@ -5,8 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import swal from 'sweetalert2'
 
 const UpdateJobSeekerProfile = () => {
-  const { user, setUser } = useContext(AuthContext);
-  
+  const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -17,29 +16,45 @@ const UpdateJobSeekerProfile = () => {
     dob: '',
     nationality: '',
     sex: '',
-    city: '',
-    post_code: '',
-    country: '',
+    address: {
+      city: '',
+      post_code: '',
+      country: ''
+    },
   });
 
   useEffect(() => {
-    if (user) {
-      setFormData({
-        email: user.email,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        other_names: user.other_names || '',
-        phone_number: user.phone_number,
-        dob: user.dob || '',
-        nationality: user.nationality || '',
-        sex: user.sex || '',
-        address: {
-          city: user.address?.city || '',
-          post_code: user.address?.post_code || '',
-          country: user.address?.country || '',
-        },
-      });
-    }
+    const fetchJobSeekerData = async () => {
+      if (user?.user_id) {
+        try {
+          const response = await AxiosInstance.get(`/api/job-seekers/${user?.user_id}/`);
+          if (response.status === 200) {
+            const { email, first_name, last_name, other_names, phone_number, dob, nationality, sex, address } = response.data;
+            setFormData({
+              email,
+              first_name,
+              last_name,
+              other_names,
+              phone_number,
+              dob,
+              nationality,
+              sex,
+              address: {
+                city: address?.city || '',
+                post_code: address?.post_code || '',
+                country: address?.country || '',
+              },
+            });
+          } else {
+            swal.fire("Failed to fetch", "Could not fetch job seeker profile.", "error");
+          }
+        } catch (error) {
+          swal.fire("Error", "An error occurred while fetching the profile.", "error");
+        }
+      }
+    };
+
+    fetchJobSeekerData();
   }, [user]);
 
   const handleChange = (e) => {
@@ -62,19 +77,19 @@ const UpdateJobSeekerProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userId = user?.user_id;
+    if (user?.user_id) {
+      try {
+        const response = await AxiosInstance.put(`/api/job-seekers/${user?.user_id}/update/`, formData);
 
-    try {
-      const response = await AxiosInstance.put(`/api/job-seekers/${userId}/update/`, formData);
-
-      if (response.status === 200) {
-        setUser(response.data);
-        swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
-      } else {
-        swal.fire("Update Failed", `Error: ${response.status}`, "error");
+        if (response.status === 200) {
+          // Update the user token
+          swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
+        } else {
+          swal.fire("Update Failed", `Error: ${response.status}`, "error");
+        }
+      } catch (error) {
+        swal.fire("Update Failed", error.message, "error");
       }
-    } catch (error) {
-      swal.fire("Update Failed", error.message, "error");
     }
   };
 
@@ -118,15 +133,15 @@ const UpdateJobSeekerProfile = () => {
       </div>
       <div className="mb-3">
         <label htmlFor="city">City</label>
-        <input type="text" id="city" name="city" value={formData.city} onChange={handleChange} />
+        <input type="text" id="city" name="city" value={formData.address.city} onChange={handleChange} />
       </div>
       <div className="mb-3">
         <label htmlFor="post_code">Post Code</label>
-        <input type="text" id="post_code" name="post_code" value={formData.post_code} onChange={handleChange} />
+        <input type="text" id="post_code" name="post_code" value={formData.address.post_code} onChange={handleChange} />
       </div>
       <div className="mb-3">
         <label htmlFor="country">Country</label>
-        <input type="text" id="country" name="country" value={formData.country} onChange={handleChange} />
+        <input type="text" id="country" name="country" value={formData.address.country} onChange={handleChange} />
       </div>
       <button type="submit" className="btn btn-primary">Update Profile</button>
     </form>
