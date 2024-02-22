@@ -9,8 +9,7 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', RegisterView.as_view(), name='auth_register'),
     path('dashboard/', test_api_endpoint, name="test"),
-    path('jobs/create-job', JobCreationView.as_view(), name='create_job'),
-    path('jobs/all-jobs', JobListingView.as_view(), name='all_jobs'),
+
 
     path('addresses/', AddressListView.as_view(), name='address-list'),
     path('addresses/<int:pk>/', AddressRetrieveView.as_view(), name='address-get'),
@@ -51,6 +50,9 @@ urlpatterns = [
     path('job-seekers/<int:pk>/', JobSeekerRetrieveView.as_view(), name='job-seeker-get'),
     path('job-seekers/create/', JobSeekerCreateView.as_view(), name='job0seeker-post'),
     path('job-seekers/<int:pk>/update/', JobSeekerUpdateView.as_view(), name='job-seeker-put'),
+
+    path('jobs/create-job', JobCreationView.as_view(), name='create_job'),
+    path('jobs/all-jobs', JobListingView.as_view(), name='all_jobs'),
 
     path('employers/', EmployerListView.as_view(), name='employer-list'),
     path('employers/<int:pk>/', EmployerRetrieveView.as_view(), name='employer-get'),

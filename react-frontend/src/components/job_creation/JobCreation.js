@@ -1,9 +1,7 @@
 import './JobCreation.css';
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import AuthContext from '../../context/AuthContext';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import AxiosInstance from '../../Axios';
-import { Axios } from 'axios';
 
 function JobCreationForm() {
     const [formData, setFormData] = useState({
@@ -20,6 +18,8 @@ function JobCreationForm() {
         country: ''
     });
 
+    const navigate = useNavigate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
         AxiosInstance.post('api/jobs/create-job', {
@@ -30,9 +30,11 @@ function JobCreationForm() {
             job_type: formData.job_type
         }).then((response) => {
             console.log(response);
+            navigate(`/create-job/questions/${response.data.id}`)
         }).catch((error) => {
             console.log(error);
         });
+
     };
 
     const handleAddressSubmit = (event) => {
@@ -74,7 +76,7 @@ function JobCreationForm() {
             <form onSubmit={handleSubmit} className="job-creation-form">
                 <h2>Job Creation</h2>
                 <div className="form-group">
-                    <label htmlFor="title">Title</label>
+                    <label htmlFor="title">Title*</label>
                     <input
                         type="text"
                         name="title"
@@ -83,7 +85,7 @@ function JobCreationForm() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="description">Description</label>
+                    <label htmlFor="description">Description*</label>
                     <textarea
                         name="description"
                         value={formData.description}
@@ -136,7 +138,7 @@ function JobCreationForm() {
                     </form>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="job_type">Job Type</label>
+                    <label htmlFor="job_type">Job Type*</label>
                     <select
                         name="job_type"
                         value={formData.job_type}
