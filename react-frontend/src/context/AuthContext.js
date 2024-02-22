@@ -8,20 +8,20 @@ const AuthContext = createContext();
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-    let [authTokens, setAuthTokens] = useState(() =>
-        localStorage.getItem("authTokens")
-            ? JSON.parse(localStorage.getItem("authTokens"))
-            : {access: null, refresh: null}
-    );
+    const [authTokens, setAuthTokens] = useState(() => {
+        const token = localStorage.getItem("authTokens");
+        return token ? JSON.parse(token) : null;
+    });
     
-    let [user, setUser] = useState(() => 
-        authTokens && authTokens.access
-            ? jwtDecode(authTokens.access)
-            : null
-    );
+    const [user, setUser] = useState(() => {
+        const token = localStorage.getItem("authTokens");
+        return token ? jwtDecode(JSON.parse(token).access) : null;
+    });
 
     let [loading, setLoading] = useState(true);
-
+    const [userId, setUserID] = useState(() => {
+        return authTokens ? jwtDecode(authTokens.access).user_id : null;
+    })
     const navigate = useNavigate();
 
     const loginUser = async (email, password) => {
@@ -98,6 +98,41 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const registerEmployer = async (email, password, password2, company) => {
+        const response = await fetch("http://127.0.0.1:8000/api/employer-register/", {
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                email, password, password2, company
+            })
+        });
+        if (response.status === 201) {
+            navigate("/login");
+            swal.fire({
+                title: "Registration Successful, Login Now",
+                icon: "success",
+                toast: true,
+                timer: 6000,
+                position: 'top-right',
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+        } else {
+            swal.fire({
+                title: "An Error Occurred " + response.status,
+                icon: "error",
+                toast: true,
+                timer: 6000,
+                position: 'top-right',
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+        }
+    };
+
+
     let updateToken = async () => {
         let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
             method:'POST',
@@ -144,27 +179,23 @@ export const AuthProvider = ({ children }) => {
         setUser,
         authTokens,
         setAuthTokens,
+        updateToken,
         registerJobSeeker,
+        registerEmployer,
         loginUser,
         logoutUser,
     };
 
-    useEffect(()=> {
-
-        if(loading){
-            updateToken()
+    useEffect(() => {
+        const tokens = localStorage.getItem("authTokens");
+        if (tokens) {
+            const parsedTokens = JSON.parse(tokens);
+            setUser(jwtDecode(parsedTokens.access));
+        } else {
+            logoutUser();
         }
-
-        let fourMinutes = 1000 * 60 * 4
-
-        let interval =  setInterval(()=> {
-            if (authTokens) {
-                updateToken()
-            }
-        }, fourMinutes)
-        return () => clearInterval(interval)
-
-    }, [authTokens, loading])
+        setLoading(false);
+    }, []);
 
     return (
         <AuthContext.Provider value={contextData}>
@@ -172,3 +203,9 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+/*
+
+
+
+*/

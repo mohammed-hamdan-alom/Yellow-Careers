@@ -1,67 +1,97 @@
-import React from 'react';
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBInput,
-  MDBIcon,
-  MDBCheckbox
-}
-from 'mdb-react-ui-kit';
+import React, { useState, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import AuthContext from '../../../context/AuthContext';
 
 const EmployerRegister = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [company, setCompany] = useState("");
+  const [companyList, setCompanyList] = useState([]);
+  const { registerEmployer } = useContext(AuthContext);
+
+  useEffect(() => {
+
+    const fetchCompanies = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/companies/');
+        const data = await response.json();
+        setCompanyList(data);
+      } catch (error) {
+        console.error('Error fetching companies:', error);
+      }
+    };
+
+    fetchCompanies();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    registerEmployer(email, password, password2, company);
+  };
+
   return (
-    <MDBContainer fluid>
+    <div>
+      <form onSubmit={handleSubmit} className="register-form">
+        <h2>Employer Register</h2>
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password2">Confirm Password</label>
+          <input
+            type="password"
+            id="password2"
+            value={password2}
+            onChange={(e) => setPassword2(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="company">Company</label>
+          <select
+            id="company"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            required
+          >
+            <option value="" disabled>
+              Select Company
+            </option>
+            {companyList.map((company) => (
+              <option key={company.id} value={company.id}>
+                {company.company_name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-actions">
+          <button type="submit" className="button primary">
+            Register
+          </button>
+          <Link to="/login">Have an account? Click here to log in</Link>
+        </div>
+      </form>
+    </div>
+  );
+};
 
-      <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
-        <MDBCardBody>
-          <MDBRow>
-            <MDBCol md='10' lg='6' className='order-2 order-lg-1 d-flex flex-column align-items-center'>
+export default EmployerRegister;
 
-              <p classNAme="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
-
-              <div className="d-flex flex-row align-items-center mb-4 ">
-                <MDBIcon fas icon="user me-3" size='lg'/>
-                <MDBInput label='Your Name' id='form1' type='text' className='w-100'/>
-              </div>
-
-              <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="envelope me-3" size='lg'/>
-                <MDBInput label='Your Email' id='form2' type='email'/>
-              </div>
-
-              <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="lock me-3" size='lg'/>
-                <MDBInput label='Password' id='form3' type='password'/>
-              </div>
-
-              <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="key me-3" size='lg'/>
-                <MDBInput label='Repeat your password' id='form4' type='password'/>
-              </div>
-
-              <div className='mb-4'>
-                <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Subscribe to our newsletter' />
-              </div>
-
-              <MDBBtn className='mb-4' size='lg'>Register</MDBBtn>
-
-            </MDBCol>
-
-            <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
-              <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp' fluid/>
-            </MDBCol>
-
-          </MDBRow>
-        </MDBCardBody>
-      </MDBCard>
-
-    </MDBContainer>
-  )
-}
-
-export default EmployerRegister
