@@ -49,7 +49,7 @@ class JobsCreationTestCase(APITestCase):
         self.assertEquals(Job.objects.count(), 1)
 
     def test_job_can__be_created_without_address(self):
-        self.job_data.pop('address', None)
+        self.job_data["address"] = None
         request = self.factory.post(self.url, self.job_data, format="json")
         response = self.view(request)
 
@@ -57,7 +57,7 @@ class JobsCreationTestCase(APITestCase):
         self.assertEquals(response.data["address"], None)
 
     def test_job_can_be_created_without_salary(self):
-        self.job_data.pop('salary', None)
+        self.job_data["salary"] = None
         request = self.factory.post(self.url, self.job_data, format="json")
         response = self.view(request)
 
