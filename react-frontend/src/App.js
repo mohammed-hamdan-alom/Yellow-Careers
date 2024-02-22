@@ -12,6 +12,7 @@ import JobListPage from "./components/job_list/JobListPage";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ProfilePage from "./components/profile/ProfilePage";
 import ResumePage from "./components/resume/ResumePage";
+import UpdateLanguagePage from "./components/resume/UpdateLanguagePage";
 
 
 function App() {
@@ -26,8 +27,9 @@ function App() {
         <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
           <Route path="dashboard" element={<DashBoardPage />} />
           <Route path="search" element={<SearchPage />} />
-          <Route path="resume" element={<ResumePage />} />
+          <Route path="resume/" element={<ResumePage />}/>
           <Route path="profile" element={<ProfilePage />} />
+          <Route path="language/update/:id" element={<UpdateLanguagePage/>} />
         </Route>
         
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}
