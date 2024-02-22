@@ -13,6 +13,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ProfilePage from "./components/profile/ProfilePage";
 import ResumePage from "./components/resume/ResumePage";
 import UpdateLanguagePage from "./components/resume/UpdateLanguagePage";
+import UpdateEducationPage from "./components/resume/UpdateEducationPage";
+import UpdateProfessionalExperiencePage from "./components/resume/UpdateProfessionalExperiencePage";
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
           <Route path="resume/" element={<ResumePage />}/>
           <Route path="profile" element={<ProfilePage />} />
           <Route path="language/update/:id" element={<UpdateLanguagePage/>} />
+          <Route path="education/update/:id" element={<UpdateEducationPage/>}/>
+          <Route path="professional-experience/update/:id" element={<UpdateProfessionalExperiencePage/>}/>
         </Route>
         
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}

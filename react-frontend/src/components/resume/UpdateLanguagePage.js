@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
+import { showError, showSuccess } from './notificationUtils';
+
 
 function UpdateLanguagePage() {
     const{id} = useParams();
@@ -10,8 +12,10 @@ function UpdateLanguagePage() {
         spoken_proficiency:'',
         written_proficiency:''
     })
+    const location = useLocation()
+    const resumeId = location.state.resumeId
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/resumes/39/languages/update/'+id)
+        axios.get(`http://127.0.0.1:8000/api/resumes/${resumeId}/languages/update/${id}`)
         .then(res => {
             setValues({
                 ...values, language:res.data.language,
@@ -26,11 +30,13 @@ function UpdateLanguagePage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put('http://127.0.0.1:8000/api/resumes/39/languages/update/'+id, values)
+        axios.put(`http://127.0.0.1:8000/api/resumes/${resumeId}/languages/update/${id}`, values)
         .then(res =>{
             navigate(-1);
+            showSuccess("Language Updated")
         })
         .catch(err => console.log(err))
+        showError('Updating Language Failed');
     }
 
     return(
@@ -41,14 +47,24 @@ function UpdateLanguagePage() {
                     <input type="text" value={values.language} onChange={e => setValues({...values, language:e.target.value})}/>
                 </div>
                 <div>
-                    <label>Spoken proficiency:</label>
-                    <input type="text" value={values.spoken_proficiency} 
-                    onChange={e => setValues({...values, spoken_proficiency:e.target.value})} />
+                    <label>Spoken Proficiency:</label>
+                    <select name="spoken_proficiency" value={values.spoken_proficiency} onChange={e => setValues({...values, spoken_proficiency:e.target.value})}>
+                        <option value="">Select Proficiency</option>
+                        <option value="B">Basic</option>
+                        <option value="I">Intermediate</option>
+                        <option value="A">Advanced</option>
+                        <option value="F">Fluent</option>
+                    </select>
                 </div>
                 <div>
-                    <label>Written proficiency:</label>
-                    <input type="text" value={values.written_proficiency}
-                    onChange={e => setValues({...values, written_proficiency:e.target.value})} />
+                    <label>Written Proficiency:</label>
+                    <select name="written_proficiency" value={values.written_proficiency} onChange={e => setValues({...values, written_proficiency:e.target.value})}>
+                        <option value="">Select Proficiency</option>
+                        <option value="B">Basic</option>
+                        <option value="I">Intermediate</option>
+                        <option value="A">Advanced</option>
+                        <option value="F">Fluent</option>
+                    </select>
                 </div> <br />
                 <button> Update</button>
             </form>

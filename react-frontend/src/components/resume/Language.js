@@ -78,7 +78,8 @@ function Language({ resumeId, showError, showSuccess }) {
                 <p>Language: {language.language}</p>
                 <p>Spoken proficiency: {language.spoken_proficiency}</p>
                 <p>Written proficiency: {language.written_proficiency}</p>
-                <Link to={`/job-seeker/language/update/${language.id}`}>Update</Link>
+                <Link to={`/job-seeker/language/update/${language.id}`} state={{resumeId:resumeId}}>Update</Link>
+                <button onClick={() => handleDeleteLanguage(language)}>Delete</button>
             </li>
             ))}
             </ul>

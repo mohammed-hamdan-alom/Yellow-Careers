@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AxiosInstance from '../../Axios';
+import { Link } from 'react-router-dom';
+
 
 function Education({ resumeId, showError, showSuccess }) {
     const defaultEducationState = {
@@ -62,10 +64,11 @@ function Education({ resumeId, showError, showSuccess }) {
                 }
             }).then((response) => {
                 console.log('Success: ',response);
+                const newEducation = response.data
                 showSuccess('Education Added');
                 setEducation(defaultEducationState);
                 setErrors(defaultEducationState);
-                setEducations(prevEducations => [...prevEducations, education]);
+                setEducations(prevEducations => [...prevEducations, newEducation]);
               
             }).catch((error) => {
                 console.error('Error:', error);
@@ -94,78 +97,30 @@ function Education({ resumeId, showError, showSuccess }) {
           });
       }
 
-      //Update education
-      const handleUpdateField = (educationObj, fieldName) => {
-        const newValue = prompt(`Enter new value for ${fieldName}:`);
-        if (newValue === null) return; 
-    
-        const updatedEducation = { ...educationObj, [fieldName]: newValue };
-    
-        AxiosInstance.put(`http://localhost:8000/api/resumes/${resumeId}/educations/update/${educationObj.id}`, updatedEducation)
-            .then((response) => {
-                const updatedEducation = response.data;
-                setEducations(prevEducations => {
-                    return prevEducations.map(item => {
-                        if (item.id === updatedEducation.id) {
-                            return updatedEducation;
-                        } else {
-                            return item;
-                        }
-                    });
-                });
-                showSuccess('Education Updated');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                showError('Updating Education Failed');
-            });
-    };
+      
     
         return (
             <div>
                 <h2>Education</h2>
                 <ul>
-                    {educations.map((education, index) => (
-                        <li key={index}>
-                            <div>
-                                <p>Start date: {education.start_date}</p>
-                                <button onClick={() => handleUpdateField(education, 'start_date')}>Update Start Date</button>
-                            </div>
-                            <div>
-                                <p>End date: {education.end_date}</p>
-                                <button onClick={() => handleUpdateField(education, 'end_date')}>Update End Date</button>
-                            </div>
-                            <div>
-                                <p>Level: {education.level}</p>
-                                <button onClick={() => handleUpdateField(education, 'level')}>Update Level</button>
-                            </div>
-                            <div>
-                                <p>Institution: {education.institution}</p>
-                                <button onClick={() => handleUpdateField(education, 'institution')}>Update Institution</button>
-                            </div>
-                            <div>
-                                <p>Grade: {education.grade}</p>
-                                <button onClick={() => handleUpdateField(education, 'grade')}>Update Grade</button>
-                            </div>
-                            {education.address && (
-                                <>
-                                    <div>
-                                        <p>City: {education.address.city}</p>
-                                        <button onClick={() => handleUpdateField(education.address, 'city')}>Update City</button>
-                                    </div>
-                                    <div>
-                                        <p>Post Code: {education.address.post_code}</p>
-                                        <button onClick={() => handleUpdateField(education.address, 'post_code')}>Update Post Code</button>
-                                    </div>
-                                    <div>
-                                        <p>Country: {education.address.country}</p>
-                                        <button onClick={() => handleUpdateField(education.address, 'country')}>Update Country</button>
-                                    </div>
-                                </>
-                            )}
-                            <button onClick={() => handleDeleteEducation(education)}>Delete</button>
-                        </li>
-                    ))}
+                {educations.map((education, index) => (
+                <li key={index}>
+                    <p>start date: {education.start_date}</p>
+                    <p>end:date :  {education.end_date}</p>
+                    <p>level: {education.level}</p>
+                    <p>institution :  {education.institution}</p>
+                    <p>grade: {education.grade}</p>
+                    {education.address && ( 
+                        <>
+                        <p>City: {education.address.city}</p>
+                        <p>Post Code: {education.address.post_code}</p>
+                        <p>Country: {education.address.country}</p>
+                        </>
+                    )}
+                <Link to={`/job-seeker/education/update/${education.id}`} state={{resumeId:resumeId}}>Update</Link>
+                <button onClick={() => handleDeleteEducation(education)}>Delete</button>
+                </li>
+                ))}
                 </ul>
 
 
