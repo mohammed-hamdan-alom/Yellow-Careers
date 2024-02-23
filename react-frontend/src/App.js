@@ -14,6 +14,7 @@ import ProfilePage from "./components/profile/ProfilePage";
 import ResumePage from "./components/resume/ResumePage";
 import JobDetails from "./components/job_details/JobDetails";
 import JobSeekerRegister from "./components/register/jobseeker_register/JobSeekerRegister";
+import SavedJobListPage from "./components/job_list/SavedJobsListPage";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="dashboard" element={<DashBoardPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="resume" element={<ResumePage />} />
+          <Route path="saved-jobs" element={<SavedJobListPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="job-detail/:jobId" element={<JobDetails />} />
         </Route>

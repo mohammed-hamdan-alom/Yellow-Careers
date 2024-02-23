@@ -78,7 +78,10 @@ function JobDetails () {
 };
 
     const handleSave = () => {
-        // Add logic to handle applying for the job
+        AxiosInstance.post(`api/saved-jobs/create/`, {
+            job_seeker: userId,
+            job: jobId,
+        }).catch((error) => console.error('Error saving job:', error));
         console.log("Saving a job:", jobId);
     };
 
