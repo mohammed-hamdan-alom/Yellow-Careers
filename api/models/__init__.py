@@ -8,3 +8,4 @@ from .managers import *
 from .question import *
 from .resume import *
 from .user import *
+from .savedJobs import *

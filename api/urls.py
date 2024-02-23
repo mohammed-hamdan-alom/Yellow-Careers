@@ -60,6 +60,12 @@ urlpatterns = [
     path('job-seekers/create/', JobSeekerCreateView.as_view(), name='job0seeker-post'),
     path('job-seekers/<int:pk>/update/', JobSeekerUpdateView.as_view(), name='job-seeker-put'),
     path('job-seekers/<int:pk>/applied-jobs/', JobsAppliedListView.as_view(), name='job-seeker-applications'),
+    path('job-seekers/<int:pk>/saved-jobs/', JobSeekerSavedJobsListView.as_view(), name='job-seeker-saved-jobs'),
+
+    path('saved-jobs/', SavedJobsListView.as_view(), name='saved_jobs_list'),
+    path('saved-jobs/<int:pk>/', SavedJobsRetrieveView.as_view(), name='saved_jobs_detail'),
+    path('saved-jobs/create/', SavedJobsCreateView.as_view(), name='saved_jobs_create'),
+    path('saved-jobs/update/<int:pk>/', SavedJobsUpdateView.as_view(), name='saved_jobs_update'),
 
     path('employers/', EmployerListView.as_view(), name='employer-list'),
     path('employers/<int:pk>/', EmployerRetrieveView.as_view(), name='employer-get'),
