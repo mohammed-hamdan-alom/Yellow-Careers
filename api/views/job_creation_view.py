@@ -13,6 +13,7 @@ class JobCreationView(generics.CreateAPIView):
 	serializer_class = JobSerializer
 
 class JobSeekerSavedJobsListView(generics.ListAPIView):
+	'''get the jobs saved by a job seeker. The job seeker id is passed as a parameter in the url.'''
 	queryset = Job.objects.all()
 	serializer_class = JobSerializer
 
