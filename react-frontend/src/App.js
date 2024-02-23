@@ -14,7 +14,7 @@ import ProfilePage from "./components/profile/ProfilePage";
 import ResumePage from "./components/resume/ResumePage";
 import JobDetails from "./components/job_details/JobDetails";
 import JobSeekerRegister from "./components/register/jobseeker_register/JobSeekerRegister";
-import AppliedJobListPage from "./components/job_list/AppliedJobListPage";
+import AppliedJobListPage from "./components/job_list/AppliedJobsListPage";
 import SavedJobListPage from "./components/job_list/SavedJobsListPage";
 
 

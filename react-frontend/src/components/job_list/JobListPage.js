@@ -16,7 +16,7 @@ const JobListPage = () => {
 
     return (
         <div>
-            <h1>All jobs</h1>
+            <h1>Matched jobs</h1>
             <ul className='job-summary'>
                 {jobs.map(job => (
                     <JobSummary
