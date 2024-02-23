@@ -22,7 +22,17 @@ class JobsAppliedListView(generics.ListAPIView):
 		job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id)
 		applications = Application.objects.filter(job_seeker=job_seeker)
 		return [application.job for application in applications]
+	
+class JobSeekerMatchedJobsListingView(generics.ListAPIView):
+	'''Retrieve the job of an application for a user. The job seekers id is passed as a parameter in the url.'''
+	serializer_class = JobSerializer
 
+	def get_queryset(self):
+		job_seeker_id = self.kwargs['pk']
+		job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id)
+		applications = Application.objects.filter(job_seeker=job_seeker)
+		applied_jobs = [application.job for application in applications]
+		return Job.objects.exclude(id__in=[job.id for job in applied_jobs])
 	
 class JobSeekerSavedJobsListView(generics.ListAPIView):
 	'''get the jobs saved by a job seeker. The job seeker id is passed as a parameter in the url.'''

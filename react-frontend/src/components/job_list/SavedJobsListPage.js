@@ -13,7 +13,7 @@ function SavedJobListPage() {
     const [jobs, setJobs] = useState([]);
 
     useEffect(() => {
-        AxiosInstance.get(`api/job-seekers/${userId}/saved-jobs/`)
+        AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`)
             .then((res) => setJobs(res.data))
     }, [userId]);
 

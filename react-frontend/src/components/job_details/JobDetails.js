@@ -7,11 +7,14 @@ function JobDetails () {
     // get the user id from the context
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
+    
 
     // get the job id from the url
     const { jobId } = useParams();
+    console.log('jobId:', jobId);
 
     const [job, setJob] = useState({}); // this is for the job details
+    const [savedJobs, setSavedJobs] = useState([]); // this is for the saved jobs
     const [questions, setQuestions] = useState([]); // this is for the questions
     const [answers, setAnswers] = useState({}); // this is for the answers
     const [resume, setResume] = useState({});   // this is for the resume
@@ -22,15 +25,17 @@ function JobDetails () {
         Promise.all([
             AxiosInstance.get(`api/jobs/${jobId}/`), // get the job details
             AxiosInstance.get(`api/jobs/${jobId}/questions/`), // get the questions for the job
+            AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`), // get the saved jobs of the job seeker
             AxiosInstance.get(`api/job-seekers/${userId}/resume/`), // get the resume data of the job seeker
             AxiosInstance.get(`api/jobs/${jobId}/address/`), // get the address data of the job
             AxiosInstance.get(`api/jobs/${jobId}/company/`) // get the company data of the job
         ]).then((responses) => {
             setJob(responses[0].data);
             setQuestions(responses[1].data);
-            setResume(responses[2].data);
-            setAddress(responses[3].data);
-            setCompany(responses[4].data);
+            setSavedJobs(responses[2].data);
+            setResume(responses[3].data);
+            setAddress(responses[4].data);
+            setCompany(responses[5].data);
         }).catch((error) => console.error('Error fetching data:', error));
     }, [jobId, userId]);
 
@@ -75,16 +80,35 @@ function JobDetails () {
             createAnswers(application.id);
         })
         .catch((error) => console.error('Error creating application:', error));
-};
-
-    const handleSave = () => {
-        AxiosInstance.post(`api/saved-jobs/create/`, {
-            job_seeker: userId,
-            job: jobId,
-        }).catch((error) => console.error('Error saving job:', error));
-        console.log("Saving a job:", jobId);
     };
 
+    const handleSave = () => {
+        const savedJob = savedJobs.find(savedJob => String(savedJob.id) === String(jobId));
+        if (savedJob) {
+            // If the job is already saved, unsave it
+            AxiosInstance.delete(`api/saved-jobs/update/${userId}/${jobId}/`)
+                .then(() => {
+                    // Remove the unsaved job from the state
+                    setSavedJobs(savedJobs.filter(job => String(job.id) !== String(savedJob.id)));
+                })
+                .catch((error) => console.error('Error unsaving job:', error));
+        } else {
+            // If the job is not saved, save it
+            AxiosInstance.post(`api/saved-jobs/create/`, {
+                job_seeker: userId,
+                job: jobId,
+            })
+            .then((response) => {
+                // Add the saved job to the state
+                setSavedJobs([...savedJobs, response.data]);
+            })
+            .catch((error) => console.error('Error saving job:', error));
+        }
+    };
+
+    savedJobs.forEach(savedJob => console.log(savedJob.id));
+    const isJobSaved = savedJobs.some(savedJob => String(savedJob.id) === String(jobId));
+    console.log('save:', isJobSaved);
 
     return (
         <div>
@@ -103,7 +127,11 @@ function JobDetails () {
                 </div>
             ))}
             <button onClick={handleApply}>Apply</button>
-            <button onClick={handleSave}>Save</button>
+            {isJobSaved ? (
+                <button onClick={handleSave}>Unsave</button>
+            ) : (
+                <button onClick={handleSave}>Save</button>
+            )}
         </div>
     )
 }
