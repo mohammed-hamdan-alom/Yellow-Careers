@@ -47,14 +47,6 @@ function JobDetails () {
         }).catch((error) => console.error('Error fetching data:', error)); // check if the job is saved
     }, [isJobSaved]);
 
-    // this is for saving an answer
-    const handleInputChange = (questionId, newValue) => {
-        setAnswers(prevAnswers => ({
-            ...prevAnswers,
-            [questionId]: newValue,
-        }));
-    };
-
     // this is to save the answer to the database
     const createAnswers = (applicationId) => {
         // send a POST request for each answer
@@ -91,7 +83,7 @@ function JobDetails () {
         }
 
         else {
-            navigate(`job-seeker/job-details/${jobId}/questions/`)
+            navigate(`questions/`)
         }
     };
 
@@ -126,16 +118,6 @@ function JobDetails () {
             <h2>{address.country}</h2>
             <h3>{company.company_name}</h3>
             {/* dispay each question and allow an answer */}
-            {questions.map((question) => (
-                <div key={question.id}>
-                    <h4>{question.question}</h4>
-                    <input
-                        type="text"
-                        value={answers[question.id] || ''}
-                        onChange={e => handleInputChange(question.id, e.target.value)}
-                    />
-                </div>
-            ))}
             <button onClick={handleApply}>Apply</button>
             {isJobSaved ? (
                 <button onClick={handleSave}>Unsave</button>
