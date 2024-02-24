@@ -20,12 +20,12 @@ const JobListPage = () => {
     return (
         <div>
             <h1>Matched jobs</h1>
-            <ul className='job-summary'>
-                {jobs.map(job => (
+            {jobs.map(job => (
+                < ul className='job-summary' key={job.id} >
                     <JobSummary job={job} />
-                ))}
-            </ul>
-        </div>
+                </ul>))
+            }
+        </div >
     )
 };
 

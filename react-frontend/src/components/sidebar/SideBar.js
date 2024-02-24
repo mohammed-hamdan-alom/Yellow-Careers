@@ -77,7 +77,7 @@ function SideBar({ isOpen, toggleSidebar }) {
           active={isActive("/saved-jobs")}
           onClick={toggleSidebar}
         >
-          <Icon name="bookmark" />
+          <Icon name="blind" />
           Saved Jobs
         </Menu.Item>
 

@@ -5,8 +5,8 @@ import AxiosInstance from '../../Axios';
 
 const JobSummary = ({ job }) => {
   const navigate = useNavigate();
-  const [company, SetCompany] = useState('');
-  const [address, setAddress] = useState('');
+  const [company, SetCompany] = useState({});
+  const [address, setAddress] = useState({});
 
   useEffect(() => {
     AxiosInstance.get(`api/jobs/${job.id}/company/`)
@@ -33,7 +33,7 @@ const JobSummary = ({ job }) => {
       <h3>{job.title}</h3>
       <h4>{company.company_name}</h4>
       <p className="description">{formattedDescription}</p>
-      <p>Location: {address.city}, {address.country}</p>
+      <strong>Location:</strong> {address.city}, {address.country}
     </div>
   );
 };
