@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from '../../Axios';
 
 function JobDetails () {
@@ -11,6 +11,8 @@ function JobDetails () {
 
     // get the job id from the url
     const { jobId } = useParams();
+
+    const navigate = useNavigate();
 
     const [job, setJob] = useState({}); // this is for the job details
     const [savedJobs, setSavedJobs] = useState([]); // this is for the saved jobs
@@ -25,20 +27,25 @@ function JobDetails () {
         Promise.all([
             AxiosInstance.get(`api/jobs/${jobId}/`), // get the job details
             AxiosInstance.get(`api/jobs/${jobId}/questions/`), // get the questions for the job
-            AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`), // get the saved jobs of the job seeker
             AxiosInstance.get(`api/job-seeker/${userId}/resume/`), // get the resume data of the job seeker
             AxiosInstance.get(`api/jobs/${jobId}/address/`), // get the address data of the job
             AxiosInstance.get(`api/jobs/${jobId}/company/`) // get the company data of the job
         ]).then((responses) => {
             setJob(responses[0].data);
             setQuestions(responses[1].data);
-            setSavedJobs(responses[2].data);
-            setResume(responses[3].data);
-            setAddress(responses[4].data);
-            setCompany(responses[5].data);
-            setIsJobSaved(responses[2].data.some(savedJob => String(savedJob.id) === String(jobId))); // check if the job is saved
+            setResume(responses[2].data);
+            setAddress(responses[3].data);
+            setCompany(responses[4].data);
         }).catch((error) => console.error('Error fetching data:', error));
-    }, [jobId, userId, savedJobs]);
+    }, [jobId, userId]);
+
+    useEffect(() => {
+        AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`)
+            .then((res) => {
+                setSavedJobs(res.data);
+                setIsJobSaved(res.data.some(savedJob => String(savedJob.id) === String(jobId)))
+        }).catch((error) => console.error('Error fetching data:', error)); // check if the job is saved
+    }, [isJobSaved]);
 
     // this is for saving an answer
     const handleInputChange = (questionId, newValue) => {
@@ -64,33 +71,38 @@ function JobDetails () {
 
     // this is for applying for the job
     const handleApply = () => {
-        // create the application data
-        const applicationData = {
-            job_seeker: userId,
-            job: jobId,
-            resume: resume.id,
-        }
-        
-        // send a POST request to create the application
-        AxiosInstance.post('api/applications/create/', applicationData)
-        .then((response) => {
-            const application = response.data;
-            console.log('Created application:', application);
+        if(questions.length === 0) {
+            const applicationData = {
+                job_seeker: userId,
+                job: jobId,
+                resume: resume.id,
+            }
+            
+            // send a POST request to create the application
+            AxiosInstance.post('api/applications/create/', applicationData)
+            .then((response) => {
+                const application = response.data;
+                console.log('Created application:', application);
 
-            // the application's ID is now available as application.id
-            createAnswers(application.id);
-        })
-        .catch((error) => console.error('Error creating application:', error));
+                // the application's ID is now available as application.id
+                createAnswers(application.id);
+            })
+            .catch((error) => console.error('Error creating application:', error));
+        }
+
+        else {
+            navigate(`job-seeker/job-details/${jobId}/questions/`)
+        }
     };
 
     const handleSave = () => {
         const savedJob = savedJobs.find(savedJob => String(savedJob.id) === String(jobId));
+        console.log('Saved job:', savedJob);
         if (savedJob) {
             // If the job is already saved, unsave it
             AxiosInstance.delete(`api/saved-jobs/update/${userId}/${jobId}/`)
                 .then(() => {
                     // Remove the unsaved job from the state
-                    setSavedJobs(savedJobs.filter(job => String(job.id) !== String(savedJob.id)));
                     setIsJobSaved(false);
                 })
                 .catch((error) => console.error('Error unsaving job:', error));
@@ -102,13 +114,12 @@ function JobDetails () {
             })
             .then((response) => {
                 // Add the saved job to the state
-                setSavedJobs([...savedJobs, response.data]);
                 setIsJobSaved(true);
             })
             .catch((error) => console.error('Error saving job:', error));
         }
     };
-
+    
     return (
         <div>
             <h1>{job.title}</h1>

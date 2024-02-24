@@ -20,7 +20,7 @@ function JobQuestions() {
       <div>
         <h2>Questions</h2>
         {questions.map((question, index) => (
-          <p key={index}>{question}</p>
+          <p key={index}>{question.question}</p>
         ))}
       </div>
     );

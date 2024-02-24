@@ -13,6 +13,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ProfilePage from "./components/profile/ProfilePage";
 import ResumePage from "./components/resume/ResumePage";
 import JobDetails from "./components/job_details/JobDetails";
+import JobQuestions from "./components/job_details/JobQuestions";
 import JobSeekerRegister from "./components/register/jobseeker_register/JobSeekerRegister";
 import AppliedJobListPage from "./components/job_list/AppliedJobsListPage";
 import SavedJobListPage from "./components/job_list/SavedJobsListPage";
@@ -33,6 +34,7 @@ function App() {
           <Route path="saved-jobs" element={<SavedJobListPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="job-details/:jobId" element={<JobDetails />} />
+          <Route path="job-details/:jobId/questions" element={<JobQuestions />} />
           <Route path="applied-jobs" element={<AppliedJobListPage />} />
         </Route>
         <Route path='/create-job' element={<JobCreation />} />

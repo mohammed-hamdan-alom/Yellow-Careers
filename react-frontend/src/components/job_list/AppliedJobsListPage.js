@@ -18,14 +18,14 @@ function AppliedJobListPage() {
 
     return (
         <div>
-            <h1>Applied Jobs:</h1>
-            <ul className='job-summary'>
-                {jobs.map(job => (
+            <h1>Applied jobs</h1>
+            {jobs.map(job => (
+                < ul className='job-summary' key={job.id} >
                     <JobSummary job={job} />
-                ))}
-            </ul>
-        </div>
+                </ul>))
+            }
+        </div >
     )
-}
+};
 
 export default AppliedJobListPage;
