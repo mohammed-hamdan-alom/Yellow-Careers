@@ -7,14 +7,14 @@ function JobDetails () {
     // get the user id from the context
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
-    
+
 
     // get the job id from the url
     const { jobId } = useParams();
-    console.log('jobId:', jobId);
 
     const [job, setJob] = useState({}); // this is for the job details
     const [savedJobs, setSavedJobs] = useState([]); // this is for the saved jobs
+    const [isJobSaved, setIsJobSaved] = useState(false); // add state for isJobSaved
     const [questions, setQuestions] = useState([]); // this is for the questions
     const [answers, setAnswers] = useState({}); // this is for the answers
     const [resume, setResume] = useState({});   // this is for the resume
@@ -36,8 +36,9 @@ function JobDetails () {
             setResume(responses[3].data);
             setAddress(responses[4].data);
             setCompany(responses[5].data);
+            setIsJobSaved(responses[2].data.some(savedJob => String(savedJob.id) === String(jobId)));
         }).catch((error) => console.error('Error fetching data:', error));
-    }, [jobId, userId]);
+    }, [jobId, userId, savedJobs]);
 
     // this is for saving an answer
     const handleInputChange = (questionId, newValue) => {
@@ -90,6 +91,7 @@ function JobDetails () {
                 .then(() => {
                     // Remove the unsaved job from the state
                     setSavedJobs(savedJobs.filter(job => String(job.id) !== String(savedJob.id)));
+                    setIsJobSaved(false);
                 })
                 .catch((error) => console.error('Error unsaving job:', error));
         } else {
@@ -101,14 +103,11 @@ function JobDetails () {
             .then((response) => {
                 // Add the saved job to the state
                 setSavedJobs([...savedJobs, response.data]);
+                setIsJobSaved(true);
             })
             .catch((error) => console.error('Error saving job:', error));
         }
     };
-
-    savedJobs.forEach(savedJob => console.log(savedJob.id));
-    const isJobSaved = savedJobs.some(savedJob => String(savedJob.id) === String(jobId));
-    console.log('save:', isJobSaved);
 
     return (
         <div>
