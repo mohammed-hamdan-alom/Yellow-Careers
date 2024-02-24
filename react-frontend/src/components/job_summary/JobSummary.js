@@ -1,16 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './JobSummary.css';
+import AxiosInstance from '../../Axios';
 
-const JobSummary = ({ id, title, hirer, description, location }) => {
+const JobSummary = ({ job }) => {
   const navigate = useNavigate();
+  const [company, SetCompany] = useState('');
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    AxiosInstance.get(`api/jobs/${job.id}/company/`)
+      .then((res) => SetCompany(res.data))
+    AxiosInstance.get(`api/jobs/${job.id}/address/`)
+      .then((res) => setAddress(res.data))
+  }, []);
 
   const handleClick = () => {
     // navigate to the job details page
     navigate(`/job-seeker/job-details/${id}`);
   };
 
-  const formattedDescription = description.split('\n').map((paragraph, index) => (
+
+  const formattedDescription = job.description.split('\n').map((paragraph, index) => (
     <React.Fragment key={index}>
       {paragraph}
       <br />
@@ -19,13 +30,12 @@ const JobSummary = ({ id, title, hirer, description, location }) => {
 
   return (
     <div className="job-summary" onClick={handleClick}>
-      <h3>{title}</h3>
-      <h4>{hirer}</h4>
+      <h3>{job.title}</h3>
+      <h4>{company.company_name}</h4>
       <p className="description">{formattedDescription}</p>
-      {location && <p><strong>Location:</strong> {location}</p>}
+      <p>Location: {address.city}, {address.country}</p>
     </div>
   );
 };
 
 export default JobSummary;
- 
