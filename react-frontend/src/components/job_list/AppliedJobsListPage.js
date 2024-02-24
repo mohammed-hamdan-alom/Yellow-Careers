@@ -21,14 +21,7 @@ function AppliedJobListPage() {
             <h1>Applied Jobs:</h1>
             <ul className='job-summary'>
                 {jobs.map(job => (
-                    <JobSummary
-                        key={job.id}
-                        id={job.id}
-                        title={job.title}
-                        hirer={job.hirer}
-                        description={job.description}
-                        location={job.address}
-                    />
+                    <JobSummary job={job} />
                 ))}
             </ul>
         </div>
