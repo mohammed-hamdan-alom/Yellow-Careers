@@ -17,7 +17,7 @@ const JobSummary = ({ job }) => {
 
   const handleClick = () => {
     // navigate to the job details page
-    navigate(`/job-seeker/job-details/${id}`);
+    navigate(`/job-seeker/job-details/${job.id}`);
   };
 
 
