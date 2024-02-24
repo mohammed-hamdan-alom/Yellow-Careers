@@ -26,7 +26,7 @@ function JobDetails () {
             AxiosInstance.get(`api/jobs/${jobId}/`), // get the job details
             AxiosInstance.get(`api/jobs/${jobId}/questions/`), // get the questions for the job
             AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`), // get the saved jobs of the job seeker
-            AxiosInstance.get(`api/job-seekers/${userId}/resume/`), // get the resume data of the job seeker
+            AxiosInstance.get(`api/job-seeker/${userId}/resume/`), // get the resume data of the job seeker
             AxiosInstance.get(`api/jobs/${jobId}/address/`), // get the address data of the job
             AxiosInstance.get(`api/jobs/${jobId}/company/`) // get the company data of the job
         ]).then((responses) => {
@@ -36,7 +36,7 @@ function JobDetails () {
             setResume(responses[3].data);
             setAddress(responses[4].data);
             setCompany(responses[5].data);
-            setIsJobSaved(responses[2].data.some(savedJob => String(savedJob.id) === String(jobId)));
+            setIsJobSaved(responses[2].data.some(savedJob => String(savedJob.id) === String(jobId))); // check if the job is saved
         }).catch((error) => console.error('Error fetching data:', error));
     }, [jobId, userId, savedJobs]);
 

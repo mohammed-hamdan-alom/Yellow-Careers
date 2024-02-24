@@ -7,7 +7,7 @@ const JobSummary = ({ id, title, hirer, description, location }) => {
 
   const handleClick = () => {
     // navigate to the job details page
-    navigate(`/job-seeker/job-detail/${id}`);
+    navigate(`/job-seeker/job-details/${id}`);
   };
 
   const formattedDescription = description.split('\n').map((paragraph, index) => (

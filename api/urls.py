@@ -56,10 +56,10 @@ urlpatterns = [
 
     path('job-seekers/', JobSeekerListView.as_view(), name='job-seeker-list'),
     path('job-seekers/<int:pk>/', JobSeekerRetrieveView.as_view(), name='job-seeker-get'),
-    path('job-seekers/<int:pk>/resume/', UserResumeRetrieveView.as_view(), name='get-resume'),
     path('job-seekers/create/', JobSeekerCreateView.as_view(), name='job0seeker-post'),
     path('job-seekers/<int:pk>/update/', JobSeekerUpdateView.as_view(), name='job-seeker-put'),
-    path('job-seekers/<int:pk>/applied-jobs/', JobsAppliedListView.as_view(), name='job-seeker-applications'),
+    path('job-seeker/<int:pk>/resume/', UserResumeRetrieveView.as_view(), name='get-resume'),
+    path('job-seeker/<int:pk>/applied-jobs/', JobsAppliedListView.as_view(), name='job-seeker-applications'),
     path('job-seeker/<int:pk>/saved-jobs/', JobSeekerSavedJobsListView.as_view(), name='job-seeker-saved-jobs'),
     path('job-seeker/<int:pk>/matched-jobs/', JobSeekerMatchedJobsListingView.as_view(), name='job-seeker-matched-jobs'),
 

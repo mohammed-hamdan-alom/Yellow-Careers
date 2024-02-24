@@ -32,7 +32,7 @@ function App() {
           <Route path="resume" element={<ResumePage />} />
           <Route path="saved-jobs" element={<SavedJobListPage />} />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="job-detail/:jobId" element={<JobDetails />} />
+          <Route path="job-details/:jobId" element={<JobDetails />} />
           <Route path="applied-jobs" element={<AppliedJobListPage />} />
         </Route>
         <Route path='/create-job' element={<JobCreation />} />
