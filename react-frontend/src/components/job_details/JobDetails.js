@@ -17,6 +17,8 @@ function JobDetails () {
     const [job, setJob] = useState({}); // this is for the job details
     const [savedJobs, setSavedJobs] = useState([]); // this is for the saved jobs
     const [isJobSaved, setIsJobSaved] = useState(false); // add state for isJobSaved
+    const [appliedJobs, setAppliedJobs] = useState([]); // this is for the applied jobs
+    const [isJobApplied, setIsJobApplied] = useState(false); // add state for isJobApplied
     const [questions, setQuestions] = useState([]); // this is for the questions
     const [answers, setAnswers] = useState({}); // this is for the answers
     const [resume, setResume] = useState({});   // this is for the resume
@@ -29,13 +31,16 @@ function JobDetails () {
             AxiosInstance.get(`api/jobs/${jobId}/company/`), // get the company data of the job
             AxiosInstance.get(`api/jobs/${jobId}/address/`), // get the address data of the job
             AxiosInstance.get(`api/jobs/${jobId}/questions/`), // get the questions for the job
-            AxiosInstance.get(`api/job-seeker/${userId}/resume/`) // get the resume data of the job seeker
+            AxiosInstance.get(`api/job-seeker/${userId}/resume/`), // get the resume data of the job seeker
+            AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`), // get the applied jobs of the job seeker
         ]).then((responses) => {
             setJob(responses[0].data);
             setCompany(responses[1].data);
             setAddress(responses[2].data);
             setQuestions(responses[3].data);
             setResume(responses[4].data);
+            setAppliedJobs(responses[5].data);
+            setIsJobApplied(responses[5].data.some(appliedJob => String(appliedJob.id) === String(jobId)));
         }).catch((error) => console.error('Error fetching data:', error));
     }, [jobId, userId]);
 
@@ -60,9 +65,8 @@ function JobDetails () {
                 
                 // send a POST request to create the application
                 AxiosInstance.post('api/applications/create/', applicationData)
-                .then((response) => {
-                    const application = response.data;
-                    console.log('Created application:', application);
+                .then(() => {
+                    navigate(`/job-seeker/dashboard/`); // will change to see application details
                 })
                 .catch((error) => console.error('Error creating application:', error));
             }}
@@ -70,6 +74,10 @@ function JobDetails () {
         else {
             navigate(`questions/`)
         }
+    };
+
+    const handleSeeApplication = () => {
+        console.log('see application');
     };
 
     const handleSave = () => {
@@ -88,7 +96,7 @@ function JobDetails () {
                 job_seeker: userId,
                 job: jobId,
             })
-            .then((response) => {
+            .then(() => {
                 // set the state to true
                 setIsJobSaved(true);
             })
@@ -101,7 +109,11 @@ function JobDetails () {
             <h1>{job.title}</h1>
             <h2>{address.country}</h2>
             <h3>{company.company_name}</h3>
-            <button onClick={handleApply}>Apply</button>
+            {isJobApplied ? (
+                <button onClick={handleSeeApplication}>See Application</button>
+            ) : (
+                <button onClick={handleApply}>Apply</button>
+            )}
             {isJobSaved ? (
                 <button onClick={handleSave}>Unsave</button>
             ) : (

@@ -11,6 +11,8 @@ function JobQuestions() {
     const [questions, setQuestions] = useState([]);
     const [answers, setAnswers] = useState({}); // this is for the answers
     const [resume, setResume] = useState({});   // this is for the resume
+
+    const navigate = useNavigate();
   
     useEffect(() => {
         Promise.all([
@@ -30,6 +32,9 @@ function JobQuestions() {
                 application: applicationId,  
                 question: questionId,
                 answer: answers[questionId],
+            })
+            .then(() => {
+                navigate(`/job-seeker/dashboard/`); // will change to see application details
             })
             .catch((error) => console.error('Error saving answer:', error));
         }
