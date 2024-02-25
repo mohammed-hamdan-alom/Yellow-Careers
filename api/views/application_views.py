@@ -1,7 +1,7 @@
 from rest_framework import generics
 from api.models import Application
 from api.serializers.application_serializer import ApplicationSerializer
-
+from django.shortcuts import get_object_or_404
 
 class BaseApplicationView:
     queryset = Application.objects.all()
@@ -12,6 +12,13 @@ class ApplicationListView(BaseApplicationView, generics.ListAPIView):
 
 class ApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPIView):
     pass
+
+class JobSeekerApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPIView):
+        
+    def get_object(self):
+        job_seeker_id = self.kwargs.get('job_seeker_id')
+        job_id = self.kwargs.get('job_id')
+        return get_object_or_404(Application, job_seeker_id=job_seeker_id, job_id=job_id)
 
 class ApplicationCreateView(BaseApplicationView, generics.CreateAPIView):
     pass

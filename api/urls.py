@@ -33,6 +33,8 @@ urlpatterns = [
     path('applications/<int:pk>/', ApplicationRetrieveView.as_view(), name='application-get'),
     path('applications/create/', ApplicationCreateView.as_view(), name='application-post'),
     path('applications/<int:pk>/update/', ApplicationUpdateView.as_view(), name='application-put'),
+    path('applications/<int:job_seeker_id>/<int:job_id>/', JobSeekerApplicationRetrieveView.as_view(), name='job-seeker-application-get'),
+    path('applications/<int:application_id>/resume/', ApplicationResumeRetrieveView.as_view(), name='application-resume-get'), 
 
     path('companies/', CompanyListView.as_view(), name='company-list'),
     path('companies/<int:pk>/', CompanyRetrieveView.as_view(), name='company-get'),
@@ -53,6 +55,10 @@ urlpatterns = [
     path('resumes/<int:pk>/', ResumeRetrieveView.as_view(), name='resume-get'),
     path('resumes/create/', ResumeCreateView.as_view(), name='resume-post'),
     path('resumes/<int:pk>/update/', ResumeUpdateView.as_view(), name='resume-put'),
+    path('resumes/<int:resume_id>/softskill/', SoftSkillListView.as_view(), name='softskill-get'),
+    path('resumes/<int:resume_id>/technicalskill/', TechnicalSkillListView.as_view(), name='technicalskill-get'),
+    path('resumes/<int:resume_id>/education/', EducationListView.as_view(), name='education-get'),
+
 
     path('job-seekers/', JobSeekerListView.as_view(), name='job-seeker-list'),
     path('job-seekers/<int:pk>/', JobSeekerRetrieveView.as_view(), name='job-seeker-get'),

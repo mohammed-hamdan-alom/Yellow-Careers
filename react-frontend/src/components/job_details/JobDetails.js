@@ -3,7 +3,7 @@ import AuthContext from "../../context/AuthContext";
 import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from '../../Axios';
 
-function JobDetails () {
+function JobDetails() {
     // get the user id from the context
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
@@ -50,26 +50,27 @@ function JobDetails () {
             .then((res) => {
                 setSavedJobs(res.data);
                 setIsJobSaved(res.data.some(savedJob => String(savedJob.id) === String(jobId)));
-        }).catch((error) => console.error('Error fetching data:', error));
+            }).catch((error) => console.error('Error fetching data:', error));
     }, [isJobSaved]);
 
     // this is for applying for the job
     const handleApply = () => {
-        if(questions.length === 0) {
+        if (questions.length === 0) {
             if (window.confirm('There are no job specific questions. Are you sure you want to apply for this job?')) {
                 const applicationData = {
                     job_seeker: userId,
                     job: jobId,
                     resume: resume.id,
                 }
-                
+
                 // send a POST request to create the application
                 AxiosInstance.post('api/applications/create/', applicationData)
-                .then(() => {
-                    navigate(`/job-seeker/job-details/${jobId}`); // will change to see application details
-                })
-                .catch((error) => console.error('Error creating application:', error));
-            }}
+                    .then(() => {
+                        navigate(`/job-seeker/job-details/${jobId}`); // will change to see application details
+                    })
+                    .catch((error) => console.error('Error creating application:', error));
+            }
+        }
 
         else {
             navigate(`questions/`)
@@ -77,7 +78,7 @@ function JobDetails () {
     };
 
     const handleSeeApplication = () => {
-        console.log('see application');
+        navigate(`application/`);
     };
 
     const handleSave = () => {
@@ -96,19 +97,22 @@ function JobDetails () {
                 job_seeker: userId,
                 job: jobId,
             })
-            .then(() => {
-                // set the state to true
-                setIsJobSaved(true);
-            })
-            .catch((error) => console.error('Error saving job:', error));
+                .then(() => {
+                    // set the state to true
+                    setIsJobSaved(true);
+                })
+                .catch((error) => console.error('Error saving job:', error));
         }
     };
-    
+
     return (
         <div>
             <h1>{job.title}</h1>
-            <h2>{address.country}</h2>
+            <h2>{job.description}</h2>
             <h3>{company.company_name}</h3>
+            <h4>Salary: {job.salary}</h4>
+            <h4>Job Type: {job.job_type}</h4>
+            <h4><strong>Location:</strong> {address.post_code}, {address.city}, {address.country}</h4>
             {isJobApplied ? (
                 <button onClick={handleSeeApplication}>See Application</button>
             ) : (
