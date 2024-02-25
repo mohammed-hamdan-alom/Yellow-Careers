@@ -44,6 +44,7 @@ function JobDetails () {
         AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`)
             .then((res) => {
                 setSavedJobs(res.data);
+                setIsJobSaved(res.data.some(savedJob => String(savedJob.id) === String(jobId)));
         }).catch((error) => console.error('Error fetching data:', error));
     }, [isJobSaved]);
 
