@@ -10,18 +10,20 @@ const ResumeDisplay = ({ resume }) => {
 
 
     useEffect(() => {
-        Promise.all([
-            AxiosInstance.get(`api/resumes/${resume.id}/softskill/`),
-            AxiosInstance.get(`api/resumes/${resume.id}/technicalskill/`),
-            AxiosInstance.get(`api/resumes/${resume.id}/education/`)
-        ])
-            .then((responses) => {
-                setSoftSkill(responses[0].data);
-                setTechnicalSkill(responses[1].data);
-                setEducation(responses[2].data);
-            })
-            .catch((error) => console.error('Error retrieving data:', error))
-    }, [resume.id]);
+        if (resume && resume.id) {
+            Promise.all([
+                AxiosInstance.get(`api/resumes/${resume.id}/softskill/`),
+                AxiosInstance.get(`api/resumes/${resume.id}/technicalskill/`),
+                AxiosInstance.get(`api/resumes/${resume.id}/education/`)
+            ])
+                .then((responses) => {
+                    setSoftSkill(responses[0].data);
+                    setTechnicalSkill(responses[1].data);
+                    setEducation(responses[2].data);
+                })
+                .catch((error) => console.error('Error retrieving data:', error))
+        }
+    }, [resume]);
 
     return (
         <div>
