@@ -34,7 +34,7 @@ function JobQuestions() {
                 answer: answers[questionId],
             })
             .then(() => {
-                navigate(`/job-seeker/dashboard/`); // will change to see application details
+                navigate(`/job-seeker/job-details/${jobId}`); // will change to see application details
             })
             .catch((error) => console.error('Error saving answer:', error));
         }

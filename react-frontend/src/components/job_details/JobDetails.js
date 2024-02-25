@@ -56,7 +56,7 @@ function JobDetails () {
     // this is for applying for the job
     const handleApply = () => {
         if(questions.length === 0) {
-            if (window.confirm('Are you sure you want to apply for this job?')) {
+            if (window.confirm('There are no job specific questions. Are you sure you want to apply for this job?')) {
                 const applicationData = {
                     job_seeker: userId,
                     job: jobId,
@@ -66,7 +66,7 @@ function JobDetails () {
                 // send a POST request to create the application
                 AxiosInstance.post('api/applications/create/', applicationData)
                 .then(() => {
-                    navigate(`/job-seeker/dashboard/`); // will change to see application details
+                    navigate(`/job-seeker/job-details/${jobId}`); // will change to see application details
                 })
                 .catch((error) => console.error('Error creating application:', error));
             }}
