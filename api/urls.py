@@ -71,7 +71,7 @@ urlpatterns = [
 
     path('job-seekers/', JobSeekerListView.as_view(), name='job-seeker-list'),
     path('job-seekers/<int:pk>/', JobSeekerRetrieveView.as_view(), name='job-seeker-get'),
-    path('job-seekers/create/', JobSeekerCreateView.as_view(), name='job0seeker-post'),
+    path('job-seekers/create/', JobSeekerCreateView.as_view(), name='job-seeker-post'),
     path('job-seekers/<int:pk>/update/', JobSeekerUpdateView.as_view(), name='job-seeker-put'),
 
     path('employers/', EmployerListView.as_view(), name='employer-list'),

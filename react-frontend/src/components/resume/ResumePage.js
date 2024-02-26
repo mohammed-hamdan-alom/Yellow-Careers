@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import AxiosInstance from '../../Axios';
-import { useContext } from 'react';
-import AuthContext from '../../context/AuthContext';
-import ResumeForm from './ResumeForm';
-import SoftSkills from './SoftSkill';
-import TechnicalSkills from './TechnicalSkill';
-import Languages from './Language';
-import Education from './Education';
-import ProfessionalExperience from './ProfessionalExperience';
-
-
+import React, { useState, useEffect } from "react";
+import AxiosInstance from "../../Axios";
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
+import ResumeForm from "./ResumeForm";
+import SoftSkills from "./SoftSkill";
+import TechnicalSkills from "./TechnicalSkill";
+import Languages from "./Language";
+import Education from "./Education";
+import ProfessionalExperience from "./ProfessionalExperience";
+import Popup from "./Popup";
 
 function UpdateResumePage() {
-
   const [resumeId, setResumeId] = useState(null);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const [buttonPopup, setButtonPopup] = useState(false);
   const userId = user.user_id;
   console.log(userId);
 
@@ -22,7 +21,7 @@ function UpdateResumePage() {
     async function fetchResumeId() {
       const response = await AxiosInstance.get(`api/job-seekers/${userId}/`);
       const data = await response.data;
-      if (response.status === 404){
+      if (response.status === 404) {
         console.log("Jobseeker not found");
       }
       if (data.resume === null) {
@@ -32,21 +31,21 @@ function UpdateResumePage() {
       return data.resume;
     }
 
-    fetchResumeId().then(id => {
+    fetchResumeId().then((id) => {
       setResumeId(id);
     });
   }, [userId]);
 
   return (
-      <div>
-          <h1>Resume</h1>
-          <ResumeForm resumeId={resumeId}/>
-          <SoftSkills resumeId={resumeId}/>
-          <TechnicalSkills resumeId={resumeId}/> 
-          <Languages resumeId={resumeId}/>
-          <Education resumeId={resumeId}/>
-          <ProfessionalExperience resumeId={resumeId}/> 
-      </div>
+    <div>
+      <h1>Resume</h1>
+      <ResumeForm resumeId={resumeId} />
+      <SoftSkills resumeId={resumeId} />
+      <TechnicalSkills resumeId={resumeId} />
+      <Languages resumeId={resumeId} />
+      <Education resumeId={resumeId} />
+      <ProfessionalExperience resumeId={resumeId} />
+    </div>
   );
 }
 
