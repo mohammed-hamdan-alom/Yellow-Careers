@@ -22,6 +22,29 @@
             "sex" : "F",
             "resume" : 2
         }
+    },
+    {
+        "model" : "api.savedjobs",
+        "pk" : 1,
+        "fields" : {
+            "jobseeker" : 1,
+            "job" : 1
+        }
+    },
+    {
+        "model" : "api.savedjobs",
+        "pk" : 2,
+        "fields" : {
+            "jobseeker" : 1,
+            "job" : 2
+        }
+    },
+    {
+        "model" : "api.savedjobs",
+        "pk" : 3,
+        "fields" : {
+            "jobseeker" : 2,
+            "job" : 3
+        }
     }
-
 ]
