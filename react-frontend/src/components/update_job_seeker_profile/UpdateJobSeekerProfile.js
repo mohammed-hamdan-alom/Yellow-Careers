@@ -82,7 +82,6 @@ const UpdateJobSeekerProfile = () => {
         const response = await AxiosInstance.put(`/api/job-seekers/${user?.user_id}/update/`, formData);
 
         if (response.status === 200) {
-          // Update the user token
           swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
         } else {
           swal.fire("Update Failed", `Error: ${response.status}`, "error");
