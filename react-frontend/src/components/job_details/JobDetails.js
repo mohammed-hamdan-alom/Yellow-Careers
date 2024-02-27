@@ -66,7 +66,7 @@ function JobDetails() {
                 // send a POST request to create the application
                 AxiosInstance.post('api/applications/create/', applicationData)
                     .then(() => {
-                        navigate(`/job-seeker/job-details/${jobId}`); // will change to see application details
+                        window.location.reload()
                     })
                     .catch((error) => console.error('Error creating application:', error));
             }
