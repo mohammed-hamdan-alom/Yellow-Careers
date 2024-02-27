@@ -33,6 +33,8 @@ urlpatterns = [
     path('applications/<int:pk>/', ApplicationRetrieveView.as_view(), name='application-get'),
     path('applications/create/', ApplicationCreateView.as_view(), name='application-post'),
     path('applications/<int:pk>/update/', ApplicationUpdateView.as_view(), name='application-put'),
+    path('applications/<int:job_seeker_id>/<int:job_id>/', JobSeekerApplicationRetrieveView.as_view(), name='job-seeker-application-get'),
+    path('applications/<int:application_id>/resume/', ApplicationResumeRetrieveView.as_view(), name='application-resume-get'), 
 
     path('companies/', CompanyListView.as_view(), name='company-list'),
     path('companies/<int:pk>/', CompanyRetrieveView.as_view(), name='company-get'),
@@ -53,12 +55,23 @@ urlpatterns = [
     path('resumes/<int:pk>/', ResumeRetrieveView.as_view(), name='resume-get'),
     path('resumes/create/', ResumeCreateView.as_view(), name='resume-post'),
     path('resumes/<int:pk>/update/', ResumeUpdateView.as_view(), name='resume-put'),
+    path('resumes/<int:resume_id>/softskill/', SoftSkillListView.as_view(), name='softskill-get'),
+    path('resumes/<int:resume_id>/technicalskill/', TechnicalSkillListView.as_view(), name='technicalskill-get'),
+    path('resumes/<int:resume_id>/education/', EducationListView.as_view(), name='education-get'),
+
 
     path('job-seekers/', JobSeekerListView.as_view(), name='job-seeker-list'),
     path('job-seekers/<int:pk>/', JobSeekerRetrieveView.as_view(), name='job-seeker-get'),
-    path('job-seekers/<int:pk>/resume/', UserResumeRetrieveView.as_view(), name='get-resume'),
     path('job-seekers/create/', JobSeekerCreateView.as_view(), name='job0seeker-post'),
     path('job-seekers/<int:pk>/update/', JobSeekerUpdateView.as_view(), name='job-seeker-put'),
+    path('job-seeker/<int:pk>/resume/', UserResumeRetrieveView.as_view(), name='get-resume'),
+    path('job-seeker/<int:pk>/applied-jobs/', JobsAppliedListView.as_view(), name='job-seeker-applications'),
+    path('job-seeker/<int:pk>/saved-jobs/', JobSeekerSavedJobsListView.as_view(), name='job-seeker-saved-jobs'),
+    path('job-seeker/<int:pk>/matched-jobs/', JobSeekerMatchedJobsListingView.as_view(), name='job-seeker-matched-jobs'),
+
+    path('saved-jobs/', SavedJobsListView.as_view(), name='saved_jobs_list'),
+    path('saved-jobs/create/', SavedJobsCreateView.as_view(), name='saved_jobs_create'),
+    path('saved-jobs/update/<int:job_seeker_id>/<int:job_id>/', SavedJobsUpdateView.as_view(), name='saved_jobs_update'),
 
     path('employers/', EmployerListView.as_view(), name='employer-list'),
     path('employers/<int:pk>/', EmployerRetrieveView.as_view(), name='employer-get'),
