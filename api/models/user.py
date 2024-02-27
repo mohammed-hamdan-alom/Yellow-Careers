@@ -61,10 +61,3 @@ class Employer(User):
             return posted_jobs
         else:
             return self.employerjobrelation_set.all()
-
-
-    
-    
-
-
-    
