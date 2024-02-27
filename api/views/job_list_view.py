@@ -21,6 +21,10 @@ class JobListingView(generics.ListAPIView):
         serializer = JobSerializer(jobs, many=True)
         return Response(serializer.data)
     
+class JobRetrieveView(generics.RetrieveAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    
 class AddressRetrieveView(generics.RetrieveAPIView):
     queryset = Address.objects.all()
     permission_classes = ([AllowAny])
