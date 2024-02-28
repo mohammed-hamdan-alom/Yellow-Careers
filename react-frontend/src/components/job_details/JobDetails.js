@@ -20,7 +20,6 @@ function JobDetails() {
     const [appliedJobs, setAppliedJobs] = useState([]); // this is for the applied jobs
     const [isJobApplied, setIsJobApplied] = useState(false); // add state for isJobApplied
     const [questions, setQuestions] = useState([]); // this is for the questions
-    const [answers, setAnswers] = useState({}); // this is for the answers
     const [resume, setResume] = useState({});   // this is for the resume
     const [address, setAddress] = useState({}); // this is for the address
     const [company, setCompany] = useState({}); // this is for the company
