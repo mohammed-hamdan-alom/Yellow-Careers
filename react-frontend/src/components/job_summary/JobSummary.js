@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './JobSummary.css';
-import AxiosInstance from '../../Axios';
+import AxiosInstance from '../Axios';
 
 const JobSummary = ({ job }) => {
   const navigate = useNavigate();
