@@ -33,14 +33,14 @@ class JobSeekerMatchedJobsListingView(generics.ListAPIView):
 		job_seeker_id = self.kwargs['pk']
 		job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id)
 		job_scores = {}
-		for job in Job.objects:
+		for job in Job.objects.all():
 			job_scores[job] = ratio(job.to_string(), job_seeker.get_resume().to_string())
-		print(job_scores)
 		matched_order = sorted(job_scores.items(), key=lambda x: x[1], reverse=True)
 		matched_jobs = [item[0] for item in matched_order]
 		applications = Application.objects.filter(job_seeker=job_seeker)
 		applied_jobs = [application.job for application in applications]
-		return matched_jobs.objects.exclude(id__in=[job.id for job in applied_jobs])
+		return list(filter(lambda x: x not in applied_jobs, matched_jobs))
+		# return Job.objects.exclude(id__in=[job.id for job in applied_jobs])
 	
 class JobSeekerSavedJobsListView(generics.ListAPIView):
 	'''get the jobs saved by a job seeker. The job seeker id is passed as a parameter in the url.'''
@@ -50,7 +50,7 @@ class JobSeekerSavedJobsListView(generics.ListAPIView):
 	def get_queryset(self):
 		job_seeker_id = self.kwargs['pk']
 		saved_jobs = SavedJobs.objects.filter(job_seeker_id=job_seeker_id)
-		return Job.objects.filter(savedjobs__in=saved_jobs)
+		return Jobs.objects.filter(savedjobs__in=saved_jobs)
         
 class AddressCreationView(generics.CreateAPIView):
 	queryset = Address.objects.all()
