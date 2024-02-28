@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
 import '../job_summary/JobSummary.css';
 import JobSummary from "../job_summary/JobSummary";
-import AxiosInstance from '../Axios';
+import AxiosInstance from '../../Axios';;
 
 
 const JobListPage = () => {
