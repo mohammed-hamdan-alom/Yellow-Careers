@@ -29,17 +29,17 @@ const ResumeDisplay = ({ resume }) => {
         <div>
             <h4>Soft Skills:</h4>
             <h5>{softSkill.map(skill => (
-                <>
+                <div key={skill.id}>
                     <p>{skill.skill}</p>
                     <br />
-                </>
+                </div>
             ))}</h5>
             <h4>Technical Skills:</h4>
             <h5>{technicalSkill.map(skill => (
-                <>
+                <div key={skill.id}>
                     <p>{skill.skill}</p>
                     <br />
-                </>
+                </div>
             ))}</h5>
             <h4>Education:</h4>
             {education.map(edu => (

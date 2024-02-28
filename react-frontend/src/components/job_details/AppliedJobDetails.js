@@ -46,16 +46,6 @@ function AppliedJobDetails() {
             .catch((error) => console.error('Error retrieving info:', error));
     }, [jobId, userId]);
 
-    const getAnswer = (questionId) => {
-        AxiosInstance.get(`api/questions/${questionId}/answers/`)
-            .then(response => {
-                const answer = response.data
-                console.log('Answer:', answer);
-                return answer.answer;
-            })
-            .catch((error) => console.error('Error retrieving answers:', error));
-    }
-
     return (
         <div>
             <h1>Date Applied: {application.date_applied}</h1>
