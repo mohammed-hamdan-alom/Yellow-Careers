@@ -8,6 +8,8 @@ from api.models import Job, Address, Application, JobSeeker, SavedJobs
 from api.serializers.job_serializer import JobSerializer
 from api.serializers.address_serializer import AddressSerializer
 
+from Levenshtein import ratio
+
 class JobCreationView(generics.CreateAPIView):
 	queryset = Job.objects.all()
 	permission_classes = ([AllowAny])
@@ -30,9 +32,15 @@ class JobSeekerMatchedJobsListingView(generics.ListAPIView):
 	def get_queryset(self):
 		job_seeker_id = self.kwargs['pk']
 		job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id)
+		job_scores = {}
+		for job in Job.objects:
+			job_scores[job] = ratio(job.to_string(), job_seeker.get_resume().to_string())
+		print(job_scores)
+		matched_order = sorted(job_scores.items(), key=lambda x: x[1], reverse=True)
+		matched_jobs = [item[0] for item in matched_order]
 		applications = Application.objects.filter(job_seeker=job_seeker)
 		applied_jobs = [application.job for application in applications]
-		return Job.objects.exclude(id__in=[job.id for job in applied_jobs])
+		return matched_jobs.objects.exclude(id__in=[job.id for job in applied_jobs])
 	
 class JobSeekerSavedJobsListView(generics.ListAPIView):
 	'''get the jobs saved by a job seeker. The job seeker id is passed as a parameter in the url.'''

@@ -43,6 +43,9 @@ class JobSeeker(User):
     
     def get_applied_jobs(self):
         return self.application_set.all()
+    
+    def get_resume(self):
+        return self.resume
 
 
 class Employer(User):

@@ -22,3 +22,6 @@ class Job(models.Model):
     
     def get_employers_ids(self):
         return EmployerJobRelation.objects.filter(job_id=self.id).values_list('employer', flat=True)
+    
+    def to_string(self):
+        return f"{self.name} {self.description} {self.salary} {self.job_type}"
