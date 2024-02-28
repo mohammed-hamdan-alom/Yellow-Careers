@@ -5,7 +5,7 @@ const IconExampleLoadingGroup = () => (
   <div>
     <IconGroup size='big'>
       <Icon size='big' color='red' name='dont' />
-      <Icon name='wheelchair' />
+      <Icon name='accessible' />
     </IconGroup>
   </div>
 )

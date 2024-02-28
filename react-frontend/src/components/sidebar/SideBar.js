@@ -88,7 +88,7 @@ function SideBar({ isOpen, toggleSidebar }) {
           active={isActive("/profile")}
           onClick={toggleSidebar}
         >
-          <Icon name="user" />
+          <Icon name="jenkins" />
           Profile
         </Menu.Item>
 
