@@ -3,6 +3,7 @@
 Job Hiring app that matches jobs listed by employers to users who are looking for jobs. 
 
 ## Setting up Dev Environment (Mac and Windows) 
+Sorry linux users you're on your own
 
 ### For mac:
 
@@ -51,33 +52,17 @@ npm -v
 ```
 
 
-## Setting up and running the app
-
-First enter the frontend directory with ```cd frontend``` (from the root directory) and enter the following commands:
-
-Install the node packages:
-```
-npm install
-```
-
-Run the app in development mode:
-```
-npm start
-```
-
-Now, enter the backend directory with ```cd backend``` (from the root directory) and enter the following commands:
+## Installation
 
 Install virtualenv:
 ```
 pip3 install virtualenv
 ```
 
-Create a new virtual environment:
+Create a new virtual environment (make sure you are in the root directory) :
 ```
 virtualenv venv
 ```
-
-Activate the virtual environment:
 (Mac)
 ```
 source venv/bin/activate 
@@ -86,19 +71,26 @@ source venv/bin/activate
 ```
 venv/Scripts/activate
 ```
-
 Install all the dependencies:
+
 ```bash
 pip3 install -r requirements.txt
 ```
-
-Make migrations and migrate:
 ```
 python3 manage.py makemigrations
 python3 manage.py migrate
 ```
-
 Start the REST api:
 ```
 python3 manage.py runserver
 ```
+Now install the node packages:
+```
+npm install
+```
+now enter the react-frontend directory with ```cd react-frontend``` and enter the following command:
+```
+npm install
+npm start
+```
+
