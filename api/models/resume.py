@@ -9,10 +9,16 @@ class SoftSkill(models.Model):
     skill = models.CharField(max_length=30)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=False)
 
+    def to_string(self):
+        return f"{self.skill}"
+
 class TechnicalSkill(models.Model):
     """Model that represents a technical skill"""
     skill = models.CharField(max_length=30)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=False)
+
+    def to_string(self):
+        return f"{self.skill}"
 
 class Language(models.Model):
     """Model that represents a language"""
@@ -26,6 +32,9 @@ class Language(models.Model):
     written_proficiency = models.CharField(max_length=1,choices=Proficiency.choices)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=False)
 
+    def to_string(self):
+        return f"{self.language}"
+
 class Education(models.Model):
     """Model that represents an education"""
     class Levels(models.TextChoices):
@@ -36,10 +45,15 @@ class Education(models.Model):
     start_date = models.DateField(blank=False)
     end_date = models.DateField(blank=False)
     address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
+    # course_name = models.CharField(max_length=100, default=None)
     level = models.CharField(max_length=15,choices=Levels.choices) 
     institution = models.CharField(max_length=100)
     grade = models.CharField(max_length=15, blank=False)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=False)
+
+    def to_string(self):
+        return f"{self.course_name}"
+
 
 class ProfessionalExperience(models.Model):
     """Model that represents a professional experience"""
@@ -50,6 +64,9 @@ class ProfessionalExperience(models.Model):
     position = models.CharField(max_length=100)
     description = models.TextField(max_length=2000,blank=True)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=False)
+
+    def to_string(self):
+        return f"{self.position} {self.description}"
 
 
 class Resume(models.Model):
@@ -76,3 +93,11 @@ class Resume(models.Model):
     
     def get_professional_experience(self):
         return self.professionalexperience_set.all()
+
+    def to_string(self):
+        # education_strings = [education.to_string() for education in self.get_education()]
+        education_strings = []
+        skills_strings = [skills.to_string() for skills in self.get_technical_skills()] + [skills.to_string() for skills in self.get_soft_skills()]
+        language_strings = [language.to_string() for language in self.get_languages()]
+        experience_sting = [experience.to_string() for experience in self.get_professional_experience()]
+        return ' '.join(education_strings + skills_strings + language_strings + experience_sting)
