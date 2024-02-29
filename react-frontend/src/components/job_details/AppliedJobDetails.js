@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AxiosInstance from '../../Axios';
 import ResumeDisplay from "../resume/ResumeDisplay";
 
@@ -10,8 +10,6 @@ function AppliedJobDetails() {
     const userId = user.user_id;
 
     const { jobId } = useParams();
-
-    const navigate = useNavigate();
 
     const [job, setJob] = useState({});
     const [application, setApplication] = useState({});
