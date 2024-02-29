@@ -1,0 +1,58 @@
+
+LandingPage.css
+
+.landing-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+    background-color: #fff;
+
+    background-image: url('../../../assets/backgroundPic.avif');
+
+    background-size: cover;
+}
+
+.landing-content {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ 
+}
+
+.button-group button {
+    margin: 0.5rem;
+    padding: 0.5rem 2rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #fdd835;
+
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #e6c800;
+}
+
+.btn-secondary {
+    background-color: #ffffff;
+ 
+    color: #fdd835;
+    border: 2px solid #fdd835;
+}
+
+.btn-secondary:hover {
+    background-color: #fdd835;
+   
+    color: #ffffff;
+}
