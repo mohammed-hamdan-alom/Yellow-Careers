@@ -50,9 +50,19 @@ class JobSeekerSavedJobsListView(generics.ListAPIView):
 	def get_queryset(self):
 		job_seeker_id = self.kwargs['pk']
 		saved_jobs = SavedJobs.objects.filter(job_seeker_id=job_seeker_id)
-		return Jobs.objects.filter(savedjobs__in=saved_jobs)
+		return Job.objects.filter(savedjobs__in=saved_jobs)
         
-class AddressCreationView(generics.CreateAPIView):
-	queryset = Address.objects.all()
-	permission_classes = ([AllowAny])
-	serializer_class = AddressSerializer
+
+class JobListingView(generics.ListAPIView):
+    queryset = Job.objects.all()
+    permission_classes = ([AllowAny])
+    serializer_class = JobSerializer
+
+    def list(self, request):
+        jobs = self.get_queryset()
+        serializer = JobSerializer(jobs, many=True)
+        return Response(serializer.data)
+    
+class JobRetrieveView(generics.RetrieveAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
