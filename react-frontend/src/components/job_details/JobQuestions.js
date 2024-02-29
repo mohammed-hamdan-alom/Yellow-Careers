@@ -53,7 +53,6 @@ function JobQuestions() {
             AxiosInstance.post('api/applications/create/', applicationData)
             .then((response) => {
                 const application = response.data;
-                console.log('Created application:', application);
 
                 // the application's ID is now available as application.id
                 createAnswers(application.id);
