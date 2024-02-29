@@ -1,162 +1,114 @@
-import React, { useState, useEffect } from 'react';
-import AxiosInstance from '../../Axios';
-import { Link } from 'react-router-dom';
-import { showError, showSuccess } from './notificationUtils';
+import React, { useState, useEffect } from "react";
+import AxiosInstance from "../../Axios";
+import { Link } from "react-router-dom";
+import { showError, showSuccess } from "./notificationUtils";
+import Popup from "./Popup";
+import EditProfessionalExperience from "./EditProfessionalExperiencePage";
 
+function ProfessionalExperience({ resumeId }) {
+  const [professionalExperiences, setProfessionalExperiences] = useState([]);
+  const [createPopup, setCreatePopup] = useState(false);
+  const [editPopup, setEditPopup] = useState(null);
+  const [openPopupId, setOpenPopupId] = useState(null);
 
-
-function ProfessionalExperience({ resumeId,}) {
-    const defaultExperienceState = {
-        start_date:'',
-        end_date:'',
-        company:'',
-        position:'',
-        description:'',
-        address:{
-            city:'',
-            post_code:'',
-            country:''
-        }
+  useEffect(() => {
+    if (!resumeId) {
+      return;
     }
-    const [professionalExperiences, setProfessionalExperiences] = useState([]);
-    const [professionalExperience, setProfessionalExperience] = useState(defaultExperienceState);
-    const [errors, setErrors] = useState(defaultExperienceState);
+    AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`)
+      .then((response) => {
+        setProfessionalExperiences(response.data);
+      })
+      .catch((error) => console.error("Error:", error));
+  }, [resumeId]);
 
-    useEffect(() => {
-        if (!resumeId) {return;}
-        AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`)
-            .then((response) => {setProfessionalExperiences(response.data)})
-            .catch((error) => console.error('Error:', error));
-    }, [resumeId]);
-
-    const handleProfessionalExperienceChange = (event) => {
-        const { name, value } = event.target;
-        if (name.includes("address")) {
-          const addressField = name.split(".")[1]; // Extract the address field name
-          setProfessionalExperience({
-            ...professionalExperience,
-            address: {
-              ...professionalExperience.address,
-              [addressField]: value,
-            },
-          });
-        } else {
-          setProfessionalExperience({...professionalExperience,[name]: value,});
-        }
-      };
-    
-    
-    const handleSubmitProfessionalExperiences = (event) => {
-        event.preventDefault();
-        AxiosInstance.post(`api/resumes/${resumeId}/professional-experiences/create/`, professionalExperience
-        ).then((response) => {
-            const newProfessionalExperience = response.data
-            showSuccess('Professional Experience Added');
-            setProfessionalExperience(defaultExperienceState);
-            setErrors(defaultExperienceState);
-            setProfessionalExperiences(prevProfessionalExperiences => [...prevProfessionalExperiences, newProfessionalExperience]);
-        
-        }).catch((error) => {
-            console.error('Error:', error);
-            let errorMessages = '';
-            if (error.response && error.response.data) {
-                errorMessages = Object.values(error.response.data).join(' ');
-                setErrors(error.response.data);
-            };
-            showError('Creating Professional Experience Failed');
-        });
-    
-    };
-    
-    //Delete a professional experience
-    const handleDeleteProfessionalExperience = (professionalExperienceObj) => {
-        AxiosInstance.delete(`api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`)
-        .then((response) => {
-            showSuccess('Professional Experience Deleted');
-            setProfessionalExperiences(prevprofessionalExperiences => prevprofessionalExperiences.filter(item => item !== professionalExperienceObj));
-        }).catch((error) => {
-            console.error('Error:', error);
-            showError('Deleting Professional Experience Failed');
-        });
-    }
-
-    return (
-        <div>
-            <h2>Professional Experience</h2>
-            <ul>
-            {professionalExperiences.map((professionalExperience, index) => (
-            <li key={index}>
-                <p>start date: {professionalExperience.start_date}</p>
-                <p>end date :  {professionalExperience.end_date}</p>
-                <p>company: {professionalExperience.company}</p>
-                <p>position :  {professionalExperience.position}</p>
-                {professionalExperience.address && ( 
-                    <>
-                    <p>City: {professionalExperience.address.city}</p>
-                    <p>Post Code: {professionalExperience.address.post_code}</p>
-                    <p>Country: {professionalExperience.address.country}</p>
-                    </>
-                )}
-                <Link to={`/job-seeker/professional-experience/update/${professionalExperience.id}`} state={{resumeId:resumeId,defaultExperienceState:defaultExperienceState}}>Update</Link>
-                <button onClick={() => handleDeleteProfessionalExperience(professionalExperience)}>Delete</button>
-            </li>
-            ))}
-            </ul>
-
-
-            <form onSubmit={handleSubmitProfessionalExperiences}>
-            <div>
-                <label>
-                start date:
-                <input type="date" name="start_date" value={professionalExperience.start_date} onChange={handleProfessionalExperienceChange} pattern="\d{4}-\d{2}-\d{2}"/>
-                {errors.start_date && <p>{errors.start_date}</p>}
-                </label>
-                <label>
-                end date:
-                <input type="date" name="end_date" value={professionalExperience.end_date} onChange={handleProfessionalExperienceChange} pattern="\d{4}-\d{2}-\d{2}"/>
-                {errors.end_date && <p>{errors.end_date}</p>}
-                </label>
-            </div>
-            <label>
-                company:
-                <input type="text" name="company" value={professionalExperience.company} onChange={handleProfessionalExperienceChange} />
-                {errors.company && <p>{errors.company}</p>}
-                </label>
-                <label>
-                position:
-                <input type="text" name="position" value={professionalExperience.position} onChange={handleProfessionalExperienceChange} />
-                {errors.position && <p>{errors.position}</p>}
-                </label>
-                <label>
-                description:
-                <input type="text" name="description" value={professionalExperience.description} onChange={handleProfessionalExperienceChange} />
-                {errors.description && <p>{errors.description}</p>}
-                </label>
-
-                <h3>ADDRESS</h3>
-                <label>
-                city:
-                <input type="text" name="address.city" value={professionalExperience.address.city} onChange={handleProfessionalExperienceChange} />
-                {errors.address && errors.address.city && <p>{errors.address.city}</p>}
-                </label>
-
-                <label>
-                post code:
-                <input type="text" name="address.post_code" value={professionalExperience.address.post_code} onChange={handleProfessionalExperienceChange} />
-                {errors.address && errors.address.post_code && <p>{errors.address.post_code}</p>}
-                </label>
-
-                <label>
-                country:
-                <input type="text" name="address.country" value={professionalExperience.address.country} onChange={handleProfessionalExperienceChange} />
-                {errors.address && errors.address.country && <p>{errors.address.country}</p>}
-                </label>
-            
-            <button type="submit">Add professional experience</button>
-            </form>
-        </div>
+  //Delete a professional experience
+  const handleDeleteProfessionalExperience = (professionalExperienceObj) => {
+    AxiosInstance.delete(
+      `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`
     )
+      .then((response) => {
+        showSuccess("Professional Experience Deleted");
+        setProfessionalExperiences((prevprofessionalExperiences) =>
+          prevprofessionalExperiences.filter(
+            (item) => item !== professionalExperienceObj
+          )
+        );
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        showError("Deleting Professional Experience Failed");
+      });
+  };
 
+  return (
+    <div>
+      <h2>Professional Experience</h2>
+      <ul>
+        {professionalExperiences.map((professionalExperience, index) => (
+          <li key={index}>
+            <p>start date: {professionalExperience.start_date}</p>
+            <p>end date : {professionalExperience.end_date}</p>
+            <p>company: {professionalExperience.company}</p>
+            <p>position : {professionalExperience.position}</p>
+            {professionalExperience.address && (
+              <>
+                <p>City: {professionalExperience.address.city}</p>
+                <p>Post Code: {professionalExperience.address.post_code}</p>
+                <p>Country: {professionalExperience.address.country}</p>
+              </>
+            )}
+            <button
+              onClick={() => {
+                setEditPopup(true);
+                setOpenPopupId(professionalExperience.id);
+              }}
+            >
+              Edit Professional Experience
+            </button>
+            <Popup
+              trigger={editPopup && openPopupId === professionalExperience.id}
+              setTrigger={() => {
+                setOpenPopupId(null);
+              }}
+            >
+              <EditProfessionalExperience
+                put={true}
+                resumeId={resumeId}
+                setProfessionalExperiences={setProfessionalExperiences}
+                setButtonPopup={setEditPopup}
+                professionalExperienceId={professionalExperience.id}
+              />
+            </Popup>
+            <button
+              onClick={() =>
+                handleDeleteProfessionalExperience(professionalExperience)
+              }
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
 
-};
+      <div>
+        <button
+          onClick={() => {
+            setCreatePopup(true);
+          }}
+        >
+          Add Professional Experience
+        </button>
+        <Popup trigger={createPopup} setTrigger={setCreatePopup}>
+          <EditProfessionalExperience
+            post={true}
+            resumeId={resumeId}
+            setProfessionalExperiences={setProfessionalExperiences}
+            setButtonPopup={setCreatePopup}
+          />
+        </Popup>
+      </div>
+    </div>
+  );
+}
 export default ProfessionalExperience;
