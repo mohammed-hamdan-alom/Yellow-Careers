@@ -1,6 +1,6 @@
 from rest_framework.test import APITestCase, APIRequestFactory
 from django.urls import reverse
-from api.views import job_create
+from api.views import JobCreationView
 from rest_framework import status
 from api.models import Job, Address 
 from api.serializers import JobSerializer
@@ -8,7 +8,7 @@ from api.serializers import JobSerializer
 class JobsCreationTestCase(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
-        self.view = job_create
+        self.view = JobCreationView.as_view()
         self.url = reverse("create_job")
         self.address = Address.objects.create(
             city = "London",
@@ -49,7 +49,7 @@ class JobsCreationTestCase(APITestCase):
         self.assertEquals(Job.objects.count(), 1)
 
     def test_job_can__be_created_without_address(self):
-        self.job_data.pop('address', None)
+        self.job_data["address"] = None
         request = self.factory.post(self.url, self.job_data, format="json")
         response = self.view(request)
 
@@ -57,12 +57,11 @@ class JobsCreationTestCase(APITestCase):
         self.assertEquals(response.data["address"], None)
 
     def test_job_can_be_created_without_salary(self):
-        self.job_data.pop('salary', None)
+        self.job_data["salary"] = None
         request = self.factory.post(self.url, self.job_data, format="json")
         response = self.view(request)
 
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
         self.assertEquals(response.data["salary"], None)
-
 
 

@@ -4,7 +4,8 @@
         "pk" : 1,
         "fields" : {
             "company_name": "Yellow Card",
-            "website": "https://yellowcard.io/"
+            "website": "https://yellowcard.io/",
+            "about" : "best company in the world"
         }
     },
     {
@@ -12,7 +13,8 @@
         "pk" : 2,
         "fields" : {
             "company_name": "Google",
-            "website": "https://www.google.com/"
+            "website": "https://www.google.com/",
+            "about" : "tech company"
         }
     }
 ]
