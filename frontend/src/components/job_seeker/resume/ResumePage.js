@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import AxiosInstance from "../../Axios";
+import AxiosInstance from "../../../Axios";
 import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../../context/AuthContext";
 import ResumeForm from "./ResumeForm";
 import SoftSkills from "./SoftSkill";
 import TechnicalSkills from "./TechnicalSkill";

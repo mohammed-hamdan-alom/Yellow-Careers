@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AxiosInstance from "../../Axios";
+import AxiosInstance from "../../../Axios";
 import { showError, showSuccess } from "./notificationUtils";
 
 function TechnicalSkill({ resumeId }) {

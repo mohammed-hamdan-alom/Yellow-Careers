@@ -9,7 +9,7 @@ LandingPage.css
 
     background-color: #fff;
 
-    background-image: url('../../assets/backgroundPic.avif');
+    background-image: url('../../../assets/backgroundPic.avif');
 
     background-size: cover;
 }

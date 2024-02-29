@@ -3,21 +3,21 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 // import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
-import LandingPage from "./components/landing_page/LandingPage";
-import LoginPage from "./components/login/LoginPage";
-import JobSeekerRegister from "./components/register/jobseeker_register/JobSeekerRegister";
-import EmployerRegister from "./components/register/employer_register/EmployerRegister";
+import LandingPage from "./components/public/landing_page/LandingPage";
+import LoginPage from "./components/public/login/LoginPage";
+import JobSeekerRegister from "./components/public/register/jobseeker_register/JobSeekerRegister";
+import EmployerRegister from "./components/public/register/employer_register/EmployerRegister";
 
-import DashBoardPage from "./components/job-seeker/dashboard/DashBoardPage";
-import JobSeekerLayout from "./components/job-seeker/layout/JobSeekerLayout";
-import SearchPage from "./components/job-seeker/search/SearchPage";
-import JobSeekerProfile from './components/job-seeker/profile/JobSeekerProfile'
-import ResumePage from "./components/job-seeker/resume/ResumePage";
-import JobDetails from "./components/job-seeker/job_details/JobDetails";
-import JobQuestions from "./components/job-seeker/job_details/JobQuestions";
-import AppliedJobListPage from "./components/job-seeker/job_list/AppliedJobsListPage";
-import SavedJobListPage from "./components/job-seeker/job_list/SavedJobsListPage";
-import AppliedJobDetails from "./components/job-seeker/job_details/AppliedJobDetails";
+import DashBoardPage from "./components/job_seeker/dashboard/DashBoardPage";
+import JobSeekerLayout from "./components/job_seeker/layout/JobSeekerLayout";
+import SearchPage from "./components/job_seeker/search/SearchPage";
+import JobSeekerProfile from './components/job_seeker/profile/JobSeekerProfile'
+import ResumePage from "./components/job_seeker/resume/ResumePage";
+import JobDetails from "./components/job_seeker/job_details/JobDetails";
+import JobQuestions from "./components/job_seeker/job_details/JobQuestions";
+import AppliedJobListPage from "./components/job_seeker/job_list/AppliedJobsListPage";
+import SavedJobListPage from "./components/job_seeker/job_list/SavedJobsListPage";
+import AppliedJobDetails from "./components/job_seeker/job_details/AppliedJobDetails";
 
 import JobCreation from "./components/employer/job_creation/JobCreation";
 import EmployerLayout from "./components/employer/layout/EmployerLayout";
