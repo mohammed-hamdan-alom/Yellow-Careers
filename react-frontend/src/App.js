@@ -5,6 +5,7 @@ import DashBoardPage from "./components/dashboard/DashBoardPage";
 import JobSeekerLayout from "./components/layout/JobSeekerLayout";
 import SearchPage from "./components/search/SearchPage";
 import LandingPage from "./components/landing_page/LandingPage";
+import UpdateJobSeekerProfile from './components/update_job_seeker_profile/UpdateJobSeekerProfile'
 import EmployerRegister from "./components/register/employer_register/EmployerRegister";
 import JobCreation from "./components/job_creation/JobCreation";
 import JobListPage from "./components/job_list/JobListPage";
@@ -34,6 +35,7 @@ function App() {
           <Route path="resume" element={<ResumePage />} />
           <Route path="saved-jobs" element={<SavedJobListPage />} />
           <Route path="profile" element={<ProfilePage />} />
+          <Route path="edit-profile" element={<UpdateJobSeekerProfile />} />
           <Route path="job-details/:jobId" element={<JobDetails />} />
           <Route path="job-details/:jobId/questions" element={<JobQuestions />} />
           <Route path="job-details/:jobId/application" element={<AppliedJobDetails />} />
