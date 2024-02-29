@@ -16,7 +16,6 @@ function UpdateResumePage() {
   const { user } = useContext(AuthContext);
   const [buttonPopup, setButtonPopup] = useState(false);
   const userId = user.user_id;
-  console.log(userId);
 
   useEffect(() => {
     async function fetchResumeId() {
