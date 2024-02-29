@@ -8,7 +8,6 @@ import LandingPage from "./components/landing_page/LandingPage";
 import UpdateJobSeekerProfile from './components/update_job_seeker_profile/UpdateJobSeekerProfile'
 import EmployerRegister from "./components/register/employer_register/EmployerRegister";
 import JobCreation from "./components/job_creation/JobCreation";
-import JobListPage from "./components/job_list/JobListPage";
 // import PrivateRoute from './utils/PrivateRoute';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ProfilePage from "./components/profile/ProfilePage";
@@ -19,6 +18,9 @@ import JobSeekerRegister from "./components/register/jobseeker_register/JobSeeke
 import AppliedJobListPage from "./components/job_list/AppliedJobsListPage";
 import SavedJobListPage from "./components/job_list/SavedJobsListPage";
 import AppliedJobDetails from "./components/job_details/AppliedJobDetails";
+import EmployerLayout from "./components/employer/layout/EmployerLayout";
+import EmployerDashBoardPage from "./components/employer/dashboard/EmployerDashBoardPage";
+
 
 
 function App() {
@@ -29,7 +31,7 @@ function App() {
         <Route path="/register/employer" element={<EmployerRegister />} />
         <Route path="/register/jobseeker" element={<JobSeekerRegister />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/job-seeker/*" element={<JobSeekerLayout />} >
+        <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
           <Route path="dashboard" element={<DashBoardPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="resume" element={<ResumePage />} />
@@ -37,12 +39,20 @@ function App() {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="edit-profile" element={<UpdateJobSeekerProfile />} />
           <Route path="job-details/:jobId" element={<JobDetails />} />
-          <Route path="job-details/:jobId/questions" element={<JobQuestions />} />
-          <Route path="job-details/:jobId/application" element={<AppliedJobDetails />} />
+          <Route
+            path="job-details/:jobId/questions"
+            element={<JobQuestions />}
+          />
+          <Route
+            path="job-details/:jobId/application"
+            element={<AppliedJobDetails />}
+          />
           <Route path="applied-jobs" element={<AppliedJobListPage />} />
         </Route>
-        <Route path='/create-job' element={<JobCreation />} />
-        <Route path="/all-jobs" element={<JobListPage />} />
+        <Route path="/employer/*" element={<EmployerLayout />}>
+          <Route path="dashboard" element={<EmployerDashBoardPage />} />
+          <Route path="create-job" element={<JobCreation />} />
+        </Route>
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}
       </Routes>
     </AuthProvider>
