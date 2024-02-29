@@ -11,3 +11,5 @@ from .resume_views import *
 from .job_seeker_views import *
 from .employer_views import *
 from .job_list_view import *
+from .saved_jobs_views import *
+from .resume_attributes_view import *

@@ -9,3 +9,5 @@ from .question_serializer import *
 from .resume_serializer import *
 from .job_seeker_serializers import *
 from .employer_serializer import *
+from .saved_jobs_serializer import *
+from .resume_attributes_serializer import *

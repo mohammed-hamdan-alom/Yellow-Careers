@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Sidebar, Menu, Icon } from "semantic-ui-react";
 import { Link, useLocation } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
+import IconExampleLoadingGroup from "./NoDis";
 
 function SideBar({ isOpen, toggleSidebar }) {
   const location = useLocation();
@@ -67,7 +68,7 @@ function SideBar({ isOpen, toggleSidebar }) {
           active={isActive("/applied-jobs")}
           onClick={toggleSidebar}
         >
-          <Icon name="tasks" />
+          <IconExampleLoadingGroup />
           Applied Jobs
         </Menu.Item>
 
@@ -77,7 +78,7 @@ function SideBar({ isOpen, toggleSidebar }) {
           active={isActive("/saved-jobs")}
           onClick={toggleSidebar}
         >
-          <Icon name="tags" />
+          <Icon loading name="blind" />
           Saved Jobs
         </Menu.Item>
 
@@ -87,7 +88,7 @@ function SideBar({ isOpen, toggleSidebar }) {
           active={isActive("/profile")}
           onClick={toggleSidebar}
         >
-          <Icon name="user" />
+          <Icon name="jenkins" />
           Profile
         </Menu.Item>
 
