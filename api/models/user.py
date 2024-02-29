@@ -23,8 +23,10 @@ class User(AbstractUser):
 
     class Meta:
         ordering = ['last_name', 'first_name']
+        
     def __str__(self):
-        return self.email
+        return f"{self.email} - {self.first_name} {self.last_name}"
+
 
 class JobSeeker(User):
     """Model that represents a job seeker and inherits from User"""
@@ -33,7 +35,7 @@ class JobSeeker(User):
         FEMALE = 'F',_('Female')
 
     dob = models.DateField(blank=False)
-    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)
+    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=True) # null changed for testing purposes
     nationality = models.CharField(max_length=100, blank=False)
     sex = models.CharField(max_length=6,choices=Sex.choices)
     resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=True)
@@ -42,8 +44,9 @@ class JobSeeker(User):
     
     def get_applied_jobs(self):
         return self.application_set.all()
-
-
+    
+    def get_resume(self):
+        return self.resume
 
 
 class Employer(User):
@@ -62,10 +65,3 @@ class Employer(User):
             return posted_jobs
         else:
             return self.employerjobrelation_set.all()
-
-
-    
-    
-
-
-    

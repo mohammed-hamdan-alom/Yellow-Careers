@@ -1,4 +1,4 @@
-.job-summary {
+ .job-summary {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 20px;
@@ -8,13 +8,13 @@
 }
 
 .job-summary h3 {
-  color: #023e7d; /* Primary blue */
+  color: #023e7d; 
 }
 
 .job-summary h4 {
-  color: #6C757D; /* Secondary grey */
+  color: #6C757D; 
 }
-
+s
 .job-summary p {
   color: #333;
 }
@@ -25,4 +25,4 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} 

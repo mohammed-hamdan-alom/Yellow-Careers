@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User,JobSeeker,Employer,Job,Application,Resume, SoftSkill, TechnicalSkill, Language, Education, ProfessionalExperience, Address, Question, Answer, Company, EmployerJobRelation
+from .models import *
 
 
 @admin.register(User)
@@ -69,8 +69,11 @@ class CompanyAdmin(admin.ModelAdmin):
     ordering = ['id']
 
 @admin.register(EmployerJobRelation)
-class employerJobRelationAdmin(admin.ModelAdmin):
+class EmployerJobRelationAdmin(admin.ModelAdmin):
     list_display = ['employer','job']
     ordering = ['employer']
 
-
+@admin.register(SavedJobs)
+class SavedJobsAdmin(admin.ModelAdmin):
+    list_display = ['job_seeker','job']
+    ordering = ['job_seeker']
