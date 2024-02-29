@@ -60,9 +60,30 @@ urlpatterns = [
     path('resumes/<int:resume_id>/education/', EducationListView.as_view(), name='education-get'),
 
 
+    path('resumes/<int:resume_id>/soft-skills/', ResumeSoftSkillListView.as_view(), name='resume-soft-skills-list'),
+    path('resumes/<int:resume_id>/soft-skills/create/', ResumeSoftSkillCreateView.as_view(), name='resume-soft-skills-post'),
+    path('resumes/<int:resume_id>/soft-skills/update/<int:pk>', ResumeSoftSkillUpdateView.as_view(), name='resume-soft-skills-put'),
+
+    path('resumes/<int:resume_id>/technical-skills/', ResumeTechnicalSkillListView.as_view(), name='resume-technical-skills-list'),
+    path('resumes/<int:resume_id>/technical-skills/create/', ResumeTechnicalSkillCreateView.as_view(), name='resume-technical-skills-post'),
+    path('resumes/<int:resume_id>/technical-skills/update/<int:pk>', ResumeTechnicalSkillUpdateView.as_view(), name='resume-technical-skills-put'),
+
+    path('resumes/<int:resume_id>/educations/', EducationListView.as_view(), name='resume-education-list'),
+    path('resumes/<int:resume_id>/educations/create/', EducationCreateView.as_view(), name='resume-educations-post'),
+    path('resumes/<int:resume_id>/educations/update/<int:pk>', EducationUpdateView.as_view(), name='resume-educations-put'),
+
+
+    path('resumes/<int:resume_id>/professional-experiences/', ProfessionalExperienceListView.as_view(), name='resume-professional-experiences-list'),
+    path('resumes/<int:resume_id>/professional-experiences/create/', ProfessionalExperienceCreateView.as_view(), name='resume-professional-experiences-post'),
+    path('resumes/<int:resume_id>/professional-experiences/update/<int:pk>', ProfessionalExperienceUpdateView.as_view(), name='resume-professional-experience-put'),
+
+    path('resumes/<int:resume_id>/languages/', ResumeLanguageListView.as_view(), name='resume-languages-list'),
+    path('resumes/<int:resume_id>/languages/create/', ResumeLanguageCreateView.as_view(), name='resume-languages-post'),
+    path('resumes/<int:resume_id>/languages/update/<int:pk>', ResumeLanguageUpdateView.as_view(), name='resume-languages-put'),
+
     path('job-seekers/', JobSeekerListView.as_view(), name='job-seeker-list'),
     path('job-seekers/<int:pk>/', JobSeekerRetrieveView.as_view(), name='job-seeker-get'),
-    path('job-seekers/create/', JobSeekerCreateView.as_view(), name='job0seeker-post'),
+    path('job-seekers/create/', JobSeekerCreateView.as_view(), name='job-seeker-post'),
     path('job-seekers/<int:pk>/update/', JobSeekerUpdateView.as_view(), name='job-seeker-put'),
     path('job-seeker/<int:pk>/resume/', UserResumeRetrieveView.as_view(), name='get-resume'),
     path('job-seeker/<int:pk>/applied-jobs/', JobsAppliedListView.as_view(), name='job-seeker-applications'),

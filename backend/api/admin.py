@@ -1,16 +1,15 @@
 from django.contrib import admin
-
-from .models import User,JobSeeker,Employer,Job,Application,Resume, Address, Question, Answer, Company, EmployerJobRelation, SavedJobs
+from .models import *
 
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['first_name','last_name','email','phone_number','is_staff','is_active','is_superuser','date_joined']
+    list_display = ['id','first_name','last_name','email','phone_number','is_staff','is_active','is_superuser','date_joined']
     ordering = ['last_name', 'first_name']
 
 @admin.register(JobSeeker)
 class JobSeekerAdmin(admin.ModelAdmin):
-    list_display = ['id', 'email', 'first_name', 'last_name', 'other_names', 'dob','phone_number', 'nationality', 'sex']
+    list_display = ['id', 'first_name','last_name','email','phone_number','dob','nationality','resume']
 
 @admin.register(Employer)
 class EmployerAdmin(admin.ModelAdmin):
@@ -27,7 +26,27 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 @admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
-    list_display = ['about','experience']
+    list_display = ['id','about','experience']
+
+@admin.register(SoftSkill)
+class SoftSkillAdmin(admin.ModelAdmin):
+    list_display = ['resume','skill','id']
+
+@admin.register(TechnicalSkill)
+class TechnicalSkillAdmin(admin.ModelAdmin):
+    list_display = ['resume','skill','id']
+
+@admin.register(Language)
+class LanguageAdmin(admin.ModelAdmin):
+    list_display = ['resume','language','spoken_proficiency', 'written_proficiency']
+
+@admin.register(Education)
+class EducationAdmin(admin.ModelAdmin):
+    list_display = ['resume','start_date','end_date', 'address', 'level', 'institution', 'grade']
+
+@admin.register(ProfessionalExperience)
+class ProfessionalExperienceAdmin(admin.ModelAdmin):
+    list_display = ['resume','start_date','end_date', 'address', 'company', 'position', 'description']
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
