@@ -1,4 +1,4 @@
-# Job Hiring App - Team Yellow Card
+# Yellow Careers
 
 Job Hiring app that matches jobs listed by employers to users who are looking for jobs. 
 
