@@ -44,7 +44,7 @@ function ResumeForm ({ resumeId,}) {
 
 
     return (
-        <div>
+        <div data-testid="resume-form">
             <h2>Resume Info</h2>
             <form onSubmit={handleSubmitResume}>
                 <div>
