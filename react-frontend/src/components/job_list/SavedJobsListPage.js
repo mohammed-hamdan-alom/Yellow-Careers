@@ -4,29 +4,30 @@ import '../job_summary/JobSummary.css';
 import JobSummary from "../job_summary/JobSummary";
 import AxiosInstance from '../../Axios';;
 
-
-const JobListPage = () => {
+function SavedJobListPage() {
+    // get the user id from the context
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
 
+    // get the saved jobs of the job seeker
     const [jobs, setJobs] = useState([]);
 
     useEffect(() => {
-        AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
+        AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`)
             .then((res) => setJobs(res.data))
-    }, []);
+    }, [userId]);
 
-
+    // display the saved jobs
     return (
         <div>
-            <h1>Matched jobs</h1>
+            <h1>Saved Jobs:</h1>
             {jobs.map(job => (
                 < ul className='job-summary' key={job.id} >
                     <JobSummary job={job} />
                 </ul>))
             }
-        </div >
+        </div>
     )
-};
+}
 
-export default JobListPage;
+export default SavedJobListPage;

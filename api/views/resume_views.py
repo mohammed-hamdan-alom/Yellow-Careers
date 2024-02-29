@@ -2,7 +2,7 @@ from rest_framework import generics
 from api.models import Resume
 from api.serializers.resume_serializer import ResumeSerializer
 from django.shortcuts import get_object_or_404
-from api.models import JobSeeker
+from api.models import JobSeeker, Application
 
 
 class BaseResumeView:
@@ -14,6 +14,12 @@ class ResumeListView(BaseResumeView, generics.ListAPIView):
 
 class ResumeRetrieveView(BaseResumeView, generics.RetrieveAPIView):
     pass
+
+class ApplicationResumeRetrieveView(BaseResumeView, generics.RetrieveAPIView):
+    def get_object(self):
+        application_id = self.kwargs['application_id']
+        application  = get_object_or_404(Application, id=application_id)
+        return application.resume
 
 class UserResumeRetrieveView(BaseResumeView, generics.RetrieveAPIView):
     '''Retrieve the resume of a job seeker. The job seeker id is passed as a parameter in the url.'''
