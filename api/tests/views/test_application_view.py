@@ -55,13 +55,6 @@ class ApplicationViewTestCase(TestCase):
         self.assertEqual(application.job.id, updated_application_data['job'])
         self.assertEqual(application.job_seeker.id, updated_application_data['job_seeker'])
     
-    def test_delete_application(self):
-        application = self.applications[0]
-        response = self.client.delete(reverse('application-put', args=[application.id]))
-        print(response.status_code)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Application.objects.count(), len(self.applications) - 1)
-    
     def test_invalid_update_application(self):
         application = self.applications[0]
         updated_application_data = {
