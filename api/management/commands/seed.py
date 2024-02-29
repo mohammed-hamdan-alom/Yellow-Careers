@@ -253,9 +253,6 @@ class Command(BaseCommand):
         '''Seeding the employer job relationship'''
         employers = list(Employer.objects.all())
         jobs = list(Job.objects.all())
-
-        if len(employers) < len(jobs):
-            print("Warning: There are more jobs than employers. Some jobs will not be assigned an employer.")
         
         for i, job in enumerate(jobs):
             print(f"Seeding employer job relationship {i}/{len(jobs)}", end='\r')
