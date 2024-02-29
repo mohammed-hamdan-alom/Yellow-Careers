@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '../../../utils/test-utils';
+import { render, screen } from '../../../../utils/test-utils';
 import JobSummary from '../JobSummary';
 import userEvent from '@testing-library/user-event';
 import { useNavigate } from 'react-router-dom';
