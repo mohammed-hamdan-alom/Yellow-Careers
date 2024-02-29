@@ -9,6 +9,7 @@ import Languages from "./Language";
 import Education from "./Education";
 import ProfessionalExperience from "./ProfessionalExperience";
 import Popup from "./Popup";
+import { Axios } from "axios";
 
 function UpdateResumePage() {
   const [resumeId, setResumeId] = useState(null);
@@ -25,8 +26,18 @@ function UpdateResumePage() {
         console.log("Jobseeker not found");
       }
       if (data.resume === null) {
+
+        //Havent tested if it works
         console.log("Resume not found");
-        // TODO : Create a new resume
+        const response = await AxiosInstance.post(`api/resumes/create`, {
+          'github': '',
+          'linkedin': '',
+          'about': '',
+          'experience':''
+        });
+        AxiosInstance.patch(`api/job-seekers/${userId}/update`, {
+          resume: response.data.id,
+        });
       }
       return data.resume;
     }
