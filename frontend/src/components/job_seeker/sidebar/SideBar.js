@@ -67,7 +67,7 @@ function SideBar({ isOpen, toggleSidebar }) {
           active={isActive("/applied-jobs")}
           onClick={toggleSidebar}
         >
-          <Icon name="accessible" />
+          <Icon name="tasks" />
           Applied Jobs
         </Menu.Item>
 
@@ -77,7 +77,7 @@ function SideBar({ isOpen, toggleSidebar }) {
           active={isActive("/saved-jobs")}
           onClick={toggleSidebar}
         >
-          <Icon loading name="blind" />
+          <Icon name="bookmark" />
           Saved Jobs
         </Menu.Item>
 
@@ -87,7 +87,7 @@ function SideBar({ isOpen, toggleSidebar }) {
           active={isActive("/profile")}
           onClick={toggleSidebar}
         >
-          <Icon name="jenkins" />
+          <Icon name="address card" />
           Profile
         </Menu.Item>
 
