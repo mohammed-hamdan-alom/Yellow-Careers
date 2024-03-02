@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "../../../context/AuthContext";
 import '../job_summary/JobSummary.css';
+import { useParams } from 'react-router-dom';
 import JobSummary from "../job_summary/JobSummary";
-import AxiosInstance from '../../../Axios';;
+import AxiosInstance from '../../../Axios';
 
 
 const JobListPage = () => {
@@ -11,9 +12,12 @@ const JobListPage = () => {
 
     const [jobs, setJobs] = useState([]);
 
+    const {jobId} = useParams();
+
     useEffect(() => {
-        AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
+        AxiosInstance.get(`api/applicants/${jobId}`)
             .then((res) => setJobs(res.data))
+            .catch((error) => console.error("Error:", error.response.data));
     }, []);
 
 

@@ -19,6 +19,7 @@ import AppliedJobListPage from "./components/job_seeker/job_list/AppliedJobsList
 import SavedJobListPage from "./components/job_seeker/job_list/SavedJobsListPage";
 import AppliedJobDetails from "./components/job_seeker/job_details/AppliedJobDetails";
 
+import JobOpeningsPage from "./components/employer/job_openings/JobOpenings";
 import JobCreation from "./components/employer/job_creation/JobCreation";
 import EmployerLayout from "./components/employer/layout/EmployerLayout";
 import EmployerDashBoardPage from "./components/employer/dashboard/EmployerDashBoardPage";
@@ -45,6 +46,7 @@ function App() {
         <Route path="/employer/*" element={<EmployerLayout />}>
           <Route path="dashboard" element={<EmployerDashBoardPage />} />
           <Route path="create-job" element={<JobCreation />} />
+          <Route path="job-openings" element={<JobOpeningsPage />} />
         </Route>
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}
       </Routes>

@@ -98,4 +98,6 @@ urlpatterns = [
     path('employers/<int:pk>/', EmployerRetrieveView.as_view(), name='employer-get'),
     path('employers/create/', EmployerCreateView.as_view(), name='employer-post'),
     path('employers/<int:pk>/update/', EmployerUpdateView.as_view(), name='employer-put'),
+    
+    path('applicants/<int:pk>/', ApplicantListView.as_view(), name='applicant-list'),
 ]

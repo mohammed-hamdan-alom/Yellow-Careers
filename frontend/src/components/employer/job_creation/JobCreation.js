@@ -29,6 +29,7 @@ function JobCreationForm() {
             address: formData.address,
             job_type: formData.job_type
         }).then((response) => {
+            
             console.log(response);
         }).catch((error) => {
             console.log(error);
