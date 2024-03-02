@@ -34,7 +34,8 @@ urlpatterns = [
     path('applications/create/', ApplicationCreateView.as_view(), name='application-post'),
     path('applications/<int:pk>/update/', ApplicationUpdateView.as_view(), name='application-put'),
     path('applications/<int:job_seeker_id>/<int:job_id>/', JobSeekerApplicationRetrieveView.as_view(), name='job-seeker-application-get'),
-    path('applications/<int:application_id>/resume/', ApplicationResumeRetrieveView.as_view(), name='application-resume-get'), 
+    path('applications/<int:application_id>/resume/', ApplicationResumeRetrieveView.as_view(), name='application-resume-get'),
+    path('applications/<int:application_id>/answers/', ApplicationAnswerListView.as_view(), name='application-answer-list'),
 
     path('companies/', CompanyListView.as_view(), name='company-list'),
     path('companies/<int:pk>/', CompanyRetrieveView.as_view(), name='company-get'),
