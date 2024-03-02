@@ -22,9 +22,6 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Navigate to React Frontend directory
-        run: cd frontend
-
       - name: Install Dependencies
         working-directory: frontend
         run: npm install
