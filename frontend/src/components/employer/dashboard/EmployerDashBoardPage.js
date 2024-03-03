@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';
 import AxiosInstance from '../../../Axios';
 import { Axios } from 'axios';
+import '../job_summary/JobSummary.css';
+import JobSummary from "../job_summary/JobSummary";
 
 
 function EmployerDashBoardPage() {
@@ -24,7 +26,27 @@ function EmployerDashBoardPage() {
 
 
   return (
-    <div>EmployerDashBoardPage</div>
+    <div>
+      <h1>Employer Dashboard</h1>
+      {companyJobs.length > 1 ? (
+        <div>
+          <h2>All Company Jobs</h2>
+          {companyJobs.map(job => (
+            < ul className='job-summary' key={job.id} >
+              <JobSummary job={job} />
+            </ul>))
+          }
+        </div>
+      ) : (
+        <h2>No jobs associated with your company</h2>
+      )}
+      <h2>Jobs you are associated with</h2>
+      {EmployerJobs.map(job => (
+        < ul className='job-summary' key={job.id} >
+          <JobSummary job={job} />
+        </ul>
+      ))}
+    </div>
   )
 }
 
