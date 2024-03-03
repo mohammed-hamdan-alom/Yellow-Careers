@@ -118,7 +118,7 @@ function JobDetails() {
                 <button onClick={handleApply}>Apply</button>
             )}
             {isJobSaved ? (
-                <button onClick={handleSave}>Unsave</button>
+                <button onClick={handleApply} disabled={!resume || Object.keys(resume).length === 0}>Apply</button>
             ) : (
                 <button onClick={handleSave}>Save</button>
             )}
