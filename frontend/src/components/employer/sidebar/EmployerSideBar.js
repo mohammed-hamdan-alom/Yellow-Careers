@@ -45,10 +45,10 @@ function EmployerSideBar({ isOpen, toggleSidebar }) {
           active={isActive("/create-job")}
           onClick={toggleSidebar}
         >
-          <Icon name="search" />
+          <Icon name="child" />
           Job Creation
         </Menu.Item>
-        
+
         <Menu.Item
           as={Link}
           to="/employer/job-openings"
