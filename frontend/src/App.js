@@ -23,7 +23,6 @@ import JobCreation from "./components/employer/job_creation/JobCreation";
 import EmployerLayout from "./components/employer/layout/EmployerLayout";
 import EmployerDashBoardPage from "./components/employer/dashboard/EmployerDashBoardPage";
 import CompanyProfilePage from "./components/employer/company_profile/CompanyProfilePage";
-import CompanyEditProfilePage from "./components/employer/company_profile/CompanyEditProfilePage";
 
 function App() {
   return (
@@ -48,7 +47,6 @@ function App() {
           <Route path="dashboard" element={<EmployerDashBoardPage />} />
           <Route path="create-job" element={<JobCreation />} />
           <Route path="company" element = {<CompanyProfilePage />} />
-          <Route path="company/edit" element={<CompanyEditProfilePage />} />
         </Route>
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}
       </Routes>
