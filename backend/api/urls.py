@@ -45,6 +45,7 @@ urlpatterns = [
     path('employer-job-relations/<int:pk>/', EmployerJobRelationRetrieveView.as_view(), name='employer-job-relation-get'),
     path('employer-job-relations/create/', EmployerJobRelationCreateView.as_view(), name='employer-job-relation-post'),
     path('employer-job-relations/<int:pk>/update/', EmployerJobRelationUpdateView.as_view(), name='employer-job-relation-put'),
+    path('employer-job-relations/delete/<int:job_id>/<int:employer_id>/', EmployerJobRelationDestroyView.as_view(), name='employer-job-relation-delete'),
 
     path('questions/<int:pk>/', QuestionRetrieveView.as_view(), name='question-get'),
     path('questions/<int:question_id>/answers/', AnswerListView.as_view(), name='answer-list'),
@@ -99,6 +100,7 @@ urlpatterns = [
     path('employers/create/', EmployerCreateView.as_view(), name='employer-post'),
     path('employers/<int:pk>/update/', EmployerUpdateView.as_view(), name='employer-put'),
     path('job/<int:pk>/employers/', LinkedEmployersView.as_view(), name='get-job-employers'),
+    path('employers/company/<int:company_id>/', CompanyEmployersView.as_view(), name='employers-from-company'),
     
     path('applicants/<int:pk>/', ApplicantListView.as_view(), name='applicant-list'),
 ]

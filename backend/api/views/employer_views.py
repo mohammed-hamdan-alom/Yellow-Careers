@@ -16,6 +16,11 @@ class LinkedEmployersView(BaseEmployerView, generics.ListAPIView):
         employerjobrelations = EmployerJobRelation.objects.filter(job_id=job_id)
         return [employerjobrelation.employer for employerjobrelation in employerjobrelations]
 
+class CompanyEmployersView(BaseEmployerView, generics.ListAPIView):
+    def get_queryset(self):
+        company_id = self.kwargs["company_id"]
+        return Employer.objects.filter(company_id=company_id)
+
 class EmployerRetrieveView(BaseEmployerView, generics.RetrieveAPIView):
     pass
 

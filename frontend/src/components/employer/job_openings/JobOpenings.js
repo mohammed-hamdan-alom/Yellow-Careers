@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useParams, useNavigate  } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "../../../context/AuthContext";
 import AxiosInstance from '../../../Axios';
 
@@ -10,7 +10,7 @@ const JobOpeningsPage = () => {
     const userId = user.user_id;
 
     const [applicants, setApplicants] = useState([]);
-    const jobId = 364; //THIS NEEDS TO BE CHANGED
+    const jobId = 1; //THIS NEEDS TO BE CHANGED
 
     const navigate = useNavigate();
 
@@ -27,11 +27,11 @@ const JobOpeningsPage = () => {
 
     return (
         <div>
-            <h1>Matched applicants</h1>
-            <button onClick={handleClick}> Job Details </button> 
+            <button onClick={handleClick}> Job Details </button>
+            <h2>Matched applicants</h2>
             {applicants.map(applicant => (
-                < ul className='job-summary' key={applicant.id} >
-                    <h1> {applicant.first_name} </h1>
+                < ul key={applicant.id} >
+                    <h3> {applicant.first_name} </h3>
                 </ul>))
             }
         </div >
