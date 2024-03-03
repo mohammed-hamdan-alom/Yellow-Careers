@@ -1,5 +1,5 @@
 from rest_framework import generics
-from api.models import Employer
+from api.models import Employer, EmployerJobRelation
 from api.serializers.employer_serializer import EmployerSerializer
 
 
@@ -9,6 +9,12 @@ class BaseEmployerView:
 
 class EmployerListView(BaseEmployerView, generics.ListAPIView):
     pass
+
+class LinkedEmployersView(BaseEmployerView, generics.ListAPIView):
+    def get_queryset(self):
+        job_id = self.kwargs["pk"]
+        employerjobrelations = EmployerJobRelation.objects.filter(job_id=job_id)
+        return [employerjobrelation.employer for employerjobrelation in employerjobrelations]
 
 class EmployerRetrieveView(BaseEmployerView, generics.RetrieveAPIView):
     pass

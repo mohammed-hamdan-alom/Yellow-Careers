@@ -24,6 +24,8 @@ import JobCreation from "./components/employer/job_creation/JobCreation";
 import EmployerLayout from "./components/employer/layout/EmployerLayout";
 import EmployerDashBoardPage from "./components/employer/dashboard/EmployerDashBoardPage";
 
+import JobDetailsEmployer from "./components/employer/job_openings/JobDetailsEmployer";
+
 function App() {
   return (
     <AuthProvider>
@@ -47,6 +49,7 @@ function App() {
           <Route path="dashboard" element={<EmployerDashBoardPage />} />
           <Route path="create-job" element={<JobCreation />} />
           <Route path="job-openings" element={<JobOpeningsPage />} />
+          <Route path="job-details/:jobId" element={<JobDetailsEmployer />} />
         </Route>
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}
       </Routes>
