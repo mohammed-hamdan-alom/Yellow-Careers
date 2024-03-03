@@ -11,6 +11,7 @@ function CompanyProfilePage() {
     about: "",
     website: "",
   });
+  const [employers, setEmployers] = useState([]);
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
 
@@ -26,6 +27,8 @@ function CompanyProfilePage() {
               website: response.data.website,
               id : response.data.id
             });
+            AxiosInstance.get(`api/companies/${response.data.id}/employers`).then(
+              (response) => {setEmployers(response.data)})
           }
         );
       })
@@ -54,6 +57,11 @@ function CompanyProfilePage() {
         </Link>
       )}
       <h1>Employers:</h1>
+      <ul>
+        {employers.map((employer) => (
+          <li key={employer.id}>{employer.first_name} {employer.last_name}: {employer.email}</li>
+        ))}
+      </ul>
     </div>
   );
 }
