@@ -12,10 +12,10 @@ const JobListPage = () => {
 
     const [jobs, setJobs] = useState([]);
 
-    const {jobId} = useParams();
+    const { jobId } = useParams();
 
     useEffect(() => {
-        AxiosInstance.get(`api/applicants/${jobId}`)
+        AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
             .then((res) => setJobs(res.data))
             .catch((error) => console.error("Error:", error.response.data));
     }, []);
