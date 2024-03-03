@@ -33,13 +33,10 @@ class JobSeekerMatchedJobsListingView(generics.ListAPIView):
 		job_seeker_id = self.kwargs['pk']
 		job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id)
 		job_scores = {}
-		if(job_seeker.get_resume() != None):
-			for job in Job.objects.all():
-				job_scores[job] = ratio(job.to_string(), job_seeker.get_resume().to_string())
-			matched_order = sorted(job_scores.items(), key=lambda x: x[1], reverse=True)
-			matched_jobs = [item[0] for item in matched_order]
-		else:
-			matched_jobs = Job.objects.all()
+		for job in Job.objects.all():
+			job_scores[job] = ratio(job.to_string(), job_seeker.get_resume().to_string())
+		matched_order = sorted(job_scores.items(), key=lambda x: x[1], reverse=True)
+		matched_jobs = [item[0] for item in matched_order]
 		applications = Application.objects.filter(job_seeker=job_seeker)
 		applied_jobs = [application.job for application in applications]
 		return list(filter(lambda x: x not in applied_jobs, matched_jobs))

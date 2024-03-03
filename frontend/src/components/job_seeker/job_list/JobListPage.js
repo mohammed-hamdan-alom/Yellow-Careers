@@ -11,24 +11,33 @@ const JobListPage = () => {
     const userId = user.user_id;
 
     const [jobs, setJobs] = useState([]);
-
-    const { jobId } = useParams();
+    const [resume, setResume] = useState({});
 
     useEffect(() => {
-        AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
-            .then((res) => setJobs(res.data))
-            .catch((error) => console.error("Error:", error.response.data));
+        AxiosInstance.get(`api/job-seeker/${userId}/resume/`)
+            .then((response) => {
+                setResume(response.data)
+                console.log(response.data.id)
+            })
+        if (resume.id !== undefined) {
+            AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
+                .then((res) => setJobs(res.data))
+                .catch((error) => console.error("Error:", error.response.data));
+        }
     }, []);
 
 
     return (
         <div>
             <h1>Matched jobs</h1>
-            {jobs.map(job => (
-                < ul className='job-summary' key={job.id} >
-                    <JobSummary job={job} />
-                </ul>))
+            <br></br>
+            {resume.id == undefined ? <h1>Create a resume first</h1> :
+                jobs.map(job => (
+                    < ul className='job-summary' key={job.id} >
+                        <JobSummary job={job} />
+                    </ul>))
             }
+
         </div >
     )
 };
