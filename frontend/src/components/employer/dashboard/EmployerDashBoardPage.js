@@ -35,7 +35,7 @@ function EmployerDashBoardPage() {
         <>
           <Switch
             checkedChildren="Company Jobs"
-            unCheckedChildren="Employer Jobs"
+            unCheckedChildren="Your Jobs"
             defaultChecked
             onChange={handleSwitchChange}
           />
@@ -53,7 +53,7 @@ function EmployerDashBoardPage() {
         </div>
       ) : (
         <div>
-          <h2>Jobs you are associated with</h2>
+          <h2>Jobs You Are Associated With</h2>
           {EmployerJobs.map(job => (
             <ul className='job-summary' key={job.id}>
               <JobSummary job={job} />
