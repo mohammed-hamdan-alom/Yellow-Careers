@@ -7,12 +7,15 @@ class BaseQuestionView:
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
-class QuestionListView(BaseQuestionView, generics.ListAPIView):
+class JobQuestionListView(BaseQuestionView, generics.ListAPIView):
     '''Retrieve all the questions of a job. The job id is passed as a parameter in the url.'''
     def get_queryset(self):
         job_id = self.kwargs['pk']
         job = Job.objects.get(id=job_id)
         return Question.objects.filter(job=job)
+    
+class QuestionListView(BaseQuestionView, generics.ListAPIView):
+    pass
 
 class QuestionRetrieveView(BaseQuestionView, generics.RetrieveAPIView):
     pass

@@ -13,6 +13,9 @@ class SavedJobsListView(BaseSavedJobsView, generics.ListAPIView):
 class SavedJobsCreateView(BaseSavedJobsView, generics.CreateAPIView):
     pass
 
+class SavedJobsRetrieveView(BaseSavedJobsView, generics.RetrieveAPIView):
+    pass
+
 class SavedJobsUpdateView(BaseSavedJobsView, mixins.DestroyModelMixin, generics.RetrieveUpdateAPIView):
 
     def get_object(self):
