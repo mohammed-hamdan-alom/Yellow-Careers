@@ -51,12 +51,12 @@ function EmployerSideBar({ isOpen, toggleSidebar }) {
 
         <Menu.Item
           as={Link}
-          to="/employer/job-openings"
-          active={isActive("/job-openings")}
+          to="/employer/job-applicants"
+          active={isActive("/job-applicants")}
           onClick={toggleSidebar}
         >
           <Icon name="paper plane outline" />
-          Job Openings
+          Job Applicants
         </Menu.Item>
 
       </Sidebar>

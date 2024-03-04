@@ -5,12 +5,12 @@ import AxiosInstance from '../../../Axios';
 
 
 
-const JobOpeningsPage = () => {
+const JobApplicantsPage = () => {
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
 
     const [applicants, setApplicants] = useState([]);
-    const jobId = 1; //THIS NEEDS TO BE CHANGED
+    const jobId = 364; //THIS NEEDS TO BE CHANGED
 
     const navigate = useNavigate();
 
@@ -24,6 +24,10 @@ const JobOpeningsPage = () => {
         navigate(`/employer/job-details/${jobId}`);
     }
 
+    const handleClick2 = () => {
+        navigate(`/employer/job-dsdfwdf/jobseekerId`);
+    }
+
 
     return (
         <div>
@@ -31,11 +35,14 @@ const JobOpeningsPage = () => {
             <h2>Matched applicants</h2>
             {applicants.map(applicant => (
                 < ul key={applicant.id} >
-                    <h3> {applicant.first_name} </h3>
+                    <h3> 
+                        <button onClick = {handleClick2}> Show Application </button>
+                        {applicant.first_name} {applicant.last_name}
+                        </h3>
                 </ul>))
             }
         </div >
     )
 };
 
-export default JobOpeningsPage;
+export default JobApplicantsPage;
