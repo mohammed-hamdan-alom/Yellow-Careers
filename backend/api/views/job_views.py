@@ -3,10 +3,9 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from django.shortcuts import get_object_or_404
 
-from api.models import Job, Address, Application, JobSeeker, SavedJobs, Employer, EmployerJobRelation
+from api.models import Job, Application, JobSeeker, SavedJobs, Employer, EmployerJobRelation
 
 from api.serializers.job_serializer import JobSerializer
-from api.serializers.address_serializer import AddressSerializer
 
 from Levenshtein import ratio
 
