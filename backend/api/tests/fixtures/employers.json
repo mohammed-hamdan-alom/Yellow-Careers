@@ -1,20 +1,38 @@
 [
     {
-        "model" : "api.employer",
-        "pk" : 1,
-        "fields" : {
-            "user_ptr_id" : 3,
-            "company" : 1,
-            "is_company_admin" : true
+        "model" : "api.comapny",
+        "pk": 1,
+        "fields": {
+            "company_name" : "Yellow card",
+            "website": "www.yellowcard.com",
+            "about": "We are a fintech company"
         }
     },
     {
+        "model" : "api.comapny",
+        "pk": 2,
+        "fields": {
+            "company_name" : "Andela",
+            "website": "www.andela.com",
+            "about": "We are a tech company"
+        }
+    },
+
+    {
+        "model" : "api.employer",
+        "pk" : 1,
+        "comaany" : 1
+    },
+    
+    {
         "model" : "api.employer",
         "pk" : 2,
-        "fields" : {
-            "user_ptr_id" : 4,
-            "company" : 2,
-            "is_company_admin" : false
-        }
+        "comapny": 1
+    },
+
+    {
+        "model" : "api.employer",
+        "pk" : 3,
+        "comapny": 2
     }
 ]
