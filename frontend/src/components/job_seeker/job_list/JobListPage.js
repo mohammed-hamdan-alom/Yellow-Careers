@@ -19,7 +19,7 @@ const JobListPage = () => {
         AxiosInstance.get(`api/job-seeker/${userId}/resume/`)
             .then((response) => {
                 setResume(response.data)
-                if (resume.id !== undefined) {
+                if (response.data.id !== undefined) {
                     AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
                         .then((res) => {
                             setJobs(res.data)
