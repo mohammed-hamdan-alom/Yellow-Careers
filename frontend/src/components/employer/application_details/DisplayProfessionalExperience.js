@@ -33,7 +33,6 @@ function DisplayProfessionalExperience({ resumeId }) {
             )}
           </li>
         ))}
-        ;
       </ul>
     </div>
   );

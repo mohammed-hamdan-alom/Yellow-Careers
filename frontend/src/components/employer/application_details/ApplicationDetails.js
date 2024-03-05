@@ -49,16 +49,16 @@ const ApplicationDetails = () => {
   }, [applicationId]);
 
   const markAsRead = async () => {
-    let newStatus = application.status === "R" ? "U" : "R"; // Toggle between "R" and "U"
+    let newStatus = application.status === "R" ? "U" : "R";
 
     try {
-      // React ensures that it receives the latest state as an argument.
       setApplication((prevApplication) => ({
         ...prevApplication,
         status: newStatus,
       }));
       await axios.put(`/api/applications/${applicationId}/update/`, {
         ...application,
+        status: newStatus,
       });
     } catch (error) {
       console.error("Failed to mark application as read:", error);
@@ -74,6 +74,7 @@ const ApplicationDetails = () => {
 
       await axios.put(`/api/applications/${applicationId}/update/`, {
         ...application,
+        decision: event.target.value,
       });
     } catch (error) {
       console.error("Failed to update application status:", error);
@@ -82,17 +83,25 @@ const ApplicationDetails = () => {
 
   return (
     <div>
-      <h1>Application Details</h1>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <h1>Application Details</h1>
+        <button onClick={markAsRead}>
+          {application.status === "R"
+            ? "Mark Application as Unread"
+            : "Mark Application as Read"}
+        </button> 
+      </div>
+
       <h2>Job Seeker: {jobSeeker.first_name + jobSeeker.last_name}</h2>
       <p>Date of Birth: {jobSeeker.dob}</p>
-      <h3>Address:</h3>
-      {/* <p>City: {jobSeeker.address.city}</p>
-      <p>Post Code: {jobSeeker.address.post_code}</p>
-      <p>Country: {jobSeeker.address.country}</p> */}
       <p>Nationality: {jobSeeker.nationality}</p>
       <p>Sex: {jobSeeker.sex}</p>
+      <h3>Address:</h3>
+      <p>City: {jobSeeker.address?.city}</p>
+      <p>Post Code: {jobSeeker.address?.post_code}</p>
+      <p>Country: {jobSeeker.address?.country}</p>
 
-      <h2>Resume!</h2>
+      <h2>Resume:</h2>
       <DisplayResume resumeId={resume.id} />
       <DisplaySoftSkills resumeId={resume.id} />
       <DisplayTechnicalSkills resumeId={resume.id} />
@@ -100,31 +109,29 @@ const ApplicationDetails = () => {
       <DisplayEduction resumeId={resume.id} />
       <DisplayProfessionalExperience resumeId={resume.id} />
 
-      <h3>Questions and Answers:</h3>
-      {questions.map((question, index) => (
-        <div key={index}>
-          <p>Question: {question.question}</p>
-          <p>
-            Answer:{" "}
-            {answers.find((answer) => answer.question === question.id)?.answer}
-          </p>
+      {questions.length > 0 ? (
+        <div>
+          <h3>Questions and Answers:</h3>
+          {questions.map((question, index) => (
+            <div key={index}>
+              <p>Question: {question.question}</p>
+              <p>
+                Answer:{" "}
+                {answers.find((answer) => answer.question === question.id)?.answer}
+              </p>
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+          <h3>No questions</h3>
+      )}
 
-      {/* <button onClick={markAsRead}>Mark as Read</button> */}
-      <button onClick={markAsRead}>
-        {application.status === "R"
-          ? "Mark Application as Unread"
-          : "Mark Application as Read"}
-      </button>
-
+      <h3>Decision:</h3>
       <select value={application.decision} onChange={handleDecisionChange}>
         <option value="A">Accepted</option>
         <option value="R">Rejected</option>
         <option value="U">Undecided</option>
       </select>
-      <div>Read Val: {application.status}</div>
-      <div>Decision: {application.decision}</div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "../../../context/AuthContext";
 import { useParams } from 'react-router-dom';
-import AxiosInstance from '../../../Axios';
+import axios from '../../../Axios';
 import ResumeDisplay from "../resume/ResumeDisplay";
 
 function AppliedJobDetails() {
@@ -19,29 +19,30 @@ function AppliedJobDetails() {
 
 
     useEffect(() => {
-        Promise.all([
-            AxiosInstance.get(`api/jobs/${jobId}/`),
-            AxiosInstance.get(`api/applications/${userId}/${jobId}`),
-        ]).then((responses) => {
-            setJob(responses[0].data);
-            setApplication(responses[1].data);
-            AxiosInstance.get(`api/applications/${responses[1].data.id}/resume/`)
-                .then(response => setResume(response.data));
-                AxiosInstance.get(`api/jobs/${jobId}/questions/`)
-                    .then(response => {
-                        setQuestions(response.data);
-                        const answerPromises = response.data.map(question =>
-                            AxiosInstance.get(`api/questions/${question.id}/answers/`)
-                                .then(response => ({ [question.id]: response.data[0].answer }))
-                        );
-                        return Promise.all(answerPromises);
-                    })
-                    .then(answerObjects => {
-                        const newAnswers = Object.assign({}, ...answerObjects);
-                        setAnswers(newAnswers);
-                    });
-        })
-            .catch((error) => console.error('Error retrieving info:', error));
+        const fetchData = async () => {   
+            try {
+                const [jobResponse, applicationResponse] = await Promise.all([
+                    axios.get(`api/jobs/${jobId}/`),
+                    axios.get(`api/applications/${userId}/${jobId}`),
+                ]);
+
+                setJob(jobResponse.data);
+                setApplication(applicationResponse.data);
+
+                const resumeResponse = await axios.get(`api/applications/${applicationResponse.data.id}/resume/`);
+                setResume(resumeResponse.data);
+
+                const questionsResponse = await axios.get(`api/jobs/${jobId}/questions/`);
+                setQuestions(questionsResponse.data);
+
+                const answersResponse = await axios.get(`api/applications/${applicationResponse.data.id}/answers`);
+                setAnswers(answersResponse.data);
+            } catch (error) {
+                console.error('Error retrieving info:', error);
+            }
+        }
+
+        fetchData();
     }, [jobId, userId]);
 
     return (
@@ -52,13 +53,16 @@ function AppliedJobDetails() {
             <ResumeDisplay resume={resume} />
             {questions.length > 0 ? (
                 <div>
-                    <h3>Questions:</h3>
-                    {questions.map(question => (
-                        <div key={question.id}>
-                            <h4>Question: {question.question}</h4>
-                            <h5>Answer: {answers[question.id]}</h5>
+                    <h3>Questions and Answers:</h3>
+                    {questions.map((question, index) => (
+                        <div key={index}>
+                            <p>Question: {question.question}</p>
+                            <p>
+                                Answer:{" "}
+                                {answers.find((answer) => answer.question === question.id)?.answer}
+                            </p>
                         </div>
-                    ))}
+                ))}
                 </div>
             ) : (
                 <h3>No questions</h3>

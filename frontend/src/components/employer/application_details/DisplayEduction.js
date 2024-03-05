@@ -3,9 +3,6 @@ import AxiosInstance from "../../../Axios";
 
 function DisplayEduction({ resumeId }) {
   const [educations, setEducations] = useState([]);
-  const [createPopup, setCreatePopup] = useState(false);
-  const [editPopup, setEditPopup] = useState(null);
-  const [openPopupId, setOpenPopupId] = useState(null);
 
   useEffect(() => {
     if (!resumeId) {
