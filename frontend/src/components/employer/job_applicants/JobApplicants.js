@@ -10,7 +10,7 @@ const JobApplicantsPage = () => {
     const userId = user.user_id;
 
     const [applicants, setApplicants] = useState([]);
-    const jobId = 364; //THIS NEEDS TO BE CHANGED
+    const { jobId } = useParams(); //THIS NEEDS TO BE CHANGED
 
     const navigate = useNavigate();
 
@@ -20,25 +20,25 @@ const JobApplicantsPage = () => {
             .catch((error) => console.error("Error:", error.response.data));
     }, []);
 
-    const handleClick = () => {
+    const handleShowDetails = () => {
         navigate(`/employer/job-details/${jobId}`);
     }
 
-    const handleClick2 = () => {
-        navigate(`/employer/job-dsdfwdf/jobseekerId`);
+    const handleShowApplication = () => {
+        navigate(`/employer/job-dsdfwdf/jobseekerId`); //Applicant's Application goes here
     }
 
 
     return (
         <div>
-            <button onClick={handleClick}> Job Details </button>
+            <button onClick={handleShowDetails}> Job Details </button>
             <h2>Matched applicants</h2>
             {applicants.map(applicant => (
                 < ul key={applicant.id} >
-                    <h3> 
-                        <button onClick = {handleClick2}> Show Application </button>
+                    <h3>
+                        <button onClick={handleShowApplication}> Show Application </button>
                         {applicant.first_name} {applicant.last_name}
-                        </h3>
+                    </h3>
                 </ul>))
             }
         </div >

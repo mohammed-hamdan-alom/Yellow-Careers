@@ -48,7 +48,7 @@ function App() {
         <Route path="/employer/*" element={<EmployerLayout />}>
           <Route path="dashboard" element={<EmployerDashBoardPage />} />
           <Route path="create-job" element={<JobCreation />} />
-          <Route path="job-applicants" element={<JobApplicantsPage />} />
+          <Route path="job-applicants/:jobId" element={<JobApplicantsPage />} />
           <Route path="job-details/:jobId" element={<JobDetailsEmployer />} />
         </Route>
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}

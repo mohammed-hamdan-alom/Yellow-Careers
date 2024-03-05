@@ -49,16 +49,6 @@ function EmployerSideBar({ isOpen, toggleSidebar }) {
           Job Creation
         </Menu.Item>
 
-        <Menu.Item
-          as={Link}
-          to="/employer/job-applicants"
-          active={isActive("/job-applicants")}
-          onClick={toggleSidebar}
-        >
-          <Icon name="paper plane outline" />
-          Job Applicants
-        </Menu.Item>
-
       </Sidebar>
     </>
   );

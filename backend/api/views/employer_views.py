@@ -1,7 +1,7 @@
 from rest_framework import generics
 from api.models import Employer, EmployerJobRelation
 from api.serializers.employer_serializer import EmployerSerializer
-
+from django.shortcuts import get_object_or_404
 
 class BaseEmployerView:
     queryset = Employer.objects.all()
@@ -18,8 +18,9 @@ class LinkedEmployersView(BaseEmployerView, generics.ListAPIView):
 
 class CompanyEmployersView(BaseEmployerView, generics.ListAPIView):
     def get_queryset(self):
-        company_id = self.kwargs["company_id"]
-        return Employer.objects.filter(company_id=company_id)
+        user_id = self.kwargs["user_id"]
+        employer = get_object_or_404(Employer, id=user_id)
+        return Employer.objects.filter(company_id=employer.company)
 
 class EmployerRetrieveView(BaseEmployerView, generics.RetrieveAPIView):
     pass

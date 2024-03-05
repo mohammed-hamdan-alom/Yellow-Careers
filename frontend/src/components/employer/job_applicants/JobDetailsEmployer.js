@@ -9,14 +9,13 @@ const JobDetailsEmployer = () => {
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
 
-    // REPLACE ALL 1's WITH JOBID
-    const { jobId } = 364;
+    const { jobId } = useParams();
 
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         employer: '',
-        job: 1
+        job: jobId
     });
 
     const [job, setJob] = useState({});
@@ -28,12 +27,12 @@ const JobDetailsEmployer = () => {
 
     useEffect(() => {
         Promise.all([
-            AxiosInstance.get(`api/jobs/364/`),
-            AxiosInstance.get(`api/jobs/364/company/`),
-            AxiosInstance.get(`api/jobs/364/address/`),
-            AxiosInstance.get(`api/jobs/364/questions/`),
-            AxiosInstance.get(`api/job/364/employers/`),
-            AxiosInstance.get(`api/employers/company/364/`)
+            AxiosInstance.get(`api/jobs/${jobId}/`),
+            AxiosInstance.get(`api/jobs/${jobId}/company/`),
+            AxiosInstance.get(`api/jobs/${jobId}/address/`),
+            AxiosInstance.get(`api/jobs/${jobId}/questions/`),
+            AxiosInstance.get(`api/job/${jobId}/employers/`),
+            AxiosInstance.get(`api/employers/company/${userId}/`)
         ]).then((responses) => {
             setJob(responses[0].data);
             setCompany(responses[1].data);
@@ -45,7 +44,7 @@ const JobDetailsEmployer = () => {
     }, [jobId, userId]);
 
     const handleClick = () => {
-        navigate(`/employer/job-applicants`);
+        navigate(`/employer/job-applicants/${jobId}`);
     }
 
     const handleChange = (event) => {
@@ -70,9 +69,9 @@ const JobDetailsEmployer = () => {
     }
 
     const handleRemove = (id) => {
-        AxiosInstance.delete(`api/employer-job-relations/delete/364/${id}/`, {
+        AxiosInstance.delete(`api/employer-job-relations/delete/${jobId}/${id}/`, {
             employer: id,
-            job: 1
+            job: jobId
         }).then((response) => {
             console.log(response);
             window.location.reload();
