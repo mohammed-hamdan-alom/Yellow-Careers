@@ -29,14 +29,19 @@ function AppliedJobDetails() {
                 setJob(jobResponse.data);
                 setApplication(applicationResponse.data);
 
-                const resumeResponse = await axios.get(`api/applications/${applicationResponse.data.id}/resume/`);
-                setResume(resumeResponse.data);
-
-                const questionsResponse = await axios.get(`api/jobs/${jobId}/questions/`);
-                setQuestions(questionsResponse.data);
-
-                const answersResponse = await axios.get(`api/applications/${applicationResponse.data.id}/answers`);
-                setAnswers(answersResponse.data);
+                const [
+                    resumeResponse,
+                    questionsResponse,
+                    answersResponse,
+                  ] = await Promise.all([
+                    axios.get(`/api/applications/${applicationResponse.data.id}/resume`),
+                    axios.get(`/api/jobs/${jobId}/questions`),
+                    axios.get(`/api/applications/${applicationResponse.data.id}/answers`),
+                  ]);
+          
+                  setResume(resumeResponse.data);
+                  setQuestions(questionsResponse.data);
+                  setAnswers(answersResponse.data);
             } catch (error) {
                 console.error('Error retrieving info:', error);
             }
