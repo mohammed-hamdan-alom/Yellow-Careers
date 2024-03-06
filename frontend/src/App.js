@@ -23,6 +23,7 @@ import JobApplicantsPage from "./components/employer/job_applicants/JobApplicant
 import JobCreation from "./components/employer/job_creation/JobCreation";
 import EmployerLayout from "./components/employer/layout/EmployerLayout";
 import EmployerDashBoardPage from "./components/employer/dashboard/EmployerDashBoardPage";
+import ApplicationDetails from "./components/employer/application_details/ApplicationDetails";
 import CompanyProfilePage from "./components/employer/company_profile/CompanyProfilePage";
 
 import JobDetailsEmployer from "./components/employer/job_applicants/JobDetailsEmployer";
@@ -43,7 +44,7 @@ function App() {
           <Route path="profile" element={<JobSeekerProfile />} />
           <Route path="job-details/:jobId" element={<JobDetails />} />
           <Route path="job-details/:jobId/questions" element={<JobQuestions />} />
-          <Route path="job-details/:jobId/application" element={<AppliedJobDetails />} />
+          <Route path="application-details/:applicationId" element={<AppliedJobDetails />} />
           <Route path="applied-jobs" element={<AppliedJobListPage />} />
         </Route>
         <Route path="/employer/*" element={<EmployerLayout />}>
@@ -51,6 +52,7 @@ function App() {
           <Route path="create-job" element={<JobCreation />} />
           <Route path="job-applicants/:jobId" element={<JobApplicantsPage />} />
           <Route path="job-details/:jobId" element={<JobDetailsEmployer />} />
+          <Route path="application-details/:applicationId" element={<ApplicationDetails />} />
           <Route path="company" element = {<CompanyProfilePage />} />
         </Route>
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}

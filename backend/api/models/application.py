@@ -70,10 +70,21 @@ class ApplicationManager(models.Manager):
 
 class Application(models.Model):
     """Model that represents an application to a specific job"""
+    class ApplicationStatus(models.TextChoices):
+        READ = 'R', 'Read'
+        UNREAD = 'U', 'Unread'
+    
+    class ApplicationDecision(models.TextChoices):
+        ACCEPTED = 'A', 'Accepted'
+        REJECTED = 'R', 'Rejected'
+        UNDECIDED = 'U', 'Undecided'
+    
     job_seeker = models.ForeignKey('JobSeeker', on_delete=models.CASCADE, null=False)
     resume = models.ForeignKey('Resume', on_delete=models.CASCADE, null=False)
     job = models.ForeignKey('Job', on_delete=models.CASCADE, null=False)
     date_applied = models.DateField(auto_now_add=True)
+    status = models.CharField(max_length=1, choices=ApplicationStatus.choices, default=ApplicationStatus.UNREAD)
+    decision = models.CharField(max_length=1, choices=ApplicationDecision.choices, default=ApplicationDecision.UNDECIDED)
 
     objects = ApplicationManager()
 

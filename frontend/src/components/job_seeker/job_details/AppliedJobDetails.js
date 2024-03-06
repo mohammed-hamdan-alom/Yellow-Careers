@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "../../../context/AuthContext";
 import { useParams } from 'react-router-dom';
-import AxiosInstance from '../../../Axios';
+import axios from '../../../Axios';
 import ResumeDisplay from "../resume/ResumeDisplay";
 
 function AppliedJobDetails() {
@@ -9,9 +9,8 @@ function AppliedJobDetails() {
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
 
-    const { jobId } = useParams();
+    const { applicationId } = useParams();
 
-    const [job, setJob] = useState({});
     const [application, setApplication] = useState({});
     const [resume, setResume] = useState({});
     const [questions, setQuestions] = useState([]);
@@ -19,30 +18,34 @@ function AppliedJobDetails() {
 
 
     useEffect(() => {
-        Promise.all([
-            AxiosInstance.get(`api/jobs/${jobId}/`),
-            AxiosInstance.get(`api/applications/${userId}/${jobId}`),
-        ]).then((responses) => {
-            setJob(responses[0].data);
-            setApplication(responses[1].data);
-            AxiosInstance.get(`api/applications/${responses[1].data.id}/resume/`)
-                .then(response => setResume(response.data));
-                AxiosInstance.get(`api/jobs/${jobId}/questions/`)
-                    .then(response => {
-                        setQuestions(response.data);
-                        const answerPromises = response.data.map(question =>
-                            AxiosInstance.get(`api/questions/${question.id}/answers/`)
-                                .then(response => ({ [question.id]: response.data[0].answer }))
-                        );
-                        return Promise.all(answerPromises);
-                    })
-                    .then(answerObjects => {
-                        const newAnswers = Object.assign({}, ...answerObjects);
-                        setAnswers(newAnswers);
-                    });
-        })
-            .catch((error) => console.error('Error retrieving info:', error));
-    }, [jobId, userId]);
+        const fetchData = async () => {   
+            try {
+                const [applicationResponse] = await Promise.all([
+                    axios.get(`api/applications/${applicationId}`),
+                ]);
+
+                setApplication(applicationResponse.data);
+
+                const [
+                    resumeResponse,
+                    questionsResponse,
+                    answersResponse,
+                  ] = await Promise.all([
+                    axios.get(`/api/applications/${applicationResponse.data.id}/resume`),
+                    axios.get(`/api/jobs/${applicationResponse.data.job}/questions`),
+                    axios.get(`/api/applications/${applicationResponse.data.id}/answers`),
+                  ]);
+          
+                  setResume(resumeResponse.data);
+                  setQuestions(questionsResponse.data);
+                  setAnswers(answersResponse.data);
+            } catch (error) {
+                console.error('Error retrieving info:', error);
+            }
+        }
+
+        fetchData();
+    }, [applicationId]);
 
     return (
         <div>
@@ -52,13 +55,16 @@ function AppliedJobDetails() {
             <ResumeDisplay resume={resume} />
             {questions.length > 0 ? (
                 <div>
-                    <h3>Questions:</h3>
-                    {questions.map(question => (
-                        <div key={question.id}>
-                            <h4>Question: {question.question}</h4>
-                            <h5>Answer: {answers[question.id]}</h5>
+                    <h3>Questions and Answers:</h3>
+                    {questions.map((question, index) => (
+                        <div key={index}>
+                            <p>Question: {question.question}</p>
+                            <p>
+                                Answer:{" "}
+                                {answers.find((answer) => answer.question === question.id)?.answer}
+                            </p>
                         </div>
-                    ))}
+                ))}
                 </div>
             ) : (
                 <h3>No questions</h3>

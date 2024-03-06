@@ -10,7 +10,7 @@ const JobApplicantsPage = () => {
     const userId = user.user_id;
 
     const [applicants, setApplicants] = useState([]);
-    const { jobId } = useParams(); //THIS NEEDS TO BE CHANGED
+    const { jobId } = useParams();
 
     const navigate = useNavigate();
 
@@ -24,24 +24,28 @@ const JobApplicantsPage = () => {
         navigate(`/employer/job-details/${jobId}`);
     }
 
-    const handleShowApplication = () => {
-        navigate(`/employer/job-dsdfwdf/jobseekerId`); //Applicant's Application goes here
+    const handleShowApplication = (key) => {
+        AxiosInstance.get(`api/applications/${key}/${jobId}`)
+            .then((res) => {
+                const applicationId = res.data.id;
+                navigate(`/employer/application-details/${applicationId}`);
+            })
+            .catch((error) => console.error("Error:", error.response.data));
     }
-
 
     return (
         <div>
             <button onClick={handleShowDetails}> Job Details </button>
             <h2>Matched applicants</h2>
             {applicants.map(applicant => (
-                < ul key={applicant.id} >
+                <ul key={applicant.id}>
                     <h3>
-                        <button onClick={handleShowApplication}> Show Application </button>
+                        <button onClick={() => handleShowApplication(applicant.id)}> Show Application </button>
                         {applicant.first_name} {applicant.last_name}
                     </h3>
-                </ul>))
-            }
-        </div >
+                </ul>
+            ))}
+        </div>
     )
 };
 
