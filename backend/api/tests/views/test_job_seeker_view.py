@@ -44,7 +44,7 @@ class JobSeekerViewTestCase(TestCase):
             'last_name' : 'User',
             'phone_number' : '07123456789',
             'resume' : 1,
-            'address' : 1,
+            'address' : 3,
             'dob' : '1990-01-01',
             'nationality' : 'British',
             'sex' : 'M'
