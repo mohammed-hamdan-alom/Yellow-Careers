@@ -1,0 +1,28 @@
+ .job-summary {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.job-summary h3 {
+  color: #023e7d; 
+}
+
+.job-summary h4 {
+  color: #6C757D; 
+}
+s
+.job-summary p {
+  color: #333;
+}
+
+.job-summary .description {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} 

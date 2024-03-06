@@ -23,6 +23,7 @@ import JobCreation from "./components/employer/job_creation/JobCreation";
 import EmployerLayout from "./components/employer/layout/EmployerLayout";
 import EmployerDashBoardPage from "./components/employer/dashboard/EmployerDashBoardPage";
 import ApplicationDetails from "./components/employer/application_details/ApplicationDetails";
+import CompanyProfilePage from "./components/employer/company_profile/CompanyProfilePage";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="dashboard" element={<EmployerDashBoardPage />} />
           <Route path="create-job" element={<JobCreation />} />
           <Route path="application-details/:applicationId" element={<ApplicationDetails />} />
+          <Route path="company" element = {<CompanyProfilePage />} />
         </Route>
         {/* <PrivateRoute component={Dashboard} path='/dashboard'/> */}
       </Routes>
