@@ -1,13 +1,8 @@
-from api.models import JobSeeker, Address
+from ..models import JobSeeker
+from . import AddressSerializer
 from rest_framework import serializers
 
-class AddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Address
-        fields = ['city', 'post_code', 'country']
-
 class JobSeekerSerializer(serializers.ModelSerializer):
-    address = AddressSerializer()
 
     class Meta:
         model = JobSeeker
@@ -19,7 +14,9 @@ class JobSeekerSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
 
         if address_data and instance.address:
-            AddressSerializer().update(instance.address, address_data)
+            address_serializer = AddressSerializer(instance.address, data=address_data)
+            if address_serializer.is_valid():
+                address_serializer.save()
 
         instance.save()
         return instance

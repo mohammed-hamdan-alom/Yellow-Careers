@@ -1,5 +1,5 @@
 from django.test import TestCase
-from api.models import JobSeeker
+from api.models import JobSeeker,Address
 from django.urls import reverse
 from rest_framework import status
 
@@ -19,6 +19,7 @@ class JobSeekerViewTestCase(TestCase):
     def setUp(self):
         self.job_seekers = [JobSeeker.objects.get(pk=1), 
                            JobSeeker.objects.get(pk=2)]
+        #print(Address.objects.get(pk=1).id)
         
     def test_list_job_seekers(self):
         response = self.client.get(reverse('job-seeker-list'))
@@ -41,14 +42,15 @@ class JobSeekerViewTestCase(TestCase):
             'password' : 'Password123',
             'first_name' : 'Test',
             'last_name' : 'User',
-            'phone_number' : '1234567890',
-            'address' : 3,
+            'phone_number' : '07123456789',
             'resume' : 1,
+            'address' : 1,
             'dob' : '1990-01-01',
             'nationality' : 'British',
-            'sex' : 'M',
+            'sex' : 'M'
         }
         response = self.client.post(reverse('job-seeker-post'), job_seeker_data)
+        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(JobSeeker.objects.count(), len(self.job_seekers) + 1)
 
@@ -60,7 +62,7 @@ class JobSeekerViewTestCase(TestCase):
             'first_name' : 'ChangedName',
             'last_name' : 'User',
             'phone_number' : '1234567890',
-            'address' : 3,
+            'address' : 1,
             'resume' : 1,
             'dob' : '1990-01-01',
             'nationality' : 'British',

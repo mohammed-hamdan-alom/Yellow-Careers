@@ -6,7 +6,6 @@ class AddressSerializer(serializers.ModelSerializer):
         model = Address
         fields = '__all__'
 
-        
     def create(self, validated_data):
         return Address.objects.create(**validated_data)
     

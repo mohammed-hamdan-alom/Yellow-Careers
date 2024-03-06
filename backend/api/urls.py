@@ -28,6 +28,7 @@ urlpatterns = [
 
     path('answers/create/', AnswerCreateView.as_view(), name='answer-post'),
     path('answers/<int:pk>/update/', AnswerUpdateView.as_view(), name='answer-put'),
+    path('answers/', AnswerListView.as_view(), name='answer-list'),
 
     path('applications/', ApplicationListView.as_view(), name='application-list'),
     path('applications/<int:pk>/', ApplicationRetrieveView.as_view(), name='application-get'),
@@ -51,7 +52,6 @@ urlpatterns = [
 
     path('questions/', QuestionListView.as_view(), name='question-list'),
     path('questions/<int:pk>/', QuestionRetrieveView.as_view(), name='question-get'),
-    path('questions/<int:question_id>/answers/', AnswerListView.as_view(), name='answer-list'),
     path('questions/create/', QuestionCreateView.as_view(), name='question-post'),
     path('questions/<int:pk>/update/', QuestionUpdateView.as_view(), name='question-put'),
 

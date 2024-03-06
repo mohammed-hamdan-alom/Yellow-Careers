@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext as _
-from .address import Address
 from .employerJobRelation import EmployerJobRelation
 from .managers import CustomUserManager
 
@@ -35,10 +34,11 @@ class JobSeeker(User):
         FEMALE = 'F',_('Female')
 
     dob = models.DateField(blank=False)
-    address = models.OneToOneField(Address,on_delete=models.CASCADE,null=True) # null changed for testing purposes
+    address = models.OneToOneField('Address',on_delete=models.CASCADE,null=True) # null changed for testing purposes
     nationality = models.CharField(max_length=100, blank=False)
     sex = models.CharField(max_length=6,choices=Sex.choices)
-    resume = models.ForeignKey('Resume',on_delete=models.CASCADE,null=True)
+    resume = models.ForeignKey('Resume', on_delete=models.CASCADE, null=True)
+
     class Meta:
         verbose_name = 'Job Seeker'
     
