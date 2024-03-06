@@ -21,7 +21,7 @@ class ApplicationSerializerTestCase(TestCase):
     
     def test_serializer_fields(self):
         serializer = ApplicationSerializer()
-        expected_fields = {'id', 'job_seeker','resume','job', 'date_applied'}
+        expected_fields = {'id', 'job_seeker','resume','job', 'date_applied','status','decision'}
         self.assertEqual(set(serializer.fields.keys()), expected_fields)
 
 
