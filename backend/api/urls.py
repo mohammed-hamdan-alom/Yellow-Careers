@@ -59,10 +59,6 @@ urlpatterns = [
     path('resumes/<int:pk>/', ResumeRetrieveView.as_view(), name='resume-get'),
     path('resumes/create/', ResumeCreateView.as_view(), name='resume-post'),
     path('resumes/<int:pk>/update/', ResumeUpdateView.as_view(), name='resume-put'),
-    path('resumes/<int:resume_id>/softskill/', SoftSkillListView.as_view(), name='softskill-get'),
-    path('resumes/<int:resume_id>/technicalskill/', TechnicalSkillListView.as_view(), name='technicalskill-get'),
-    path('resumes/<int:resume_id>/education/', EducationListView.as_view(), name='education-get'),
-
 
     path('resumes/<int:resume_id>/soft-skills/', ResumeSoftSkillListView.as_view(), name='resume-soft-skills-list'),
     path('resumes/<int:resume_id>/soft-skills/create/', ResumeSoftSkillCreateView.as_view(), name='resume-soft-skills-post'),
@@ -75,7 +71,6 @@ urlpatterns = [
     path('resumes/<int:resume_id>/educations/', EducationListView.as_view(), name='resume-education-list'),
     path('resumes/<int:resume_id>/educations/create/', EducationCreateView.as_view(), name='resume-educations-post'),
     path('resumes/<int:resume_id>/educations/update/<int:pk>', EducationUpdateView.as_view(), name='resume-educations-put'),
-
 
     path('resumes/<int:resume_id>/professional-experiences/', ProfessionalExperienceListView.as_view(), name='resume-professional-experiences-list'),
     path('resumes/<int:resume_id>/professional-experiences/create/', ProfessionalExperienceCreateView.as_view(), name='resume-professional-experiences-post'),

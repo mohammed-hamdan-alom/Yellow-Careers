@@ -5,7 +5,7 @@ import DisplayResume from "./DisplayResume";
 import DisplaySoftSkills from "./DisplaySoftSkills";
 import DisplayTechnicalSkills from "./DisplayTechnicalSkills";
 import DisplayLanguages from "./DisplayLanguages";
-import DisplayEduction from "./DisplayEduction";
+import DisplayEducation from "./DisplayEducation";
 import DisplayProfessionalExperience from "./DisplayProfessionalExperience";
 
 const ApplicationDetails = () => {
@@ -89,7 +89,7 @@ const ApplicationDetails = () => {
           {application.status === "R"
             ? "Mark Application as Unread"
             : "Mark Application as Read"}
-        </button> 
+        </button>
       </div>
 
       <h2>Job Seeker: {jobSeeker.first_name + jobSeeker.last_name}</h2>
@@ -106,7 +106,7 @@ const ApplicationDetails = () => {
       <DisplaySoftSkills resumeId={resume.id} />
       <DisplayTechnicalSkills resumeId={resume.id} />
       <DisplayLanguages resumeId={resume.id} />
-      <DisplayEduction resumeId={resume.id} />
+      <DisplayEducation resumeId={resume.id} />
       <DisplayProfessionalExperience resumeId={resume.id} />
 
       {questions.length > 0 ? (
@@ -123,7 +123,7 @@ const ApplicationDetails = () => {
           ))}
         </div>
       ) : (
-          <h3>No questions</h3>
+        <h3>No questions</h3>
       )}
 
       <h3>Decision:</h3>

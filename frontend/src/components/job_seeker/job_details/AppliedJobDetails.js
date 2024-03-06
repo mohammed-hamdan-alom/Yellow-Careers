@@ -2,7 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "../../../context/AuthContext";
 import { useParams } from 'react-router-dom';
 import axios from '../../../Axios';
-import ResumeDisplay from "../resume/ResumeDisplay";
+import DisplayEduction from "../../employer/application_details/DisplayEducation";
+import DisplayLanguages from "../../employer/application_details/DisplayLanguages";
+import DisplayProfessionalExperience from "../../employer/application_details/DisplayProfessionalExperience";
+import DisplayResume from "../../employer/application_details/DisplayResume";
+import DisplaySoftSkills from "../../employer/application_details/DisplaySoftSkills";
+import DisplayTechnicalSkills from "../../employer/application_details/DisplayTechnicalSkills";
 
 function AppliedJobDetails() {
 
@@ -18,7 +23,7 @@ function AppliedJobDetails() {
 
 
     useEffect(() => {
-        const fetchData = async () => {   
+        const fetchData = async () => {
             try {
                 const [applicationResponse] = await Promise.all([
                     axios.get(`api/applications/${applicationId}`),
@@ -30,15 +35,15 @@ function AppliedJobDetails() {
                     resumeResponse,
                     questionsResponse,
                     answersResponse,
-                  ] = await Promise.all([
+                ] = await Promise.all([
                     axios.get(`/api/applications/${applicationResponse.data.id}/resume`),
                     axios.get(`/api/jobs/${applicationResponse.data.job}/questions`),
                     axios.get(`/api/applications/${applicationResponse.data.id}/answers`),
-                  ]);
-          
-                  setResume(resumeResponse.data);
-                  setQuestions(questionsResponse.data);
-                  setAnswers(answersResponse.data);
+                ]);
+
+                setResume(resumeResponse.data);
+                setQuestions(questionsResponse.data);
+                setAnswers(answersResponse.data);
             } catch (error) {
                 console.error('Error retrieving info:', error);
             }
@@ -51,8 +56,14 @@ function AppliedJobDetails() {
         <div>
             <h1>Date Applied: {application.date_applied}</h1>
             <br />
-            <h2>Resume used: {resume.id}</h2>
-            <ResumeDisplay resume={resume} />
+            <h2>Resume:</h2>
+            <DisplayResume resumeId={resume.id} />
+            <DisplaySoftSkills resumeId={resume.id} />
+            <DisplayTechnicalSkills resumeId={resume.id} />
+            <DisplayLanguages resumeId={resume.id} />
+            <DisplayEduction resumeId={resume.id} />
+            <DisplayProfessionalExperience resumeId={resume.id} />
+
             {questions.length > 0 ? (
                 <div>
                     <h3>Questions and Answers:</h3>
@@ -64,14 +75,13 @@ function AppliedJobDetails() {
                                 {answers.find((answer) => answer.question === question.id)?.answer}
                             </p>
                         </div>
-                ))}
+                    ))}
                 </div>
             ) : (
                 <h3>No questions</h3>
             )}
         </div>
     )
-
 }
 
 export default AppliedJobDetails;
