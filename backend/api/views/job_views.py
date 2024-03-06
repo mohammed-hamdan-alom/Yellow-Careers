@@ -62,7 +62,7 @@ class JobListingView(generics.ListAPIView):
         serializer = JobSerializer(jobs, many=True)
         return Response(serializer.data)
     
-class JobRetrieveView(generics.RetrieveAPIView):
+class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
 
