@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "../../../Axios";
 
-function DisplayEduction({ resumeId }) {
+function DisplayEducation({ resumeId }) {
   const [educations, setEducations] = useState([]);
 
   useEffect(() => {
@@ -40,4 +40,4 @@ function DisplayEduction({ resumeId }) {
   );
 }
 
-export default DisplayEduction;
+export default DisplayEducation;
