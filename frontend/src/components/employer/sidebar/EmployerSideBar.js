@@ -32,7 +32,7 @@ function EmployerSideBar({ isOpen, toggleSidebar }) {
         <Menu.Item
           as={Link}
           to="/employer/dashboard"
-          active={isActive("/dahsboard")}
+          active={isActive("/dashboard")}
           onClick={toggleSidebar}
         >
           <Icon name="block layout" />
@@ -45,7 +45,7 @@ function EmployerSideBar({ isOpen, toggleSidebar }) {
           active={isActive("/create-job")}
           onClick={toggleSidebar}
         >
-          <Icon name="search" />
+          <Icon name="child" />
           Job Creation
         </Menu.Item>
 

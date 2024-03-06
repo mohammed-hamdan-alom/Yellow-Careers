@@ -18,7 +18,7 @@ class JobSeekerSerializer(serializers.ModelSerializer):
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
-        if address_data:
+        if address_data and instance.address:
             AddressSerializer().update(instance.address, address_data)
 
         instance.save()
