@@ -48,7 +48,6 @@ function SoftSkill({ resumeId }) {
 
   //Delete soft skill
   const handleDeleteSoftSkill = (skillObj) => {
-    console.log(skillObj);
     AxiosInstance.delete(
       `api/resumes/${resumeId}/soft-skills/update/${skillObj.id}`
     )

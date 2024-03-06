@@ -19,7 +19,6 @@ class JobSeekerViewTestCase(TestCase):
     def setUp(self):
         self.job_seekers = [JobSeeker.objects.get(pk=1), 
                            JobSeeker.objects.get(pk=2)]
-        #print(Address.objects.get(pk=1).id)
         
     def test_list_job_seekers(self):
         response = self.client.get(reverse('job-seeker-list'))
@@ -50,7 +49,6 @@ class JobSeekerViewTestCase(TestCase):
             'sex' : 'M'
         }
         response = self.client.post(reverse('job-seeker-post'), job_seeker_data)
-        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(JobSeeker.objects.count(), len(self.job_seekers) + 1)
 

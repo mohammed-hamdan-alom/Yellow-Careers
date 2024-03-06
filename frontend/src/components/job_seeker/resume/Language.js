@@ -24,7 +24,6 @@ function Language({ resumeId }) {
 
   //Delete language
   const handleDeleteLanguage = (languageObj) => {
-    console.log(languageObj);
     AxiosInstance.delete(
       `api/resumes/${resumeId}/languages/update/${languageObj.id}`
     )

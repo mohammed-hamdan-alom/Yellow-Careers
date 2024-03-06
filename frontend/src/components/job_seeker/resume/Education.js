@@ -24,7 +24,6 @@ function Education({ resumeId }) {
 
   //Delete education
   const handleDeleteEducation = (educationObj) => {
-    console.log(educationObj);
     AxiosInstance.delete(
       `http://localhost:8000/api/resumes/${resumeId}/educations/update/${educationObj.id}`
     )

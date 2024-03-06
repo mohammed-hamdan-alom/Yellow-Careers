@@ -61,7 +61,6 @@ const JobDetailsEmployer = () => {
             employer: formData.employer,
             job: formData.job
         }).then((response) => {
-            console.log(response);
             window.location.reload();
         }).catch((error) => {
             console.log(error);
@@ -73,7 +72,6 @@ const JobDetailsEmployer = () => {
             employer: id,
             job: jobId
         }).then((response) => {
-            console.log(response);
             window.location.reload();
         }).catch((error) => {
             console.log(error);

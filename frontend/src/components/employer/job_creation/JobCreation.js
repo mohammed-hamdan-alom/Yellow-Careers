@@ -33,7 +33,6 @@ function JobCreationForm() {
                 country: addressData.country,
                 post_code: addressData.post_code
             }).then((response) => {
-                console.log(response);
                 setFormData({
                     ...formData,
                     ['address']: response.data.id
@@ -47,7 +46,6 @@ function JobCreationForm() {
             address: formData.address,
             job_type: formData.job_type
         }).then((response) => {
-            console.log(response);
             AxiosInstance.post('api/employer-job-relations/create/', {
                 employer: userId,
                 job: response.data.id
