@@ -9,9 +9,8 @@ function AppliedJobDetails() {
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
 
-    const { jobId } = useParams();
+    const { applicationId } = useParams();
 
-    const [job, setJob] = useState({});
     const [application, setApplication] = useState({});
     const [resume, setResume] = useState({});
     const [questions, setQuestions] = useState([]);
@@ -21,12 +20,10 @@ function AppliedJobDetails() {
     useEffect(() => {
         const fetchData = async () => {   
             try {
-                const [jobResponse, applicationResponse] = await Promise.all([
-                    axios.get(`api/jobs/${jobId}/`),
-                    axios.get(`api/applications/${userId}/${jobId}`),
+                const [applicationResponse] = await Promise.all([
+                    axios.get(`api/applications/${applicationId}`),
                 ]);
 
-                setJob(jobResponse.data);
                 setApplication(applicationResponse.data);
 
                 const [
@@ -35,7 +32,7 @@ function AppliedJobDetails() {
                     answersResponse,
                   ] = await Promise.all([
                     axios.get(`/api/applications/${applicationResponse.data.id}/resume`),
-                    axios.get(`/api/jobs/${jobId}/questions`),
+                    axios.get(`/api/jobs/${applicationResponse.data.job}/questions`),
                     axios.get(`/api/applications/${applicationResponse.data.id}/answers`),
                   ]);
           
@@ -48,7 +45,7 @@ function AppliedJobDetails() {
         }
 
         fetchData();
-    }, [jobId, userId]);
+    }, [applicationId]);
 
     return (
         <div>

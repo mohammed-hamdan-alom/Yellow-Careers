@@ -44,7 +44,7 @@ function App() {
           <Route path="profile" element={<JobSeekerProfile />} />
           <Route path="job-details/:jobId" element={<JobDetails />} />
           <Route path="job-details/:jobId/questions" element={<JobQuestions />} />
-          <Route path="job-details/:jobId/application" element={<AppliedJobDetails />} />
+          <Route path="application-details/:applicationId" element={<AppliedJobDetails />} />
           <Route path="applied-jobs" element={<AppliedJobListPage />} />
         </Route>
         <Route path="/employer/*" element={<EmployerLayout />}>
