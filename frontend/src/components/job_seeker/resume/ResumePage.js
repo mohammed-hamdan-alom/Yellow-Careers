@@ -28,13 +28,13 @@ function UpdateResumePage() {
 
         //Havent tested if it works
         console.log("Resume not found");
-        const response = await AxiosInstance.post(`api/resumes/create`, {
+        const response = await AxiosInstance.post(`api/resumes/create/`, {
           'github': '',
           'linkedin': '',
           'about': '',
           'experience':''
         });
-        AxiosInstance.patch(`api/job-seekers/${userId}/update`, {
+        AxiosInstance.patch(`api/job-seekers/${userId}/update/`, {
           resume: response.data.id,
         });
       }

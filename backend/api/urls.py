@@ -40,6 +40,7 @@ urlpatterns = [
     path('companies/<int:pk>/', CompanyRetrieveView.as_view(), name='company-get'),
     path('companies/create/', CompanyCreateView.as_view(), name='company-post'),
     path('companies/<int:pk>/update/', CompanyUpdateView.as_view(), name='company-put'),
+    path('companies/<int:pk>/employers/', CompanyEmployerListView.as_view(), name='company-employers-list'),
 
     path('employer-job-relations/', EmployerJobRelationListView.as_view(), name='employer-job-relation-list'),
     path('employer-job-relations/<int:pk>/', EmployerJobRelationRetrieveView.as_view(), name='employer-job-relation-get'),
