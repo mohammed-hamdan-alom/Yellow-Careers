@@ -3,7 +3,9 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 // import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
+
 import LandingPage from "./components/public/landing_page/LandingPage";
+
 import LoginPage from "./components/public/login/LoginPage";
 import JobSeekerRegister from "./components/public/register/jobseeker_register/JobSeekerRegister";
 import EmployerRegister from "./components/public/register/employer_register/EmployerRegister";
@@ -33,9 +35,11 @@ function App() {
     <AuthProvider>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+
         <Route path="/register/employer" element={<EmployerRegister />} />
         <Route path="/register/jobseeker" element={<JobSeekerRegister />} />
         <Route path="/login" element={<LoginPage />} />
+
         <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
           <Route path="dashboard" element={<DashBoardPage />} />
           <Route path="search" element={<SearchPage />} />
@@ -47,6 +51,7 @@ function App() {
           <Route path="application-details/:applicationId" element={<AppliedJobDetails />} />
           <Route path="applied-jobs" element={<AppliedJobListPage />} />
         </Route>
+        
         <Route path="/employer/*" element={<EmployerLayout />}>
           <Route path="dashboard" element={<EmployerDashBoardPage />} />
           <Route path="create-job" element={<JobCreation />} />
