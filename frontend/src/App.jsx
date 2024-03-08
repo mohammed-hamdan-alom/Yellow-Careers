@@ -14,7 +14,7 @@ import JobSeekerLayout from "./features/jobseeker/layouts/JobSeekerLayout";
 import DashBoardPage from "./features/jobseeker/dashboard/Dashboard";
 import SearchPage from "./features/jobseeker/search/SearchPage";
 import JobSeekerProfile from "./features/jobseeker/profile/JobSeekerProfile";
-import ResumePage from '@/features/jobseeker/resume/ResumePage'
+import ResumePage from './features/jobseeker/resume/ResumePage'
 import JobDetails from "./features/jobseeker/job-details/job-datails/JobDetails";
 import JobQuestions from "./features/jobseeker/job-details/job-questions/JobQuestions";
 import AppliedJobListPage from "./features/jobseeker/job-list/applied-jobs/AppliedJobsListPage";

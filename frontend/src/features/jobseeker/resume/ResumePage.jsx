@@ -48,9 +48,9 @@ function UpdateResumePage() {
     <div>
       <h1>Resume</h1>
       <ResumeForm resumeId={resumeId} />
-      <SoftSkills resumeId={resumeId} />
-      <TechnicalSkills resumeId={resumeId} />
-      <Languages resumeId={resumeId} />
+      <SoftSkill resumeId={resumeId} />
+      <TechnicalSkill resumeId={resumeId} />
+      <Language resumeId={resumeId} />
       <Education resumeId={resumeId} />
       <ProfessionalExperience resumeId={resumeId} />
     </div>
