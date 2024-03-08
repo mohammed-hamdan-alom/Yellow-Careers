@@ -2,6 +2,8 @@ import DashboardLayout from '@/components/Layouts/DashboardLayout'
 
 const baseUrl = '/employer';
 
+
+{/* CHANGE USER INFORMATION LATER */}
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
@@ -11,7 +13,6 @@ const user = {
 const navigation = [
   { name: 'Dashboard', to: '/dashboard'},
   { name: 'Create Job Listing', to: '/create-job'},
-  { name: 'Company Jobs', to: '/job-applicants'},
   { name: 'My Company', to: '/company'},
 ]
 

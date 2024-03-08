@@ -33,12 +33,16 @@ export const AuthProvider = ({ children }) => {
             })
         });
         const data = await response.json();
-
+        
         if(response.status === 200){
             setAuthTokens(data);
-            setUser(jwtDecode(data.access));
+
+            const decodedToken = jwtDecode(data.access);
+            const userObj = { ...decodedToken, userType: decodedToken.user_type };
+            setUser(userObj);
+
             localStorage.setItem("authTokens", JSON.stringify(data));
-            navigate("/job-seeker/dashboard");
+            navigate(userObj.userType === 'job_seeker' ? "/job-seeker/dashboard" : "/employer/dashboard");
             swal.fire({
                 title: "Login Successful",
                 icon: "success",
@@ -61,10 +65,6 @@ export const AuthProvider = ({ children }) => {
             });
         }
     };
-
-    const checkJobseekerOrEmployer = () => {
-        
-    }
 
     const registerJobSeeker = async (email, password, password2, first_name, last_name, other_names, dob, phone_number, nationality, sex) => {
         const response = await fetch("http://127.0.0.1:8000/api/jobseeker-register/", {
