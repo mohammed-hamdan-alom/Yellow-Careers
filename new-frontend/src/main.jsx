@@ -6,11 +6,9 @@ import { ThemeProvider } from './components/ThemeProvider/theme-provider.jsx'
 import { BrowserRouter } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
         <App />
       </ThemeProvider>
     </BrowserRouter>
-  </React.StrictMode>,
 )

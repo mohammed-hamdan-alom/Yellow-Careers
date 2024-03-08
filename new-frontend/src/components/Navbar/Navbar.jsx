@@ -5,12 +5,10 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { ModeToggle } from "../ModeToggle/mode-toggle";
-import { ThemeProvider } from "../ThemeProvider/theme-provider";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <ThemeProvider>
       <header className="sticky border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
         <NavigationMenu className="mx-auto">
           <NavigationMenuList className="container h-14 px-4 w-screen flex justify-between ">
@@ -71,6 +69,5 @@ export const Navbar = () => {
           </NavigationMenuList>
         </NavigationMenu>
       </header>
-    </ThemeProvider>
   );
 };

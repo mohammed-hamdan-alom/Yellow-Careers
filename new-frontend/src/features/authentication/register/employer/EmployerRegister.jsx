@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../../../context/AuthContext';
+import { Button } from '@/components/ui/button';
 
 const EmployerRegister = () => {
   const [email, setEmail] = useState("");
@@ -83,9 +84,7 @@ const EmployerRegister = () => {
           </select>
         </div>
         <div className="form-actions">
-          <button type="submit" className="button primary">
-            Register
-          </button>
+          <Button type='submit'>register</Button>
           <Link to="/login">Have an account? Click here to log in</Link>
         </div>
       </form>

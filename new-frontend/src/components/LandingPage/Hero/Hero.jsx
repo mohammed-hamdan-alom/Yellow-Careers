@@ -22,7 +22,22 @@ export const Hero = () => {
         </p>
 
         <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Button className="w-full md:w-1/3">Get Started</Button>
+          <NavLink
+            to="/auth/register-jobseeker"
+            className={`w-full md:w-1/3 ${buttonVariants({
+              variant: "default",
+            })}`}
+          >
+            Get started as a job seeker
+          </NavLink>
+          <NavLink
+            to="/auth/register-employer"
+            className={`w-full md:w-1/3 ${buttonVariants({
+              variant: "default",
+            })}`}
+          >
+            Get started as an employer
+          </NavLink>
 
           <NavLink
             to="/auth/login"

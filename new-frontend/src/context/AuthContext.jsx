@@ -62,6 +62,10 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const checkJobseekerOrEmployer = () => {
+        
+    }
+
     const registerJobSeeker = async (email, password, password2, first_name, last_name, other_names, dob, phone_number, nationality, sex) => {
         const response = await fetch("http://127.0.0.1:8000/api/jobseeker-register/", {
             method: "POST",
@@ -73,7 +77,7 @@ export const AuthProvider = ({ children }) => {
             })
         });
         if(response.status === 201){
-            navigate("/login");
+            navigate("/auth/login");
             swal.fire({
                 title: "Registration Successful, Login Now",
                 icon: "success",
@@ -171,6 +175,8 @@ export const AuthProvider = ({ children }) => {
             showConfirmButton: false,
         });
     };
+
+
 
     const contextData = {
         user, 

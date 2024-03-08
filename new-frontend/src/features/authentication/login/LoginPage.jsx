@@ -38,7 +38,7 @@ const LoginPage = () => {
         </div>
         <div className="form-actions">
           <button type="submit" className="button primary">Log In</button>
-          <Link to="/register/employer">
+          <Link to="/register-employer">
             New here? Click here to create an account
           </Link>
         </div>
