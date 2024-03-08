@@ -59,8 +59,10 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000", # django port
     "http://localhost:3000", # react port
+    "http://localhost:5173", # react port
     "http://127.0.0.1:8000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5173"
 ]
 
 ROOT_URLCONF = 'backend.urls'

@@ -62,4 +62,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
         token['email'] = user.email
+
+        # Determine the user's role and add it to the token payload
+        if hasattr(user, 'jobseeker'):
+            token['user_type'] = 'job_seeker'
+        elif hasattr(user, 'employer'):
+            token['user_type'] = 'employer'
+        else:
+            # Default to job seeker if role cannot be determined
+            token['user_type'] = 'job_seeker'
+
         return token
