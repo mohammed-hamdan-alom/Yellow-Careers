@@ -61,7 +61,7 @@ function AppliedJobDetails() {
             <DisplaySoftSkills resumeId={resume.id} />
             <DisplayTechnicalSkills resumeId={resume.id} />
             <DisplayLanguages resumeId={resume.id} />
-            <DisplayEduction resumeId={resume.id} />
+            <DisplayEducation resumeId={resume.id} />
             <DisplayProfessionalExperience resumeId={resume.id} />
 
             {questions.length > 0 ? (
