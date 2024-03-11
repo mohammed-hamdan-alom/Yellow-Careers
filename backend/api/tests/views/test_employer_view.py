@@ -18,7 +18,8 @@ class EmployerViewTestCase(TestCase):
     
     def setUp(self):
         self.employers = [Employer.objects.get(pk=3), 
-                          Employer.objects.get(pk=4),]
+                          Employer.objects.get(pk=4),
+                          Employer.objects.get(pk=5)]
     
     def test_list_employers(self):
         response = self.client.get(reverse('employer-list'))

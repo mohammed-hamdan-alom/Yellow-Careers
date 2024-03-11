@@ -21,7 +21,8 @@ class AddressViewTestCase(TestCase):
     def setUp(self):
         self.addresses = [Address.objects.get(pk=1), 
                           Address.objects.get(pk=2), 
-                          Address.objects.get(pk=3)]
+                          Address.objects.get(pk=3),
+                          Address.objects.get(pk=4)]
     
     def test_list_addresses(self):
         response = self.client.get(reverse('address-list'))
