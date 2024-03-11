@@ -1,5 +1,5 @@
 from django.test import TestCase
-from api.models import Answer
+from api.models import Answer, Application, Question
 from django.urls import reverse
 from rest_framework import status
 
@@ -86,3 +86,20 @@ class AnswerViewTestCase(TestCase):
         response = self.client.delete(reverse('answer-put', args=[100]), content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Answer.objects.count(), len(self.answers))
+
+    def test_list_application_answers(self):
+        '''Test that the endpoint returns a list of all the answers of a given application.'''
+        application = Application.objects.get(pk=1)
+        job = application.job
+        questions = Question.objects.filter(job=job)
+        question_ids = [question.id for question in questions]
+        answers = Answer.objects.filter(question__in=question_ids, application=application)
+        response = self.client.get(reverse('application-answer-list', args=[application.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), len(answers))
+
+    def test_invalid_list_application_answers(self):
+        '''Test that the endpoint returns a 404 status code when the application does not exist.'''
+        response = self.client.get(reverse('application-answer-list', args=[100]))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.data, {'detail': 'Not found.'})
