@@ -1,5 +1,5 @@
 from django.test import TestCase
-from api.models import Question
+from api.models import Question, Job
 from django.urls import reverse
 from rest_framework import status
 
@@ -87,3 +87,13 @@ class QuestionViewTestCase(TestCase):
         response = self.client.delete(reverse('question-put', args=[100]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Question.objects.count(), len(self.questions))
+
+    def test_questions_for_a_job(self):
+        job = Job.objects.get(pk=1)
+        response = self.client.get(reverse('job-question-list', args=[job.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+
+        response_questions = set(data['question'] for data in response.data)
+        questions = set(question.question for question in self.questions if question.job == job)
+        self.assertEqual(response_questions, questions)
