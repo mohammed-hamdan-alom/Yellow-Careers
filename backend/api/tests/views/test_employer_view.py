@@ -1,5 +1,6 @@
 from django.test import TestCase
 from api.models.user import *
+from api.models.job import *
 from django.urls import reverse
 from rest_framework import status
 
@@ -19,7 +20,8 @@ class EmployerViewTestCase(TestCase):
     def setUp(self):
         self.employers = [Employer.objects.get(pk=3), 
                           Employer.objects.get(pk=4),
-                          Employer.objects.get(pk=5)]
+                          Employer.objects.get(pk=5),
+                          Employer.objects.get(pk=6)]
     
     def test_list_employers(self):
         response = self.client.get(reverse('employer-list'))
@@ -107,3 +109,36 @@ class EmployerViewTestCase(TestCase):
         response = self.client.delete(reverse('employer-put', args=[100]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Employer.objects.count(), len(self.employers))
+
+    def test_retrieve_linked_employers(self):
+        job = Job.objects.get(pk=3)
+        response = self.client.get(reverse('get-job-employers', args=[job.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+        employer_ids = [employer['id'] for employer in response.data]
+        self.assertIn(3, employer_ids)  
+        self.assertIn(4, employer_ids) 
+
+    def test_retrieve_company_employers_with_employer_id(self):
+        employer = self.employers[0]
+        response = self.client.get(reverse('employers-from-company', args=[employer.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+        employer_ids = [employer['id'] for employer in response.data]
+        self.assertIn(3, employer_ids) 
+        self.assertIn(5, employer_ids)
+
+    def test_invalid_retrieve_employer_with_employer_id(self):
+        response = self.client.get(reverse('employer-get', args=[100]))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_retrieve_company_employers_with_company_id(self):
+        company_id = 2
+        response = self.client.get(reverse('company-employers-list', args=[company_id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+        employer_ids = [employer['id'] for employer in response.data]
+        self.assertIn(4, employer_ids)
+        self.assertIn(6, employer_ids)
+
+    

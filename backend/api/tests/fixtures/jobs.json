@@ -56,5 +56,14 @@
             "employer" : 3,
             "job" : 3
         }
+    },
+    
+    {
+        "model": "api.employerjobrelation",
+        "pk": 4,
+        "fields": {
+            "employer": 4,
+            "job": 3
+        }
     }
 ]
