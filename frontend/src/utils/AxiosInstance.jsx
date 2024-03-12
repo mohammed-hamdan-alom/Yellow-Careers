@@ -5,7 +5,8 @@ const AxiosInstance = axios.create({
     timeout:10000,
     headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${ JSON.parse(localStorage.getItem('authTokens')).access}`,
     }
 })
 
