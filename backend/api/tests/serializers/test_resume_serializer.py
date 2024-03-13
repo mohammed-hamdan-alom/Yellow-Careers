@@ -2,6 +2,10 @@ from django.test import TestCase
 from api.models import Resume, SoftSkill, TechnicalSkill, Language, ProfessionalExperience, Education
 from api.serializers import ResumeSerializer, ResumeSoftSkillSerializer, ResumeTechnicalSkillSerializer, ResumeLanguageSerializer, ProfessionalExperienceSerializer, EducationSerializer
 import datetime
+from django.urls import reverse
+from rest_framework import status
+
+
 
 class ResumeSerializerTestCase(TestCase):
 
@@ -311,3 +315,20 @@ class EducationSerializerTestCase(TestCase):
         }
         serializer = EducationSerializer(data=invalid_data)
         self.assertFalse(serializer.is_valid())
+
+    def test_create_resume_education(self):
+        education_data = {
+            'start_date': "2003-02-20",
+            'end_date': "2014-01-01",
+            'level': "HS",
+            'institution' :"asdasd",
+            'grade': "a",
+            'address': {
+                'city': "london",
+                'post_code': "e20 123",
+                'country': "asdasd"
+            }
+        }
+        response = self.client.post(reverse('resume-educations-post', args=[1]), education_data)
+        print(response.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
