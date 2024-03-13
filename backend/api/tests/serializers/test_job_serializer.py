@@ -53,3 +53,18 @@ class JobSerializerTestCase(TestCase):
         }
         serializer = JobSerializer(data=invalid_data)
         self.assertFalse(serializer.is_valid())
+
+    def test_update(self):
+        new_data = {
+            'title': 'Senior Software Engineer',
+            'description': 'Develop and maintain software, and manage a team',
+            'job_type': 'Part Time',
+            'salary': 80000,
+        }
+        updated_job = self.serializer.update(self.job, new_data)
+        updated_job.refresh_from_db()
+
+        self.assertEqual(updated_job.title, new_data['title'])
+        self.assertEqual(updated_job.description, new_data['description'])
+        self.assertEqual(updated_job.job_type, new_data['job_type'])
+        self.assertEqual(updated_job.salary, new_data['salary'])

@@ -1,6 +1,7 @@
 from django.test import TestCase
 from api.models.resume import *
 from api.models.company import *
+from api.models.address import *
 from django.urls import reverse
 from rest_framework import status
 
@@ -227,4 +228,29 @@ class ProfessionalExperienceViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(ProfessionalExperience.objects.count(), before_count - 1)
 
-    
+    def test_get_application_resume(self):
+        response = self.client.get(reverse("application-resume-get", args=[1]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["id"], 1)
+
+    def test_get_job_seeker_resume(self):
+        response = self.client.get(reverse("job-seeker-resume", args=[1]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["id"], 1)
+
+    def test_get_resume_languages(self):
+        response = self.client.get(reverse("resume-languages-list", args=[1]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_create_resume_language(self):
+        before_count = Language.objects.count()
+        language_data = {
+            "resume" : 1,
+            "language" : "English",
+            "spoken_proficiency" : "F",
+            "written_proficiency" : "F",
+        }
+        response = self.client.post(reverse("resume-languages-post", args=[1]), language_data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Language.objects.count(), before_count + 1)

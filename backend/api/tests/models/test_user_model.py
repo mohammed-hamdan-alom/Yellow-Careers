@@ -197,6 +197,10 @@ class UserModelTestCase(TestCase):
         self.assertIn(self.applied_job3,applied_jobs2)
         self.assertIn(self.applied_job2,applied_jobs2)
 
+    def test_get_resume(self):
+        self.assertEqual(self.jobseeker.get_resume(),self.jobseeker.resume)
+        self.assertEqual(self.jobseeker2.get_resume(),self.jobseeker2.resume)
+
     #the tests below this are for employer users
 
     def test_company_for_employer_cannot_be_empty(self):
@@ -241,13 +245,13 @@ class UserModelTestCase(TestCase):
         self.assertIn(self.employer_job_relation3,retrieved_posted_jobs)
         self.assertIn(self.employer_job_relation2,retrieved_posted_jobs) #this is a job posted by employer2
 
-
+    def test_user_to_string(self):
+        self.assertEqual(str(self.user),f"{self.user.email} - {self.user.first_name} {self.user.last_name}")
+        self.assertEqual(str(self.jobseeker),f"{self.jobseeker.email} - {self.jobseeker.first_name} {self.jobseeker.last_name}")
+        self.assertEqual(str(self.employer),f"{self.employer.email} - {self.employer.first_name} {self.employer.last_name}")
 
     def _assert_user_is_valid(self,user):
-        try:
-            user.full_clean()  
-        except (ValidationError):
-            self.fail(f"{user}should be valid")
+        user.full_clean()  
 
     def _assert_user_is_invalid(self,user):
         with self.assertRaises(ValidationError):
