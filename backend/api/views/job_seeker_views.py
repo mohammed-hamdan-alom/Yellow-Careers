@@ -1,5 +1,5 @@
 from rest_framework import generics
-from api.models import JobSeeker
+from api.models import JobSeeker, Application
 from api.serializers.job_seeker_serializers import JobSeekerSerializer
 
 
@@ -18,3 +18,9 @@ class JobSeekerCreateView(BaseJobSeekerView, generics.CreateAPIView):
 
 class JobSeekerUpdateView(BaseJobSeekerView, generics.RetrieveUpdateDestroyAPIView):
     pass
+
+class ApplicationJobSeekerListView(BaseJobSeekerView, generics.ListAPIView):
+        
+    def get_queryset(self):
+        job_id = self.kwargs.get('job_id')
+        return Application.objects.filter(job_id = job_id)

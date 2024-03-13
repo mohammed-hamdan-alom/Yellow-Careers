@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import JobSummary from "../summary/JobSummary";
+import FilterDropdown from "./JobFilter";
 
 const JobSearchBar = ({ database }) => {
     const [query, setQuery] = useState('');
@@ -22,6 +23,7 @@ const JobSearchBar = ({ database }) => {
 
     return (
         <>
+        
             <input className="form-control" type="text"
                 value={query}
                 onChange={handleSearch}
