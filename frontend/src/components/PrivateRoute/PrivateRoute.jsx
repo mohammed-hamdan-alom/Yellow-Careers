@@ -13,7 +13,13 @@ const PrivateRoute = ({ role, ...props }) => {
     console.log(role);
     console.log(user.user_type);
     // If the user doesn't have the required role, redirect to a 403 page
-    return <Navigate to="/403" />;
+    if (user.user_type === 'job_seeker') {
+      return <Navigate to="/job-seeker/dashboard" />;
+    
+    }
+    else if (user.user_type === 'employer') {
+      return <Navigate to="/employer/dashboard" />;
+    }
   } else {
     // If the user is logged in and has the required role, render the route
     return <Outlet />;

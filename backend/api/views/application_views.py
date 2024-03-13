@@ -20,10 +20,13 @@ class ApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPIView):
             if not obj.job_seeker.id == user.id:
                 raise PermissionDenied("You do not have permission to view this application.")
         else:
-            job_id = obj.job.id
-            employer = Employer.objects.get(user_ptr_id = user.id)
-            employer_ids = EmployerJobRelation.objects.filter(job_id=job_id).values_list('employer', flat=True)
-            job_company = Employer.objects.get(id=employer_ids[0]).company
+            try:
+                job_id = obj.job.id
+                employer = Employer.objects.get(user_ptr_id = user.id)
+                employer_ids = EmployerJobRelation.objects.filter(job_id=job_id).values_list('employer', flat=True)
+                job_company = Employer.objects.get(id=employer_ids[0]).company
+            except:
+                raise PermissionDenied("You do not have permission to view this application.")
 
             if not employer.company == job_company:
                 raise PermissionDenied("You do not have permission to view this application.")
