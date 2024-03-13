@@ -25,3 +25,9 @@ class ApplicationCreateView(BaseApplicationView, generics.CreateAPIView):
 
 class ApplicationUpdateView(BaseApplicationView, generics.RetrieveUpdateDestroyAPIView):
     pass
+
+class ApplicationsFromJobListView(BaseApplicationView, generics.ListAPIView):
+    '''Return applications with the same job'''
+    def get_queryset(self):
+        job_id = self.kwargs.get('job_id')
+        return Application.objects.filter(job_id = job_id)

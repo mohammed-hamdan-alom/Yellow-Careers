@@ -37,6 +37,7 @@ urlpatterns = [
     path('applications/<int:job_seeker_id>/<int:job_id>/', JobSeekerApplicationRetrieveView.as_view(), name='job-seeker-application-get'),
     path('applications/<int:application_id>/resume/', ApplicationResumeRetrieveView.as_view(), name='application-resume-get'),
     path('applications/<int:application_id>/answers/', ApplicationAnswerListView.as_view(), name='application-answer-list'),
+    path('application/job/<int:job_id>/', ApplicationsFromJobListView.as_view(), name="application-all-get"),
 
     path('companies/', CompanyListView.as_view(), name='company-list'),
     path('companies/<int:pk>/', CompanyRetrieveView.as_view(), name='company-get'),
@@ -88,7 +89,8 @@ urlpatterns = [
     path('job-seeker/<int:pk>/applied-jobs/', JobsAppliedListView.as_view(), name='job-seeker-applications'),
     path('job-seeker/<int:pk>/saved-jobs/', JobSeekerSavedJobsListView.as_view(), name='job-seeker-saved-jobs'),
     path('job-seeker/<int:pk>/matched-jobs/', JobSeekerMatchedJobsListingView.as_view(), name='job-seeker-matched-jobs'),
-    path('job-seeker/<int:job_id>/application/'. ApplicationJobSeekerListView.as_view(), name="application-job-seeker-get"),
+    path('job-seeker/application/<int:application_id>/', JobSeekerFromApplicationRetrieveView.as_view(), name='job=seeker-from-application-get'),
+
 
     path('saved-jobs/', SavedJobsListView.as_view(), name='saved-jobs-list'),
     path('saved-jobs/create/', SavedJobsCreateView.as_view(), name='saved-jobs-create'),
