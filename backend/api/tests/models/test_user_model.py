@@ -251,10 +251,7 @@ class UserModelTestCase(TestCase):
         self.assertEqual(str(self.employer),f"{self.employer.email} - {self.employer.first_name} {self.employer.last_name}")
 
     def _assert_user_is_valid(self,user):
-        try:
-            user.full_clean()  
-        except (ValidationError):
-            self.fail(f"{user}should be valid")
+        user.full_clean()  
 
     def _assert_user_is_invalid(self,user):
         with self.assertRaises(ValidationError):

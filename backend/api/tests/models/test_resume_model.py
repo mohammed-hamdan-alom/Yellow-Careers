@@ -349,10 +349,8 @@ class UserModelTestCase(TestCase):
 
 
     def _assert_is_valid(self,input):
-        try:
-            input.full_clean()  
-        except (ValidationError):
-            self.fail(f"{input}should be valid")
+        input.full_clean()  
+
 
     def _assert_is_invalid(self,input):
         with self.assertRaises(ValidationError):
