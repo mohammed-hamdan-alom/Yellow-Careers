@@ -23,7 +23,6 @@ const JobSearchBar = ({ database }) => {
 
     return (
         <>
-        
             <input className="form-control" type="text"
                 value={query}
                 onChange={handleSearch}
