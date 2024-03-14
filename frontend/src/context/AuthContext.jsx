@@ -67,20 +67,23 @@ export const AuthProvider = ({ children }) => {
     };
 
     const registerJobSeeker = async (user) => {
+        console.log(user)
         const response = await fetch("http://127.0.0.1:8000/api/jobseeker-register/", {
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
             },
             body: JSON.stringify({
-                email: user.email, 
-                password: user.password, 
-                password2: user.password2, 
-                first_name: user.firstName, 
-                last_name: user.lastName, 
-                other_names: user.otherNames, 
-                dob: user.dob, 
-                phone_number: user.phoneNumber
+                'email': user.email, 
+                'password': user.password, 
+                'password2': user.password2, 
+                'first_name': user.firstName, 
+                'last_name': user.lastName, 
+                'other_names': user.otherNames, 
+                'dob': user.dob, 
+                'phone_number': user.phoneNumber,
+                'nationality': user.nationality,
+                'sex': user.sex
             })
         });
         if(response.status === 201){

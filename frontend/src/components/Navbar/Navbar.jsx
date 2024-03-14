@@ -64,7 +64,7 @@ export const Navbar = () => {
                 <GitHubLogoIcon className="mr-2 w-5 h-5" />
                 Github
               </a>
-                <ModeToggle />
+                {/* <ModeToggle /> */}
             </div>
           </NavigationMenuList>
         </NavigationMenu>

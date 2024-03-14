@@ -20,11 +20,8 @@ import { ArrowRightIcon } from '@radix-ui/react-icons'
 const GetStarted = () => {
   
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState('job-seeker');
+  const [selectedOption, setSelectedOption] = useState();
 
-  const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
-  }
 
   const handleSubmit = () => {
     if (selectedOption === 'job-seeker') {
@@ -34,23 +31,29 @@ const GetStarted = () => {
     }
   }
 
+  const handleOptionChange = (e) => {
+    if (e.target.value) {
+      setSelectedOption(e.target.value);
+    }
+  }
+
   return (
     <div className='h-screen flex items-center justify-center'>
       <Card className='max-w-4xl'>
         <CardHeader className='items-center'>
-          <CardTitle>Get started as a Job seeker or as an Employer</CardTitle>
+          <CardTitle className='centered-text'>Get started as a Job seeker or as an Employer</CardTitle>
           <CardDescription>Choose your option</CardDescription>
         </CardHeader>
 
         <CardContent>
-          <RadioGroup defaultValue='job-seeker' onChange={handleOptionChange}>
+          <RadioGroup>
             <div className="flex space-x-4 justify-center">
               <div className="flex flex-row items-center space-x-2">
-                <RadioGroupItem value="job-seeker" id="job-seeker" />
+                <RadioGroupItem value="job-seeker" id="job-seeker" onClick={handleOptionChange}/>
                 <Label htmlFor="job-seeker">Job Seeker</Label>
               </div>
               <div className="flex flex-row items-center space-x-2">
-                <RadioGroupItem value="employer" id="employer" />
+                <RadioGroupItem value="employer" id="employer" onClick={handleOptionChange}/>
                 <Label htmlFor="employer">Employer</Label>
               </div>
             </div>
