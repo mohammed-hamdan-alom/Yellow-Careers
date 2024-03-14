@@ -8,6 +8,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 const JobDetailsEmployer = () => {
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
+    const [dataReceived, setDataReceived] = useState(false);
 
     const { jobId } = useParams();
 
@@ -24,6 +25,7 @@ const JobDetailsEmployer = () => {
     const [company, setCompany] = useState({});
     const [employers, setEmployers] = useState([]);
     const [companyEmployers, setCompanyEmployers] = useState([]);
+    const [currentEmployer, setCurrentEmployer] = useState({});
 
     useEffect(() => {
         Promise.all([
@@ -40,8 +42,16 @@ const JobDetailsEmployer = () => {
             setQuestions(responses[3].data);
             setEmployers(responses[4].data);
             setCompanyEmployers(responses[5].data);
+            setDataReceived(true);
         }).catch((error) => console.error('Error fetching data:', error));
-    }, [jobId, userId]);
+
+        //Sets current employer to logged in employer in order to receive company admin status
+        employers.forEach((employer) => {
+            if (employer.id == user.user_id) {
+                setCurrentEmployer(employer)
+            }
+        })
+    }, [jobId, userId, dataReceived]);
 
     const handleClick = () => {
         navigate(`/employer/job-applicants/${jobId}`);
@@ -67,7 +77,7 @@ const JobDetailsEmployer = () => {
         });
     }
 
-    const handleRemove = (id) => {
+    const handleRemoveEmployer = (id) => {
         AxiosInstance.delete(`api/employer-job-relations/delete/${jobId}/${id}/`, {
             employer: id,
             job: jobId
@@ -76,11 +86,20 @@ const JobDetailsEmployer = () => {
         }).catch((error) => {
             console.log(error);
         })
+    }
 
+    const handleRemoveQuestion = (id) => {
+        AxiosInstance.delete(`api/questions/${id}/update/`).
+            then((response) => {
+                window.location.reload();
+            }).catch((error) => {
+                console.log(error);
+            })
     }
 
     return (
 
+        // ANY EMPLOYER (even if not from company) CAN VIEW THIS
         <div>
             <button onClick={handleClick}>See Applicants</button>
             <h1>{job.title}</h1>
@@ -90,19 +109,21 @@ const JobDetailsEmployer = () => {
             <h4>Job Type: {job.job_type}</h4>
             <h4><strong>Location:</strong> {address.post_code}, {address.city}, {address.country}</h4>
             {questions.length === 0 ? null : <h4>Questions:</h4>}
-            {questions.map(question => (
-                < ul key={question.id} >
-                    <p>{question.question}</p>
-                </ul>
-            ))}
-
+            <ul>
+                {questions.map(question => (
+                    <>
+                        <li key={question.id}>{question.question}</li>
+                        <button onClick={() => handleRemoveQuestion(question.id)}>Remove</button>
+                    </>
+                ))}
+            </ul>
             <br></br>
 
             <h4>Employers:</h4>
             {employers.map(employer => (
                 < ul key={employer.id} >
                     <h5>{employer.first_name} {employer.last_name}</h5>
-                    {employer.id != userId ? <button onClick={() => handleRemove(employer.id)}>Remove</button> : null}
+                    {employer.id != userId && currentEmployer.is_company_admin ? <button onClick={() => handleRemoveEmployer(employer.id)}>Remove</button> : null}
                 </ul>
             ))}
 

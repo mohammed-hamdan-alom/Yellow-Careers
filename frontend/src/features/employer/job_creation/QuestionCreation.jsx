@@ -45,6 +45,12 @@ function QuestionCreation() {
         navigate(`/employer/`);
     }
 
+    const handleRemove = (id) => {
+        AxiosInstance.delete(`api/questions/${id}/update/`)
+            .then((res) => window.location.reload())
+            .catch((error) => console.log(error))
+    }
+
     return (
         <div className="question-creation-form">
             <form onSubmit={handleSubmit}>
@@ -64,11 +70,11 @@ function QuestionCreation() {
             </form>
             <button type="button" onClick={handleSkip}>Finish</button>
             <p><br></br></p>
-            <h2>Current Questions:</h2>
+            {questions.length == 0 ? <h2>Current Questions:</h2> : null}
             <br></br>
             {questions.map(question => (
                 <ul key={question.id}>
-                    {question.question}
+                    {question.question} <button onClick={() => handleRemove(question.id)}>Remove</button>
                 </ul>
             )
             )}
