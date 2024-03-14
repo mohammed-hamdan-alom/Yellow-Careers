@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import JobSearchBar from "./JobSearchBar";
+import AxiosInstance from "@/utils/AxiosInstance";
 
 const JobFilter = ({ database }) => {
   const [results, setResults] = useState([]);
   const [filters, setFilters] = useState({
     pay: "all",
     contractType: "all",
-    location: "all",
+    location: "all", //Location is treated as only country
   });
+  const [addresses, setAddresses] = useState([]);
+  const [countries, setCountries] = useState([]);
+
+  const getCountry = (id) => {
+    const address = addresses.find(address => address.id == id)
+    return address.country
+  }
 
   const onPayChangeFilter = (e) => {
     const value = e.target.value;
@@ -15,7 +23,7 @@ const JobFilter = ({ database }) => {
       ...filters,
       pay: value,
     });
-    applyFilters();
+    applyFilters(value, filters.contractType, filters.location);
   }
 
   const onCTChangeFilter = (e) => {
@@ -24,22 +32,51 @@ const JobFilter = ({ database }) => {
       ...filters,
       contractType: value,
     });
-    applyFilters();
+    applyFilters(filters.pay, value, filters.location);
   }
 
-  const applyFilters = () => {
-    console.log(filters.pay)
-    let payFilterData = database;
-    let ctFilterData = database;
-    if (filters.pay !== "all") {
-      payFilterData = database.filter(job => job.salary >= filters.pay)
+  const onLocationChangeFilter = (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      location: value,
+    });
+    applyFilters(filters.pay, filters.contractType, value);
+  }
+
+  const applyFilters = (pay, ct, location) => {
+    const payFilter = (job) => job.salary >= pay;
+    const ctFilter = (job) => job.job_type == ct;
+    const locationFilter = (job) => getCountry(job.address) == location;
+
+    let filters = []
+    let filteredResults = database;
+
+    if (pay !== "all") {
+      filters.push(payFilter)
     }
-    if (filters.contractType !== "all") {
-      ctFilterData = database.filter(job => job.job_type == filters.contractType)
+    if (ct !== "all") {
+      filters.push(ctFilter)
     }
-    const filteredResults = payFilterData.filter(value => ctFilterData.includes(value))
+    if (location != "all") {
+      filters.push(locationFilter)
+    }
+    if (filters.length !== 0) {
+      filteredResults = filters.reduce((d, f) => d.filter(f), database)
+    }
+
     setResults(filteredResults)
   }
+
+  useEffect(() => {
+    AxiosInstance.get(`api/addresses/`)
+      .then((res) => {
+        setAddresses(res.data)
+        const countries = res.data.map(address => address.country)
+        setCountries(Array.from(new Set(countries)))
+      })
+      .catch((error) => console.log(error))
+  }, [])
 
   useEffect(() => {
     setResults(database);
@@ -48,8 +85,12 @@ const JobFilter = ({ database }) => {
   return (
     <div>
       <label htmlFor="filterDropdown">Location:</label>
-      <select id="location" onChange={(e) => onChangeFilter(e.target.value)} title="LocationFilter">
-        <option value={filters.location}>All</option>
+      <select id="location" onChange={onLocationChangeFilter} title="LocationFilter">
+        <option value="all">All</option>
+        {countries.map(country =>
+          <option value={country}> {country} </option>
+        )
+        }
       </select>
 
       <br></br>
