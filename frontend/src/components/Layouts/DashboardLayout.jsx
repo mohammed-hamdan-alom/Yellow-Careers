@@ -1,9 +1,10 @@
 import React from 'react'
 import { Fragment, useContext } from 'react'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import AuthContext from '@/context/AuthContext'
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -11,7 +12,13 @@ function classNames(...classes) {
 
 const DashboardLayout = ({user, navigation, userNavigation, baseUrl}) => {
 
-  const { logoutUser } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+
+  const { logoutUser } = authContext || {};
+
+  if (!logoutUser) {
+    console.log('logoutUser is not defined');
+  }
 
   return (
     <>

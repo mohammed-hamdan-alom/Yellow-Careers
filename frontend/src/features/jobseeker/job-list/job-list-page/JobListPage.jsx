@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobSearchBar from "../../search/JobSearchBar";
+import { Label } from "@/components/ui/label";
 
 
 const JobListPage = () => {
@@ -27,13 +28,11 @@ const JobListPage = () => {
     }, [jobRetrieved]);
 
     return (
-        <div>
-            <h1>Matched jobs</h1>
-            <br></br>
+        <div className="flex flex-col justify-center">
+            <Label className='text-3xl'>Job List</Label>
             {resume.id && jobs ? <JobSearchBar database={jobs} /> :
                 <h1>Create a resume first</h1>
             }
-
         </div >
     )
 };

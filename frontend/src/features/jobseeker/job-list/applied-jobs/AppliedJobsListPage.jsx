@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
-// import '../job_summary/JobSummary.css';
 import JobSummary from "../../summary/JobSummary";
 import AxiosInstance from "@/utils/AxiosInstance";
 
@@ -18,7 +17,6 @@ function AppliedJobListPage() {
 
     return (
         <div>
-            <h1>Applied jobs</h1>
             {jobs.map(job => (
                 < ul className='job-summary' key={job.id} >
                     <JobSummary job={job} />

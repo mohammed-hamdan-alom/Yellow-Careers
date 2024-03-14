@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { HeroCards } from "../HeroCards/HeroCards";
 import { NavLink } from "react-router-dom";
 

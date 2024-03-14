@@ -8,6 +8,7 @@ import TechnicalSkill from "./skills/TechnicalSkill";
 import Language from "./language/Language";
 import Education from "./education/Education";
 import ProfessionalExperience from "./professional-experience/ProfessionalExperience";
+import { Label } from "@/components/ui/label";
 
 function UpdateResumePage() {
   const [resumeId, setResumeId] = useState(null);
@@ -45,14 +46,16 @@ function UpdateResumePage() {
   }, [userId]);
 
   return (
-    <div>
-      <h1>Resume</h1>
+    <div className="w-full">
+      <Label className="text-3xl">Update Your Resume</Label>
+
       <ResumeForm resumeId={resumeId} />
-      <SoftSkills resumeId={resumeId} />
-      <TechnicalSkills resumeId={resumeId} />
-      <Languages resumeId={resumeId} />
+      <SoftSkill resumeId={resumeId} />
+      <TechnicalSkill resumeId={resumeId} />
+      <Language resumeId={resumeId} />
       <Education resumeId={resumeId} />
       <ProfessionalExperience resumeId={resumeId} />
+
     </div>
   );
 }

@@ -49,11 +49,11 @@ const GetStarted = () => {
           <RadioGroup>
             <div className="flex space-x-4 justify-center">
               <div className="flex flex-row items-center space-x-2">
-                <RadioGroupItem value="job-seeker" id="job-seeker" onClick={handleOptionChange}/>
+                <RadioGroupItem data-testid='jobseeker' value="job-seeker" id="job-seeker" onClick={handleOptionChange}/>
                 <Label htmlFor="job-seeker">Job Seeker</Label>
               </div>
               <div className="flex flex-row items-center space-x-2">
-                <RadioGroupItem value="employer" id="employer" onClick={handleOptionChange}/>
+                <RadioGroupItem data-testid='employer' value="employer" id="employer" onClick={handleOptionChange}/>
                 <Label htmlFor="employer">Employer</Label>
               </div>
             </div>
