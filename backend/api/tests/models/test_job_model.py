@@ -108,3 +108,7 @@ class JobModelTestCase(TestCase):
             self.job3.full_clean()
             self.job.full_clean()
 
+    def test_to_string(self):
+        self.assertEqual(self.job.to_string(), f"{self.job.title} {self.job.description} {self.job.salary} {self.job.job_type}")
+        self.assertEqual(self.job2.to_string(), f"{self.job2.title} {self.job2.description} {self.job2.salary} {self.job2.job_type}")
+        self.assertEqual(self.job3.to_string(), f"{self.job3.title} {self.job3.description} {self.job3.salary} {self.job3.job_type}")

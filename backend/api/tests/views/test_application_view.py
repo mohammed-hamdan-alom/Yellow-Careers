@@ -80,3 +80,10 @@ class ApplicationViewTestCase(TestCase):
         response = self.client.delete(reverse('application-put', args=[10]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Application.objects.count(), len(self.applications))
+
+    def test_retrieve_job_seeker_application(self):
+        application = self.applications[0]
+        response = self.client.get(reverse('job-seeker-application-get', args=[application.job_seeker.id, application.job.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['job'], application.job.id)
+        self.assertEqual(response.data['job_seeker'], application.job_seeker.id)

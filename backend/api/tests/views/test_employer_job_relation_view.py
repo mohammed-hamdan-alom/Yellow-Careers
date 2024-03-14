@@ -18,7 +18,8 @@ class EmployerJobRelationViewTestCase(TestCase):
     def setUp(self):
         self.employer_job_relations = [EmployerJobRelation.objects.get(pk=1), 
                                       EmployerJobRelation.objects.get(pk=2), 
-                                      EmployerJobRelation.objects.get(pk=3),]
+                                      EmployerJobRelation.objects.get(pk=3),
+                                      EmployerJobRelation.objects.get(pk=4)]
 
 
     def test_list_employer_job_relations(self):
@@ -56,7 +57,7 @@ class EmployerJobRelationViewTestCase(TestCase):
 
     def test_delete_employer_job_relation(self):
         employer_job_relation = self.employer_job_relations[0]
-        response = self.client.delete(reverse('employer-job-relation-put', args=[employer_job_relation.id]))
+        response = self.client.delete(reverse('employer-job-relation-delete', args=[employer_job_relation.job.id, employer_job_relation.employer.id]))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(EmployerJobRelation.objects.count(), len(self.employer_job_relations) - 1)
 
@@ -78,3 +79,9 @@ class EmployerJobRelationViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(EmployerJobRelation.objects.count(), len(self.employer_job_relations))
 
+    def test_invalid_delete_employer_job_relation(self):
+        response = self.client.delete(reverse('employer-job-relation-delete', args=[100, 100]))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(EmployerJobRelation.objects.count(), len(self.employer_job_relations))
+
+    
