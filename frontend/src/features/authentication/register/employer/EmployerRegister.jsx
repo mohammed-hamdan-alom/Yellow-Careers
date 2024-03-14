@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import  { useState, useContext, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import AuthContext from '../../../../context/AuthContext';
 import { Button } from '@/components/ui/button';
 
@@ -12,7 +12,7 @@ const EmployerRegister = () => {
   const { registerEmployer } = useContext(AuthContext);
 
   useEffect(() => {
-
+    //set email and company
     const fetchCompanies = async () => {
       try {
         const response = await fetch('http://localhost:8000/api/companies/');
