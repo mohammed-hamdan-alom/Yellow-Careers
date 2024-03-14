@@ -171,13 +171,15 @@ class Command(BaseCommand):
             new_address = self.seed_address()
             random_resume = random.choice(resumes)
             resumes.remove(random_resume)
+            phone_number = self.faker.numerify(text='+1##########')
+
 
             jobseeker = JobSeeker.objects.create(
                 email=self.generate_unique_email(),
                 first_name=self.faker.first_name(),
                 last_name=self.faker.last_name(),
                 other_names='bean + cheese + begel',
-                phone_number=self.faker.phone_number(),
+                phone_number=phone_number,
                 dob=self.faker.date_of_birth(minimum_age=18, maximum_age=65),
                 address=new_address,
                 nationality = self.faker.country(),
