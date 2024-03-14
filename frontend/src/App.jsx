@@ -8,6 +8,7 @@ import LoginPage from "./features/authentication/login/LoginPage";
 import AuthLayout from "./features/authentication/AuthLayout";
 import EmployerRegister from "./features/authentication/register/employer/EmployerRegister";
 import JobSeekerRegister from "./features/authentication/register/job-seeker/JobSeekerRegister";
+import EmailCodeVerification from "./features/authentication/register/employer/EmailCodeVerification";
 
 import JobSeekerLayout from "./features/jobseeker/layouts/JobSeekerLayout";
 import DashBoardPage from "./features/jobseeker/dashboard/Dashboard";
@@ -29,6 +30,7 @@ import CompanyProfilePage from "./features/employer/company_profile/CompanyProfi
 
 import JobDetailsEmployer from "./features/employer/job_applicants/JobDetailsEmployer";
 
+
 function App() {
 
   return (
@@ -41,6 +43,7 @@ function App() {
           <Route path="login" element={<LoginPage/>} />
           <Route path="register-employer" element={<EmployerRegister />} />
           <Route path="register-jobseeker" element={<JobSeekerRegister />} />
+          <Route path="email-code-verification" element={<EmailCodeVerification />} />
         </Route>
 
         <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
