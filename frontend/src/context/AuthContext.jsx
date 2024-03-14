@@ -190,6 +190,13 @@ export const AuthProvider = ({ children }) => {
         logoutUser,
     };
 
+    // Every 30 minutes, the token will be updated
+    useEffect(() => {
+        const minutes = 30;
+        const tokenUpdateTimeout = setTimeout(updateToken, minutes * 60 * 1000);    
+        return () => clearTimeout(tokenUpdateTimeout);
+    }, [updateToken]);
+
     useEffect(() => {
         const tokens = localStorage.getItem("authTokens");
         if (tokens) {
