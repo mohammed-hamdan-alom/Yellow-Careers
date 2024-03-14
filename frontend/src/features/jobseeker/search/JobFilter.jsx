@@ -3,15 +3,42 @@ import JobSearchBar from "./JobSearchBar";
 
 const JobFilter = ({ database }) => {
   const [results, setResults] = useState([]);
+  const [filters, setFilters] = useState({
+    pay: "all",
+    contractType: "all",
+    location: "all",
+  });
 
-  const onPayChangeFilter = (value) => {
-    if (value == "all") {
-      setResults(database)
+  const onPayChangeFilter = (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      pay: value,
+    });
+    applyFilters();
+  }
+
+  const onCTChangeFilter = (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      contractType: value,
+    });
+    applyFilters();
+  }
+
+  const applyFilters = () => {
+    console.log(filters.pay)
+    let payFilterData = database;
+    let ctFilterData = database;
+    if (filters.pay !== "all") {
+      payFilterData = database.filter(job => job.salary >= filters.pay)
     }
-    else {
-      const filteredResults = database.filter(item => item.salary > value)
-      setResults(filteredResults)
+    if (filters.contractType !== "all") {
+      ctFilterData = database.filter(job => job.job_type == filters.contractType)
     }
+    const filteredResults = payFilterData.filter(value => ctFilterData.includes(value))
+    setResults(filteredResults)
   }
 
   useEffect(() => {
@@ -22,13 +49,13 @@ const JobFilter = ({ database }) => {
     <div>
       <label htmlFor="filterDropdown">Location:</label>
       <select id="location" onChange={(e) => onChangeFilter(e.target.value)} title="LocationFilter">
-        <option value="all">All</option>
+        <option value={filters.location}>All</option>
       </select>
 
       <br></br>
 
       <label htmlFor="filterDropdown">Pay:</label>
-      <select id="pay" onChange={(e) => onPayChangeFilter(e.target.value)} title="PayFilter">
+      <select id="pay" onChange={onPayChangeFilter} title="PayFilter">
         <option value="all">All</option>
         <option value="20000">£20,000+</option>
         <option value="25000">£25,000+</option>
@@ -42,7 +69,7 @@ const JobFilter = ({ database }) => {
       <br></br>
 
       <label htmlFor="filterDropdown">Contract Type:</label>
-      <select id="contractType" onChange={(e) => onChangeFilter(e.target.value)} title="ContractFilter">
+      <select id="contractType" onChange={onCTChangeFilter} title="ContractFilter">
         <option value="all">All</option>
         <option value="FT">Full-Time</option>
         <option value="PT">Part-Time</option>
