@@ -8,6 +8,7 @@ import LoginPage from "./features/authentication/login/LoginPage";
 import AuthLayout from "./features/authentication/AuthLayout";
 import EmployerRegister from "./features/authentication/register/employer/EmployerRegister";
 import JobSeekerRegister from "./features/authentication/register/job-seeker/JobSeekerRegister";
+import GetStarted from "./features/authentication/get-started/GetStarted";
 
 import JobSeekerLayout from "./features/jobseeker/layouts/JobSeekerLayout";
 import DashBoardPage from "./features/jobseeker/dashboard/Dashboard";
@@ -39,6 +40,7 @@ function App() {
 
         <Route path="/auth/*" element={<AuthLayout/>}>
           <Route path="login" element={<LoginPage/>} />
+          <Route path="get-started" element={<GetStarted />} />
           <Route path="register-employer" element={<EmployerRegister />} />
           <Route path="register-jobseeker" element={<JobSeekerRegister />} />
         </Route>
