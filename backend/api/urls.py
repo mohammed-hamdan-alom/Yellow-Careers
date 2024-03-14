@@ -4,7 +4,6 @@ from .views import *
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
-    path('hello-world/', hello_world_views.hello_world, name='hello_world'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
@@ -104,4 +103,7 @@ urlpatterns = [
     path('applicants/<int:pk>/', ApplicantListView.as_view(), name='applicant-list'),
     path('employer/<int:pk>/company-jobs/', AdminJobListingView.as_view(), name='view-admin-jobs'),
     path('employer/<int:pk>/jobs/', EmployerJobListingView.as_view(), name='view-employer-jobs'),
+
+    path('invited-employer/create/', InvitedEmployerCreateView.as_view(), name='invited-employer-create'),
+    path('invited-employer/<int:pk>/update/', InvitedEmployerUpdateView.as_view(), name='invited-employer-update'),
 ]

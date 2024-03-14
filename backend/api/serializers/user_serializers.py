@@ -22,9 +22,9 @@ class EmployerRegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = Employer.objects.create(
-						email=validated_data['email'],
-						company = validated_data['company']  
-				)
+                        email=validated_data['email'],
+                        company = validated_data['company']
+                )
         user.set_password(validated_data['password'])
         user.save()
         return user
