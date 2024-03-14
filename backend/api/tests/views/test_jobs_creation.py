@@ -29,39 +29,39 @@ class JobsCreationTestCase(APITestCase):
     def test_job_create_rejects_GET(self):
         request = self.factory.get(self.url)
         response = self.view(request)
-        self.assertEquals(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_job_created_correctly(self):
         request = self.factory.post(self.url, self.job_data, format="json")
         response = self.view(request)
 
-        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-        self.assertEquals(response.data["title"], self.job_data["title"])
-        self.assertEquals(response.data["description"], self.job_data["description"])
-        self.assertEquals(response.data["salary"], self.job_data["salary"])
-        self.assertEquals(response.data["job_type"], self.job_data["job_type"])
-        self.assertEquals(response.data["address"], self.job_data["address"])
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["title"], self.job_data["title"])
+        self.assertEqual(response.data["description"], self.job_data["description"])
+        self.assertEqual(response.data["salary"], self.job_data["salary"])
+        self.assertEqual(response.data["job_type"], self.job_data["job_type"])
+        self.assertEqual(response.data["address"], self.job_data["address"])
 
     def test_job_saved(self):
         request = self.factory.post(self.url, self.job_data, format="json")
         response = self.view(request)
 
-        self.assertEquals(Job.objects.count(), 1)
+        self.assertEqual(Job.objects.count(), 1)
 
     def test_job_can__be_created_without_address(self):
         self.job_data["address"] = None
         request = self.factory.post(self.url, self.job_data, format="json")
         response = self.view(request)
 
-        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-        self.assertEquals(response.data["address"], None)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["address"], None)
 
     def test_job_can_be_created_without_salary(self):
         self.job_data["salary"] = None
         request = self.factory.post(self.url, self.job_data, format="json")
         response = self.view(request)
 
-        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-        self.assertEquals(response.data["salary"], None)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["salary"], None)
 
 
