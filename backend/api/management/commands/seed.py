@@ -123,6 +123,7 @@ class Command(BaseCommand):
                 end_date = self.faker.date_between(start_date=start_date, end_date='today')
 
                 Education.objects.create(
+                    course_name=self.faker.word(),
                     start_date=start_date,
                     end_date=end_date,
                     address=new_address,

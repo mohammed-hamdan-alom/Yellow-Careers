@@ -127,6 +127,18 @@ class UserModelTestCase(TestCase):
         self.assertEqual(self.language2.to_string(),self.language2.language)
     
     #the tests below are for education
+        
+    def test_education_course_name_can_be_50_characters(self):
+        self.education.course_name = 'x'*50
+        self._assert_is_valid(self.education)
+    
+    def test_education_course_name_cannot_be_over_50_characters(self):
+        self.education.course_name = 'x'*51
+        self._assert_is_invalid(self.education)   
+
+    def test_education_course_name_cannot_be_blank(self):
+        self.education.course_name = ''
+        self._assert_is_invalid(self.education)   
             
     def test_education_start_date_must_be_date_field(self):
         self.education.start_date = ''
@@ -182,7 +194,7 @@ class UserModelTestCase(TestCase):
         self.education.grade = 'x'*16
         self._assert_is_invalid(self.education)
     
-    def test_education_grade_cannot_be_over_blank(self):
+    def test_education_grade_cannot_be_blank(self):
         self.education.grade = ''
         self._assert_is_invalid(self.education)
     
@@ -190,10 +202,9 @@ class UserModelTestCase(TestCase):
         with self.assertRaises(ValueError):
             self.education.resume = ''
 
-    # TDOO : UNCOMMENT THIS TEST ONCE THE TO_STRING METHOD IS IMPLEMENTED
-    #def test_education_to_string(self):
-    #    self.assertEqual(self.education.to_string(),self.education.course_name)
-    #    self.assertEqual(self.education2.to_string(),self.education2.course_name)
+    def test_education_to_string(self):
+       self.assertEqual(self.education.to_string(),self.education.course_name)
+       self.assertEqual(self.education2.to_string(),self.education2.course_name)
 
     #the tests below are for professional experience
             
