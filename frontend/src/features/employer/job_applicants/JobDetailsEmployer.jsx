@@ -40,7 +40,10 @@ const JobDetailsEmployer = () => {
             setQuestions(responses[3].data);
             setEmployers(responses[4].data);
             setCompanyEmployers(responses[5].data);
-        }).catch((error) => console.error('Error fetching data:', error));
+        }).catch((error) =>{ console.error('Error fetching data:', error);
+        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+            window.location.href = "/employer/dashboard";
+        }});
     }, [jobId, userId]);
 
     const handleClick = () => {

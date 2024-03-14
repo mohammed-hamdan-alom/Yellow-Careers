@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
 import LandingPage from "./components/LandingPage/LandingPage";
-import Error403Page from "./components/Error403Page/Error403Page";
 
 import LoginPage from "./features/authentication/login/LoginPage";
 import AuthLayout from "./features/authentication/AuthLayout";
@@ -45,8 +44,6 @@ function App() {
           <Route path="register-jobseeker" element={<JobSeekerRegister />} />
         </Route>
 
-        <Route path="/403" element={<Error403Page/>} />
-
         <Route element={<PrivateRoute role={['job_seeker']}/>}>
         <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
           <Route path="dashboard" element={<DashBoardPage />} />
@@ -56,7 +53,7 @@ function App() {
           <Route path="profile" element={<JobSeekerProfile />} />
           <Route path="job-details/:jobId" element={<JobDetails />} />
           <Route path="job-details/:jobId/questions" element={<JobQuestions />} />
-          <Route path="application-details/:applicationId" element={<AppliedJobDetails />} />
+          <Route path="application-details/:applicationId" element={<AppliedJobDetails />} /> 
           <Route path="applied-jobs" element={<AppliedJobListPage />} />
         </Route>
         </Route>
@@ -65,7 +62,7 @@ function App() {
         <Route path="/employer/*" element={<EmployerLayout />}>
           <Route path="dashboard" element={<EmployerDashBoardPage />} />
           <Route path="create-job" element={<JobCreation />} />
-          <Route path="job-applicants/:jobId" element={<JobApplicantsPage />} />
+          <Route path="job-applicants/:jobId" element={<JobApplicantsPage />} />  
           <Route path="job-details/:jobId" element={<JobDetailsEmployer />} />
           <Route path="application-details/:applicationId" element={<ApplicationDetails />} />
           <Route path="company" element = {<CompanyProfilePage />} />

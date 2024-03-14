@@ -46,6 +46,9 @@ function AppliedJobDetails() {
                 setAnswers(answersResponse.data);
             } catch (error) {
                 console.error('Error retrieving info:', error);
+                if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+                    window.location.href = "/job-seeker/dashboard";
+                }
             }
         }
 
