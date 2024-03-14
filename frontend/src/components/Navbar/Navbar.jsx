@@ -21,7 +21,7 @@ export const Navbar = () => {
 
             {/* mobile */}
             <span className="flex md:hidden">
-              <ModeToggle />
+              {/* <ModeToggle /> */}
 
               <Sheet
                 open={isOpen}

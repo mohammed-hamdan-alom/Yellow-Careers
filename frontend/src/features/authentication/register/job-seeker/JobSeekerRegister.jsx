@@ -1,10 +1,8 @@
 import React, { useState, useContext }from 'react'
-import { Link } from 'react-router-dom';
 import AuthContext from '@/context/AuthContext';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -14,7 +12,6 @@ import { Label } from '@/components/ui/label';
 import { Select } from 'antd';
 import { DatePicker } from 'antd';
 import { Button } from '@/components/ui/button';
-import { ConciergeBellIcon } from 'lucide-react';
 
 const JobSeekerRegister = () => {
   
@@ -321,7 +318,7 @@ const JobSeekerRegister = () => {
                 <div className='mt-2'>
                 <Select
                   showSearch
-                  className='w-full dark:bg-slate-950 dark:text-white rounded-md focus:outline-none focus:border-blue-500'
+                  className='w-full bg-background'
                   placeholder="Select a Nationality"
                   optionFilterProp="children"
                   onChange={handleNationalityChange}
