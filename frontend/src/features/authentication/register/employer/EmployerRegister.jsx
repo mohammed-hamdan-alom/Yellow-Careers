@@ -12,7 +12,6 @@ const EmployerRegister = () => {
   const { registerEmployer } = useContext(AuthContext);
 
   useEffect(() => {
-    //set email and company
     const fetchCompanies = async () => {
       try {
         const response = await fetch('http://localhost:8000/api/companies/');
