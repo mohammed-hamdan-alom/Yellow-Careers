@@ -52,7 +52,8 @@ function ResumeForm({ resumeId }) {
   };
 
   return (
-    <div className="mt-4 w-full flex justify-center">
+    <div className="mt-4 w-full flex flex-col justify-left mr-10">
+      <Label className="text-3xl mb-4">Update Your Resume</Label>
       <form onSubmit={handleSubmitResume}>
         <div className="flex space-x-4">
           <div className="w-1/2">

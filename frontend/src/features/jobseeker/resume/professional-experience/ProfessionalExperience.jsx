@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/Alert";
 import Popup from "../Popup/Popup";
 import EditProfessionalExperience from "./EditProfessionalExperiencePage";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { SquarePen, MinusCircle } from "lucide-react";
 
 function ProfessionalExperience({ resumeId }) {
   const [professionalExperiences, setProfessionalExperiences] = useState([]);
@@ -42,63 +46,52 @@ function ProfessionalExperience({ resumeId }) {
   };
 
   return (
-    <div>
-      <h2>Professional Experience</h2>
-      <ul>
-        {professionalExperiences.map((professionalExperience, index) => (
-          <li key={index}>
-            <p>start date: {professionalExperience.start_date}</p>
-            <p>end date : {professionalExperience.end_date}</p>
-            <p>company: {professionalExperience.company}</p>
-            <p>position : {professionalExperience.position}</p>
-            {professionalExperience.address && (
-              <>
-                <p>City: {professionalExperience.address.city}</p>
-                <p>Post Code: {professionalExperience.address.post_code}</p>
-                <p>Country: {professionalExperience.address.country}</p>
-              </>
-            )}
-            <button
-              onClick={() => {
-                setEditPopup(true);
-                setOpenPopupId(professionalExperience.id);
-              }}
-            >
-              Edit Professional Experience
-            </button>
-            <Popup
-              trigger={editPopup && openPopupId === professionalExperience.id}
-              setTrigger={() => {
-                setOpenPopupId(null);
-              }}
-            >
-              <EditProfessionalExperience
-                put={true}
-                resumeId={resumeId}
-                setProfessionalExperiences={setProfessionalExperiences}
-                setButtonPopup={setEditPopup}
-                professionalExperienceId={professionalExperience.id}
-              />
-            </Popup>
-            <button
-              onClick={() =>
-                handleDeleteProfessionalExperience(professionalExperience)
-              }
-            >
-              Delete
-            </button>
-          </li>
+    <div className="mt-4 w-full flex flex-col justify-left">
+      <Label className="text-3xl mb-4">Professional Experience</Label>
+      <div>
+        {professionalExperiences.map((professionalExperience) => (
+          <div
+            key={professionalExperience.id}
+            className="flex flex-row items-center justify-between mb-4"
+          >
+            <div>
+              <Label className="text-1xl">{professionalExperience.title}</Label>
+            </div>
+            <div className="flex flex-row items-center">
+              <Button
+                className="mr-4"
+                variant="secondary"
+                size="icon"
+                onClick={() => {
+                  setEditPopup(true);
+                  setOpenPopupId(professionalExperience.id);
+                }}
+              >
+                <SquarePen size={20} />
+              </Button>
+              <Button
+                size="icon"
+                variant="destructive"
+                onClick={() => {
+                  handleDeleteProfessionalExperience(professionalExperience);
+                }}
+              >
+                <MinusCircle size={20} />
+              </Button>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
 
       <div>
-        <button
+        <Button
+          variant="outline"
           onClick={() => {
             setCreatePopup(true);
           }}
         >
           Add Professional Experience
-        </button>
+        </Button>
         <Popup trigger={createPopup} setTrigger={setCreatePopup}>
           <EditProfessionalExperience
             post={true}

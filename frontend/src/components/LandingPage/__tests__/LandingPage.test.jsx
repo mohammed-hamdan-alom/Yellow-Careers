@@ -14,6 +14,7 @@ describe('LandingPage component', () => {
         Navbar: vi.fn(() => <div data-testid="mock-navbar"></div>),
       }
     });
+    
     vi.mock('../Hero/Hero', async (importOriginal) => {
       const actual = await importOriginal()
       return {
