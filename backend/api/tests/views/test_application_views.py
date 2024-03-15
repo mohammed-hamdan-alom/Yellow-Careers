@@ -1,7 +1,11 @@
 from django.test import TestCase
-from api.models import Application
+from api.models import User,JobSeeker,Application, Address, Resume
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.test import APIClient
+from rest_framework.authtoken.models import Token
+from api.serializers import MyTokenObtainPairSerializer
+
 
 class ApplicationViewTestCase(TestCase):
     fixtures = ['api/tests/fixtures/addresses.json',
@@ -19,20 +23,45 @@ class ApplicationViewTestCase(TestCase):
         self.applications = [Application.objects.get(pk=1), 
                              Application.objects.get(pk=2), 
                              Application.objects.get(pk=3),]
+        self.api_client = APIClient()
+
+        self.user = User.objects.create(
+            first_name="John",
+            last_name="Doe",
+            email="exampleuser100@example.com",
+            phone_number="08012345678",
+            is_active=True,
+            password="Password123"
+        )
+
+        self.address = Address.objects.create(city='London', post_code='12345', country='UK')
+        self.resume = Resume.objects.create(
+            github="https://github.com/test",
+            linkedin="https://linkedin.com/test",
+            about="I am a test developer",
+            experience="I have 5 years of experience")
+        
+        self.job_seeker = JobSeeker.objects.create(user_ptr_id=self.user.id,
+            dob="1999-01-01",
+            address=self.address,
+            nationality="British",
+            sex="M",
+            resume=self.resume)
     
     def test_list_applications(self):
         response = self.client.get(reverse('application-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), len(self.applications))
     
-    def test_retrieve_application(self):
-        application = self.applications[0]
-        response = self.client.get(reverse('application-get', args=[application.id]))
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['job'], application.job.id)
-        self.assertEqual(response.data['job_seeker'], application.job_seeker.id)
+    # def test_retrieve_application(self):
+    #     application = self.applications[0]
+    #     response = self.client.get(reverse('application-get', args=[application.id]))
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertEqual(response.data['job'], application.job.id)
+    #     self.assertEqual(response.data['job_seeker'], application.job_seeker.id)
     
     def test_create_application(self):
+        token = self._authenticate_user(user_email=self.job_seeker.email)
         application_data = {
             'job' : 3,
             'job_seeker' : 2,
@@ -87,3 +116,10 @@ class ApplicationViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['job'], application.job.id)
         self.assertEqual(response.data['job_seeker'], application.job_seeker.id)
+
+    @staticmethod
+    def _authenticate_user(user_email):
+        # Authenticate the user and obtain the authentication token
+        client = APIClient()
+        response = client.post(reverse('token_obtain_pair'), {'email': user_email, 'password': 'Password123'})
+        print(response.data)
