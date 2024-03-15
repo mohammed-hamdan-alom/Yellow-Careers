@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import JobSummary from "../summary/JobSummary";
-<<<<<<< HEAD
 import { Input } from "@/components/ui/input";
-=======
 import { Pagination } from "antd";
->>>>>>> df2308eea1f046524e43a836cd48c783ec9dd8b3
 
 const JobSearchBar = ({ database }) => {
     const [query, setQuery] = useState('');
