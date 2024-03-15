@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
-import JobSummary from "../../summary/JobSummary";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobSearchBar from "../../search/JobSearchBar";
+import JobSearchBar from "../../../shared/search/JobSearchBar";
 
 function AppliedJobListPage() {
     //

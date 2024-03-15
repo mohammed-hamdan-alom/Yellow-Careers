@@ -4,6 +4,7 @@ import AuthContext from '@/context/AuthContext';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space, Pagination } from "antd";
 import JobSummary from '../job_summary/JobSummary';
+import JobSearchBar from "../../shared/search/JobSearchBar";
 
 function EmployerDashBoardPage() {
   const { user } = useContext(AuthContext);
@@ -62,32 +63,24 @@ function EmployerDashBoardPage() {
           {showCompanyJobs ? (
             <div>
               <h2>All Company Jobs</h2>
-              {currentPageJobs.map(job => (
-                <ul className='job-summary' key={job.id}>
-                  <JobSummary job={job} />
-                </ul>
-              ))}
+              <JobSearchBar database={currentPageJobs} />
             </div>
           ) : (
             <div>
               <h2>Jobs You Are Associated With</h2>
-              {currentPageJobs.map(job => (
-                <ul className='job-summary' key={job.id}>
-                  <JobSummary job={job} />
-                </ul>
-              ))}
+              <JobSearchBar database={currentPageJobs} />
             </div>
           )}
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            total={jobsToDisplay.length}
-            showSizeChanger
-            onChange={handlePageChange}
-            onShowSizeChange={handlePageSizeChange}
-          />
         </div>
       )}
+      <Pagination
+        current={currentPage}
+        pageSize={pageSize}
+        total={jobsToDisplay.length}
+        showSizeChanger
+        onChange={handlePageChange}
+        onShowSizeChange={handlePageSizeChange}
+      />
     </div>
   );
 }
