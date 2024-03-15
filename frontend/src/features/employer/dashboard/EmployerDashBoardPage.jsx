@@ -73,14 +73,6 @@ function EmployerDashBoardPage() {
           )}
         </div>
       )}
-      <Pagination
-        current={currentPage}
-        pageSize={pageSize}
-        total={jobsToDisplay.length}
-        showSizeChanger
-        onChange={handlePageChange}
-        onShowSizeChange={handlePageSizeChange}
-      />
     </div>
   );
 }
