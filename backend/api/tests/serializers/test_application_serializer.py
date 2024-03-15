@@ -28,21 +28,20 @@ class ApplicationSerializerTestCase(TestCase):
     def test_serializer_data(self):
         expected_data = {
             'id' : self.application.id,
+            'date_applied': str(self.application.date_applied),
+            'status': self.application.status,
+            'decision': self.application.decision,
             'job_seeker' : self.application.job_seeker_id,
             'resume': self.application.resume_id,
             'job': self.application.job_id,
-            'date_applied': str(self.application.date_applied),
-            'status' : self.application.status,
-            'decision': self.application.decision,
         }
         self.assertEqual(self.serializer.data, expected_data)
 
     
     def test_serializer_validation(self):
-        # Test validation with empty data
+    # Test validation with empty data
         serializer = ApplicationSerializer(data={})
         self.assertFalse(serializer.is_valid())
-
 
         # Test validation with invalid data (missing required fields)
         invalid_data = {

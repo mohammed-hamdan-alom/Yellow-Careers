@@ -63,6 +63,17 @@
             "phone_number" : "080123456784",
             "is_active" : true
         }
+    },
+    {
+        "model" : "api.user",
+        "pk" : 6,
+        "fields" : {
+            "first_name" : "John6",
+            "last_name" : "Doe",
+            "other_names" : "Charles",
+            "email" : "johndoe6@example.com",
+            "phone_number" : "080123456784",
+            "is_active" : true
+        }
     }
-
 ]

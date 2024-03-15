@@ -85,4 +85,8 @@ class QuestionModelTestCase(TestCase):
             self.question1.full_clean()
             self.question2.full_clean()
             
-
+    def test_to_string(self):
+        self.assertEqual(str(self.question1), self.question1.question)
+        self.assertEqual(str(self.question2), self.question2.question)
+        self.assertEqual(str(self.question3), self.question3.question)
+        self.assertEqual(str(self.question4), self.question4.question)

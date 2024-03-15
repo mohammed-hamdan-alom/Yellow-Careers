@@ -1,5 +1,5 @@
 from django.test import TestCase
-from api.models import Company
+from api.models import Company, Job, EmployerJobRelation
 from django.urls import reverse
 from rest_framework import status
 
@@ -88,3 +88,10 @@ class CompanyViewTestCase(TestCase):
         response = self.client.delete(reverse('company-put', args=[100]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Company.objects.count(), len(self.company))
+
+    def test_get_company_of_job(self):
+        job = Job.objects.get(pk=1)
+        response = self.client.get(reverse('job-company', args=[job.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        relation = EmployerJobRelation.objects.filter(job=job).first()
+        self.assertEqual(response.data['company_name'], relation.employer.company.company_name)

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from api.models import Address
+from api.models import Address, Job
 from django.urls import reverse
 from rest_framework import status
 
@@ -21,7 +21,8 @@ class AddressViewTestCase(TestCase):
     def setUp(self):
         self.addresses = [Address.objects.get(pk=1), 
                           Address.objects.get(pk=2), 
-                          Address.objects.get(pk=3)]
+                          Address.objects.get(pk=3),
+                          Address.objects.get(pk=4)]
     
     def test_list_addresses(self):
         response = self.client.get(reverse('address-list'))
@@ -34,7 +35,15 @@ class AddressViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['city'], address.city)
         self.assertEqual(response.data['post_code'], address.post_code)
-        self.assertEqual(response.data['country'], address.country) 
+        self.assertEqual(response.data['country'], address.country)
+
+    def test_retrieve_job_address(self):
+        job = Job.objects.get(pk=1)
+        response = self.client.get(reverse('job-address', args=[job.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['city'], job.address.city)
+        self.assertEqual(response.data['post_code'], job.address.post_code)
+        self.assertEqual(response.data['country'], job.address.country) 
     
     def test_create_address(self):
         address_data = {

@@ -61,6 +61,10 @@ class UserModelTestCase(TestCase):
         self.soft_skill.resume = None
         self._assert_is_invalid(self.soft_skill)
 
+    def test_soft_skill_to_string(self):
+        self.assertEqual(self.soft_skill.to_string(),self.soft_skill.skill)
+        self.assertEqual(self.soft_skill2.to_string(),self.soft_skill2.skill)
+
     def test_technical_skill_can_be_30_characters_long(self):
         self.technical_skill.skill = 'x'*30
         self._assert_is_valid(self.technical_skill)
@@ -77,6 +81,9 @@ class UserModelTestCase(TestCase):
         self.technical_skill.resume = None
         self._assert_is_invalid(self.technical_skill)
 
+    def test_technical_skill_to_string(self):
+        self.assertEqual(self.technical_skill.to_string(),self.technical_skill.skill)
+        self.assertEqual(self.technical_skill2.to_string(),self.technical_skill2.skill)
 
     #the tests below are for langauge
     def test_language_field_can_be_30_characters_long(self):
@@ -114,8 +121,24 @@ class UserModelTestCase(TestCase):
     def test_resume_field_for_language_must_be_resume(self):
         with self.assertRaises(ValueError):
             self.language.resume = ''
+
+    def test_language_to_string(self):
+        self.assertEqual(self.language.to_string(),self.language.language)
+        self.assertEqual(self.language2.to_string(),self.language2.language)
     
     #the tests below are for education
+        
+    def test_education_course_name_can_be_50_characters(self):
+        self.education.course_name = 'x'*50
+        self._assert_is_valid(self.education)
+    
+    def test_education_course_name_cannot_be_over_50_characters(self):
+        self.education.course_name = 'x'*51
+        self._assert_is_invalid(self.education)   
+
+    def test_education_course_name_cannot_be_blank(self):
+        self.education.course_name = ''
+        self._assert_is_invalid(self.education)   
             
     def test_education_start_date_must_be_date_field(self):
         self.education.start_date = ''
@@ -171,13 +194,17 @@ class UserModelTestCase(TestCase):
         self.education.grade = 'x'*16
         self._assert_is_invalid(self.education)
     
-    def test_education_grade_cannot_be_over_blank(self):
+    def test_education_grade_cannot_be_blank(self):
         self.education.grade = ''
         self._assert_is_invalid(self.education)
     
     def test_resume_field_for_education_must_be_resume(self):
         with self.assertRaises(ValueError):
             self.education.resume = ''
+
+    def test_education_to_string(self):
+       self.assertEqual(self.education.to_string(),self.education.course_name)
+       self.assertEqual(self.education2.to_string(),self.education2.course_name)
 
     #the tests below are for professional experience
             
@@ -234,6 +261,10 @@ class UserModelTestCase(TestCase):
     def test_resume_field_for_professional_experience_must_be_resume(self):
         with self.assertRaises(ValueError):
             self.professional_experience.resume = ''
+
+    def test_professional_experience_to_string(self):
+        self.assertEqual(self.professional_experience.to_string(),f"{self.professional_experience.position} {self.professional_experience.description}")
+        self.assertEqual(self.professional_experience2.to_string(),f"{self.professional_experience2.position} {self.professional_experience2.description}")
 
     #the tests below are for resume
             
@@ -319,14 +350,18 @@ class UserModelTestCase(TestCase):
         self.assertIn(self.professional_experience,retrieved_professional_experience2)
         self.assertIn(self.professional_experience2,retrieved_professional_experience2)
     
-    
+    def test_resume_to_string(self):
+        #education_strings = [education.to_string() for education in self.get_education()]
+        education_strings = []
+        skills_strings = [skills.to_string() for skills in self.resume.get_technical_skills()] + [skills.to_string() for skills in self.resume.get_soft_skills()]
+        language_strings = [language.to_string() for language in self.resume.get_languages()]
+        experience_strings = [experience.to_string() for experience in self.resume.get_professional_experience()]
+        self.assertEqual(self.resume.to_string(),' '.join(education_strings + skills_strings + language_strings + experience_strings))
 
 
     def _assert_is_valid(self,input):
-        try:
-            input.full_clean()  
-        except (ValidationError):
-            self.fail(f"{input}should be valid")
+        input.full_clean()  
+
 
     def _assert_is_invalid(self,input):
         with self.assertRaises(ValidationError):

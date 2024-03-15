@@ -11,12 +11,14 @@ class EmployerListView(BaseEmployerView, generics.ListAPIView):
     pass
 
 class LinkedEmployersView(BaseEmployerView, generics.ListAPIView):
+    '''Retrieve all employers linked to a job. The job id is passed as a parameter in the url.'''
     def get_queryset(self):
         job_id = self.kwargs["pk"]
         employerjobrelations = EmployerJobRelation.objects.filter(job_id=job_id)
         return [employerjobrelation.employer for employerjobrelation in employerjobrelations]
 
 class CompanyEmployersView(BaseEmployerView, generics.ListAPIView):
+    '''Retrieve all employers in a company. The employer id is passed as a parameter in the url.'''
     def get_queryset(self):
         user_id = self.kwargs["user_id"]
         employer = get_object_or_404(Employer, id=user_id)
