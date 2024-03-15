@@ -306,7 +306,7 @@ const JobSeekerRegister = () => {
               <div className='mt-4'>
                 <Label htmlFor='dob'>Date of Birth</Label>
                 <div className='mt-2'>
-                  <DatePicker className='w-full dark:bg-slate-950 dark:text-white border-cyan-100' onChange={handleDateChange} />
+                  <DatePicker className='w-full' onChange={handleDateChange} />
                 </div>
               </div>        
               <div className='mt-4'>
