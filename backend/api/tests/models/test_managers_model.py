@@ -1,11 +1,9 @@
 """Unit tests for the Managers model."""
-from django.core.exceptions import ValidationError
 from django.test import TestCase
 from api.models import User
-from api.models import JobSeeker
-from api.models import Employer
-from api.models import EmployerJobRelation
-from api.models import Application
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
+
 
 class UserModelTestCase(TestCase):
 
@@ -38,14 +36,17 @@ class UserModelTestCase(TestCase):
             User.objects.create_superuser('admin2@example.com', 'Admin_password123', is_staff=False, is_superuser=False)
 
 
-
-
-    def _assert_user_is_valid(self,user):
-        try:
-            user.full_clean()  
-        except (ValidationError):
-            self.fail(f"{user}should be valid")
-
-    def _assert_user_is_invalid(self,user):
-        with self.assertRaises(ValidationError):
-            user.full_clean()
+    def test_create_superuser_with_is_superuser_false(self):
+        User = get_user_model()
+        with self.assertRaises(ValueError) as context:
+            User.objects.create_superuser(
+                email='admin@example.com',
+                password='password',
+                is_superuser=False
+            )
+        
+        expected_error_message = str(_("Superuser must have is_superuser=True."))
+        self.assertTrue(
+            expected_error_message in str(context.exception),
+            "Expected ValueError with specific message"
+        )

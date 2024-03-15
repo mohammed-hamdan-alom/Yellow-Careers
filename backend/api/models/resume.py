@@ -42,6 +42,7 @@ class Education(models.Model):
         BACHELORS = "BA" ,_('Bachelors')
         MASTERS = "MA" ,_('Masters')
         DOCTORATE = "PHD" ,_('Doctorate')
+    course_name = models.CharField(blank=False, max_length=50)
     start_date = models.DateField(blank=False)
     end_date = models.DateField(blank=False)
     address = models.OneToOneField(Address,on_delete=models.CASCADE,null=False)

@@ -25,6 +25,14 @@
             "post_code" : "BD9 1AA",
             "country" : "Bangladesh"
         }
+    },
+    {
+        "model" : "api.address",
+        "pk" : 4,
+        "fields":{
+            "city" : "Dhaka",
+            "post_code" : "BD9 1AA",
+            "country" : "Bangladesh"
+        }
     }
-    
 ]

@@ -16,5 +16,23 @@
             "company" : 2,
             "is_company_admin" : false
         }
+    },
+    {
+        "model" : "api.employer",
+        "pk" : 3,
+        "fields" : {
+            "user_ptr_id" : 5,
+            "company" : 1,
+            "is_company_admin" : false
+        }
+    },
+    {
+        "model" : "api.employer",
+        "pk" : 4,
+        "fields" : {
+            "user_ptr_id" : 6,
+            "company" : 2,
+            "is_company_admin" : false
+        }
     }
 ]

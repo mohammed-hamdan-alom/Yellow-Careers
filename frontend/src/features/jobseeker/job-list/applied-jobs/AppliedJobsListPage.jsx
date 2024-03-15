@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import JobSummary from "../../summary/JobSummary";
 import AxiosInstance from "@/utils/AxiosInstance";
+import JobSearchBar from "../../search/JobSearchBar";
 
 function AppliedJobListPage() {
     //
@@ -17,11 +18,8 @@ function AppliedJobListPage() {
 
     return (
         <div>
-            {jobs.map(job => (
-                < ul className='job-summary' key={job.id} >
-                    <JobSummary job={job} />
-                </ul>))
-            }
+            <h1>Applied jobs</h1>
+            {jobs.length > 0 ? <JobSearchBar database={jobs} /> : <h1>No applied jobs</h1>}
         </div >
     )
 };

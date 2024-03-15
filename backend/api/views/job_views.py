@@ -11,6 +11,7 @@ from Levenshtein import ratio
 from rest_framework.exceptions import PermissionDenied
 
 class JobCreationView(generics.CreateAPIView):
+	'''Create a job.'''
 	queryset = Job.objects.all()
 	permission_classes = ([AllowAny])
 	serializer_class = JobSerializer
@@ -43,25 +44,22 @@ class JobSeekerMatchedJobsListingView(generics.ListAPIView):
 		# return Job.objects.exclude(id__in=[job.id for job in applied_jobs])
 	
 class JobSeekerSavedJobsListView(generics.ListAPIView):
-	'''get the jobs saved by a job seeker. The job seeker id is passed as a parameter in the url.'''
+	'''Get the jobs saved by a job seeker. The job seeker id is passed as a parameter in the url.'''
 	queryset = Job.objects.all()
 	serializer_class = JobSerializer
 
 	def get_queryset(self):
 		job_seeker_id = self.kwargs['pk']
+		job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id)
 		saved_jobs = SavedJobs.objects.filter(job_seeker_id=job_seeker_id)
 		return Job.objects.filter(savedjobs__in=saved_jobs)
         
 
 class JobListingView(generics.ListAPIView):
-    queryset = Job.objects.all()
-    permission_classes = ([AllowAny])
-    serializer_class = JobSerializer
-
-    def list(self, request):
-        jobs = self.get_queryset()
-        serializer = JobSerializer(jobs, many=True)
-        return Response(serializer.data)
+	'''List all jobs.'''
+	queryset = Job.objects.all()
+	permission_classes = ([AllowAny])
+	serializer_class = JobSerializer
     
 class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Job.objects.all()

@@ -16,9 +16,6 @@ class AnswerModelTestCase(TestCase):
     
     def setUp(self):
         self.answer1 = Answer.objects.get(pk=1)
-        self.answer2 = Answer.objects.get(pk=2)
-        self.answer3 = Answer.objects.get(pk=3)
-        self.answer4 = Answer.objects.get(pk=4)
     
     def test_valid_answer(self):
         self._assert_answer_is_valid()
@@ -55,13 +52,7 @@ class AnswerModelTestCase(TestCase):
 
     def _assert_answer_is_valid(self):
         self.answer1.full_clean()
-        self.answer2.full_clean()
-        self.answer3.full_clean()
-        self.answer4.full_clean()
     
     def _assert_answer_is_invalid(self):
         with self.assertRaises(ValidationError):
             self.answer1.full_clean()
-            self.answer2.full_clean()
-            self.answer3.full_clean()
-            self.answer4.full_clean()

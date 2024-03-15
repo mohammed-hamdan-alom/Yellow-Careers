@@ -1,42 +1,65 @@
 import React, { useEffect, useState } from "react";
 import JobSummary from "../summary/JobSummary";
+<<<<<<< HEAD
 import { Input } from "@/components/ui/input";
+=======
+import { Pagination } from "antd";
+>>>>>>> df2308eea1f046524e43a836cd48c783ec9dd8b3
 
 const JobSearchBar = ({ database }) => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10); 
 
     const handleSearch = (e) => {
         const query = e.target.value
         setQuery(query)
-        const results = database.filter(item => item.title
-            .split(" ").find(size => size.toLowerCase().startsWith(query.toLowerCase())))
-        const moreResults = database.filter(item => item.title
-            .toLowerCase().startsWith(query.toLowerCase()))
-        const actualResults = [...new Set([...results, ...moreResults])]
-        setResults(actualResults)
+        const filteredResults = database.filter(item => item.title.toLowerCase().includes(query.toLowerCase()));
+        setResults(filteredResults);
+        setCurrentPage(1); // Reset to the first page when performing a new search
     };
 
     useEffect(() => {
         setResults(database);
     }, [database]);
 
+    const handlePageChange = (page, pageSize) => {
+        setCurrentPage(page);
+    };
+
+    const handlePageSizeChange = (current, size) => {
+        setPageSize(size);
+    };
+
+    // Logic to calculate the subset of results for the current page
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const currentPageResults = results.slice(startIndex, endIndex);
+
     return (
         <>
-            <Input className="form-control mt-4" type="text"
+            <Input 
+                className="form-control mt-4" 
+                type="text"
                 value={query}
                 onChange={handleSearch}
                 placeholder="Search Jobs"
             />
-            {
-                results.map(job => (
-                    <ul key={job.id} >
-                        <JobSummary job={job} />
-                    </ul>))
-            }
+            {currentPageResults.map(job => (
+                <ul key={job.id}>
+                    <JobSummary job={job} />
+                </ul>
+            ))}
+            <Pagination
+                current={currentPage}
+                pageSize={pageSize}
+                total={results.length}
+                showSizeChanger
+                onChange={handlePageChange}
+                onShowSizeChange={handlePageSizeChange}
+            />
         </>
-
-
     );
 };
 

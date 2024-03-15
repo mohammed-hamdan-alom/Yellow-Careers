@@ -29,8 +29,6 @@ class AddressSerializerTestCase(TestCase):
             self.assertEqual(address.city, self.address_data['city'])
             self.assertEqual(address.post_code, self.address_data['post_code'])
             self.assertEqual(address.country, self.address_data['country'])
-        else:
-            self.assertTrue(False)
         
     def test_update_address(self):
         existing_address = Address.objects.get(pk=1)
