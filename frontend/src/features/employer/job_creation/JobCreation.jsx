@@ -32,27 +32,40 @@ function JobCreationForm() {
                 country: addressData.country,
                 post_code: addressData.post_code
             }).then((response) => {
-                setFormData({
-                    ...formData,
-                    ['address']: response.data.id
-                })
+                AxiosInstance.post('api/jobs/create-job', {
+                    title: formData.title,
+                    description: formData.description,
+                    salary: formData.salary,
+                    address: response.data.id,
+                    job_type: formData.job_type
+                }).then((response) => {
+                    AxiosInstance.post('api/employer-job-relations/create/', {
+                        employer: userId,
+                        job: response.data.id
+                    });
+                    navigate(`/employer/create-questions/${response.data.id}`);
+                }).catch((error) => {
+                    console.log(error);
+                });
             });
         }
-        AxiosInstance.post('api/jobs/create-job', {
-            title: formData.title,
-            description: formData.description,
-            salary: formData.salary,
-            address: formData.address,
-            job_type: formData.job_type
-        }).then((response) => {
-            AxiosInstance.post('api/employer-job-relations/create/', {
-                employer: userId,
-                job: response.data.id
+        else {
+            AxiosInstance.post('api/jobs/create-job', {
+                title: formData.title,
+                description: formData.description,
+                salary: formData.salary,
+                address: formData.address,
+                job_type: formData.job_type
+            }).then((response) => {
+                AxiosInstance.post('api/employer-job-relations/create/', {
+                    employer: userId,
+                    job: response.data.id
+                });
+                navigate(`/employer/create-questions/${response.data.id}`);
+            }).catch((error) => {
+                console.log(error);
             });
-            //navigate(`/job-seeker/job-details/${job.id}`);
-        }).catch((error) => {
-            console.log(error);
-        });
+        }
     };
 
     const handleChange = (event) => {
@@ -69,6 +82,7 @@ function JobCreationForm() {
             ...addressData,
             [name]: value
         });
+        console.log(addressData)
     };
 
     return (
@@ -76,7 +90,7 @@ function JobCreationForm() {
             <form onSubmit={handleSubmit} className="job-creation-form">
                 <h2>Job Creation</h2>
                 <div className="form-group">
-                    <label htmlFor="title">Title</label>
+                    <label htmlFor="title">Title*</label>
                     <input
                         type="text"
                         name="title"
@@ -85,7 +99,7 @@ function JobCreationForm() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="description">Description</label>
+                    <label htmlFor="description">Description*</label>
                     <textarea
                         name="description"
                         value={formData.description}
@@ -93,7 +107,7 @@ function JobCreationForm() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="salary">Salary</label>
+                    <label htmlFor="salary">Salary*</label>
                     <input
                         type="number"
                         name="salary"
@@ -131,7 +145,7 @@ function JobCreationForm() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="job_type">Job Type</label>
+                    <label htmlFor="job_type">Job Type*</label>
                     <select
                         name="job_type"
                         value={formData.job_type}
