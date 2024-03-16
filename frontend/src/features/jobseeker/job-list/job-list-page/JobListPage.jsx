@@ -9,21 +9,25 @@ const JobListPage = () => {
 
     const [jobs, setJobs] = useState(undefined);
     const [resume, setResume] = useState({});
-    const [jobRetrieved, setJobRetrieved] = useState(false);
+    const [isJobRetrieved, setIsJobRetrieved] = useState(false);
 
     useEffect(() => {
-        AxiosInstance.get(`api/job-seeker/${userId}/resume/`)
-            .then((response) => {
-                setResume(response.data)
-                if (response.data.id !== undefined) {
-                    AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
-                        .then((res) => {
-                            setJobs(res.data)
-                            setJobRetrieved(true);
-                        }).catch((error) => console.error('Error fetching data:', error));
-                }
-            })
-    }, [jobRetrieved]);
+        async function fetchData() {
+            AxiosInstance.get(`api/job-seeker/${userId}/resume/`)
+                .then((response) => {
+                    setResume(response.data)
+                    if (response.data.id !== undefined) {
+                        AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
+                            .then((res) => {
+                                setJobs(res.data)
+                                setIsJobRetrieved(true);
+                                console.log(jobs)
+                            }).catch((error) => console.error('Error fetching data:', error));
+                    }
+                })
+        }
+        fetchData();
+    }, [isJobRetrieved]);
 
     return (
         <div>

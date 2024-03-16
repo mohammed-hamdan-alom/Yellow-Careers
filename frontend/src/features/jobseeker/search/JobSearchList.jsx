@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import JobSummary from "../summary/JobSummary";
 import FilterDropdown from "./JobFilterList";
+import AxiosInstance from "@/utils/AxiosInstance";
 
 const JobSearchList = ({ data }) => {
     const [query, setQuery] = useState('');
@@ -9,12 +10,8 @@ const JobSearchList = ({ data }) => {
     const handleSearch = (e) => {
         const query = e.target.value
         setQuery(query)
-        const results = data.filter(item => item.title
-            .split(" ").find(size => size.toLowerCase().startsWith(query.toLowerCase())))
-        const moreResults = data.filter(item => item.title
-            .toLowerCase().startsWith(query.toLowerCase()))
-        const actualResults = [...new Set([...results, ...moreResults])]
-        setResults(actualResults)
+        const filteredResults = data.filter(item => item.title.toLowerCase().includes(query.toLowerCase()));
+        setResults(filteredResults);
     };
 
     useEffect(() => {
