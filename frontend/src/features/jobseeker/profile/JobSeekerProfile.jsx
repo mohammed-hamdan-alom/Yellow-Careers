@@ -78,10 +78,29 @@ const JobSeekerProfile = () => {
     e.preventDefault();
     if (user?.user_id) {
       try {
-        const response = await AxiosInstance.put(`/api/job-seekers/${user?.user_id}/update/`, formData);
+        console.log(formData);
+        // Check if the address needs to be created
+        if (!formData.address.id) {
+          // Make a POST request to create the address
+          const addressResponse = await AxiosInstance.post(
+            `/api/addresses/create/`,
+            formData.address
+          );
+          // Update formData with the newly created address
+          formData.address = addressResponse.data.id;
+        }
+
+        const response = await AxiosInstance.put(
+          `/api/job-seekers/${user?.user_id}/update/`,
+          formData
+        );
 
         if (response.status === 200) {
-          swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
+          swal.fire(
+            "Profile Updated",
+            "Your profile has been updated successfully.",
+            "success"
+          );
         } else {
           swal.fire("Update Failed", `Error: ${response.status}`, "error");
         }
