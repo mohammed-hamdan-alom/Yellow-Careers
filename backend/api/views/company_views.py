@@ -1,5 +1,5 @@
 from rest_framework import generics
-from api.models import Company,EmployerJobRelation, Job
+from api.models import Company, EmployerJobRelation
 from api.serializers.company_serializer import CompanySerializer
 
 

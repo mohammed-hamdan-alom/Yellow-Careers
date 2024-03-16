@@ -27,8 +27,10 @@ import EmployerLayout from "./features/employer/layout/EmployerLayout";
 import EmployerDashBoardPage from "./features/employer/dashboard/EmployerDashBoardPage";
 import ApplicationDetails from "./features/employer/application_details/ApplicationDetails";
 import CompanyProfilePage from "./features/employer/company_profile/CompanyProfilePage";
+import EmployerProfile from "./features/employer/profile/EmployerProfile";
 
 import JobDetailsEmployer from "./features/employer/job_applicants/JobDetailsEmployer";
+
 
 
 function App() {
@@ -65,6 +67,7 @@ function App() {
           <Route path="job-details/:jobId" element={<JobDetailsEmployer />} />
           <Route path="application-details/:applicationId" element={<ApplicationDetails />} />
           <Route path="company" element = {<CompanyProfilePage />} />
+          <Route path="profile" element={<EmployerProfile />} />
         </Route>
         
       </Routes>
