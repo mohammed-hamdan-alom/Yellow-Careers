@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import JobSummary from "../summary/JobSummary";
+import JobSummary from "../JobSummary/JobSummary";
 import { Input } from "@/components/ui/input";
 import { Pagination } from "antd";
 

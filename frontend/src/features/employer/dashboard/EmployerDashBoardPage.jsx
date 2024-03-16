@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import AuthContext from '@/context/AuthContext';
+import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space, Pagination } from "antd";
-import JobSummary from '../job_summary/JobSummary';
+import JobSummary from "../job_summary/JobSummary";
+import JobSearchBar from "../../../components/search/JobSearchBar";
 
 function EmployerDashBoardPage() {
   const { user } = useContext(AuthContext);
@@ -17,12 +18,14 @@ function EmployerDashBoardPage() {
   useEffect(() => {
     Promise.all([
       AxiosInstance.get(`api/employer/${userId}/jobs/`),
-      AxiosInstance.get(`api/employer/${userId}/company-jobs/`)
-    ]).then((responses) => {
-      setEmployerJobs(responses[0].data);
-      setCompanyJobs(responses[1].data);
-      setShowCompanyJobs(responses[1].data.length > 0);
-    }).catch((error) => console.error('Error fetching data:', error));
+      AxiosInstance.get(`api/employer/${userId}/company-jobs/`),
+    ])
+      .then((responses) => {
+        setEmployerJobs(responses[0].data);
+        setCompanyJobs(responses[1].data);
+        setShowCompanyJobs(responses[1].data.length > 0);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
   }, [userId]);
 
   const handleSwitchChange = (checked) => {
@@ -53,7 +56,7 @@ function EmployerDashBoardPage() {
             defaultChecked
             onChange={handleSwitchChange}
           />
-          <Space size={10} direction='vertical'/>
+          <Space size={10} direction="vertical" />
         </>
       )}
       {currentPageJobs.length > 0 && (
@@ -61,20 +64,12 @@ function EmployerDashBoardPage() {
           {showCompanyJobs ? (
             <div>
               <h2>All Company Jobs</h2>
-              {currentPageJobs.map(job => (
-                <ul className='job-summary' key={job.id}>
-                  <JobSummary job={job} />
-                </ul>
-              ))}
+              <JobSearchBar database={currentPageJobs} />
             </div>
           ) : (
             <div>
               <h2>Jobs You Are Associated With</h2>
-              {currentPageJobs.map(job => (
-                <ul className='job-summary' key={job.id}>
-                  <JobSummary job={job} />
-                </ul>
-              ))}
+              <JobSearchBar database={currentPageJobs} />
             </div>
           )}
           <Pagination

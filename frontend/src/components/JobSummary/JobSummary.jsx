@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useNavigate } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobCard from "../../../components/job-card/JobCard";
+import JobCard from "../job-card/JobCard";
+import AuthContext from "@/context/AuthContext";
 
 const JobSummary = ({ job }) => {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
   const [company, SetCompany] = useState({});
   const [address, setAddress] = useState({});
 
@@ -20,7 +22,12 @@ const JobSummary = ({ job }) => {
   }, []);
 
   const handleClick = () => {
-    navigate(`/job-seeker/job-details/${job.id}`);
+    console.log(user.user_type);
+    if (user && user.user_type === 'employer') {
+      navigate(`/employer/job-details/${job.id}`);
+    } else {
+      navigate(`/job-seeker/job-details/${job.id}`);
+    }
   };
 
   const formattedDescription = job.description
