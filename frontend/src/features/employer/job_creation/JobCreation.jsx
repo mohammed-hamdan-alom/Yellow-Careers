@@ -26,30 +26,19 @@ function JobCreationForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (addressData.city && addressData.country && addressData.post_code) {
-            AxiosInstance.post('api/addresses/create/', {
-                city: addressData.city,
-                country: addressData.country,
-                post_code: addressData.post_code
-            }).then((response) => {
-                setFormData({
-                    ...formData,
-                    ['address']: response.data.id
-                })
-            });
-        }
+
         AxiosInstance.post('api/jobs/create-job', {
             title: formData.title,
             description: formData.description,
             salary: formData.salary,
-            address: formData.address,
+            address: addressData,
             job_type: formData.job_type
         }).then((response) => {
             AxiosInstance.post('api/employer-job-relations/create/', {
                 employer: userId,
                 job: response.data.id
             });
-            //navigate(`/job-seeker/job-details/${job.id}`);
+            navigate(`/employer/job-details/${response.data.id}`);
         }).catch((error) => {
             console.log(error);
         });

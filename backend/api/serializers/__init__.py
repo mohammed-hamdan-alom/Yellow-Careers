@@ -1,5 +1,5 @@
-from .job_serializer import *
 from .address_serializer import *
+from .job_serializer import *
 from .user_serializers import *
 from .answer_serializer import *
 from .application_serializer import *
