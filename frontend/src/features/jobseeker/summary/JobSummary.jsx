@@ -5,12 +5,12 @@ import AxiosInstance from "@/utils/AxiosInstance";
 
 const JobSummary = ({ job }) => {
   const navigate = useNavigate();
-  const [company, SetCompany] = useState({});
+  const [company, setCompany] = useState({});
   const [address, setAddress] = useState({});
 
   useEffect(() => {
     AxiosInstance.get(`api/jobs/${job.id}/company/`)
-      .then((res) => SetCompany(res.data))
+      .then((res) => setCompany(res.data))
     AxiosInstance.get(`api/jobs/${job.id}/address/`)
       .then((res) => setAddress(res.data))
   }, []);

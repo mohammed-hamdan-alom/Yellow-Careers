@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import JobSearchBar from "./JobSearchBar";
+import JobSearchList from "./JobSearchList";
 import AxiosInstance from "@/utils/AxiosInstance";
 
-const JobFilter = ({ database }) => {
+const JobFilterList = ({ data }) => {
   const [results, setResults] = useState([]);
   const [filters, setFilters] = useState({
     pay: "all",
@@ -12,6 +12,7 @@ const JobFilter = ({ database }) => {
   const [addresses, setAddresses] = useState([]);
   const [countries, setCountries] = useState([]);
 
+  //Return country from address id
   const getCountry = (id) => {
     const address = addresses.find(address => address.id == id)
     return address.country
@@ -50,7 +51,7 @@ const JobFilter = ({ database }) => {
     const locationFilter = (job) => getCountry(job.address) == location;
 
     let filters = []
-    let filteredResults = database;
+    let filteredResults = data;
 
     if (pay !== "all") {
       filters.push(payFilter)
@@ -62,12 +63,13 @@ const JobFilter = ({ database }) => {
       filters.push(locationFilter)
     }
     if (filters.length !== 0) {
-      filteredResults = filters.reduce((d, f) => d.filter(f), database)
+      filteredResults = filters.reduce((d, f) => d.filter(f), data)
     }
 
     setResults(filteredResults)
   }
 
+  //Gets unique countries from all addresses
   useEffect(() => {
     AxiosInstance.get(`api/addresses/`)
       .then((res) => {
@@ -78,17 +80,18 @@ const JobFilter = ({ database }) => {
       .catch((error) => console.log(error))
   }, [])
 
+  //Refreshes job list once data has been received
   useEffect(() => {
-    setResults(database);
-  }, [database]);
+    setResults(data);
+  }, [data]);
 
   return (
     <div>
       <label htmlFor="filterDropdown">Location:</label>
       <select id="location" onChange={onLocationChangeFilter} title="LocationFilter">
         <option value="all">All</option>
-        {countries.map(country =>
-          <option value={country}> {country} </option>
+        {countries.map((country, i) =>
+          <option value={country} key={i}> {country} </option>
         )
         }
       </select>
@@ -120,11 +123,11 @@ const JobFilter = ({ database }) => {
 
       <br></br>
 
-      <JobSearchBar database={results}></JobSearchBar>
+      <JobSearchList data={results}></JobSearchList>
     </div>
 
 
   );
 };
 
-export default JobFilter;
+export default JobFilterList;

@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobSearchBar from "../../search/JobSearchBar";
-import JobFilter from "../../search/JobFilter";
+import JobFilterList from "../../search/JobFilterList";
 
 const JobListPage = () => {
     const { user } = useContext(AuthContext);
@@ -30,7 +29,7 @@ const JobListPage = () => {
         <div>
             <h1>Matched jobs</h1>
             <br></br>
-            {resume.id && jobs ? <JobFilter database={jobs} /> :
+            {resume.id && jobs ? <JobFilterList data={jobs} /> :
                 <h1>Create a resume first</h1>
             }
 
