@@ -140,18 +140,25 @@ export const AuthProvider = ({ children }) => {
                 showConfirmButton: false,
             });
         } else {
-            swal.fire({
-                title: "An Error Occurred " + response.status,
-                icon: "error",
-                toast: true,
-                timer: 6000,
-                position: 'top-right',
-                timerProgressBar: true,
-                showConfirmButton: false,
+            response.json().then(data => {
+                let errorMessage = '';
+                for (let key in data) {
+                    if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
+                        errorMessage += `${key}: ${data[key].join(', ')}\n`; // Added \n at the end
+                    }
+                }
+                swal.fire({
+                    title: "An Error Occurred: \n" + errorMessage, // Added \n after "An Error Occurred: "
+                    icon: "error",
+                    toast: true,
+                    timer: 6000,
+                    position: 'top-right',
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                });
             });
         }
-    };
-
+    }
 
     let updateToken = async () => {
         let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
