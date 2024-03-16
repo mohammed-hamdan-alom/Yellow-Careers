@@ -4,6 +4,7 @@ from faker import Faker
 from api.models import User, JobSeeker, Employer, Job, Application, Resume, SoftSkill, TechnicalSkill, Language, Education, ProfessionalExperience, Address, Company, Question, Answer, EmployerJobRelation
 from faker.providers import BaseProvider
 from halo import Halo
+import csv
 
 class CustomWordProvider(BaseProvider):
     '''Custom word provider for faker'''
@@ -178,7 +179,7 @@ class Command(BaseCommand):
                 email=self.generate_unique_email(),
                 first_name=self.faker.first_name(),
                 last_name=self.faker.last_name(),
-                other_names='bean + cheese + begel',
+                other_names=self.faker.first_name(),
                 phone_number=phone_number,
                 dob=self.faker.date_of_birth(minimum_age=18, maximum_age=65),
                 address=new_address,
@@ -220,17 +221,22 @@ class Command(BaseCommand):
         
     def seed_jobs(self):
         '''Seeding the jobs'''
-        for i in range(self.JOB_COUNT):
+        jobs_created = 0
 
-            new_address = self.seed_address()
-
-            Job.objects.create(
-                title=self.faker.job(),
-                description=self.faker.paragraph_with_max_length(max_length=1000),
-                salary=random.randint(30000, 100000),
-                address=new_address,
-                job_type=random.choice([choice[0] for choice in Job.JobType.choices])
-            )
+        with open('api/management/commands/job_descriptions.csv', 'r') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                if jobs_created >= self.JOB_COUNT:
+                    break
+                
+                new_address = self.seed_address()
+                Job.objects.create(
+                    title = row['Role'],
+                    description = row['Job Description'] + "\nBenefits: " + row['Benefits'] + "\nSkills: " + row['Skills'] + "\nResponsibilities: " + row['Responsibilities'],
+                    salary = random.randint(30000, 100000),
+                    address = new_address,
+                    job_type = random.choice([choice[0] for choice in Job.JobType.choices])
+                )
     
     def seed_questions(self):
         '''Seeding the questions'''
