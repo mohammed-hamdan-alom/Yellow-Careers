@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/components/Alert/Alert"
+import { showError, showSuccess } from "@/shared/Alert/Alert"
 
 function TechnicalSkill({ resumeId }) {
   const [technicalSkills, setTechnicalSkills] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/components/Alert/Alert";
+import { showError, showSuccess } from "@/shared/Alert/Alert";
 
 function CompanyProfilePage() {
   const [employer, setEmployer] = useState([]);
@@ -83,7 +83,7 @@ function CompanyProfilePage() {
           <h3>About: </h3><p>{companyData.about}</p>
           <h3>Website: </h3><p>{companyData.website}</p>
           {employer.is_company_admin && (
-            <button onClick={() => {setEditedCompanyData(companyData);setShowEdit(true)}}>Edit</button>
+            <button onClick={() => { setEditedCompanyData(companyData); setShowEdit(true) }}>Edit</button>
           )}
         </div>
       )}
