@@ -21,7 +21,6 @@ const JobListPage = () => {
                             .then((res) => {
                                 setJobs(res.data)
                                 setIsJobRetrieved(true);
-                                console.log(jobs)
                             }).catch((error) => console.error('Error fetching data:', error));
                     }
                 })
