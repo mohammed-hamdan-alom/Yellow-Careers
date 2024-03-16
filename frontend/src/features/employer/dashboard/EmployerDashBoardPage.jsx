@@ -45,7 +45,6 @@ function EmployerDashBoardPage() {
 
   return (
     <div>
-      <h1>Employer Dashboard</h1>
       {companyJobs.length > 0 && (
         <>
           <Switch
@@ -79,6 +78,7 @@ function EmployerDashBoardPage() {
             </div>
           )}
           <Pagination
+            className="mt-8"
             current={currentPage}
             pageSize={pageSize}
             total={jobsToDisplay.length}

@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MinusCircle, PlusCircle } from "lucide-react";
+import { SquarePen } from "lucide-react";
 
 function TechnicalSkill({ resumeId }) {
   const [technicalSkills, setTechnicalSkills] = useState([]);
@@ -86,17 +87,6 @@ function TechnicalSkill({ resumeId }) {
               <Label className="text-1xl">{skill.skill}</Label>
             </div>
             <div className="flex flex-row items-center">
-              <Button
-                size="icon"
-                variant="secondary"
-                className="mr-4"
-                onClick={() => {
-                  setEditPopup(true);
-                  setOpenPopupId(skill.id);
-                }}
-              >
-                <SquarePen className="w-5 h-5" />
-              </Button>
               <Button
                 size="icon"
                 variant="destructive"

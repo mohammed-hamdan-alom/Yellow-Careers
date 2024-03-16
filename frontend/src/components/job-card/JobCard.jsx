@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { MapPin } from "lucide-react";
 
-const JobCard = ({title, city, country, description}) => {
+const JobCard = ({title, companyName, city, country, description}) => {
   return (
     <div>
       <Card className="w-full mt-10">
@@ -16,6 +16,9 @@ const JobCard = ({title, city, country, description}) => {
               <MapPin className="mr-2"/>
               <span className="mr-1">{city}, </span>
               <span>{country}</span>
+            </div>
+            <div className="mt-4">
+              {companyName}
             </div>
           </div>
           <div className="mt-4">

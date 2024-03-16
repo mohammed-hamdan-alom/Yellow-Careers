@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useNavigate } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobCard from "../job-card/JobCard";
+import JobCard from "../../../components/job-card/JobCard";
 
 const JobSummary = ({ job }) => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const JobSummary = ({ job }) => {
 
   return (
     <div className="w-full justify-center" onClick={handleClick}>
-      <JobCard title={job.title} city={address.city} country={address.country} description={formattedDescription} />
+      <JobCard title={job.title} companyName={company.name} city={address.city} country={address.country} description={formattedDescription} />
     </div>
   );
 };
