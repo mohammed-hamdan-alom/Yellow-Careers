@@ -1,5 +1,5 @@
 from rest_framework import generics
-from api.models import Address, Job, JobSeeker
+from api.models import Address, Job
 from api.serializers.address_serializer import AddressSerializer
 from django.shortcuts import get_object_or_404
 
@@ -23,7 +23,8 @@ class AddressRetrieveJobView(BaseAddressView, generics.RetrieveAPIView):
 class AddressCreateView(BaseAddressView, generics.CreateAPIView):
     pass
 
-class AddressUpdateView(generics.RetrieveUpdateDestroyAPIView):
+class AddressUpdateView(BaseAddressView, generics.RetrieveUpdateDestroyAPIView):
+    #updateAPIView works but doesnt show the current data of the fields
     pass
 
         
