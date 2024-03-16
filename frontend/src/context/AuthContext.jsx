@@ -87,6 +87,7 @@ export const AuthProvider = ({ children }) => {
                 'sex': user.sex
             })
         });
+        const data = await response.json(); // Add this line
         if(response.status === 201){
             navigate("/auth/login");
             swal.fire({
@@ -99,8 +100,14 @@ export const AuthProvider = ({ children }) => {
                 showConfirmButton: false,
             });
         } else {
+            let errorMessage = ''+ '\n';
+            for (let key in data) {
+                if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
+                    errorMessage += `${key}: ${data[key].join(', ')}\n `;
+                }
+            }
             swal.fire({
-                title: "An Error Occurred " + response.status,
+                title: "An Error Occurred: " + errorMessage,
                 icon: "error",
                 toast: true,
                 timer: 6000,
