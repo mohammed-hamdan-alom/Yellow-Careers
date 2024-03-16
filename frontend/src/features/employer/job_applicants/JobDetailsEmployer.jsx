@@ -88,15 +88,6 @@ const JobDetailsEmployer = () => {
         })
     }
 
-    const handleRemoveQuestion = (id) => {
-        AxiosInstance.delete(`api/questions/${id}/update/`).
-            then((response) => {
-                window.location.reload();
-            }).catch((error) => {
-                console.log(error);
-            })
-    }
-
     return (
 
         // ANY EMPLOYER (even if not from company) CAN VIEW THIS
@@ -113,7 +104,6 @@ const JobDetailsEmployer = () => {
                 {questions.map(question => (
                     <>
                         <li key={question.id}>{question.question}</li>
-                        <button onClick={() => handleRemoveQuestion(question.id)}>Remove</button>
                     </>
                 ))}
             </ul>

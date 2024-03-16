@@ -28,7 +28,13 @@ function QuestionCreation() {
         AxiosInstance.post('api/questions/create/', {
             job: questionData.jobId,
             question: questionData.question
-        }).then((response) => setQuestionsChanged(true))
+        }).then((response) => {
+            setQuestionData({
+                ...questionData,
+                question: ''
+            })
+            setQuestionsChanged(true)
+        })
             .catch((error) => console.log(error))
     }
 
@@ -42,7 +48,7 @@ function QuestionCreation() {
 
     const handleSkip = (event) => {
         event.preventDefault();
-        navigate(`/employer/`);
+        navigate(`/employer/job-details/${jobId}`);
     }
 
     const handleRemove = (id) => {
