@@ -8,8 +8,8 @@ import os
 
 
 LOCATION_WEIGHTING = 0
-LEVENSHTEIN_WEIGHTING = 0.5
-WORD2VEC_WEIGHTING = 0.5
+LEVENSHTEIN_WEIGHTING = 0.3
+WORD2VEC_WEIGHTING = 0.7
 
 model = Word2Vec.load("api/matchmaker/word2vec_model_all2.bin")
 
