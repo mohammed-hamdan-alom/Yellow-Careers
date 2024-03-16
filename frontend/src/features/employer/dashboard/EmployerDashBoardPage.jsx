@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Switch, Space, Pagination } from "antd";
-import JobSummary from "../job_summary/JobSummary";
+import { Switch, Space } from "antd";
 import JobSearchBar from "../../../components/search/JobSearchBar";
 
 function EmployerDashBoardPage() {
@@ -72,15 +70,6 @@ function EmployerDashBoardPage() {
               <JobSearchBar database={currentPageJobs} />
             </div>
           )}
-          <Pagination
-            className="mt-8"
-            current={currentPage}
-            pageSize={pageSize}
-            total={jobsToDisplay.length}
-            showSizeChanger
-            onChange={handlePageChange}
-            onShowSizeChange={handlePageSizeChange}
-          />
         </div>
       )}
     </div>
