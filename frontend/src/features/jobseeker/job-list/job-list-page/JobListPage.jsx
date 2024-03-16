@@ -35,7 +35,7 @@ const JobListPage = () => {
             <h1>Matched jobs</h1>
             <br></br>
             {resume.id && jobs ? <JobSearchBar database={jobs} /> :
-                <h1>Create a resume first</h1>
+                <h1>Error loading the jobs, please create a resume. If you have already done so, reload the page</h1>
             }
 
         </div >
