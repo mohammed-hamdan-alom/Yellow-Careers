@@ -1,9 +1,10 @@
-import React, { useState, useContext }from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom';
 import AuthContext from '../../../../context/AuthContext';
+import { nationalityOptions } from '@/shared/Nationalities/nationalityOptions';
 
 const JobSeekerRegister = () => {
-  
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [password2, setPassword2] = useState("")
@@ -14,202 +15,8 @@ const JobSeekerRegister = () => {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [nationality, setNationality] = useState("")
   const [sex, setSex] = useState("")
-  const nationalityOptions = [
-    'Afghan',
-    'Albanian',
-    'Algerian',
-    'American',
-    'Andorran',
-    'Angolan',
-    'Antiguans',
-    'Argentinean',
-    'Armenian',
-    'Australian',
-    'Austrian',
-    'Azerbaijani',
-    'Bahamian',
-    'Bahraini',
-    'Bangladeshi',
-    'Barbadian',
-    'Barbudans',
-    'Batswana',
-    'Belarusian',
-    'Belgian',
-    'Belizean',
-    'Beninese',
-    'Bhutanese',
-    'Bolivian',
-    'Bosnian',
-    'Brazilian',
-    'British',
-    'Bruneian',
-    'Bulgarian',
-    'Burkinabe',
-    'Burmese',
-    'Burundian',
-    'Cambodian',
-    'Cameroonian',
-    'Canadian',
-    'Cape Verdean',
-    'Central African',
-    'Chadian',
-    'Chilean',
-    'Chinese',
-    'Colombian',
-    'Comoran',
-    'Congolese',
-    'Costa Rican',
-    'Croatian',
-    'Cuban',
-    'Cypriot',
-    'Czech',
-    'Danish',
-    'Djibouti',
-    'Dominican',
-    'Dutch',
-    'East Timorese',
-    'Ecuadorean',
-    'Egyptian',
-    'Emirian',
-    'Equatorial Guinean',
-    'Eritrean',
-    'Estonian',
-    'Ethiopian',
-    'Fijian',
-    'Filipino',
-    'Finnish',
-    'French',
-    'Gabonese',
-    'Gambian',
-    'Georgian',
-    'German',
-    'Ghanaian',
-    'Greek',
-    'Grenadian',
-    'Guatemalan',
-    'Guinea-Bissauan',
-    'Guinean',
-    'Guyanese',
-    'Haitian',
-    'Herzegovinian',
-    'Honduran',
-    'Hungarian',
-    'Icelander',
-    'Indian',
-    'Indonesian',
-    'Iranian',
-    'Iraqi',
-    'Irish',
-    'Italian',
-    'Ivorian',
-    'Jamaican',
-    'Japanese',
-    'Jordanian',
-    'Kazakhstani',
-    'Kenyan',
-    'Kittian and Nevisian',
-    'Kuwaiti',
-    'Kyrgyz',
-    'Laotian',
-    'Latvian',
-    'Lebanese',
-    'Liberian',
-    'Libyan',
-    'Liechtensteiner',
-    'Lithuanian',
-    'Luxembourger',
-    'Macedonian',
-    'Malagasy',
-    'Malawian',
-    'Malaysian',
-    'Maldivan',
-    'Malian',
-    'Maltese',
-    'Marshallese',
-    'Mauritanian',
-    'Mauritian',
-    'Mexican',
-    'Micronesian',
-    'Moldovan',
-    'Monacan',
-    'Mongolian',
-    'Moroccan',
-    'Mosotho',
-    'Motswana',
-    'Mozambican',
-    'Namibian',
-    'Nauruan',
-    'Nepalese',
-    'New Zealander',
-    'Ni-Vanuatu',
-    'Nicaraguan',
-    'Nigerien',
-    'North Korean',
-    'Northern Irish',
-    'Norwegian',
-    'Omani',
-    'Pakistani',
-    'Palauan',
-    'Palestinian',
-    'Panamanian',
-    'Papua New Guinean',
-    'Paraguayan',
-    'Peruvian',
-    'Polish',
-    'Portuguese',
-    'Qatari',
-    'Romanian',
-    'Russian',
-    'Rwandan',
-    'Saint Lucian',
-    'Salvadoran',
-    'Samoan',
-    'San Marinese',
-    'Sao Tomean',
-    'Saudi',
-    'Scottish',
-    'Senegalese',
-    'Serbian',
-    'Seychellois',
-    'Sierra Leonean',
-    'Singaporean',
-    'Slovakian',
-    'Slovenian',
-    'Solomon Islander',
-    'Somali',
-    'South African',
-    'South Korean',
-    'Spanish',
-    'Sri Lankan',
-    'Sudanese',
-    'Surinamer',
-    'Swazi',
-    'Swedish',
-    'Swiss',
-    'Syrian',
-    'Taiwanese',
-    'Tajik',
-    'Tanzanian',
-    'Thai',
-    'Togolese',
-    'Tongan',
-    'Trinidadian or Tobagonian',
-    'Tunisian',
-    'Turkish',
-    'Tuvaluan',
-    'Ugandan',
-    'Ukrainian',
-    'Uruguayan',
-    'Uzbekistani',
-    'Venezuelan',
-    'Vietnamese',
-    'Welsh',
-    'Yemenite',
-    'Zambian',
-    'Zimbabwean',
-  ];
 
-  const {registerJobSeeker} = useContext(AuthContext)
+  const { registerJobSeeker } = useContext(AuthContext)
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -252,7 +59,7 @@ const JobSeekerRegister = () => {
         </div>
         <div className="form-group">
           <label htmlFor='first_name'>First Name</label>
-          <input 
+          <input
             name='first_name'
             type='text'
             id='firstName'
@@ -262,7 +69,7 @@ const JobSeekerRegister = () => {
         </div>
         <div className="form-group">
           <label htmlFor='last_name'>Last Name</label>
-          <input 
+          <input
             name='last_name'
             type='text'
             id='lastName'
@@ -272,7 +79,7 @@ const JobSeekerRegister = () => {
         </div>
         <div className="form-group">
           <label htmlFor='other_names'>Other Names</label>
-          <input 
+          <input
             name='other_names'
             type='text'
             id='otherNames'
@@ -281,7 +88,7 @@ const JobSeekerRegister = () => {
         </div>
         <div className="form-group">
           <label htmlFor='dob'>Date of Birth</label>
-          <input 
+          <input
             name='dob'
             type='date'
             id='dob'
@@ -290,7 +97,7 @@ const JobSeekerRegister = () => {
         </div>
         <div className="form-group">
           <label htmlFor='phone_number'>Phone Number</label>
-          <input 
+          <input
             name='phone_number'
             type='tel'
             id='phoneNumber'
@@ -311,9 +118,6 @@ const JobSeekerRegister = () => {
               Select Nationality
             </option>
             {nationalityOptions
-              .filter((option) =>
-                option.toLowerCase().includes(nationality.toLowerCase())
-              )
               .map((option, index) => (
                 <option key={index} value={option}>
                   {option}
@@ -323,7 +127,7 @@ const JobSeekerRegister = () => {
         </div>
         <div className="form-group">
           <label htmlFor='sex'>Sex</label>
-          <input 
+          <input
             name='sex'
             type='text'
             id='sex'

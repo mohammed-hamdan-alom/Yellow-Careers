@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '@/context/AuthContext';
 import AxiosInstance from "@/utils/AxiosInstance";
 import swal from 'sweetalert2'
-
+import { nationalityOptions } from "@/shared/Nationalities/nationalityOptions"
 const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
 
@@ -67,9 +67,9 @@ const JobSeekerProfile = () => {
         },
       }));
     } else {
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          [name]: value,
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
       }));
     }
   };
@@ -93,7 +93,7 @@ const JobSeekerProfile = () => {
 
   return (
     <form onSubmit={handleSubmit} className="container mt-5">
-        <div className="mb-3">
+      <div className="mb-3">
         <label htmlFor="email">Email</label>
         <input type="email" id="email" name="email" value={user?.email} disabled />
       </div>
@@ -119,7 +119,22 @@ const JobSeekerProfile = () => {
       </div>
       <div className="mb-3">
         <label htmlFor="nationality">Nationality</label>
-        <input type="text" id="nationality" name="nationality" value={formData.nationality} onChange={handleChange} />
+        <select
+          name="nationality"
+          id="nationality"
+          onChange={handleChange}
+          value={formData.nationality}
+        >
+          <option value="" disabled>
+            Select Nationality
+          </option>
+          {nationalityOptions
+            .map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))}
+        </select>
       </div>
       <div className="mb-3">
         <label htmlFor="sex">Sex</label>
