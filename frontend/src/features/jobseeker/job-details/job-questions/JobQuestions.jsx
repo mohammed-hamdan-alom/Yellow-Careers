@@ -3,7 +3,7 @@ import AuthContext from "@/context/AuthContext";
 import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from '../../../../components/Alert/Alert';
-import { Input, Button } from 'antd'; // Import Input and Button from Ant Design
+import { Input, Button, Space } from 'antd'; // Import Input and Button from Ant Design
 import '../styling/button.css';
 
 function JobQuestions() {
@@ -86,7 +86,7 @@ function JobQuestions() {
 
     return (
         <div>
-            <h2>Questions</h2>
+            <h2 style={{ fontWeight: 'bold', marginBottom: '5px' }}>Questions</h2>
             {questions.map((question, index) => (
                 <div key={question.id}>
                     <h4>{question.question}</h4>
@@ -99,7 +99,7 @@ function JobQuestions() {
                     {index !== questions.length - 1 && <div style={{ marginBottom: '20px' }} />} {/* Add space between questions */}
                 </div>
             ))}
-            <div style={{ marginTop: '20px' }}> {/* Add space above the button */}
+            <div style={{ marginTop: '5px' }}> {/* Add space above the button */}
                 <Button className="applyButton" type="primary" onClick={handleApply}>Apply</Button>
             </div>
         </div>

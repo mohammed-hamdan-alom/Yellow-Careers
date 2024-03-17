@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
+import { Button, Space } from 'antd'; // Import Button and Space from Ant Design
+import '../styling/button.css';
 
 function JobDetails() {
     const { user } = useContext(AuthContext);
@@ -108,16 +110,18 @@ function JobDetails() {
             <h4>Salary: {job.salary}</h4>
             <h4>Job Type: {job.job_type}</h4>
             <h4><strong>Location:</strong> {address.post_code}, {address.city}, {address.country}</h4>
-            {isJobApplied ? (
-                <button onClick={handleSeeApplication}>See Application</button>
-            ) : (
-                <button onClick={handleApply} disabled={!resume || Object.keys(resume).length === 0}>Apply</button>
-            )}
-            {isJobSaved ? (
-                <button onClick={handleSave}>Unsave</button>
-            ) : (
-                <button onClick={handleSave}>Save</button>
-            )}
+            <Space>
+                {isJobApplied ? (
+                    <Button onClick={handleSeeApplication}>See Application</Button>
+                ) : (
+                    <Button className="applyButton" onClick={handleApply} disabled={!resume || Object.keys(resume).length === 0}>Apply</Button>
+                )}
+                {isJobSaved ? (
+                    <Button className="unsaveButton" onClick={handleSave}>Unsave</Button>
+                ) : (
+                    <Button className="saveButton" onClick={handleSave}>Save</Button>
+                )}
+            </Space>
         </div>
     )
 }
