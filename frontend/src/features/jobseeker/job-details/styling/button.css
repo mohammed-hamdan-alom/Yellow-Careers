@@ -1,0 +1,13 @@
+/* button.css */
+
+.applyButton {
+  background-color: #4CAF50 !important; /* Set the background color to a nice green */
+  color: white; /* Set the text color to white */
+  border: none; /* Remove the border */
+  cursor: pointer; /* Add cursor style */
+  border-radius: 4px; /* Add border radius */
+}
+
+.applyButton:hover {
+  background-color: #45a049 !important; /* Change background color to a darker shade of green on hover */
+}
