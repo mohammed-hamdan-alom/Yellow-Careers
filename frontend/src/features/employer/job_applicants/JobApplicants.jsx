@@ -15,7 +15,7 @@ const JobApplicantsPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        AxiosInstance.get(`api/application/job/${jobId}/`)
+        AxiosInstance.get(`api/applications/job/${jobId}/`)
             .then((res) => setApplications(res.data))
             .catch((error) => console.error("Error:", error.response.data));
     }, []);
