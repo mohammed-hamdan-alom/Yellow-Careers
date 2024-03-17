@@ -4,6 +4,8 @@ from api.serializers import ResumeSerializer, ResumeSoftSkillSerializer, ResumeT
 import datetime
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.test import APIRequestFactory, force_authenticate
+from api.views.resume_views import *
 
 
 
@@ -479,8 +481,19 @@ class EducationSerializerTestCase(TestCase):
     #         'level': "HS",
     #         'institution' :"asdasd",
     #         'grade': "a",
-    #         'address': address.id
+    #         'address': address
     #     }
-    #     response = self.client.post(reverse('resume-educations-post', args=[1]), education_data)
-    #     print(response.data)
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    #     factory = APIRequestFactory()
+    #     request = factory.post(reverse('resume-educations-post'), education_data, format='json')
+
+    #     ##force_authenticate(request,user=self.employee)
+
+    #     view = EducationCreateView.as_view()
+    #     response = view(request, pk=self.education.resume.id)
+
+
+
+        # response = self.client.post(reverse('resume-educations-post', args=[1]), education_data, format='json')
+        # print(response.data)
+        # self.assertEqual(response.status_code, status.HTTP_201_CREATED)
