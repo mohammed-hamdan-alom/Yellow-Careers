@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Button, Space } from 'antd'; // Import Button and Space from Ant Design
 import '../styling/button.css';
+import '../../../../components/job-details/JobDetails'
 
 function JobDetails() {
     const { user } = useContext(AuthContext);
