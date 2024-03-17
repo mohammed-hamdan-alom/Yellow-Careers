@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/Alert";
 import Popup from "../Popup/Popup";
 import EditEducationPage from "./EditEducationPage";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { SquarePen, MinusCircle } from "lucide-react";
 
 function Education({ resumeId }) {
   const [educations, setEducations] = useState([]);
@@ -40,61 +44,58 @@ function Education({ resumeId }) {
   };
 
   return (
-    <div>
-      <h2>Education</h2>
-      <ul>
-        {educations.map((education, index) => (
-          <li key={index}>
-            <p>start date: {education.start_date}</p>
-            <p>end:date : {education.end_date}</p>
-            <p>level: {education.level}</p>
-            <p>institution : {education.institution}</p>
-            <p>grade: {education.grade}</p>
-            {education.address && (
-              <>
-                <p>City: {education.address.city}</p>
-                <p>Post Code: {education.address.post_code}</p>
-                <p>Country: {education.address.country}</p>
-              </>
-            )}
-            <button
-              onClick={() => {
-                setEditPopup(true);
-                setOpenPopupId(education.id);
-              }}
-            >
-              Edit Education
-            </button>
-            <Popup
-              trigger={editPopup && openPopupId === education.id}
-              setTrigger={() => {
-                setOpenPopupId(null);
-              }}
-            >
-              <EditEducationPage
-                put={true}
-                resumeId={resumeId}
-                setEducations={setEducations}
-                setButtonPopup={setEditPopup}
-                educationId={education.id}
-              />
-            </Popup>
-
-            <button onClick={() => handleDeleteEducation(education)}>
-              Delete
-            </button>
-          </li>
+    <div className="mt-4 w-full flex flex-col justify-left mr-10">
+      <Label className="text-3xl mb-4">Education</Label>
+      <div>
+        {educations.map((education) => (
+          <div
+            key={education.id}
+            className="flex flex-row items-center justify-between mb-4"
+          >
+            <div>
+              <Label className="text-1xl">{education.school}</Label>
+            </div>
+            <div className="flex flex-row items-center">
+              <Button
+                size="icon"
+                variant="secondary"
+                className="mr-4"
+                onClick={() => {
+                  setEditPopup(true);
+                  setOpenPopupId(education.id);
+                }}
+              >
+                <SquarePen className="w-5 h-5"/>
+              </Button>
+              <Popup trigger={editPopup} setTrigger={setEditPopup}>
+                <EditEducationPage
+                  education={education}
+                  resumeId={resumeId}
+                  setEducations={setEducations}
+                  setButtonPopup={setEditPopup}
+                />
+              </Popup>
+              <Button
+                size="icon"
+                variant="destructive"
+                onClick={() => {
+                  handleDeleteEducation(education);
+                }}
+              >
+                <MinusCircle className="w-5 h-5"/>
+              </Button>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
 
       <div>
-        <button
-          onClick={() => {
-            setCreatePopup(true);
-          }}
+        <Button
+          variant="outline"
+          onClick={() => setCreatePopup(true)}
         >
-          Add Education
-        </button>
+          Add Education 
+        </Button>
         <Popup trigger={createPopup} setTrigger={setCreatePopup}>
           <EditEducationPage
             post={true}

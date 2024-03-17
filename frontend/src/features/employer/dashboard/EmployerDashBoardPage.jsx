@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import AuthContext from '@/context/AuthContext';
+import React, { useContext, useEffect, useState } from "react";
+import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space } from "antd";
-import JobSummary from '../job_summary/JobSummary';
+import JobSearchBar from "../../../components/search/JobSearchBar";
+import "./switch.css";
 
 function EmployerDashBoardPage() {
   const { user } = useContext(AuthContext)
@@ -44,20 +44,12 @@ function EmployerDashBoardPage() {
       {showCompanyJobs ? (
         <div>
           <h2>All Company Jobs</h2>
-          {companyJobs.map(job => (
-            <ul className='job-summary' key={job.id}>
-              <JobSummary job={job} />
-            </ul>
-          ))}
+          <JobSearchBar database={companyJobs} /> 
         </div>
       ) : (
         <div>
           <h2>Jobs You Are Associated With</h2>
-          {EmployerJobs.map(job => (
-            <ul className='job-summary' key={job.id}>
-              <JobSummary job={job} />
-            </ul>
-          ))}
+          <JobSearchBar database={EmployerJobs} />
         </div>
       )}
     </div>

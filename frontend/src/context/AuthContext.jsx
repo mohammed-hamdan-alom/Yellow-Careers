@@ -22,14 +22,15 @@ export const AuthProvider = ({ children }) => {
 
     const navigate = useNavigate();
 
-    const loginUser = async (email, password) => {
+    const loginUser = async (user) => {
         const response = await fetch("http://127.0.0.1:8000/api/token/", {
             method: "POST",
             headers:{
                 "Content-Type":"application/json"
             },
             body: JSON.stringify({
-                email, password
+                email: user.email,
+                password: user.password
             })
         });
         const data = await response.json();
@@ -66,16 +67,27 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const registerJobSeeker = async (email, password, password2, first_name, last_name, other_names, dob, phone_number, nationality, sex) => {
+    const registerJobSeeker = async (user) => {
+        console.log(user)
         const response = await fetch("http://127.0.0.1:8000/api/jobseeker-register/", {
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
             },
             body: JSON.stringify({
-                email, password, password2, first_name, last_name, other_names, dob, phone_number, nationality, sex
+                'email': user.email, 
+                'password': user.password, 
+                'password2': user.password2, 
+                'first_name': user.firstName, 
+                'last_name': user.lastName, 
+                'other_names': user.otherNames, 
+                'dob': user.dob, 
+                'phone_number': user.phoneNumber,
+                'nationality': user.nationality,
+                'sex': user.sex
             })
         });
+        const data = await response.json(); // Add this line
         if(response.status === 201){
             navigate("/auth/login");
             swal.fire({
@@ -88,8 +100,14 @@ export const AuthProvider = ({ children }) => {
                 showConfirmButton: false,
             });
         } else {
+            let errorMessage = ''+ '\n';
+            for (let key in data) {
+                if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
+                    errorMessage += `${key}: ${data[key].join(', ')}\n `;
+                }
+            }
             swal.fire({
-                title: "An Error Occurred " + response.status,
+                title: "An Error Occurred: " + errorMessage,
                 icon: "error",
                 toast: true,
                 timer: 6000,
@@ -122,18 +140,25 @@ export const AuthProvider = ({ children }) => {
                 showConfirmButton: false,
             });
         } else {
-            swal.fire({
-                title: "An Error Occurred " + response.status,
-                icon: "error",
-                toast: true,
-                timer: 6000,
-                position: 'top-right',
-                timerProgressBar: true,
-                showConfirmButton: false,
+            response.json().then(data => {
+                let errorMessage = '';
+                for (let key in data) {
+                    if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
+                        errorMessage += `${key}: ${data[key].join(', ')}\n`; // Added \n at the end
+                    }
+                }
+                swal.fire({
+                    title: "An Error Occurred: \n" + errorMessage, // Added \n after "An Error Occurred: "
+                    icon: "error",
+                    toast: true,
+                    timer: 6000,
+                    position: 'top-right',
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                });
             });
         }
-    };
-
+    }
 
     let updateToken = async () => {
         let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {

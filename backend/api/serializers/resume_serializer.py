@@ -30,7 +30,7 @@ class EducationSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     class Meta:
         model = Education
-        fields = ('id','start_date', 'end_date', 'level', 'institution', 'grade', 'address')
+        fields = ('id','course_name','start_date', 'end_date', 'level', 'institution', 'grade', 'address')
         read_only_fields = ('id', 'created_at', 'updated_at')
     
     def create(self, validated_data):
@@ -50,6 +50,7 @@ class EducationSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(address_serializer.errors)
 
         # Update the Education instance
+        instance.course_name = validated_data.get('course_name', instance.course_name)
         instance.start_date = validated_data.get('start_date', instance.start_date)
         instance.end_date = validated_data.get('end_date', instance.end_date)
         instance.level = validated_data.get('level', instance.level)
