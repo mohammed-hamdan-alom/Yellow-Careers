@@ -3,6 +3,7 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space } from "antd";
 import JobSearchBar from "../../../components/search/JobSearchBar";
+import "./switch.css";
 
 function EmployerDashBoardPage() {
   const { user } = useContext(AuthContext)

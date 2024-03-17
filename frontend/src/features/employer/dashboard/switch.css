@@ -1,0 +1,26 @@
+/* Styles for the switch */
+.ant-switch {
+    /* Add styles to ensure visibility */
+    background-color: #c92727; /* Set background color */
+    border: 1px solid #ed2b2b; /* Add border */
+  }
+  
+  /* Styles for the toggle button when checked */
+  .ant-switch-checked {
+    background-color: #d73a1a; /* Change background color when checked */
+    border-color: #4fb926; /* Change border color when checked */
+    color: #e50f0f; /* Change text color when checked */
+  }
+  
+  /* Styles for the toggle button when unchecked */
+  .ant-switch:not(.ant-switch-checked) {
+    background-color: #c92727; /* Set background color when unchecked */
+    border: 1px solid #ed2b2b; /* Set border when unchecked */
+  }
+  
+  /* Styles for the toggle button when unchecked and hovered */
+  .ant-switch:not(.ant-switch-checked):hover {
+    background-color: #ed2b2b; /* Change background color on hover when unchecked */
+    border-color: #c92727; /* Change border color on hover when unchecked */
+  }
+  
