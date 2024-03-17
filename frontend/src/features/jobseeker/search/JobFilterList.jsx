@@ -14,6 +14,9 @@ const JobFilterList = ({ data }) => {
 
   //Return country from address id
   const getCountry = (id) => {
+    if (id == undefined) {
+      return "None"
+    }
     const address = addresses.find(address => address.id == id)
     return address.country
   }
