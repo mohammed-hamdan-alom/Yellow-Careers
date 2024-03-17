@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobSearchBar from "../../../../components/search/JobSearchBar";
+import JobSearchBar from "@/components/search/JobSearchBar";
+import { Label } from "@/components/ui/label";
 
 function AppliedJobListPage() {
   //
@@ -17,12 +18,12 @@ function AppliedJobListPage() {
   }, [userId]);
 
   return (
-    <div>
-      <h1>Applied jobs</h1>
+    <div className=" flex flex-col justify-center">
+      <Label className="text-3xl">Applied Jobs</Label>
       {jobs.length > 0 ? (
-        <JobSearchBar database={jobs} />
-      ) : (
-        <h1>No applied jobs</h1>
+      <JobSearchBar database={jobs} />
+    ) : (
+      <h1>No applied jobs</h1>
       )}
     </div>
   );
