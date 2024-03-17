@@ -40,7 +40,8 @@ const JobDetailsEmployer = () => {
             setQuestions(responses[3].data);
             setEmployers(responses[4].data);
             setCompanyEmployers(responses[5].data);
-        }).catch((error) => console.error('Error fetching data:', error));
+        }).catch((error) =>{ console.error('Error fetching data:', error);
+        });
     }, [jobId, userId]);
 
     const handleClick = () => {

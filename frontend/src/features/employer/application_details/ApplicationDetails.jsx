@@ -30,10 +30,10 @@ const ApplicationDetails = () => {
           resumeResponse,
           answersResponse,
         ] = await Promise.all([
-          axios.get(`/api/job-seekers/${applicationResponse.data.job_seeker}`),
-          axios.get(`/api/jobs/${applicationResponse.data.job}/questions`),
-          axios.get(`/api/applications/${applicationId}/resume`),
-          axios.get(`/api/applications/${applicationId}/answers`),
+          AxiosInstance.get(`/api/job-seekers/${applicationResponse.data.job_seeker}`),
+          AxiosInstance.get(`/api/jobs/${applicationResponse.data.job}/questions`),
+          AxiosInstance.get(`/api/applications/${applicationId}/resume`),
+          AxiosInstance.get(`/api/applications/${applicationId}/answers`),
         ]);
 
         setJobSeeker(jobSeekerResponse.data);
