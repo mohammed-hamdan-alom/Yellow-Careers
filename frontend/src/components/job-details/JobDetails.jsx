@@ -1,15 +1,24 @@
 import React from 'react';
-import './JobDetailsDisplay.css';
+import { Label } from '@/components/ui/label';
+import { MapPin, HandCoins } from 'lucide-react';
 
 const JobDetailsDisplay = ({ title, description, companyName, salary, jobType, address }) => {
   return (
     <div>
-      <h1>{title}</h1>
-      <h2>{description}</h2>
-      <h3>{companyName}</h3>
-      <h4>Salary: {salary}</h4>
-      <h4>Job Type: {jobType}</h4>
-      <h4><strong>Location:</strong> {address.post_code}, {address.city}, {address.country}</h4>
+      <Label className="text-3xl font-bold" style={{ color: '#0072C6' }}>{title}</Label>
+      <p className="text-lg mb-4 mt-3">{description}</p>
+      <Label className="text-xl font-semibold mb-2">{companyName}</Label>
+      <div className="flex flex-wrap mb-4">
+        <div className="w-full md:w-1/2 flex items-center mb-2">
+          <HandCoins className="mr-2 text-gray-700" size={20} />
+          <Label className="text-gray-700">Salary: {salary}</Label>
+        </div>
+        <div className="w-full md:w-1/2 flex items-center">
+          <MapPin className="mr-2 text-gray-700" size={20} />
+          <Label className="text-gray-700"><strong>Location:</strong> {address.post_code}, {address.city}, {address.country}</Label>
+        </div>
+      </div>
+      <Label className="text-gray-700">Job Type: {jobType}</Label>
     </div>
   );
 };
