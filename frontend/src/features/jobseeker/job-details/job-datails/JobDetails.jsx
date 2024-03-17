@@ -112,9 +112,9 @@ function JobDetails() {
             <h4><strong>Location:</strong> {address.post_code}, {address.city}, {address.country}</h4>
             <Space>
                 {isJobApplied ? (
-                    <Button onClick={handleSeeApplication}>See Application</Button>
+                    <Button className="applyButton" onClick={handleSeeApplication}>See Application</Button>
                 ) : (
-                    <Button className="applyButton" onClick={handleApply} disabled={!resume || Object.keys(resume).length === 0}>Apply</Button>
+                    <Button className="applyButton" onClick={handleApply} >Apply</Button>
                 )}
                 {isJobSaved ? (
                     <Button className="unsaveButton" onClick={handleSave}>Unsave</Button>
