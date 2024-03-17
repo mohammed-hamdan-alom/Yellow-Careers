@@ -85,7 +85,7 @@ const EmployerRegister = () => {
         </div>
         <div className="form-actions">
           <Button type='submit'>register</Button>
-          <Link to="/login">Have an account? Click here to log in</Link>
+          <Link to="/auth/login">Have an account? Click here to log in</Link>
         </div>
       </form>
     </div>
