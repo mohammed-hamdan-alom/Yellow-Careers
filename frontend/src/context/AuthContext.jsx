@@ -111,7 +111,7 @@ export const AuthProvider = ({ children }) => {
             })
         });
         if (response.status === 201) {
-            navigate("/login");
+            navigate("/auth/login");
             swal.fire({
                 title: "Registration Successful, Login Now",
                 icon: "success",

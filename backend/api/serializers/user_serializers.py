@@ -1,4 +1,4 @@
-from api.models import User, Employer, JobSeeker
+from api.models import User, Employer, JobSeeker, Company
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
@@ -11,6 +11,10 @@ class UserSerializer(serializers.ModelSerializer):
 class EmployerRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
+    company = serializers.PrimaryKeyRelatedField(
+        queryset=Company.objects.all(),
+        write_only=True,
+    )
 
     class Meta:
         model = Employer
@@ -21,13 +25,13 @@ class EmployerRegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = Employer.objects.create(
+        employer = Employer.objects.create(
                         email=validated_data['email'],
-                        company = validated_data['company']
+                        company=validated_data.get('company')
                 )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
+        employer.set_password(validated_data['password'])
+        employer.save()
+        return employer
 
 class JobSeekerRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])

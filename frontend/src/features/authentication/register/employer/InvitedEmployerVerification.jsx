@@ -11,9 +11,9 @@ const InvitedEmployerVerification = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AxiosInstance.get(`api/invited-employer/5/update/`);
+      const response = await AxiosInstance.get(`api/invited-employer/get/?email=${email}`);
       if (response.data.email === email && response.data.code === code) {
-        navigate(`/auth/register-employer`);
+        navigate(`/auth/register-employer`, { state: { companyId: response.data.company, registerEmail: email } });
       } else {
         alert("Invalid email or code");
       }
@@ -21,6 +21,7 @@ const InvitedEmployerVerification = () => {
       console.error('Error verifying email and code:', error);
     }
   }
+  
 
   return (
     <div>

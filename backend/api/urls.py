@@ -105,5 +105,6 @@ urlpatterns = [
     path('employer/<int:pk>/jobs/', EmployerJobListingView.as_view(), name='view-employer-jobs'),
 
     path('invited-employer/create/', InvitedEmployerCreateView.as_view(), name='invited-employer-create'),
-    path('invited-employer/<int:pk>/update/', InvitedEmployerUpdateView.as_view(), name='invited-employer-update'),
-]
+    path('invited-employer/get/', InvitedEmployerRetrieveByEmailView.as_view(), name='invited-employer-get'),
+    path('invited-employer/delete/', InvitedEmployerDeleteByEmailView.as_view(), name='invited-employer-delete'),
+    ]
