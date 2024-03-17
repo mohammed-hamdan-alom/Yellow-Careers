@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
-
+import { showError, showSuccess } from '../../../../components/Alert/Alert';
 
 function JobQuestions() {
     const { user } = useContext(AuthContext);
@@ -36,10 +36,22 @@ function JobQuestions() {
             .then(() => {
                 navigate(`/job-seeker/job-details/${jobId}`); // will change to see application details
             })
-            .catch((error) => console.error('Error saving answer:', error));
+            .catch((error) => {
+                if (error.response) {
+                    error.response.json().then(data => {
+                        let errorMessage = '';
+                        for (let key in data) {
+                            if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
+                                errorMessage += `${key}: ${data[key].join(', ')}\n`;
+                            }
+                        }
+                        showError(errorMessage);
+                    });
+                }
+            });
         }
     };
-
+    
         // this is for applying for the job
     const handleApply = () => {
         if (window.confirm('Are you sure you want to apply for this job?')) {
