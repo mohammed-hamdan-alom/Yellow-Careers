@@ -21,7 +21,6 @@ const InvitedEmployerVerification = () => {
       console.error('Error verifying email and code:', error);
     }
   }
-  
 
   return (
     <div>
