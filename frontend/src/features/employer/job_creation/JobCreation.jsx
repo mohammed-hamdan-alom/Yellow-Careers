@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '@/context/AuthContext';
 import AxiosInstance from "@/utils/AxiosInstance";
+import { showJobCreatedError, showJobCreatedSuccess } from '@/shared/Alert/Alert';
 
 function JobCreationForm() {
 
@@ -43,8 +44,10 @@ function JobCreationForm() {
                         employer: userId,
                         job: response.data.id
                     });
+                    showJobCreatedSuccess();
                     navigate(`/employer/create-questions/${response.data.id}`);
                 }).catch((error) => {
+                    showJobCreatedError();
                     console.log(error);
                 });
             });
@@ -61,8 +64,10 @@ function JobCreationForm() {
                     employer: userId,
                     job: response.data.id
                 });
+                showJobCreatedSuccess();
                 navigate(`/employer/create-questions/${response.data.id}`);
             }).catch((error) => {
+                showJobCreatedError();
                 console.log(error);
             });
         }
