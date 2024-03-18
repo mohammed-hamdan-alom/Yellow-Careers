@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Link } from "react-router-dom";
-import { showError, showSuccess } from "@/shared/Alert/Alert"
+import { showError, showSuccess } from "@/components/Alert/Alert";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "antd";
+import { DatePicker } from "antd";
+import { Select } from "antd";
+const { RangePicker } = DatePicker;
+import BigAlert from "@/components/Alert/BigAlert";
 
 function EditEducationPage({
   put,
@@ -53,6 +59,14 @@ function EditEducationPage({
     } else {
       setEducation({ ...education, [name]: value });
     }
+  };
+
+  const handleDateChange = (dateStrings) => {
+    setEducation({
+      ...education,
+      start_date: dateStrings[0],
+      end_date: dateStrings[1],
+    });
   };
 
   const handleSubmit = (event) => {
@@ -121,105 +135,169 @@ function EditEducationPage({
   };
 
   return (
-    <div>
+    <div className="p-12">
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Start Date</label>
-          <input
-            type="date"
-            name="start_date"
-            value={education.start_date}
-            onChange={handleEducationChange}
+        <div className="flex flex-row justify-between items-center mb-4">
+          <Label className="mr-4 w-[400px] text-2xl">Start - End Dates</Label>
+          <RangePicker
+            className="w-[400px]"
+            id={{ start: education.start_date, end: education.end_date }}
+            onChange={(dateStrings) => {
+              handleDateChange(dateStrings);
+            }}
           />
-          {errors.start_date && <p>{errors.start_date}</p>}
         </div>
-        <div>
-          <label>End Date</label>
-          <input
-            type="date"
-            name="end_date"
-            value={education.end_date}
-            onChange={handleEducationChange}
-          />
-          {errors.end_date && <p>{errors.end_date}</p>}
+        <div className="mb-4">
+          {errors.start_date ||
+            (errors.end_date && (
+              <BigAlert
+                className="ml-4"
+                message={"Enter valid date"}
+                description={""}
+                type="error"
+              />
+            ))}
         </div>
-        <div>
-          <label>level:</label>
-          <select
+
+        <div className="flex flex-row justify-between items-center mb-4">
+          <Label className="mr-4 w-[400px] text-2xl">Level</Label>
+          <Select
+            className="w-[420px]"
             name="level"
-            value={education.level}
-            onChange={handleEducationChange}
+            placeholder="Select a level"
+            onChange={(value) => {
+              setEducation({ ...education, level: value });
+            }}
           >
-            <option value="">Select Level</option>
-            <option value="HS">High School</option>
-            <option value="BA">Bachelors</option>
-            <option value="MA">Masters</option>
-            <option value="PHD">Doctorate</option>
-          </select>
-          {errors.level && <p>{errors.level}</p>}
+            <Select.Option value="HS">High School</Select.Option>
+            <Select.Option value="BA">Bachelor</Select.Option>
+            <Select.Option value="MA">Master</Select.Option>
+            <Select.Option value="PHD">Doctorate</Select.Option>
+          </Select>
         </div>
-        <div>
-          <label>institution</label>
-          <input
+        <div className="mb-4">
+          {errors.level && (
+            <BigAlert
+              className="ml-4"
+              message={"Enter valid level"}
+              description={""}
+              type="error"
+            />
+          )}
+        </div>
+        <div className="flex flex-row justify-between items-center mb-4">
+          <Label className="mr-4 w-[400px] text-2xl">Institution</Label>
+          <Input
+            className="w-[400px]"
             type="text"
             name="institution"
             value={education.institution}
             onChange={handleEducationChange}
           />
-          {errors.institution && <p>{errors.institution}</p>}
         </div>
-        <div>
-          <label>grade</label>
-          <input
+        <div className="mb-4">
+          {errors.institution && (
+            <BigAlert
+              className="ml-4"
+              message={"Enter valid institution"}
+              description={""}
+              type="error"
+            />
+          )}
+        </div>
+        <div className="flex flex-row justify-between items-center mb-4">
+          <Label className="mr-4 w-[400px] text-2xl">Grade</Label>
+          <Input
+            className="w-[400px]"
             type="text"
             name="grade"
             value={education.grade}
             onChange={handleEducationChange}
           />
-          {errors.grade && <p>{errors.grade}</p>}
+        </div>
+        <div className="mb-4">
+          {errors.grade && (
+            <BigAlert
+              className="ml-4"
+              message={"Enter valid grade"}
+              description={""}
+              type="error"
+            />
+          )}
         </div>
         {education.address && (
           <>
-            <div>
-              <label>city</label>
-              <input
+            <div className="flex flex-row justify-between items-center mb-4">
+              <Label className="mr-4 w-[400px] text-2xl">City</Label>
+              <Input
+                className="w-[400px]"
                 type="text"
                 name="address.city"
                 value={education.address.city}
                 onChange={handleEducationChange}
               />
+            </div>
+            <div className="mb-4">
               {errors.address && errors.address.city && (
-                <p>{errors.address.city}</p>
+                <BigAlert
+                  className="ml-4"
+                  message={"Enter valid city"}
+                  description={""}
+                  type="error"
+                />
               )}
             </div>
-            <div>
-              <label>post code</label>
-              <input
+            <div className="flex flex-row justify-between items-center mb-4">
+              <Label className="mr-4 w-[400px] text-2xl">Post Code</Label>
+              <Input
+                className="w-[400px]"
                 type="text"
                 name="address.post_code"
                 value={education.address.post_code}
                 onChange={handleEducationChange}
               />
+            </div>
+            <div className="mb-4">
               {errors.address && errors.address.post_code && (
-                <p>{errors.address.post_code}</p>
+                <BigAlert
+                  className="ml-4"
+                  message={"Enter valid post code"}
+                  description={""}
+                  type="error"
+                />
               )}
             </div>
-            <div>
-              <label>country</label>
-              <input
+            <div className="flex flex-row justify-between items-center mb-4">
+              <Label className="mr-4 w-[400px] text-2xl">Country</Label>
+              <Input
+                className="w-[400px]"
                 type="text"
                 name="address.country"
                 value={education.address.country}
                 onChange={handleEducationChange}
               />
+            </div>
+            <div className="mb-4">
               {errors.address && errors.address.country && (
-                <p>{errors.address.country}</p>
+                <BigAlert
+                  className="ml-4"
+                  message={"Enter valid country"}
+                  description={""}
+                  type="error"
+                />
               )}
             </div>
           </>
         )}
         <br />
-        <button> Submit</button>
+        <Button
+          variant="outline"
+          className="w-full"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
       </form>
     </div>
   );

@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Link } from "react-router-dom";
-import { showError, showSuccess } from "@/shared/Alert/Alert"
+import { showError, showSuccess } from "@/components/Alert/Alert";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { Select } from "antd";
+import BigAlert from "@/components/Alert/BigAlert";
 
 function EditLanguagePage({
   put,
@@ -11,6 +17,15 @@ function EditLanguagePage({
   setButtonPopup,
   languageId,
 }) {
+  const { toast } = useToast();
+
+  const SkillLevelOptions = [
+    { value: "B", label: "Basic" },
+    { value: "I", label: "Intermediate" },
+    { value: "A", label: "Advanced" },
+    { value: "F", label: "Fluent" },
+  ];
+
   const defaultLanguageState = {
     language: "",
     spoken_proficiency: "",
@@ -36,6 +51,24 @@ function EditLanguagePage({
       ...language,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleSpokenProfiecienyChange = (value) => {
+    if (value) {
+      setLanguage({
+        ...language,
+        spoken_proficiency: value,
+      });
+    }
+  };
+
+  const handleWrittenProfiecienyChange = (value) => {
+    if (value) {
+      setLanguage({
+        ...language,
+        written_proficiency: value,
+      });
+    }
   };
 
   const handleSubmit = (event) => {
@@ -105,50 +138,76 @@ function EditLanguagePage({
   };
 
   return (
-    <div>
+    <div className="p-12">
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Language</label>
-          <input
+        <div className="flex flex-row justify-between items-center mb-4">
+          <Label className="mr-4 w-[400px] text-2xl">Enter Language:</Label>
+          <Input
+            className="w-[400px]"
+            placeholder="Enter Language"
             type="text"
             name="language"
             value={language.language}
             onChange={handleLanguageChange}
           />
-          {errors.language && <p>{errors.language}</p>}
         </div>
-        <div>
-          <label>Spoken Proficiency:</label>
-          <select
+        <div className="mb-4">
+          {errors.language && (
+            <BigAlert
+              className="ml-4"
+              message={"Enter valid language"}
+              description={""}
+              type="error"
+            />
+          )}
+        </div>
+        <div className="flex flex-row justify-between items-center mb-4">
+          <Label className="mr-4 w-[400px] text-2xl">Spoken Proficiency:</Label>
+          <Select
+            className="w-[420px]"
             name="spoken_proficiency"
+            placeholder="Select Spoken Proficiency"
             value={language.spoken_proficiency}
-            onChange={handleLanguageChange}
-          >
-            <option value="">Select Proficiency</option>
-            <option value="B">Basic</option>
-            <option value="I">Intermediate</option>
-            <option value="A">Advanced</option>
-            <option value="F">Fluent</option>
-          </select>
-          {errors.spoken_proficiency && <p>{errors.spoken_proficiency}</p>}
+            options={SkillLevelOptions}
+            onChange={handleSpokenProfiecienyChange}
+          ></Select>
         </div>
-        <div>
-          <label>Written Proficiency:</label>
-          <select
+        <div className="mb-4">
+          {errors.spoken_proficiency && (
+            <BigAlert
+              className="ml-4"
+              message={"Cannot leave blank"}
+              description={""}
+              type="error"
+            />
+          )}
+        </div>
+        <div className="flex flex-row justify-between items-center mb-4">
+          <Label className="mr-4 w-[400px] text-2xl">
+            Written Proficiency:
+          </Label>
+          <Select
+            className="w-[420px]"
             name="written_proficiency"
+            placeholder="Select Written Proficiency"
             value={language.written_proficiency}
-            onChange={handleLanguageChange}
-          >
-            <option value="">Select Proficiency</option>
-            <option value="B">Basic</option>
-            <option value="I">Intermediate</option>
-            <option value="A">Advanced</option>
-            <option value="F">Fluent</option>
-          </select>
-          {errors.written_proficiency && <p>{errors.written_proficiency}</p>}
-        </div>{" "}
-        <br />
-        <button>Submit</button>
+            options={SkillLevelOptions}
+            onChange={handleWrittenProfiecienyChange}
+          ></Select>
+        </div>
+        <div className="mb-4">
+          {errors.written_proficiency && (
+            <BigAlert
+              className="ml-4"
+              message={"Cannot leave blank"}
+              description={""}
+              type="error"
+            />
+          )}
+        </div>
+        <Button type="submit" variant="outline" className='w-full mt-8'>
+          Submit
+        </Button>
       </form>
     </div>
   );

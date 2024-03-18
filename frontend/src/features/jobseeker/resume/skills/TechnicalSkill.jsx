@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/shared/Alert/Alert"
+import { showError, showSuccess } from "@/components/Alert/Alert";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { MinusCircle, PlusCircle } from "lucide-react";
+import { SquarePen } from "lucide-react";
 
 function TechnicalSkill({ resumeId }) {
   const [technicalSkills, setTechnicalSkills] = useState([]);
@@ -70,33 +75,45 @@ function TechnicalSkill({ resumeId }) {
   };
 
   return (
-    <div>
-      <h2>Technical Skills</h2>
-      <ul>
-        {technicalSkills.map((skillObj, index) => (
-          <li key={index}>
-            {skillObj.skill}
-            <button onClick={() => handleDeleteTechnicalSkill(skillObj)}>
-              Delete
-            </button>
-          </li>
+    <div className="mt-4 w-full flex flex-col justify-left">
+      <Label className="text-3xl mb-4">Technical Skills</Label>
+      <div>
+        {technicalSkills.map((skill) => (
+          <div
+            key={skill.id}
+            className="flex flex-row items-center justify-between mb-4"
+          >
+            <div>
+              <Label className="text-1xl">{skill.skill}</Label>
+            </div>
+            <div className="flex flex-row items-center">
+              <Button
+                size="icon"
+                variant="destructive"
+                onClick={() => handleDeleteTechnicalSkill(skill)}
+              >
+                <MinusCircle />
+              </Button>
+            </div>
+          </div>
         ))}
-      </ul>
-      <form onSubmit={handleSubmitTechnicalSkills}>
-        <div>
-          <label>
-            Technical Skill:
-            <input
-              type="text"
-              name="technicalSkill"
-              value={technicalSkill}
-              onChange={handleTechnicalSkillChange}
-            />
-            {errors.technicalSkill && <p>{errors.technicalSkill}</p>}
-          </label>
-        </div>
-        <button type="submit">Add Technical Skill</button>
-      </form>
+      </div>
+      <div className="flex flex-row items-center w-full mb-4">
+        <Label className="text-1xl w-[180px]">Add technical skill:</Label>
+        <Input
+          className="w-[280px]"
+          value={technicalSkill}
+          onChange={handleTechnicalSkillChange}
+        />
+        <Button
+          size="icon"
+          className="w-10 h-10 ml-4"
+          variant="secondary"
+          onClick={handleSubmitTechnicalSkills}
+        >
+          <PlusCircle />
+        </Button>
+      </div>
     </div>
   );
 }

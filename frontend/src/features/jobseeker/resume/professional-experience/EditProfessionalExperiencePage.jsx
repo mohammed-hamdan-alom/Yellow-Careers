@@ -2,6 +2,13 @@ import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Link } from "react-router-dom";
 import { showError, showSuccess } from '@/shared/Alert/Alert'
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "antd";
+import { DatePicker } from "antd";
+import { Select } from "antd";
+const { RangePicker } = DatePicker;
+import BigAlert from "@/components/Alert/BigAlert";
 
 function EditProfessionalExperience({
   put,
@@ -55,6 +62,14 @@ function EditProfessionalExperience({
     } else {
       setProfessionalExperience({ ...professionalExperience, [name]: value });
     }
+  };
+
+  const handleDateChange = (dateStrings) => {
+    setProfessionalExperience({
+      ...professionalExperience,
+      start_date: dateStrings[0],
+      end_date: dateStrings[1],
+    });
   };
 
   const handleSubmit = (event) => {
@@ -126,17 +141,17 @@ function EditProfessionalExperience({
   };
 
   return (
-    <div>
+    <div className="p-12">
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Start Date</label>
-          <input
-            type="date"
-            name="start_date"
-            value={professionalExperience.start_date}
-            onChange={handleProfessionalExperienceChange}
+        <div className="flex flex-row justify-between items-center mb-4">
+          <Label className="mr-4 w-[400px ]text-2xl"> Start -End Dates</Label>
+          <RangePicker
+            className="w-[400px]"
+            id={{ start: professionalExperience.start_date, end: professionalExperience.end_date }}
+            onChange={(dateStrings) => {
+              handleDateChange(dateStrings);
+            }}
           />
-          {errors.start_date && <p>{errors.start_date}</p>}
         </div>
         <div>
           <label>End Date</label>

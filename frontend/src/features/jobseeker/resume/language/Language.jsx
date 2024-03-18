@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Link } from "react-router-dom";
-import { showError, showSuccess } from "@/shared/Alert/Alert"
+import { showError, showSuccess } from "@/components/Alert/Alert";
 import Popup from "../Popup/Popup";
 import EditLanguagePage from "./EditLanguagePage";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { SquarePen, MinusCircle } from "lucide-react";
 
 function Language({ resumeId }) {
   const [languages, setLanguages] = useState([]);
@@ -40,51 +44,52 @@ function Language({ resumeId }) {
   };
 
   return (
-    <div>
-      <h2>Languages</h2>
-      <ul>
-        {languages.map((language, index) => (
-          <li key={index}>
-            <p>Language: {language.language}</p>
-            <p>Spoken proficiency: {language.spoken_proficiency}</p>
-            <p>Written proficiency: {language.written_proficiency}</p>
-            <button
-              onClick={() => {
-                setEditPopup(true);
-                setOpenPopupId(language.id);
-              }}
-            >
-              Edit Language
-            </button>
-            <Popup
-              trigger={editPopup && openPopupId === language.id}
-              setTrigger={() => {
-                setOpenPopupId(null); //or should this be setEditPopup instead?
-              }}
-            >
+    <div className="mt-4 w-full flex flex-col justify-left mr-10">
+      <Label className="text-3xl mb-4">Languages</Label>
+      <div>
+        {languages.map((language) => (
+          <div
+            key={language.id}
+            className="flex flex-row items-center justify-between mb-4"
+          >
+            <div>
+              <Label className="text-1xl">{language.language}</Label>
+            </div>
+            <div className="flex flex-row items-center">
+              <Button
+                className="mr-4"
+                variant="secondary"
+                size="icon"
+                onClick={() => {
+                  setEditPopup(true);
+                  setOpenPopupId(language.id);
+                }}
+              >
+                <SquarePen className="w-5 h-5" />
+              </Button>
+              <Button
+                className=""
+                variant="destructive"
+                size="icon"
+                onClick={() => handleDeleteLanguage(language)}
+              >
+                <MinusCircle />
+              </Button>
+            </div>
+            <Popup trigger={editPopup} setTrigger={setEditPopup}>
               <EditLanguagePage
-                put={true}
+                post={false}
+                language={language}
                 resumeId={resumeId}
                 setLanguages={setLanguages}
                 setButtonPopup={setEditPopup}
-                languageId={language.id}
               />
             </Popup>
-            <button onClick={() => handleDeleteLanguage(language)}>
-              Delete
-            </button>
-          </li>
+          </div>
         ))}
-      </ul>
-
+      </div>
       <div>
-        <button
-          onClick={() => {
-            setCreatePopup(true);
-          }}
-        >
-          Add Language
-        </button>
+        <Button variant='outline' onClick={() => setCreatePopup(true)}>Add Language</Button>
         <Popup trigger={createPopup} setTrigger={setCreatePopup}>
           <EditLanguagePage
             post={true}

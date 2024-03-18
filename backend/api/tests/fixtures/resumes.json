@@ -13,6 +13,7 @@
         "model": "api.education",
         "pk": 1,
         "fields": {
+            "course_name" : "MATHEMATICS",
             "start_date": "2022-01-01",
             "end_date": "2022-12-31",
             "address": 1,
@@ -77,6 +78,7 @@
         "model": "api.education",
         "pk": 2,
         "fields": {
+            "course_name":"CHEMISTRY",
             "start_date": "2022-01-01",
             "end_date": "2022-12-31",
             "address": 2,

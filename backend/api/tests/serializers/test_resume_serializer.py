@@ -271,13 +271,14 @@ class EducationSerializerTestCase(TestCase):
     
     def test_serializer_fields(self):
         serializer = EducationSerializer()
-        expected_fields = {'id' ,'start_date', 'end_date', 'level', 'institution','grade', 'address'}
+        expected_fields = {'id','course_name' ,'start_date', 'end_date', 'level', 'institution','grade', 'address'}
         self.assertEqual(set(serializer.fields.keys()), expected_fields)
 
 
     def test_serializer_data(self):
         expected_data = {
             'id': self.education.id,
+            'course_name': self.education.course_name,
             'start_date': str(self.education.start_date),
             'end_date': str(self.education.end_date),
             'level': self.education.level,

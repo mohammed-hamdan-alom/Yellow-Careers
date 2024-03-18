@@ -1,48 +1,52 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
 import AuthContext from '@/context/AuthContext';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+
 
 const LoginPage = () => {
 
   const {loginUser} = useContext(AuthContext)
+  const [user, setUser] = useState({
+    email: '',
+    password: ''
+  })
 
   const handleSubmit = e => {
     e.preventDefault()
-    const email = e.target.email.value
-    const password = e.target.password.value
-
-    email.length > 0 && loginUser(email, password)
+    loginUser(user)
   }
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
-        <h2>Login</h2>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            name='email'
-            type="email"
-            id="email"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            name='password'
-            type="password"
-            id="password"
-            required
-          />
-        </div>
-        <div className="form-actions">
-          <button type="submit" className="button primary">Log In</button>
-          <Link to="/register-employer">
-            New here? Click here to create an account
-          </Link>
-        </div>
-      </form>
+    <div className="h-screen flex justify-center items-center">
+      <Card className='w-[450px]'>
+        <CardHeader className='justify-center items-center mt-4'>
+          <CardTitle>Login</CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <form onSubmit={handleSubmit}>
+            <div className="mt-4">
+              <Label htmlFor="email">Email</Label>
+              <Input type="email" id="email" name="email" onChange={e => setUser({...user, email: e.target.value})} />
+            </div>
+            <div className="mt-4">
+              <Label htmlFor="password">Password</Label>
+              <Input type="password" id="password" name="password" onChange={e => setUser({...user, password: e.target.value})} />
+            </div>
+            <div className="mt-8">
+              <Button type="submit" className="w-full">Login</Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };

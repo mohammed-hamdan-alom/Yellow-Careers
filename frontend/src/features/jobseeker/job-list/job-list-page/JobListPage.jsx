@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobFilterList from "../../search/JobFilterList";
+import { Label } from "@/components/ui/label";
 
 const JobListPage = () => {
     const { user } = useContext(AuthContext);
@@ -27,17 +28,16 @@ const JobListPage = () => {
         }
         fetchData();
     }, [isJobRetrieved]);
-
     return (
-        <div>
-            <h1>Matched jobs</h1>
-            <br></br>
-            {resume.id && jobs ? <JobFilterList data={jobs} /> :
+        <div className="flex flex-col justify-center">
+            <Label className="text-3xl">Job List</Label>
+            {resume.id && jobs ? (
+                <JobFilterList data={jobs} />
+            ) : (
                 <h1>Create a resume first</h1>
-            }
-
-        </div >
-    )
+            )}
+        </div>
+    );
 };
 
 export default JobListPage;

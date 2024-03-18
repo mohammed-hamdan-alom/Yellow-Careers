@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/shared/Alert/Alert"
+import { showError, showSuccess } from "@/components/Alert/Alert"
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button";
+
 
 function ResumeForm({ resumeId }) {
   const defaultResumeState = {
@@ -47,56 +52,28 @@ function ResumeForm({ resumeId }) {
   };
 
   return (
-    <div>
-      <h2>Resume Info</h2>
+    <div className="mt-4 w-full flex flex-col justify-left mr-10">
+      <Label className="text-3xl mb-4">Update Your Resume</Label>
       <form onSubmit={handleSubmitResume}>
-        <div>
-          <label>
-            GitHub:
-            <input
-              type="text"
-              name="github"
-              value={resume.github}
-              onChange={handleResumeChange}
-            />
-            {errors.github && <p>{errors.github}</p>}
-          </label>
+        <div className="flex space-x-4">
+          <div className="w-1/2">
+            <Label className='text-1xl'>Github:</Label>
+            <Input type="text" name="github" value={resume.github} onChange={handleResumeChange} />
+          </div>
+          <div className="w-1/2">
+            <Label className='text-1xl'>LinkedIn:</Label>
+            <Input type="text" name="linkedin" value={resume.linkedin} onChange={handleResumeChange} />
+          </div>
         </div>
-        <div>
-          <label>
-            LinkedIn:
-            <input
-              type="text"
-              name="linkedin"
-              value={resume.linkedin}
-              onChange={handleResumeChange}
-            />
-            {errors.linkedin && <p>{errors.linkedin}</p>}
-          </label>
+        <div className="mt-4">
+          <Label className='text-1xl'>About:</Label>
+          <Textarea name="about" value={resume.about} onChange={handleResumeChange} />
         </div>
-        <div>
-          <label>
-            About:
-            <textarea
-              name="about"
-              value={resume.about}
-              onChange={handleResumeChange}
-            />
-            {errors.about && <p>{errors.about}</p>}
-          </label>
+        <div className="mt-4">
+          <Label className='text-1xl'>Experience:</Label>
+          <Textarea name="experience" value={resume.experience} onChange={handleResumeChange} />
         </div>
-        <div>
-          <label>
-            Experience:
-            <textarea
-              name="experience"
-              value={resume.experience}
-              onChange={handleResumeChange}
-            />
-            {errors.experience && <p>{errors.experience}</p>}
-          </label>
-        </div>
-        <button type="submit">Update Resume</button>
+        <Button type="submit" className="mt-4">Update Resume</Button>
       </form>
     </div>
   );
