@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Select } from 'antd';
 import { DatePicker } from 'antd';
 import { Button } from '@/components/ui/button';
-import { nationalityOptions } from '@/shared/Nationalities/nationalityOptions';
+import { nationalityOptions } from '@/components/Nationalities/nationalityOptions';
 
 const JobSeekerRegister = () => {
 

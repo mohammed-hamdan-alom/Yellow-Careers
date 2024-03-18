@@ -8,7 +8,7 @@ import { Input, InputNumber } from "antd";
 import { Select } from "antd";
 import { Button } from "@/components/ui/button";
 const { TextArea } = Input;
-import { showJobCreatedError, showJobCreatedSuccess } from '@/shared/Alert/Alert';
+import { showJobCreatedError, showJobCreatedSuccess } from '@/components/Alert/Alert';
 
 function JobCreationForm() {
   const { user } = useContext(AuthContext);

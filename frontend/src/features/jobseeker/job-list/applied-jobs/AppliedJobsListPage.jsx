@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobSearchBar from "../../../../components/search/JobSearchBar";
+import JobSearchList from "../../../../components/search/JobSearchList";
 
 function AppliedJobListPage() {
   //
@@ -20,7 +20,7 @@ function AppliedJobListPage() {
     <div>
       <h1>Applied jobs</h1>
       {jobs.length > 0 ? (
-        <JobSearchBar database={jobs} />
+        <JobSearchList data={jobs} />
       ) : (
         <h1>No applied jobs</h1>
       )}

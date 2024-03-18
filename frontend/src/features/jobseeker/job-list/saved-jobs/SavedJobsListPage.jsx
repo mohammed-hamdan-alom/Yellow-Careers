@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobSearchBar from "../../../../components/search/JobSearchBar";
+import JobSearchList from "../../../../components/search/JobSearchList";
 
 function SavedJobListPage() {
   // get the user id from the context
@@ -22,7 +22,7 @@ function SavedJobListPage() {
     <div>
       <h1>Saved Jobs:</h1>
       {jobs.length > 0 ? (
-        <JobSearchBar database={jobs} />
+        <JobSearchList data={jobs} />
       ) : (
         <h1>No saved jobs</h1>
       )}

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/shared/Alert/Alert";
+import { showError, showSuccess } from "@/components/Alert/Alert";
 
 function CompanyProfilePage() {
   const [employer, setEmployer] = useState([]);

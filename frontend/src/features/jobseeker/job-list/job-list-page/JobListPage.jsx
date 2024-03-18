@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobFilterList from "../../search/JobFilterList";
+import JobFilterList from "../../../../components/search/JobFilterList";
 import { Label } from "@/components/ui/label";
 
 const JobListPage = () => {

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '@/context/AuthContext';
 import AxiosInstance from "@/utils/AxiosInstance";
 import swal from 'sweetalert2'
-import { nationalityOptions } from "@/shared/Nationalities/nationalityOptions"
+import { nationalityOptions } from "@/components/Nationalities/nationalityOptions"
 const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
 

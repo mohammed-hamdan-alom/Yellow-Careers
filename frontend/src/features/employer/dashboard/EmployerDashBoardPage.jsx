@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space } from "antd";
-import JobSearchBar from "../../../components/search/JobSearchBar";
+import JobSearchBar from "../../../components/search/JobSearchList";
 import "./switch.css";
 
 function EmployerDashBoardPage() {
@@ -38,13 +38,13 @@ function EmployerDashBoardPage() {
             defaultChecked
             onChange={handleSwitchChange}
           />
-          <Space size={10} direction='vertical'/>
+          <Space size={10} direction='vertical' />
         </>
       )}
       {showCompanyJobs ? (
         <div>
           <h2>All Company Jobs</h2>
-          <JobSearchBar database={companyJobs} /> 
+          <JobSearchBar database={companyJobs} />
         </div>
       ) : (
         <div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Link } from "react-router-dom";
-import { showError, showSuccess } from "@/shared/Alert/Alert";
+import { showError, showSuccess } from "@/components/Alert/Alert";
 import Popup from "../Popup/Popup";
 import EditProfessionalExperience from "./EditProfessionalExperiencePage";
 import { Label } from "@/components/ui/label";

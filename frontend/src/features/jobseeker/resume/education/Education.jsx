@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Link } from "react-router-dom";
-import { showError, showSuccess } from "@/shared/Alert/Alert";
+import { showError, showSuccess } from "@/components/Alert/Alert";
 import Popup from "../Popup/Popup";
 import EditEducationPage from "./EditEducationPage";
 import { Label } from "@/components/ui/label";
@@ -65,7 +65,7 @@ function Education({ resumeId }) {
                   setOpenPopupId(education.id);
                 }}
               >
-                <SquarePen className="w-5 h-5"/>
+                <SquarePen className="w-5 h-5" />
               </Button>
               <Popup trigger={editPopup} setTrigger={setEditPopup}>
                 <EditEducationPage
@@ -82,7 +82,7 @@ function Education({ resumeId }) {
                   handleDeleteEducation(education);
                 }}
               >
-                <MinusCircle className="w-5 h-5"/>
+                <MinusCircle className="w-5 h-5" />
               </Button>
             </div>
           </div>
@@ -94,7 +94,7 @@ function Education({ resumeId }) {
           variant="outline"
           onClick={() => setCreatePopup(true)}
         >
-          Add Education 
+          Add Education
         </Button>
         <Popup trigger={createPopup} setTrigger={setCreatePopup}>
           <EditEducationPage

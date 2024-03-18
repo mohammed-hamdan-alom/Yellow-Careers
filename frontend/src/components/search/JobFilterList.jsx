@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import JobSearchList from "./JobSearchList";
+import JobSearchList from "../search/JobSearchList";
 import AxiosInstance from "@/utils/AxiosInstance";
+import { Select } from 'antd';
+import { Label } from "@/components/ui/label";
 
 const JobFilterList = ({ data }) => {
   const [results, setResults] = useState([]);
@@ -12,6 +14,7 @@ const JobFilterList = ({ data }) => {
   const [addresses, setAddresses] = useState([]);
   const [countries, setCountries] = useState([]);
 
+
   //Return country from address id
   const getCountry = (id) => {
     if (id == undefined) {
@@ -22,7 +25,7 @@ const JobFilterList = ({ data }) => {
   }
 
   const onPayChangeFilter = (e) => {
-    const value = e.target.value;
+    const value = e;
     setFilters({
       ...filters,
       pay: value,
@@ -31,7 +34,7 @@ const JobFilterList = ({ data }) => {
   }
 
   const onCTChangeFilter = (e) => {
-    const value = e.target.value;
+    const value = e;
     setFilters({
       ...filters,
       contractType: value,
@@ -40,7 +43,7 @@ const JobFilterList = ({ data }) => {
   }
 
   const onLocationChangeFilter = (e) => {
-    const value = e.target.value;
+    const value = e;
     setFilters({
       ...filters,
       location: value,
@@ -90,39 +93,39 @@ const JobFilterList = ({ data }) => {
 
   return (
     <div>
-      <label htmlFor="filterDropdown">Location:</label>
-      <select id="location" onChange={onLocationChangeFilter} title="LocationFilter">
-        <option value="all">All</option>
+      <Label className="text-xl m-3">Location:</Label>
+      <Select id="location" className="w-80 mt-2" onChange={onLocationChangeFilter} title="LocationFilter">
+        <Select.Option value="all">All</Select.Option>
         {countries.map((country, i) =>
-          <option value={country} key={i}> {country} </option>
+          <Select.Option value={country} key={i}> {country} </Select.Option>
         )
         }
-      </select>
+      </Select>
 
       <br></br>
 
-      <label htmlFor="filterDropdown">Pay:</label>
-      <select id="pay" onChange={onPayChangeFilter} title="PayFilter">
-        <option value="all">All</option>
-        <option value="20000">£20,000+</option>
-        <option value="25000">£25,000+</option>
-        <option value="30000">£30,000+</option>
-        <option value="35000">£35,000+</option>
-        <option value="45000">£45,000+</option>
-        <option value="100000">£100,000+</option>
+      <Label className="text-xl m-3">Pay:</Label>
+      <Select className="w-40 mt-2" id="pay" onChange={onPayChangeFilter} title="PayFilter">
+        <Select.Option value="all">All</Select.Option>
+        <Select.Option value="20000">£20,000+</Select.Option>
+        <Select.Option value="25000">£25,000+</Select.Option>
+        <Select.Option value="30000">£30,000+</Select.Option>
+        <Select.Option value="35000">£35,000+</Select.Option>
+        <Select.Option value="45000">£45,000+</Select.Option>
+        <Select.Option value="100000">£100,000+</Select.Option>
 
-      </select>
+      </Select>
 
       <br></br>
 
-      <label htmlFor="filterDropdown">Contract Type:</label>
-      <select id="contractType" onChange={onCTChangeFilter} title="ContractFilter">
-        <option value="all">All</option>
-        <option value="FT">Full-Time</option>
-        <option value="PT">Part-Time</option>
-        <option value="IN">Internship</option>
-        <option value="TM">Temporary</option>
-      </select>
+      <Label className="text-xl m-3">Job Type:</Label>
+      <Select id="contractType" className="w-40 mt-2" onChange={onCTChangeFilter} title="ContractFilter">
+        <Select.Option value="all">All</Select.Option>
+        <Select.Option value="FT">Full-Time</Select.Option>
+        <Select.Option value="PT">Part-Time</Select.Option>
+        <Select.Option value="IN">Internship</Select.Option>
+        <Select.Option value="TM">Temporary</Select.Option>
+      </Select>
 
       <br></br>
 
