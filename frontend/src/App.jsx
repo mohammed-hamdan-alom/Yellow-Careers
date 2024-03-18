@@ -13,11 +13,11 @@ import JobSeekerLayout from "./features/jobseeker/layouts/JobSeekerLayout";
 import DashBoardPage from "./features/jobseeker/dashboard/Dashboard";
 import JobSeekerProfile from "./features/jobseeker/profile/JobSeekerProfile";
 import ResumePage from "./features/jobseeker/resume/ResumePage";
-import JobDetails from "./features/jobseeker/job-details/job-datails/JobDetails";
-import JobQuestions from "./features/jobseeker/job-details/job-questions/JobQuestions";
+import JobDetails from "./features/jobseeker/job-details-pages/job-datails-page/JobDetailsPage";
+import JobQuestions from "./features/jobseeker/job-details-pages/job-questions/JobQuestions";
 import AppliedJobListPage from "./features/jobseeker/job-list/applied-jobs/AppliedJobsListPage";
 import SavedJobListPage from "./features/jobseeker/job-list/saved-jobs/SavedJobsListPage";
-import AppliedJobDetails from "./features/jobseeker/job-details/applied-job-details/AppliedJobDetails";
+import AppliedJobDetails from "./features/jobseeker/job-details-pages/applied-job-details-page/AppliedJobDetailsPage";
 
 import JobApplicantsPage from "./features/employer/job_applicants/JobApplicants";
 import JobCreation from "@/features/employer/job_creation/JobCreation";;
@@ -38,6 +38,7 @@ function App() {
       <Route path="/auth/*" element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="get-started" element={<GetStarted />} />
+        <Route path="verify-invited-employer" element={<InvitedEmployerVerification />} />
         <Route path="register-employer" element={<EmployerRegister />} />
         <Route path="register-jobseeker" element={<JobSeekerRegister />} />
       </Route>

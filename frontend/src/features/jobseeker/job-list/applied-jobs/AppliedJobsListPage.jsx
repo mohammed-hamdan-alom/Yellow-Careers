@@ -17,8 +17,7 @@ function AppliedJobListPage() {
   }, [userId]);
 
   return (
-    <div>
-      <h1>Applied jobs</h1>
+    <div className=" flex flex-col justify-center">
       {jobs.length > 0 ? (
         <JobSearchList data={jobs} />
       ) : (

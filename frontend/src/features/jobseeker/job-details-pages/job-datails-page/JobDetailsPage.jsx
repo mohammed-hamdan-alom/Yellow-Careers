@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Button, Space } from 'antd'; // Import Button and Space from Ant Design
 import '../styling/button.css';
+import JobDetailsDisplay from '@/components/job-details/JobDetails'
 
 function JobDetails() {
     const { user } = useContext(AuthContext);
@@ -102,14 +103,12 @@ function JobDetails() {
         }
     };
 
+
     return (
         <div>
-            <h1>{job.title}</h1>
-            <h2>{job.description}</h2>
-            <h3>{company.company_name}</h3>
-            <h4>Salary: {job.salary}</h4>
-            <h4>Job Type: {job.job_type}</h4>
-            <h4><strong>Location:</strong> {address.post_code}, {address.city}, {address.country}</h4>
+            <div className="mb-8"> {/* Add margin bottom to create space */}
+                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} companyLink={company.website} salary={job.salary} jobType={job.job_type} address={address} />
+            </div>
             <Space>
                 {isJobApplied ? (
                     <Button className="applyButton" onClick={handleSeeApplication}>See Application</Button>
@@ -123,7 +122,6 @@ function JobDetails() {
                 )}
             </Space>
         </div>
-    )
-}
-
+    );
+};
 export default JobDetails;
