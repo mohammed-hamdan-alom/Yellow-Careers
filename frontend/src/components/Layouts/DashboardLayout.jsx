@@ -5,10 +5,19 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import AuthContext from "@/context/AuthContext";
 import logo from "./assets/yellow-careers-logo.png";
+import styled from "styled-components";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
+// Styled NavLink component
+const StyledNavLink = styled(NavLink)`
+  &.active {
+    font-weight: bold;
+    color: #FFD700; /* Yellow color */
+  }
+`;
 
 const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
   const authContext = useContext(AuthContext);
@@ -19,6 +28,8 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
     console.log("logoutUser is not defined");
   }
 
+  const activeNavItem = navigation.find(item => location.pathname.includes(item.to)) || {};
+  
   return (
     <>
       <div className="min-h-full">
@@ -43,20 +54,13 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <NavLink
+                          <StyledNavLink
                             key={item.name}
                             to={`${baseUrl}${item.to}`}
-                            className={({ isActive }) =>
-                              classNames(
-                                isActive
-                                  ? "text-black"
-                                  : "text-gray-500 hover:text-black",
-                                "rounded-md px-3 py-2 text-sm font-medium"
-                              )
-                            }
+                            className="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-black"
                           >
                             {item.name}
-                          </NavLink>
+                          </StyledNavLink>
                         ))}
                       </div>
                     </div>
@@ -207,7 +211,7 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
         <header className="sticky border-b-[1px] w-full bg-white dark:border-b-slate-700 dark:bg-background">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Dashboard
+            {activeNavItem.name}
             </h1>
           </div>
         </header>

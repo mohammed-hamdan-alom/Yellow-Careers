@@ -5,6 +5,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from '../../../../components/Alert/Alert';
 import { Input, Button, Space } from 'antd'; // Import Input and Button from Ant Design
 import '../styling/button.css';
+import StyledQuestion from "@/components/Questions/StyledQuestions";
 
 function JobQuestions() {
     const { user } = useContext(AuthContext);
@@ -86,24 +87,27 @@ function JobQuestions() {
 
     return (
         <div>
-            <h2 style={{ fontWeight: 'bold', marginBottom: '5px' }}>Questions</h2>
-            {questions.map((question, index) => (
-                <div key={question.id}>
-                    <h4>{question.question}</h4>
-                    <TextArea
-                        showCount
-                        maxLength={2000} // Maximum length of 2000 characters
-                        value={answers[question.id] || ''}
-                        onChange={e => handleInputChange(question.id, e.target.value)}
-                    />
-                    {index !== questions.length - 1 && <div style={{ marginBottom: '20px' }} />} {/* Add space between questions */}
-                </div>
-            ))}
-            <div style={{ marginTop: '5px' }}> {/* Add space above the button */}
-                <Button className="applyButton" type="primary" onClick={handleApply}>Apply</Button>
+          <h2 style={{ fontWeight: 'bold', marginBottom: '5px' }}>Questions</h2>
+          {questions.map((question, index) => (
+            <div key={question.id}>
+              <StyledQuestion question={question.question} />
+              <div className="mt-2"> {/* Add margin top for spacing */}
+                <TextArea
+                  showCount
+                  maxLength={2000} // Maximum length of 2000 characters
+                  value={answers[question.id] || ''}
+                  onChange={e => handleInputChange(question.id, e.target.value)}
+                  placeholder="Type your answer here..."
+                />
+              </div>
+              {index !== questions.length - 1 && <div style={{ marginBottom: '25px' }} />} {/* Add space between questions */}
             </div>
+          ))}
+          <div style={{ marginTop: '25px' }}> {/* Add space above the button */}
+            <Button className="applyButton" type="primary" onClick={handleApply}>Apply</Button>
+          </div>
         </div>
-    );
-}
+      );
+    }
 
 export default JobQuestions;

@@ -22,7 +22,6 @@ const JobSummary = ({ job }) => {
   }, []);
 
   const handleClick = () => {
-    console.log(user.user_type);
     if (user && user.user_type === 'employer') {
       navigate(`/employer/job-details/${job.id}`);
     } else {
