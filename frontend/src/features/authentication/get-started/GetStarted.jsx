@@ -27,7 +27,7 @@ const GetStarted = () => {
     if (selectedOption === 'job-seeker') {
       navigate('/auth/register-jobseeker');
     } else if (selectedOption === 'employer') {
-      navigate('/auth/register-employer');
+      navigate('/auth/verify-invited-employer');
     }
   }
 

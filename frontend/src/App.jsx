@@ -37,6 +37,7 @@ function App() {
       <Route path="/auth/*" element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="get-started" element={<GetStarted />} />
+        <Route path="verify-invited-employer" element={<InvitedEmployerVerification />} />
         <Route path="register-employer" element={<EmployerRegister />} />
         <Route path="register-jobseeker" element={<JobSeekerRegister />} />
       </Route>
