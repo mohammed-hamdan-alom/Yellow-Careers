@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         return token ? jwtDecode(JSON.parse(token).access) : null;
     });
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -190,12 +190,6 @@ export const AuthProvider = ({ children }) => {
         logoutUser,
     };
 
-    // Every 30 minutes, the token will be updated
-    useEffect(() => {
-        const minutes = 30;
-        const tokenUpdateTimeout = setTimeout(updateToken, minutes * 60 * 1000);    
-        return () => clearTimeout(tokenUpdateTimeout);
-    }, [updateToken]);
 
     useEffect(() => {
         const tokens = localStorage.getItem("authTokens");
@@ -207,6 +201,25 @@ export const AuthProvider = ({ children }) => {
         }
         setLoading(false);
     }, []);
+
+    // Refresh token every 30 minutes
+    useEffect(() => {
+
+        if(loading){
+            updateToken();
+        }
+        const tokens = localStorage.getItem("authTokens");
+        if (tokens) {
+            const intervalId = setInterval(() => {
+                updateToken();
+            },30 * 60 * 1000); 
+            return () => clearInterval(intervalId); 
+        } else {
+            logoutUser();
+        }
+        setLoading(false);
+    }, [authTokens]);
+    
 
     return (
         <AuthContext.Provider value={contextData}>
