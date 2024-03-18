@@ -6,6 +6,8 @@ import LandingPage from "./components/LandingPage/LandingPage";
 
 import LoginPage from "./features/authentication/login/LoginPage";
 import AuthLayout from "./features/authentication/AuthLayout";
+import GetStarted from "./features/authentication/get-started/GetStarted";
+import InvitedEmployerVerification from "./features/authentication/register/employer/InvitedEmployerVerification";
 import EmployerRegister from "./features/authentication/register/employer/EmployerRegister";
 import JobSeekerRegister from "./features/authentication/register/job-seeker/JobSeekerRegister";
 
@@ -26,6 +28,8 @@ import EmployerLayout from "./features/employer/layout/EmployerLayout";
 import EmployerDashBoardPage from "./features/employer/dashboard/EmployerDashBoardPage";
 import ApplicationDetails from "./features/employer/application_details/ApplicationDetails";
 import CompanyProfilePage from "./features/employer/company_profile/CompanyProfilePage";
+import EmployerProfile from "./features/employer/profile/EmployerProfile";
+
 
 import JobDetailsEmployer from "./features/employer/job_applicants/JobDetailsEmployer";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
@@ -40,6 +44,8 @@ function App() {
 
         <Route path="/auth/*" element={<AuthLayout/>}>
           <Route path="login" element={<LoginPage/>} />
+          <Route path="get-started" element={<GetStarted />} />
+          <Route path="verify-invited-employer" element={<InvitedEmployerVerification />} />
           <Route path="register-employer" element={<EmployerRegister />} />
           <Route path="register-jobseeker" element={<JobSeekerRegister />} />
         </Route>
@@ -66,6 +72,7 @@ function App() {
           <Route path="job-details/:jobId" element={<JobDetailsEmployer />} />
           <Route path="application-details/:applicationId" element={<ApplicationDetails />} />
           <Route path="company" element = {<CompanyProfilePage />} />
+          <Route path="profile" element ={<EmployerProfile />} />
         </Route>
         </Route>
         

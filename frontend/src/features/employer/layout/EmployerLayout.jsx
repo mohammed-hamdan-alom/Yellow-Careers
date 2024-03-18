@@ -25,4 +25,3 @@ const userNavigation = [
 export default function EmployerLayout() {
   return <DashboardLayout user={user} navigation={navigation} userNavigation={userNavigation} baseUrl={baseUrl}/>  
 }
-

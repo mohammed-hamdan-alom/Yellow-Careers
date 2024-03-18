@@ -11,7 +11,6 @@ const user = {
 
 const navigation = [
   { name: 'Matched Jobs', to:'/dashboard'},
-  { name: 'Search', to:'/search'},
   { name: 'Resume', to: '/resume'},
   { name: 'Saved Jobs', to: '/saved-jobs'},
   { name: 'Applied Jobs', to: '/applied-jobs'},
@@ -25,5 +24,7 @@ const userNavigation = [
 
 
 export default function EmployerLayout() {
-  return <DashboardLayout user={user} navigation={navigation} userNavigation={userNavigation} baseUrl={baseUrl} />  
+  return (
+    <DashboardLayout user={user} navigation={navigation} userNavigation={userNavigation} baseUrl={baseUrl} />
+  )
 }
