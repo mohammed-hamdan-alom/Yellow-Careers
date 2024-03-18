@@ -30,7 +30,12 @@ class JobSerializerTestCase(TestCase):
             'id' : self.job.id,
             'title' : self.job.title,
             'description' : self.job.description,
-            'address': self.job.address_id,
+            'address': {
+                'id': self.job.address.id,
+                'city': self.job.address.city,
+                'post_code': self.job.address.post_code,
+                'country': self.job.address.country
+            },
             'job_type': self.job.job_type,
             'salary' : self.job.salary,
         }
