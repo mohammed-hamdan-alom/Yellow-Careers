@@ -111,7 +111,7 @@ const JobFilterList = ({ data }) => {
         <Select.Option value="25000">£25,000+</Select.Option>
         <Select.Option value="30000">£30,000+</Select.Option>
         <Select.Option value="35000">£35,000+</Select.Option>
-        <Select.Option value="45000">£45,000+</Select.Option>
+        <Select.Option data-testid="45000" value="45000">£45,000+</Select.Option>
         <Select.Option value="100000">£100,000+</Select.Option>
 
       </Select>

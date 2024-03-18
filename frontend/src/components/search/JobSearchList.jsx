@@ -41,6 +41,7 @@ const JobSearchList = ({ data }) => {
       <Input
         className="form-control mt-4"
         type="text"
+        data-testid="jobsearchbar"
         value={query}
         onChange={handleSearch}
         placeholder="Search Jobs"
