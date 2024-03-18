@@ -5,7 +5,7 @@ import { MapPin } from 'lucide-react';
 const JobCard = ({ title, companyName, city, country, description }) => {
   return (
     <div>
-      <Card className="w-full mt-10 cursor-pointer" style={{ boxShadow: '0 0 5px #FFD700' } }>
+      <Card className="w-full mt-10 cursor-pointer" style={{ boxShadow: '0 0 5px #808080' } }>
         <CardHeader className="justify-center items-left mt-4">
           <CardTitle className="text-3xl font-bold" style={{ color: '#4A5568' }}>{title}</CardTitle>
         </CardHeader>
