@@ -19,7 +19,6 @@ function AppliedJobListPage() {
 
   return (
     <div className=" flex flex-col justify-center">
-      <Label className="text-3xl">Applied Jobs</Label>
       {jobs.length > 0 ? (
       <JobSearchBar database={jobs} />
     ) : (

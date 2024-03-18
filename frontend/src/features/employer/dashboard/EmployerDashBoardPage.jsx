@@ -14,16 +14,18 @@ function EmployerDashBoardPage() {
   const [showCompanyJobs, setShowCompanyJobs] = useState(false);
 
   useEffect(() => {
-    Promise.all([
-      AxiosInstance.get(`api/employer/${userId}/jobs/`),
-      AxiosInstance.get(`api/employer/${userId}/company-jobs/`),
-    ])
-      .then((responses) => {
-        setEmployerJobs(responses[0].data);
-        setCompanyJobs(responses[1].data);
-        setShowCompanyJobs(responses[1].data.length > 0);
+    AxiosInstance.get(`api/employer/${userId}/jobs/`)
+      .then((response) => {
+        setEmployerJobs(response.data);
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => console.error('Error fetching employer jobs:', error));
+    
+    AxiosInstance.get(`api/employer/${userId}/company-jobs/`)
+      .then((response) => {
+        setCompanyJobs(response.data);
+        setShowCompanyJobs(response.data.length > 0);
+      })
+      .catch((error) => console.error('Error fetching company jobs:', error));
   }, [userId]);
 
   const handleSwitchChange = (checked) => {
@@ -32,32 +34,25 @@ function EmployerDashBoardPage() {
 
   return (
     <div>
+      {companyJobs.length > 0 && (
+        <>
+          <Switch
+            checkedChildren="Company Jobs"
+            unCheckedChildren="Your Jobs"
+            defaultChecked={showCompanyJobs}
+            onChange={handleSwitchChange}
+          />
+          <Space size={10} direction='vertical'/>
+        </>
+      )}
       {showCompanyJobs ? (
         <div>
           <Label className="text-3xl">All Company Jobs</Label>
-          <Space size={10} direction="vertical" />
-          <div>
-            <Switch
-              checkedChildren="Company Jobs"
-              unCheckedChildren="Your Jobs"
-              defaultChecked
-              onChange={handleSwitchChange}
-            />
-          </div>
-          <JobSearchBar database={companyJobs} />
+          <JobSearchBar database={companyJobs} /> 
         </div>
       ) : (
         <div>
           <Label className="text-3xl">Jobs You Are Associated With</Label>
-          <Space size={10} direction="vertical" />
-          <div>
-            <Switch
-              checkedChildren="Company Jobs"
-              unCheckedChildren="Your Jobs"
-              defaultChecked
-              onChange={handleSwitchChange}
-            />
-          </div>
           <JobSearchBar database={employerJobs} />
         </div>
       )}

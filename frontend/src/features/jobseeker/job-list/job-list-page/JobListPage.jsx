@@ -28,7 +28,6 @@ const JobListPage = () => {
 
   return (
     <div className="flex flex-col justify-center">
-      <Label className="text-3xl">Mactehd Jobs For You</Label>
       {resume.id && jobs ? (
         <JobSearchBar database={jobs} />
       ) : (

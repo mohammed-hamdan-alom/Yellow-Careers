@@ -21,7 +21,6 @@ function SavedJobListPage() {
   // display the saved jobs
   return (
     <div className="flex flex-col justify-center">
-      <Label className="text-3xl">Saved Jobs</Label>
       {jobs.length > 0 ? (
         <JobSearchBar database={jobs} />
       ) : (
