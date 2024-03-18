@@ -94,7 +94,7 @@ const JobFilterList = ({ data }) => {
   return (
     <div>
       <Label className="text-xl m-3">Location:</Label>
-      <Select showSearch id="location" className="w-80 mt-2" onChange={onLocationChangeFilter} title="LocationFilter">
+      <Select data-testid='location' showSearch id="location" className="w-80 mt-2" onChange={onLocationChangeFilter} title="LocationFilter">
         <Select.Option value="all">All</Select.Option>
         {countries.map((country, i) =>
           <Select.Option value={country} key={i}> {country} </Select.Option>
@@ -105,7 +105,7 @@ const JobFilterList = ({ data }) => {
       <br></br>
 
       <Label className="text-xl m-3">Pay:</Label>
-      <Select className="w-40 mt-2" id="pay" onChange={onPayChangeFilter} title="PayFilter">
+      <Select data-testid='pay' className="w-40 mt-2" id="pay" onChange={onPayChangeFilter} title="PayFilter">
         <Select.Option value="all">All</Select.Option>
         <Select.Option value="20000">£20,000+</Select.Option>
         <Select.Option value="25000">£25,000+</Select.Option>
@@ -119,7 +119,7 @@ const JobFilterList = ({ data }) => {
       <br></br>
 
       <Label className="text-xl m-3">Job Type:</Label>
-      <Select id="contractType" className="w-40 mt-2" onChange={onCTChangeFilter} title="ContractFilter">
+      <Select data-testid='contract' id="contractType" className="w-40 mt-2" onChange={onCTChangeFilter} title="ContractFilter">
         <Select.Option value="all">All</Select.Option>
         <Select.Option value="FT">Full-Time</Select.Option>
         <Select.Option value="PT">Part-Time</Select.Option>
