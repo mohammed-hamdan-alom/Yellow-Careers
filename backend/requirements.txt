@@ -25,11 +25,14 @@ psycopg2-binary==2.9.9
 PyJWT==2.8.0
 pytest==7.4.2
 python-dateutil==2.8.2
+python-http-client==3.3.7
 pytz==2023.3.post1
 rapidfuzz==3.6.1
+sendgrid==6.11.0
 six==1.16.0
 spinners==0.0.24
 sqlparse==0.4.4
+starkbank-ecdsa==2.2.0
 termcolor==2.4.0
 toposort==1.10
 typing_extensions==4.8.0

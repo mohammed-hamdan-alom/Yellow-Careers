@@ -1,0 +1,247 @@
+[33mcommit 31d9ab2112ddfd11f9e79e645034b1174f3b4efb[m[33m ([m[1;36mHEAD -> [m[1;32m33-private-routes[m[33m, [m[1;31morigin/33-private-routes[m[33m)[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Sun Mar 17 15:54:45 2024 +0000
+
+    fix tests
+
+[33mcommit 5ab47b7d5ed2a5c144f090c9562a524e7b99d453[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Sat Mar 16 18:07:35 2024 +0000
+
+    fix address serializer issues
+
+[33mcommit 74ee6b134b66992354f0b3e3b6e15fc63f4d71d4[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Sat Mar 16 17:30:10 2024 +0000
+
+    change error message on dashboard
+
+[33mcommit 5688821072e3a72fcbbbbffdbc2558f3f48a58f7[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Fri Mar 15 15:12:10 2024 +0000
+
+    resume serializer tests
+
+[33mcommit 7ffb16cfa340159e67af3ae614fea99677ccdeba[m
+Merge: 78865c8 0bdd60a
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Fri Mar 15 12:07:43 2024 +0000
+
+    Merge branch '33-private-routes' of https://github.com/mohammed-hamdan-alom/Yellow-Careers into 33-private-routes
+
+[33mcommit 78865c81981e13cdf9ca464cffa142190ed3d439[m
+Merge: f279f8b d293e4b
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Fri Mar 15 12:06:56 2024 +0000
+
+    Resolved conflicts in test_application_serializer.py
+
+[33mcommit 0bdd60a2d418d734807559e981ed641153fff66d[m
+Author: Ibrahim <63863032+ibrahimk77@users.noreply.github.com>
+Date:   Fri Mar 15 08:37:22 2024 +0000
+
+    Update AxiosInstance.jsx
+    
+    Add a check if a token exists
+
+[33mcommit d293e4b967ec85d1872b3dfbe6a21cd3616a3e6c[m[33m ([m[1;31morigin/32[m[33m)[m
+Merge: 706f16e 183e967
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Thu Mar 14 23:35:03 2024 +0000
+
+    Merge pull request #41 from mohammed-hamdan-alom/37-update-education-field
+    
+    37-update-education-field
+
+[33mcommit 183e96712594cc6c6e2b78303c127c9e2939a689[m[33m ([m[1;31morigin/37-update-education-field[m[33m, [m[1;32m37-update-education-field[m[33m)[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Thu Mar 14 22:59:45 2024 +0000
+
+    change phone number input on seeder
+
+[33mcommit 6a1c61567b70eca0333542a2be00938d21e2dbb3[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Thu Mar 14 22:39:50 2024 +0000
+
+    change view tests file names
+
+[33mcommit fa095967f8ea877400c1f24e4481ef747ec9b179[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Thu Mar 14 22:38:13 2024 +0000
+
+    fix all tests
+
+[33mcommit d0255e2696c8acec2c6bea63ad10e54eedd05b7c[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Thu Mar 14 18:01:14 2024 +0000
+
+    fix serializer test
+
+[33mcommit 1545599daab9beb49765fd1114525bfaf9ba1f8c[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Thu Mar 14 17:50:58 2024 +0000
+
+    update resume field with course name
+
+[33mcommit f279f8b548249a233e1a45da394402fa31d50730[m
+Merge: 984ba00 25a4cf2
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Thu Mar 14 14:18:40 2024 +0000
+
+    Merge branch '33-private-routes' of https://github.com/mohammed-hamdan-alom/Yellow-Careers into 33-private-routes
+
+[33mcommit 984ba00b6d2901f0ebddfc15386ea5428e9e7e1f[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Thu Mar 14 14:15:16 2024 +0000
+
+    fix bug
+
+[33mcommit 25a4cf2e43df9ab24bb635000a0cbf120d670ead[m
+Author: Ibrahim <63863032+ibrahimk77@users.noreply.github.com>
+Date:   Thu Mar 14 07:28:45 2024 +0000
+
+    Add timeout for update Token
+
+[33mcommit 75b9967dba0bafbb9d6acbb9f3503df5ba4db86e[m
+Author: Ibrahim <63863032+ibrahimk77@users.noreply.github.com>
+Date:   Wed Mar 13 17:39:18 2024 +0000
+
+    Add redirect to 403 and 404  errors
+
+[33mcommit f3b1ba420ccac52f3a3a1ce46ad18d9499988fe2[m
+Author: Ibrahim Uddin <k21043852@kcl.ac.uk>
+Date:   Wed Mar 13 17:09:36 2024 +0000
+
+    fix job retreive view
+
+[33mcommit 0514efc9875b827a4831b59402843636ca1616cb[m
+Author: Ibrahim <63863032+ibrahimk77@users.noreply.github.com>
+Date:   Wed Mar 13 16:48:26 2024 +0000
+
+    Add restrictions to views
+
+[33mcommit 706f16e322fc96704ad216da4da25dc95d98abed[m
+Merge: 4a462ff 0e6caf5
+Author: ibrahimuddin <100637739+ibrahimuddin@users.noreply.github.com>
+Date:   Wed Mar 13 15:11:11 2024 +0000
+
+    Merge pull request #37 from mohammed-hamdan-alom/30-backend-tests
+    
+    30-backend-tests
+
+[33mcommit 0e6caf5024503ba89a4017a83f064b736b6d4738[m[33m ([m[1;31morigin/30-backend-tests[m[33m)[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Wed Mar 13 15:09:54 2024 +0000
+
+    Coverage
+
+[33mcommit 7d5268b6d70fcd5c9ab9e1edaaba3bc567bb29c5[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Wed Mar 13 12:42:26 2024 +0000
+
+    Update test_address_serializer.py
+
+[33mcommit 1b3086f2202250c9945bb1d13e84e458c1cd16bd[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Wed Mar 13 12:40:37 2024 +0000
+
+    Update test_job_serializer.py
+
+[33mcommit a74d74ff725885b7d402069799bd26b56569bb2b[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Wed Mar 13 12:30:22 2024 +0000
+
+    Clean up tests
+
+[33mcommit 9c59960459a15c7f5b2b4484e5f4f598e476e56c[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Wed Mar 13 12:21:35 2024 +0000
+
+    Update test_user_model.py
+
+[33mcommit cb1e6fe9a4a48c7f8fd7543253d120f2a7ea032f[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Wed Mar 13 12:14:56 2024 +0000
+
+    Update test_resume_model.py
+
+[33mcommit 8885a38f765a4021c50e9be21f172e5bdc567757[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Wed Mar 13 12:01:58 2024 +0000
+
+    Update test_question_model.py
+
+[33mcommit 6a07f905c77d2aa0bc39c07b907065ec09c6b9dc[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Wed Mar 13 12:00:44 2024 +0000
+
+    Create test_managers.py
+
+[33mcommit 5e5b1993649b17274204f8c760d59dcba6e1626f[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Wed Mar 13 11:57:07 2024 +0000
+
+    Update test_job_model.py
+
+[33mcommit 7e7eef22ddfd82d4478c07154b868c28fb915285[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Wed Mar 13 11:51:32 2024 +0000
+
+    Add test language
+
+[33mcommit eaf7d661dac31c2f46e0ac2313a0c81174c72701[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Tue Mar 12 15:51:25 2024 +0000
+
+    Update test_question_view.py
+
+[33mcommit ff7b7b8542dea7907c0e9ec7de1e9b44cc1c46d3[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Tue Mar 12 15:36:51 2024 +0000
+
+    Cover employer and job views
+
+[33mcommit c4aaf36a67e10eaa0e4880c56e6195e1e6d21aa0[m
+Author: Ibrahim <63863032+ibrahimk77@users.noreply.github.com>
+Date:   Tue Mar 12 12:24:19 2024 +0000
+
+    Add authentication for Application
+
+[33mcommit 86a4cb05126c741c66e7d7751799e51c441b8775[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Tue Mar 12 11:02:08 2024 +0000
+
+    Fix urls
+
+[33mcommit f246cedc6b667a8c9d7798cbe51a6b12752c1681[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Mon Mar 11 17:38:00 2024 +0000
+
+    Cover company test views
+
+[33mcommit 4fe493ce3526f4d83ba31d97f27a07813673fe56[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Mon Mar 11 17:15:06 2024 +0000
+
+    Update test_application_view.py
+
+[33mcommit cdca213ee1a66ecddc41a790adbd32b27c9c3965[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Mon Mar 11 17:03:30 2024 +0000
+
+    Cover answer view tests
+
+[33mcommit cb68285ffd406a095dd5a4789d6d8a7dca2bfc83[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Mon Mar 11 16:50:56 2024 +0000
+
+    Cover address views tests
+
+[33mcommit 0bf24d059a20a71ef4da7542f85def16f7c7c525[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.noreply.github.com>
+Date:   Mon Mar 11 14:27:35 2024 +0000
+
+    Complete job views tests
+
+[33mcommit d066844781ef9e964333af6d72d8096408c06b09[m
+Author: Muhammad0527 <102260144+Muhammad0527@users.n

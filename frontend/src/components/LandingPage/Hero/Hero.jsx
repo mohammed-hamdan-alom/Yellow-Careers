@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { HeroCards } from "../HeroCards/HeroCards";
 import { NavLink } from "react-router-dom";
 
@@ -23,20 +21,12 @@ export const Hero = () => {
 
         <div className="space-y-4 md:space-y-0 md:space-x-4">
           <NavLink
-            to="/auth/register-jobseeker"
+            to="/auth/get-started"
             className={`w-full md:w-1/3 ${buttonVariants({
               variant: "default",
             })}`}
           >
-            Get started as a job seeker
-          </NavLink>
-          <NavLink
-            to="/auth/register-employer"
-            className={`w-full md:w-1/3 ${buttonVariants({
-              variant: "default",
-            })}`}
-          >
-            Get started as an employer
+            Get started
           </NavLink>
 
           <NavLink
