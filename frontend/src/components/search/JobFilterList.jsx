@@ -94,7 +94,7 @@ const JobFilterList = ({ data }) => {
   return (
     <div>
       <Label className="text-xl m-3">Location:</Label>
-      <Select id="location" className="w-80 mt-2" onChange={onLocationChangeFilter} title="LocationFilter">
+      <Select showSearch id="location" className="w-80 mt-2" onChange={onLocationChangeFilter} title="LocationFilter">
         <Select.Option value="all">All</Select.Option>
         {countries.map((country, i) =>
           <Select.Option value={country} key={i}> {country} </Select.Option>
