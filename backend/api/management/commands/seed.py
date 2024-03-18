@@ -22,7 +22,7 @@ class CustomWordProvider(BaseProvider):
 class Command(BaseCommand):
     help = 'Seeds the database with fake data'
 
-    PASSWORD = 'Password123'
+    PASSWORD = 'Password123_'
     JOB_SEEKER_COUNT = RESUME_COUNT = 100
     EMPLOYER_COUNT = 100
     COMPANY_COUNT = 30

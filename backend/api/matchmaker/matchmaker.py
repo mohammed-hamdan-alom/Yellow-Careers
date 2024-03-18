@@ -7,9 +7,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 import os
 
 
-LOCATION_WEIGHTING = 0
+LOCATION_WEIGHTING = 0.05
 LEVENSHTEIN_WEIGHTING = 0.3
-WORD2VEC_WEIGHTING = 0.7
+WORD2VEC_WEIGHTING = 0.65
 
 model = Word2Vec.load("api/matchmaker/word2vec_model_all2.bin")
 
