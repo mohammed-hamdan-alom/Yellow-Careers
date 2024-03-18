@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/components/Alert/Alert"
+import { showError, showSuccess } from "@/components/Alert/Alert";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { MinusCircle, PlusCircle } from "lucide-react";
 
 function SoftSkill({ resumeId }) {
   const [softSkills, setSoftSkills] = useState([]);
@@ -64,33 +68,42 @@ function SoftSkill({ resumeId }) {
   };
 
   return (
-    <div>
-      <h2>Soft Skills</h2>
-      <ul>
-        {softSkills.map((skillObj, index) => (
-          <li key={index}>
-            {skillObj.skill}
-            <button onClick={() => handleDeleteSoftSkill(skillObj)}>
-              Delete
-            </button>
-          </li>
+    <div className="mt-4 w-full flex flex-col justify-left">
+      <Label className="text-3xl mb-4">Soft Skills</Label>
+      <div className="">
+        {softSkills.map((skill) => (
+          <div
+            key={skill.id}
+            className="flex justify-between items-center w-full mb-4"
+          >
+            <Label className="">{skill.skill}</Label>
+            <Button
+              variant="destructive"
+              size="icon"
+              onClick={() => handleDeleteSoftSkill(skill)}
+            >
+              <MinusCircle className="w-5 h-5" />
+            </Button>
+          </div>
         ))}
-      </ul>
-      <form onSubmit={handleSubmitSoftSkills}>
-        <div>
-          <label>
-            Soft Skill:
-            <input
-              type="text"
-              name="softSkill"
-              value={softSkill}
-              onChange={handleSoftSkillChange}
-            />
-            {errors.softSkill && <p>{errors.softSkill}</p>}
-          </label>
-        </div>
-        <button type="submit">Add Soft Skill</button>
-      </form>
+      </div>
+      <div className="flex flex-row items-center w-full mb-4">
+        <Label className="text-1xl w-[200px]">Add soft skill:</Label>
+        <Input
+          className="w-full"
+          type="text"
+          name="softSkill"
+          value={softSkill}
+          onChange={handleSoftSkillChange}
+        />
+        <Button
+          variant="secondary"
+          className="w-10 h-10 ml-10"
+          onClick={handleSubmitSoftSkills}
+        >
+          <PlusCircle />
+        </Button>
+      </div>
     </div>
   );
 }
