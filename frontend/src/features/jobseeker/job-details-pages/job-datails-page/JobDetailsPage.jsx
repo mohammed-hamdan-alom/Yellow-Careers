@@ -4,7 +4,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Button, Space } from 'antd'; // Import Button and Space from Ant Design
 import '../styling/button.css';
-import JobDetailsDisplay from '@/components/job-details/JobDetails'
+import JobDetailsDisplay from '@/components/job-details/JobDetails';
+import ReactDOM from 'react-dom';
+import { FloatButton } from 'antd';
+import { GlobalOutlined } from '@ant-design/icons'; // Import GlobeOutlined icon from Ant Design
 
 function JobDetails() {
     const { user } = useContext(AuthContext);
@@ -103,11 +106,14 @@ function JobDetails() {
         }
     };
 
+    const handleFloatButtonClick = () => {
+        window.open(company.website, '_blank');
+    };
 
     return (
         <div>
             <div className="mb-8"> {/* Add margin bottom to create space */}
-                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} companyLink={company.website} salary={job.salary} jobType={job.job_type} address={address} />
+                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
             <Space>
                 {isJobApplied ? (
@@ -120,6 +126,13 @@ function JobDetails() {
                 ) : (
                     <Button className="saveButton" onClick={handleSave}>Save</Button>
                 )}
+                <FloatButton
+                    tooltip={<div>Visit Company Page</div>}
+                    onClick={handleFloatButtonClick}
+                    size="large" // Set the size to large
+                    style={{ backgroundColor: '#FFD700', width: '50px', height: '50px' }} // Custom width, height, and background color
+                    icon={<GlobalOutlined />} // Set the icon to GlobeOutlined
+                />
             </Space>
         </div>
     );
