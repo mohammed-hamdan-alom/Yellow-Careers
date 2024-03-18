@@ -103,10 +103,11 @@ function JobDetails() {
         }
     };
 
+
     return (
         <div>
             <div className="mb-8"> {/* Add margin bottom to create space */}
-                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
+                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} companyLink={company.website} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
             <Space>
                 {isJobApplied ? (

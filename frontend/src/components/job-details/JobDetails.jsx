@@ -2,12 +2,14 @@ import React from 'react';
 import { Label } from '@/components/ui/label';
 import { MapPin, HandCoins } from 'lucide-react';
 
-const JobDetailsDisplay = ({ title, description, companyName, salary, jobType, address }) => {
+const JobDetailsDisplay = ({ title, description, companyName, companyLink, salary, jobType, address }) => {
   return (
     <div>
-      <Label className="text-3xl font-bold" style={{ color: '#0072C6' }}>{title}</Label>
+      <Label className="text-3xl font-bold" style={{ color: '#4A5568' }}>{title}</Label>
       <p className="text-lg mb-4 mt-3">{description}</p>
-      <Label className="text-xl font-semibold mb-2">{companyName}</Label>
+      <a href={companyLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+        <Label className="text-xl font-semibold mb-2 cursor-pointer">{companyName}</Label>
+      </a>
       <div className="flex flex-wrap mb-4">
         <div className="w-full md:w-1/2 flex items-center mb-2">
           <HandCoins className="mr-2 text-gray-700" size={20} />

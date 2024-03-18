@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from '@/components/job-details/JobDetails'
+import StyledQuestion from "@/components/Questions/StyledQuestions";
 
 
 
@@ -86,12 +87,12 @@ const JobDetailsEmployer = () => {
         <div>
             <button onClick={handleClick}>See Applicants</button>
             <div className="mt-3 mb-8"> {/* Add margin bottom to create space */}
-                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
+                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} companyLink={company.website} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
             {questions.length === 0 ? null : <h4>Questions:</h4>}
             {questions.map(question => (
                 < ul key={question.id} >
-                    <p>{question.question}</p>
+                    <StyledQuestion question={question.question} />
                 </ul>
             ))}
 
