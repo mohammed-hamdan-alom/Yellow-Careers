@@ -34,25 +34,36 @@ function EmployerDashBoardPage() {
 
   return (
     <div>
-      {companyJobs.length > 0 && (
-        <>
-          <Switch
-            checkedChildren="Company Jobs"
-            unCheckedChildren="Your Jobs"
-            defaultChecked={showCompanyJobs}
-            onChange={handleSwitchChange}
-          />
-          <Space size={10} direction='vertical'/>
-        </>
-      )}
       {showCompanyJobs ? (
         <div>
           <Label className="text-3xl">All Company Jobs</Label>
+          <Space size={10} direction="vertical" />
+          <div>
+            {companyJobs.length > 0 && (
+              <Switch
+                checkedChildren="Company Jobs"
+                unCheckedChildren="Your Jobs"
+                defaultChecked={showCompanyJobs}
+                onChange={handleSwitchChange}
+              />
+            )}
+          </div>
           <JobSearchBar database={companyJobs} /> 
         </div>
       ) : (
         <div>
           <Label className="text-3xl">Jobs You Are Associated With</Label>
+          <Space size={10} direction="vertical" />
+          <div>
+            {companyJobs.length > 0 && (
+              <Switch
+                checkedChildren="Company Jobs"
+                unCheckedChildren="Your Jobs"
+                defaultChecked={showCompanyJobs}
+                onChange={handleSwitchChange}
+              />
+            )}
+          </div>
           <JobSearchBar database={employerJobs} />
         </div>
       )}
