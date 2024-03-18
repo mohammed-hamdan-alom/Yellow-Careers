@@ -8,6 +8,8 @@ import DisplayProfessionalExperience from "@/features/employer/application_detai
 import DisplayResume from "@/features/employer/application_details/DisplayResume";
 import DisplaySoftSkills from "@/features/employer/application_details/DisplaySoftSkills";
 import DisplayTechnicalSkills from "@/features/employer/application_details/DisplayTechnicalSkills";
+import StyledAnswers from "@/components/Questions/StyledAnswers";
+import { Label } from '@/components/ui/label';
 
 function AppliedJobDetails() {
 
@@ -66,16 +68,8 @@ function AppliedJobDetails() {
 
             {questions.length > 0 ? (
                 <div>
-                    <h3>Questions and Answers:</h3>
-                    {questions.map((question, index) => (
-                        <div key={index}>
-                            <p>Question: {question.question}</p>
-                            <p>
-                                Answer:{" "}
-                                {answers.find((answer) => answer.question === question.id)?.answer}
-                            </p>
-                        </div>
-                    ))}
+                    <Label className="text-xl font-semibold">Questions and Answers:</Label>
+                    <StyledAnswers questions={questions} answers={answers} />
                 </div>
             ) : (
                 <h3>No questions</h3>
