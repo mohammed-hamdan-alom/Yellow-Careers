@@ -1,6 +1,6 @@
 import React from 'react';
 import { vi } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import JobFilterList from '../JobFilterList';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
@@ -74,14 +74,14 @@ describe('JobFilterList component', () => {
     });
 
     // test('Pay Filter filters correctly', () => {
-    //     vi.unmock("../JobSearchList");
-    //     const payFilter = screen.getByTestId("pay");
+    //     const payFilter = within(screen.getByTestId("pay")).getByRole("combobox")
+    //     console.log(payFilter)
     //     userEvent.click(payFilter)
-    //     fireEvent.change(screen.get)
+    //     userEvent.click(screen.getByTitle("£45,000+"))
     //     const jobs = screen.getAllByRole("list");
     //     expect(jobs).toHaveLength(2);
     //     expect(screen.getByText("Contracting civil engineer")).toBeInTheDocument();
     //     expect(screen.getByText("Chief Executive Officer")).toBeInTheDocument();
-    // })
 
+    // })
 });
