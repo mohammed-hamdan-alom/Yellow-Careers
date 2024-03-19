@@ -72,7 +72,7 @@ function AppliedJobDetails() {
                     <StyledAnswers questions={questions} answers={answers} />
                 </div>
             ) : (
-                <h3>No questions</h3>
+                <Label className="text-xl font-semibold">No Questions:</Label>
             )}
         </div>
     )
