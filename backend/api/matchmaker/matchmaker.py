@@ -11,7 +11,7 @@ LOCATION_WEIGHTING = 0.05
 LEVENSHTEIN_WEIGHTING = 0.3
 WORD2VEC_WEIGHTING = 0.65
 
-model = Word2Vec.load("api/matchmaker/word2vec_model_all2.bin")
+model = Word2Vec.load("api/matchmaker/word2vec_model_all.bin")
 
 def getMatchedJobsForJobSeeker (job_seeker):
     resume = job_seeker.get_resume().to_string()
@@ -29,7 +29,6 @@ def getMatchedJobsForJobSeeker (job_seeker):
     applications = Application.objects.filter(job_seeker=job_seeker)
     applied_jobs = [application.job for application in applications]
     return list(filter(lambda x: x not in applied_jobs, matched_jobs))
-    # return Job.objects.exclude(id__in=[job.id for job in applied_jobs])
 
 def getMatchedApplicantsForJob(job,applicants):
     job_description = job.to_string()
