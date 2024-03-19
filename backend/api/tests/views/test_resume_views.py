@@ -198,6 +198,23 @@ class EducationViewTestCase(TestCase):
         response = self.client.delete(reverse("resume-educations-put", args=[self.resume.id, education.id]))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Education.objects.count(), before_count - 1)
+
+    # def test_education_created_correctly(self):
+    #     request = self.factory.post(reverse('resume-educations-post'), self.job_data, format="json")
+    #     response = self.view(request)
+
+    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    #     self.assertEqual(response.data["title"], self.job_data["title"])
+    #     self.assertEqual(response.data["description"], self.job_data["description"])
+    #     self.assertEqual(response.data["salary"], self.job_data["salary"])
+    #     self.assertEqual(response.data["job_type"], self.job_data["job_type"])
+
+    #     response_address = response.data["address"]
+    #     expected_address = self.job_data["address"]
+    #     self.assertEqual(response_address["city"], expected_address["city"])
+    #     self.assertEqual(response_address["post_code"], expected_address["post_code"])
+    #     self.assertEqual(response_address["country"], expected_address["country"])
+
     
 class ProfessionalExperienceViewTestCase(TestCase):
     fixtures = ["api/tests/fixtures/addresses.json",

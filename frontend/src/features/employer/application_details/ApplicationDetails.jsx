@@ -42,6 +42,9 @@ const ApplicationDetails = () => {
         setAnswers(answersResponse.data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
+        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+          window.location.href = "/employer/dashboard";
+      }
       }
     };
 

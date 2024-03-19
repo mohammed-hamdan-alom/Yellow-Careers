@@ -34,7 +34,7 @@ const JobListPage = () => {
       {resume.id && jobs ? (
         <JobFilterList data={jobs} />
       ) : (
-        <h1>Create a resume first</h1>
+        <h1>Error loading the jobs, please create a resume. If you have already done so, reload the page</h1>
       )}
     </div>
   );

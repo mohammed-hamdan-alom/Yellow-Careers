@@ -12,9 +12,11 @@ import JobSeekerRegister from "./features/authentication/register/job-seeker/Job
 import JobSeekerLayout from "./features/jobseeker/layouts/JobSeekerLayout";
 import DashBoardPage from "./features/jobseeker/dashboard/Dashboard";
 import JobSeekerProfile from "./features/jobseeker/profile/JobSeekerProfile";
+
 import ResumePage from "./features/jobseeker/resume/ResumePage";
 import JobDetails from "./features/jobseeker/job-details-pages/job-datails-page/JobDetailsPage";
 import JobQuestions from "./features/jobseeker/job-details-pages/job-questions/JobQuestions";
+
 import AppliedJobListPage from "./features/jobseeker/job-list/applied-jobs/AppliedJobsListPage";
 import SavedJobListPage from "./features/jobseeker/job-list/saved-jobs/SavedJobsListPage";
 import AppliedJobDetails from "./features/jobseeker/job-details-pages/applied-job-details-page/AppliedJobDetailsPage";
@@ -29,6 +31,7 @@ import CompanyProfilePage from "./features/employer/company_profile/CompanyProfi
 import EmployerProfile from "./features/employer/profile/EmployerProfile";
 
 import JobDetailsEmployer from "./features/employer/job_applicants/JobDetailsEmployer";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 function App() {
   return (
@@ -43,6 +46,7 @@ function App() {
         <Route path="register-jobseeker" element={<JobSeekerRegister />} />
       </Route>
 
+      <Route element={<PrivateRoute role={['job_seeker']}/>}>
       <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
         <Route path="dashboard" element={<DashBoardPage />} />
         <Route path="resume" element={<ResumePage />} />
@@ -53,7 +57,9 @@ function App() {
         <Route path="application-details/:applicationId" element={<AppliedJobDetails />} />
         <Route path="applied-jobs" element={<AppliedJobListPage />} />
       </Route>
+      </Route>
 
+      <Route element={<PrivateRoute role={['employer']}/>}>
       <Route path="/employer/*" element={<EmployerLayout />}>
         <Route path="dashboard" element={<EmployerDashBoardPage />} />
         <Route path="create-job" element={<JobCreation />} />
@@ -64,6 +70,8 @@ function App() {
         <Route path="company" element={<CompanyProfilePage />} />
         <Route path="profile" element={<EmployerProfile />} />
       </Route>
+      </Route>
+
     </Routes>
   );
 }

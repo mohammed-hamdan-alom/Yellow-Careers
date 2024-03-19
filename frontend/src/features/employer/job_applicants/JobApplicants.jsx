@@ -17,7 +17,12 @@ const JobApplicantsPage = () => {
     useEffect(() => {
         AxiosInstance.get(`api/applications/job/${jobId}/`)
             .then((res) => setApplications(res.data))
-            .catch((error) => console.error("Error:", error.response.data));
+            .catch((error) => {
+                console.error("Error:", error.response.data)
+                if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+                    window.location.href = "/employer/dashboard";
+                }
+            });
     }, []);
 
     const handleShowDetails = () => {
