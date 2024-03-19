@@ -1,24 +1,31 @@
-import React, { useState, useContext, useEffect } from 'react';
-import AuthContext from '@/context/AuthContext';
+import React, { useState, useContext, useEffect } from "react";
+import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import swal from 'sweetalert2'
+import swal from "sweetalert2";
+import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { Label } from "@/components/ui/label";
+import { Input, Tooltip,Select } from "antd";
+const { Option } = Select;
+import { Mail, Phone, Calendar,Globe, User } from 'lucide-react';
+
+
 
 const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
-    email: '',
-    first_name: '',
-    last_name: '',
-    other_names: '',
-    phone_number: '',
-    dob: '',
-    nationality: '',
-    sex: '',
+    email: "",
+    first_name: "",
+    last_name: "",
+    other_names: "",
+    phone_number: "",
+    dob: "",
+    nationality: "",
+    sex: "",
     address: {
-      city: '',
-      post_code: '',
-      country: ''
+      city: "",
+      post_code: "",
+      country: "",
     },
   });
 
@@ -26,9 +33,21 @@ const JobSeekerProfile = () => {
     const fetchJobSeekerData = async () => {
       if (user?.user_id) {
         try {
-          const response = await AxiosInstance.get(`/api/job-seekers/${user?.user_id}/`);
+          const response = await AxiosInstance.get(
+            `/api/job-seekers/${user?.user_id}/`
+          );
           if (response.status === 200) {
-            const { email, first_name, last_name, other_names, phone_number, dob, nationality, sex, address } = response.data;
+            const {
+              email,
+              first_name,
+              last_name,
+              other_names,
+              phone_number,
+              dob,
+              nationality,
+              sex,
+              address,
+            } = response.data;
             setFormData({
               email,
               first_name,
@@ -39,16 +58,24 @@ const JobSeekerProfile = () => {
               nationality,
               sex,
               address: {
-                city: address?.city || '',
-                post_code: address?.post_code || '',
-                country: address?.country || '',
+                city: address?.city || "",
+                post_code: address?.post_code || "",
+                country: address?.country || "",
               },
             });
           } else {
-            swal.fire("Failed to fetch", "Could not fetch job seeker profile.", "error");
+            swal.fire(
+              "Failed to fetch",
+              "Could not fetch job seeker profile.",
+              "error"
+            );
           }
         } catch (error) {
-          swal.fire("Error", "An error occurred while fetching the profile.", "error");
+          swal.fire(
+            "Error",
+            "An error occurred while fetching the profile.",
+            "error"
+          );
         }
       }
     };
@@ -58,7 +85,7 @@ const JobSeekerProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (['city', 'post_code', 'country'].includes(name)) {
+    if (["city", "post_code", "country"].includes(name)) {
       setFormData((prevFormData) => ({
         ...prevFormData,
         address: {
@@ -67,9 +94,9 @@ const JobSeekerProfile = () => {
         },
       }));
     } else {
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          [name]: value,
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
       }));
     }
   };
@@ -78,10 +105,17 @@ const JobSeekerProfile = () => {
     e.preventDefault();
     if (user?.user_id) {
       try {
-        const response = await AxiosInstance.put(`/api/job-seekers/${user?.user_id}/update/`, formData);
+        const response = await AxiosInstance.put(
+          `/api/job-seekers/${user?.user_id}/update/`,
+          formData
+        );
 
         if (response.status === 200) {
-          swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
+          swal.fire(
+            "Profile Updated",
+            "Your profile has been updated successfully.",
+            "success"
+          );
         } else {
           swal.fire("Update Failed", `Error: ${response.status}`, "error");
         }
@@ -94,56 +128,60 @@ const JobSeekerProfile = () => {
   return (
     <form onSubmit={handleSubmit} className="container mt-5">
         <div className="mb-3">
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" name="email" value={user?.email} disabled />
+        <Label htmlFor="email" className="text-lg mr-2">
+          Email:
+        </Label>
+        <Input prefix={<Mail size={16} />} disabled  value={user?.email} />
+      </div>
+
+      <div className="mb-3">
+        <Label htmlFor="first_name" >First Name: </Label>
+        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon" /> } id="first_name" name="first_name" value={formData.first_name} onChange={(e) => handleChange(e, 'first_name')} />
+      </div> 
+      <div className="mb-3">
+        <Label htmlFor="last_name">Last Name: </Label>
+        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon"  /> } id="last_name" name="last_name" value={formData.last_name} onChange={(e) => handleChange(e, 'last_name')} />
       </div>
       <div className="mb-3">
-        <label htmlFor="first_name">First Name</label>
-        <input type="text" id="first_name" name="first_name" value={formData.first_name} onChange={handleChange} />
+        <Label htmlFor="other_names">Other Names: </Label>
+        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon" /> } id="other_names" name="other_names" value={formData.other_names} onChange={(e) => handleChange(e, 'other_names')} />
       </div>
       <div className="mb-3">
-        <label htmlFor="last_name">Last Name</label>
-        <input type="text" id="last_name" name="last_name" value={formData.last_name} onChange={handleChange} />
+        <Label htmlFor="phone_number">Phone Number: </Label>
+        <Input type="text" prefix = {<Phone size={15}/>} id="phone_number" name="phone_number" value={formData.phone_number} onChange={(e) => handleChange(e, 'phone_number')} />
       </div>
       <div className="mb-3">
-        <label htmlFor="other_names">Other Names</label>
-        <input type="text" id="other_names" name="other_names" value={formData.other_names} onChange={handleChange} />
+        <Label htmlFor="dob">Date of Birth: </Label>
+        <Input type="date" prefix = {<Calendar size={15}/>} id="dob" name="dob" value={formData.dob} onChange={(e) => handleChange(e, 'dob')} />
       </div>
       <div className="mb-3">
-        <label htmlFor="phone_number">Phone Number</label>
-        <input type="text" id="phone_number" name="phone_number" value={formData.phone_number} onChange={handleChange} />
+        <Label htmlFor="nationality">Nationality: </Label>
+        <Input type="text" prefix = {<Globe size={15}/>} id="nationality" name="nationality" value={formData.nationality} onChange={(e) => handleChange(e, 'nationality')} />
       </div>
       <div className="mb-3">
-        <label htmlFor="dob">Date of Birth</label>
-        <input type="date" id="dob" name="dob" value={formData.dob} onChange={handleChange} />
+        <Label htmlFor="sex">Sex: </Label>
+        <br/>
+        <Select id="sex" name="sex" value={formData.sex} onChange={(e) => handleChange(e, 'sex')}>
+          <Option value="">Select</Option>
+          <Option value="M">Male</Option>
+          <Option value="F">Female</Option>
+        </Select>
       </div>
       <div className="mb-3">
-        <label htmlFor="nationality">Nationality</label>
-        <input type="text" id="nationality" name="nationality" value={formData.nationality} onChange={handleChange} />
+        <Label htmlFor="city">City: </Label>
+        <Input type="text" id="city" name="city" value={formData.address.city} onChange={(e) => handleChange(e, 'city')} />
       </div>
       <div className="mb-3">
-        <label htmlFor="sex">Sex</label>
-        <select id="sex" name="sex" value={formData.sex} onChange={handleChange}>
-          <option value="">Select</option>
-          <option value="M">Male</option>
-          <option value="F">Female</option>
-        </select>
+        <Label htmlFor="post_code">Post Code: </Label>
+        <Input type="text" id="post_code" name="post_code" value={formData.address.post_code} onChange={(e) => handleChange(e, 'post_code')} />
       </div>
       <div className="mb-3">
-        <label htmlFor="city">City</label>
-        <input type="text" id="city" name="city" value={formData.address.city} onChange={handleChange} />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="post_code">Post Code</label>
-        <input type="text" id="post_code" name="post_code" value={formData.address.post_code} onChange={handleChange} />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="country">Country</label>
-        <input type="text" id="country" name="country" value={formData.address.country} onChange={handleChange} />
+        <Label htmlFor="country">Country: </Label>
+        <Input type="text" id="country" name="country" value={formData.address.country} onChange={(e) => handleChange(e, 'country')} />
       </div>
       <button type="submit" className="btn btn-primary">Update Profile</button>
     </form>
   );
-}
+};
 
 export default JobSeekerProfile;
