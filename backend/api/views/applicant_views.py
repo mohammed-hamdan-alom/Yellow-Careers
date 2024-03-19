@@ -26,6 +26,3 @@ class ApplicantListView(BaseApplicantView, generics.ListAPIView):
             return [application.job_seeker for application in applications]
         else:
             raise PermissionDenied("You do not have permission to view this application.")
-
-class JobSeekerRetrieveView(BaseApplicantView, generics.RetrieveAPIView):
-    pass

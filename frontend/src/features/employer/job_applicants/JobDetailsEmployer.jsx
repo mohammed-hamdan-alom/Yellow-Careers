@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from '@/components/job-details/JobDetails'
-import StyledQuestion from "@/components/Questions/StyledQuestions";
+import StyledQuestion from "@/components/questions_and_answers/Question";
 
 
 
