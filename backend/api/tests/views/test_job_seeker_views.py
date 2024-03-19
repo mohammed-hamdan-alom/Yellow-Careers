@@ -1,7 +1,8 @@
 from django.test import TestCase
-from api.models import JobSeeker,Address
+from api.models import JobSeeker, Address
 from django.urls import reverse
 from rest_framework import status
+from django.core.serializers import serialize
 
 class JobSeekerViewTestCase(TestCase):
     
@@ -30,30 +31,35 @@ class JobSeekerViewTestCase(TestCase):
         response = self.client.get(reverse('job-seeker-get', args=[job_seeker.id]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['resume'], job_seeker.resume.id)
-        self.assertEqual(response.data['address'], job_seeker.address.id)
+        self.assertEqual(dict(response.data['address'])['id'], job_seeker.address.id)
         self.assertEqual(response.data['phone_number'], job_seeker.phone_number)
         self.assertEqual(response.data['nationality'], job_seeker.nationality)
         self.assertEqual(response.data['sex'], job_seeker.sex)
 
     def test_create_job_seeker(self):
+        # print(serialize('json', [JobSeeker.objects.get(pk=1)], indent=2))       
         job_seeker_data = {
-            'email' : 'test@example.com',
-            'password' : 'Password123',
-            'first_name' : 'Test',
-            'last_name' : 'User',
-            'phone_number' : '07123456789',
-            'resume' : 1,
-            'address' : 3,
-            'dob' : '1990-01-01',
-            'nationality' : 'British',
-            'sex' : 'M'
+            "id": 3,
+            "email": "test@example3.com",
+            "first_name": "John",
+            "last_name": "Doe",
+            "other_names": "Charles",
+            "phone_number": "08012345678",
+            "dob": "1999-01-01",
+            "nationality": "British",
+            "sex": "M",
+            "address": 1,
+            "resume": 1
         }
-        response = self.client.post(reverse('job-seeker-post'), job_seeker_data)
+
+        response = self.client.post(reverse('job-seeker-post'), data=job_seeker_data, format='json')
+        print("\nResponse:", response.content)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(JobSeeker.objects.count(), len(self.job_seekers) + 1)
 
     def test_update_job_seeker(self):
         job_seeker = self.job_seekers[0]
+        # print(job_seeker)
         updated_job_seeker_data = {
             'email' : 'test@example.com',
             'password' : 'Password123',

@@ -7,13 +7,14 @@ const EmployerProfile = () => {
   const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
-    email: '',
-    first_name: '',
-    last_name: '',
-    other_names: '',
-    phone_number: '',
-    company: '',
+    email: user?.email || "",
+    first_name: user?.first_name || "",
+    last_name: user?.last_name || "",
+    other_names: user?.other_names || "",
+    phone_number: user?.phone_number || "",
+    company: user?.company || "",
   });
+  //  React automatically subscribes to context changes, so any time the value provided by the context provider changes, the components using that context will update accordingly.
 
   useEffect(() => {
     const fetchEmployerData = async () => {
@@ -22,7 +23,7 @@ const EmployerProfile = () => {
           const response = await AxiosInstance.get(
             `/api/employers/${user?.user_id}/`
           );
-          console.log(response.data);
+
           if (response.status === 200) {
             const {
               email,
@@ -39,7 +40,7 @@ const EmployerProfile = () => {
               last_name,
               other_names,
               phone_number,
-              company: company || null, 
+              company: company || null,
             }));
           } else {
             swal.fire(
@@ -97,7 +98,7 @@ const EmployerProfile = () => {
   return (
     <form onSubmit={handleSubmit} className="container mt-5">
       <div className="mb-3">
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">Email:   </label>
         <input
           type="email"
           id="email"
@@ -107,7 +108,7 @@ const EmployerProfile = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="first_name">First Name</label>
+        <label htmlFor="first_name">First Name:   </label>
         <input
           type="text"
           id="first_name"
@@ -117,7 +118,7 @@ const EmployerProfile = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="last_name">Last Name</label>
+        <label htmlFor="last_name">Last Name:   </label>
         <input
           type="text"
           id="last_name"
@@ -127,7 +128,7 @@ const EmployerProfile = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="other_names">Other Names</label>
+        <label htmlFor="other_names">Other Names:   </label>
         <input
           type="text"
           id="other_names"
@@ -137,7 +138,7 @@ const EmployerProfile = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="phone_number">Phone Number</label>
+        <label htmlFor="phone_number">Phone Number:   </label>
         <input
           type="text"
           id="phone_number"
@@ -146,7 +147,7 @@ const EmployerProfile = () => {
           onChange={handleChange}
         />
       </div>
-      
+
       <button type="submit" className="btn btn-primary">
         Update Profile
       </button>
