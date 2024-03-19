@@ -1,20 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
-import AuthContext from "@/context/AuthContext";
+import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
-import DisplayEducation from "@/features/employer/application_details/DisplayEducation";
-import DisplayLanguages from "@/features/employer/application_details/DisplayLanguages";
-import DisplayProfessionalExperience from "@/features/employer/application_details/DisplayProfessionalExperience";
-import DisplayResume from "@/features/employer/application_details/DisplayResume";
-import DisplaySoftSkills from "@/features/employer/application_details/DisplaySoftSkills";
-import DisplayTechnicalSkills from "@/features/employer/application_details/DisplayTechnicalSkills";
-import StyledAnswers from "@/components/Questions/StyledAnswers";
 import { Label } from '@/components/ui/label';
+import DisplayResume from "@/components/resume/DisplayResume";
+import QuestionsAndAnswers from "@/components/questions_and_answers/QuestionsAndAnswers";
 
 function AppliedJobDetails() {
-
-    const { user } = useContext(AuthContext);
-    const userId = user.user_id;
 
     const { applicationId } = useParams();
 
@@ -63,19 +54,14 @@ function AppliedJobDetails() {
             <br />
             <h2>Resume:</h2>
             <DisplayResume resumeId={resume.id} />
-            <DisplaySoftSkills resumeId={resume.id} />
-            <DisplayTechnicalSkills resumeId={resume.id} />
-            <DisplayLanguages resumeId={resume.id} />
-            <DisplayEducation resumeId={resume.id} />
-            <DisplayProfessionalExperience resumeId={resume.id} />
 
             {questions.length > 0 ? (
                 <div>
                     <Label className="text-xl font-semibold">Questions and Answers:</Label>
-                    <StyledAnswers questions={questions} answers={answers} />
+                    <QuestionsAndAnswers questions={questions} answers={answers} />
                 </div>
             ) : (
-                <Label className="text-xl font-semibold">No Questions:</Label>
+                <Label className="text-xl font-semibold">No Questions</Label>
             )}
         </div>
     )

@@ -4,7 +4,9 @@ from gensim.models import Word2Vec
 from nltk.tokenize import word_tokenize
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-import os
+
+import nltk
+nltk.download('punkt')
 
 
 LOCATION_WEIGHTING = 0.05
