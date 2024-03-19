@@ -24,3 +24,4 @@ const JobDetailsDisplay = ({ title, description, companyName, salary, jobType, a
 };
 
 export default JobDetailsDisplay;
+

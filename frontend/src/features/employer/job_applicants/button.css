@@ -1,0 +1,9 @@
+/* button.css */
+
+.viewJobDetailsButton {
+    background-color: #2196F3 !important; /* Set the background color to a nice yellow */
+    color: white; /* Set the text color */
+    border: none; /* Remove the border */
+    cursor: pointer; /* Add cursor style */
+    border-radius: 4px; /* Add border radius */
+  }

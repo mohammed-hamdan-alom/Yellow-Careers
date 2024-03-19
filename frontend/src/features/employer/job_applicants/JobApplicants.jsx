@@ -2,8 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-
-
+import Swal from 'sweetalert2';
+import { Label } from '@/components/ui/label';
+import { Button, Space } from 'antd';
+import './button.css';
 
 const JobApplicantsPage = () => {
     const { user } = useContext(AuthContext);
@@ -37,19 +39,21 @@ const JobApplicantsPage = () => {
     }
 
     return (
-        <div>
-            <button onClick={handleShowDetails}> Job Details </button>
-            <h2>Matched applicants</h2>
+        <div className="mb-8"> 
+            <Button className="viewJobDetailsButton mb-4" onClick={handleShowDetails}>View Job Details</Button> 
+            <h2 className="mb-4">Matched Applicants</h2>
             {applicants.map(applicant => (
-                <ul key={applicant.id}>
-                    <h3>
-                        <button onClick={() => handleShowApplication(applicant.id)}> Show Application </button>
-                        {applicant.first_name} {applicant.last_name}
+                <div key={applicant.id} className="applicant-item mb-4">
+                    <h3 className="mb-2">
+                        <Button onClick={() => handleShowApplication(applicant.id)} className="mr-2">Show Application</Button>
+                        <Label>{applicant.first_name} {applicant.last_name}</Label>
                     </h3>
-                </ul>
+                </div>
             ))}
         </div>
     )
 };
+
+
 
 export default JobApplicantsPage;
