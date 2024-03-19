@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
+import { Label } from '@/components/ui/label';
 
 function DisplayEducation({ resumeId }) {
   const [educations, setEducations] = useState([]);

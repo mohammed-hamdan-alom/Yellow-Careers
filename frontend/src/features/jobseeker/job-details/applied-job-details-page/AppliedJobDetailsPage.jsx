@@ -52,7 +52,6 @@ function AppliedJobDetails() {
         <div>
             <h1>Date Applied: {application.date_applied}</h1>
             <br />
-            <h2>Resume:</h2>
             <DisplayResume resumeId={resume.id} />
 
             {questions.length > 0 ? (
