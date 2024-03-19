@@ -43,7 +43,9 @@ const JobDetailsEmployer = () => {
             setEmployers(responses[4].data);
             setCompanyEmployers(responses[5].data);
         }).catch((error) =>{ console.error('Error fetching data:', error);
-        });
+        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+            window.location.href = "/employer/dashboard";
+        }});
     }, [jobId, userId]);
 
     const handleClick = () => {
@@ -87,7 +89,7 @@ const JobDetailsEmployer = () => {
         <div>
             <button onClick={handleClick}>See Applicants</button>
             <div className="mt-3 mb-8"> {/* Add margin bottom to create space */}
-                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} companyLink={company.website} salary={job.salary} jobType={job.job_type} address={address} />
+                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
             {questions.length === 0 ? null : <h4>Questions:</h4>}
             {questions.map(question => (

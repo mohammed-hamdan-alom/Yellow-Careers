@@ -7,10 +7,10 @@ const JobCard = ({ title, companyName, city, country, description }) => {
     <div>
       <Card className="w-full mt-10 cursor-pointer" style={{ boxShadow: '0 0 5px #808080' } }>
         <CardHeader className="justify-center items-left mt-4">
-          <CardTitle className="text-3xl font-bold" style={{ color: '#4A5568' }}>{title}</CardTitle>
+          <CardTitle className="text-3xl font-bold">{title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-gray-600 font-bold">{companyName}</div> {/* Set Company Name to grey and bold */}
+          <div className="font-bold" style={{ color: '#4A5568' }}>{companyName}</div> {/* Set Company Name to grey and bold */}
           <div className="mt-4">
             <div className="justify-start items-start flex flex-row">
               <MapPin className="mr-2" />
