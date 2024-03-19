@@ -64,7 +64,6 @@ function JobDetails() {
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#FFD700",
-                confirmButtonBorderColor: '#FFD700',
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, apply!"
             }).then((result) => {
