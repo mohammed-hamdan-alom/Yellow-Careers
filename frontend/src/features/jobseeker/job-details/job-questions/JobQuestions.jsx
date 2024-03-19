@@ -5,7 +5,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from '../../../../components/Alert/Alert';
 import { Input, Button, Space } from 'antd';
 import '../styling/button.css';
-import StyledQuestion from "@/components/Questions/StyledQuestions";
+import StyledQuestion from "@/components/questions_and_answers/Question";
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
 function JobQuestions() {
