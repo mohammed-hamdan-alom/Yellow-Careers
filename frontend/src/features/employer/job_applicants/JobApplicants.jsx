@@ -17,7 +17,8 @@ const JobApplicantsPage = () => {
     useEffect(() => {
         AxiosInstance.get(`api/applicants/${jobId}`)
             .then((res) => setApplicants(res.data))
-            .catch((error) => console.error("Error:", error.response.data));
+            .catch((error) => {console.error("Error:", error.response.data);
+            });
     }, []);
 
     const handleShowDetails = () => {
@@ -30,7 +31,7 @@ const JobApplicantsPage = () => {
                 const applicationId = res.data.id;
                 navigate(`/employer/application-details/${applicationId}`);
             })
-            .catch((error) => console.error("Error:", error.response.data));
+            .catch((error) =>{ console.error("Error:", error.response.data)});
     }
 
     return (

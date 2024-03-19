@@ -1,27 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import AuthContext from '@/context/AuthContext';
+import React, { useContext, useEffect, useState } from "react";
+import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space } from "antd";
-import JobSummary from '../job_summary/JobSummary';
+import JobSearchBar from "@/components/search/JobSearchBar";
+import { Label } from "@/components/ui/label";
+import "./switch.css";
 
 function EmployerDashBoardPage() {
-  const { user } = useContext(AuthContext)
-  const userId = user.user_id
-  const [EmployerJobs, setEmployerJobs] = useState([])
-  const [companyJobs, setCompanyJobs] = useState([])
+  const { user } = useContext(AuthContext);
+  const userId = user.user_id;
+  const [employerJobs, setEmployerJobs] = useState([]);
+  const [companyJobs, setCompanyJobs] = useState([]);
   const [showCompanyJobs, setShowCompanyJobs] = useState(false);
 
   useEffect(() => {
-    Promise.all([
-      AxiosInstance.get(`api/employer/${userId}/jobs/`),
-      AxiosInstance.get(`api/employer/${userId}/company-jobs/`)
-    ]).then((responses) => {
-      setEmployerJobs(responses[0].data)
-      setCompanyJobs(responses[1].data)
-      setShowCompanyJobs(responses[1].data.length > 0)
-    }).catch((error) => console.error('Error fetching data:', error))
-  }, [userId])
+    AxiosInstance.get(`api/employer/${userId}/jobs/`)
+      .then((response) => {
+        setEmployerJobs(response.data);
+      })
+      .catch((error) => console.error('Error fetching employer jobs:', error));
+    
+    AxiosInstance.get(`api/employer/${userId}/company-jobs/`)
+      .then((response) => {
+        setCompanyJobs(response.data);
+        setShowCompanyJobs(response.data.length > 0);
+      })
+      .catch((error) => console.error('Error fetching company jobs:', error));
+  }, [userId]);
 
   const handleSwitchChange = (checked) => {
     setShowCompanyJobs(checked);
@@ -29,39 +34,41 @@ function EmployerDashBoardPage() {
 
   return (
     <div>
-      <h1>Employer Dashboard</h1>
-      {companyJobs.length > 0 && (
-        <>
-          <Switch
-            checkedChildren="Company Jobs"
-            unCheckedChildren="Your Jobs"
-            defaultChecked
-            onChange={handleSwitchChange}
-          />
-          <Space size={10} direction='vertical'/>
-        </>
-      )}
       {showCompanyJobs ? (
         <div>
-          <h2>All Company Jobs</h2>
-          {companyJobs.map(job => (
-            <ul className='job-summary' key={job.id}>
-              <JobSummary job={job} />
-            </ul>
-          ))}
+          <Label className="text-3xl">All Company Jobs</Label>
+          <Space size={10} direction="vertical" />
+          <div>
+            {companyJobs.length > 0 && (
+              <Switch
+                checkedChildren="Company Jobs"
+                unCheckedChildren="Your Jobs"
+                defaultChecked={showCompanyJobs}
+                onChange={handleSwitchChange}
+              />
+            )}
+          </div>
+          <JobSearchBar database={companyJobs} /> 
         </div>
       ) : (
         <div>
-          <h2>Jobs You Are Associated With</h2>
-          {EmployerJobs.map(job => (
-            <ul className='job-summary' key={job.id}>
-              <JobSummary job={job} />
-            </ul>
-          ))}
+          <Label className="text-3xl">Jobs You Are Associated With</Label>
+          <Space size={10} direction="vertical" />
+          <div>
+            {companyJobs.length > 0 && (
+              <Switch
+                checkedChildren="Company Jobs"
+                unCheckedChildren="Your Jobs"
+                defaultChecked={showCompanyJobs}
+                onChange={handleSwitchChange}
+              />
+            )}
+          </div>
+          <JobSearchBar database={employerJobs} />
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default EmployerDashBoardPage
+export default EmployerDashBoardPage;

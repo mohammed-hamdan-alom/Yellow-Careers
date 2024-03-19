@@ -62,7 +62,7 @@ npm install
 
 Run the app in development mode:
 ```
-npm start
+npm run dev
 ```
 
 Now, enter the backend directory with ```cd backend``` (from the root directory) and enter the following commands:

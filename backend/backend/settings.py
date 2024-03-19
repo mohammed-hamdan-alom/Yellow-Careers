@@ -177,3 +177,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.User'
+
+# SendGrid API Key
+
+SENDGRID_API_KEY = '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'
