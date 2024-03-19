@@ -2,9 +2,13 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Button, Space } from 'antd'; // Import Button and Space from Ant Design
+import { Button, Space } from 'antd';
 import '../styling/button.css';
-import JobDetailsDisplay from '@/components/job-details/JobDetails'
+import JobDetailsDisplay from '@/components/job-details/JobDetails';
+import ReactDOM from 'react-dom';
+import { FloatButton } from 'antd';
+import { GlobalOutlined } from '@ant-design/icons';
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 function JobDetails() {
     const { user } = useContext(AuthContext);
@@ -54,22 +58,29 @@ function JobDetails() {
 
     const handleApply = () => {
         if (questions.length === 0) {
-            if (window.confirm('There are no job specific questions. Are you sure you want to apply for this job?')) {
-                const applicationData = {
-                    job_seeker: userId,
-                    job: jobId,
-                    resume: resume.id,
+            Swal.fire({ // Using SweetAlert2 for confirmation
+                title: "Are you sure?",
+                text: "There are no job specific questions. Are you sure you want to apply for this job?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#FFD700",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, apply!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const applicationData = {
+                        job_seeker: userId,
+                        job: jobId,
+                        resume: resume.id,
+                    }
+                    AxiosInstance.post('api/applications/create/', applicationData)
+                        .then(() => {
+                            window.location.reload(); // Reload the page after applying
+                        })
+                        .catch((error) => console.error('Error creating application:', error));
                 }
-
-                AxiosInstance.post('api/applications/create/', applicationData)
-                    .then(() => {
-                        window.location.reload()
-                    })
-                    .catch((error) => console.error('Error creating application:', error));
-            }
-        }
-
-        else {
+            });
+        } else {
             navigate(`questions/`)
         }
     };
@@ -103,11 +114,14 @@ function JobDetails() {
         }
     };
 
+    const handleFloatButtonClick = () => {
+        window.open(company.website, '_blank');
+    };
 
     return (
         <div>
-            <div className="mb-8"> {/* Add margin bottom to create space */}
-                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} companyLink={company.website} salary={job.salary} jobType={job.job_type} address={address} />
+            <div className="mb-8">
+                <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
             <Space>
                 {isJobApplied ? (
@@ -120,6 +134,13 @@ function JobDetails() {
                 ) : (
                     <Button className="saveButton" onClick={handleSave}>Save</Button>
                 )}
+                <FloatButton
+                    tooltip={<div>Visit Company Page</div>}
+                    onClick={handleFloatButtonClick}
+                    size="large"
+                    style={{ backgroundColor: '#FFD700', width: '50px', height: '50px' }}
+                    icon={<GlobalOutlined />}
+                />
             </Space>
         </div>
     );
