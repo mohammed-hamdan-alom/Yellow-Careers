@@ -2,6 +2,7 @@ from rest_framework import generics
 from api.models import JobSeeker, Job, Application, EmployerJobRelation,Employer
 from api.serializers import JobSeekerSerializer
 from django.shortcuts import get_object_or_404
+from api.matchmaker.matchmaker import *
 from rest_framework.exceptions import PermissionDenied
 
 

@@ -46,6 +46,7 @@ function UpdateResumePage() {
   }, [userId]);
 
   return (
+
     <div className='pb-96'>
       <div className="flex flex-row justify-left">
         <ResumeForm resumeId={resumeId} />
