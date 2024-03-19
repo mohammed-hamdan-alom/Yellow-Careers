@@ -15,12 +15,15 @@ function DisplayEducation({ resumeId }) {
       .catch((error) => console.error("Error:", error));
   }, [resumeId]);
 
+
   return (
     <div>
       <h2>Education</h2>
       <ul>
         {educations.map((education, index) => (
           <li key={index}>
+            {console.log(education)}
+            <p>course name: {education.course_name}</p>
             <p>start date: {education.start_date}</p>
             <p>end date: {education.end_date}</p>
             <p>level: {education.level}</p>
