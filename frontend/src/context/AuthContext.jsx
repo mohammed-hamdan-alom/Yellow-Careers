@@ -208,11 +208,10 @@ export const AuthProvider = ({ children }) => {
 
     // Refresh token every 30 minutes
     useEffect(() => {
-
-        if(loading){
+        const tokens = localStorage.getItem("authTokens");
+        if(loading && tokens){
             updateToken();
         }
-        const tokens = localStorage.getItem("authTokens");
         if (tokens) {
             const intervalId = setInterval(() => {
                 updateToken();
