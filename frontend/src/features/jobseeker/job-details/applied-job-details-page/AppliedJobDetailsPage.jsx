@@ -48,15 +48,28 @@ function AppliedJobDetails() {
         fetchData();
     }, [applicationId]);
 
-    return (
+    const decisionText = application.decision === 'A' ? 'Accepted' :
+                         application.decision === 'R' ? 'Rejected' :
+                         'Undecided';
+
+    const decisionColor = application.decision === 'A' ? 'bg-green-200 text-green-800' :
+                          application.decision === 'R' ? 'bg-red-200 text-red-800' :
+                          'bg-blue-200 text-blue-800';
+
+
+     return (
         <div>
-            <h1>Date Applied: {application.date_applied}</h1>
-            <br />
+            <Label className="text-xl font-semibold">
+                Date Applied: {application.date_applied} | 
+                Status: <span className={`px-2 rounded ${decisionColor}`}>{decisionText}</span>
+            </Label>
+            <div className="mb-4"></div>
             <DisplayResume resumeId={resume.id} />
 
+            <div className="mb-4"></div>
             {questions.length > 0 ? (
                 <div>
-                    <Label className="text-xl font-semibold">Questions and Answers:</Label>
+                    <Label className="text-xl font-semibold mb-4">Questions and Answers:</Label>
                     <QuestionsAndAnswers questions={questions} answers={answers} />
                 </div>
             ) : (

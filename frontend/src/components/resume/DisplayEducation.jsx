@@ -23,7 +23,6 @@ function DisplayEducation({ resumeId }) {
       <ul>
         {educations.map((education, index) => (
           <li key={index}>
-            {console.log(education)}
             <p>course name: {education.course_name}</p>
             <p>start date: {education.start_date}</p>
             <p>end date: {education.end_date}</p>
