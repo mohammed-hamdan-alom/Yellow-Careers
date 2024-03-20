@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import swal from "sweetalert2";
-import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { Label } from "@/components/ui/label";
-import { Input, Tooltip,Select, Button } from "antd";
+import { Input,Select, Button } from "antd";
 const { Option } = Select;
-import { Mail, Phone, Calendar,Globe, User, Earth, MapPin   } from 'lucide-react';
+import { Mail, Phone, Calendar, Earth, MapPin   } from 'lucide-react';
 import './styling/button.css';
 
 
