@@ -19,6 +19,12 @@ class JobSeekerCreateView(BaseJobSeekerView, generics.CreateAPIView):
 class JobSeekerUpdateView(BaseJobSeekerView, generics.RetrieveUpdateDestroyAPIView):
     pass
 
+class ApplicantListView(BaseJobSeekerView, generics.ListAPIView):
+    def get_queryset(self):
+        job_id = self.kwargs["pk"]
+        applications = Application.objects.filter(job_id = job_id)
+        return [application.job_seeker for application in applications]
+
 class JobSeekerFromApplicationRetrieveView(BaseJobSeekerView, generics.RetrieveAPIView):
 
     def get_object(self):

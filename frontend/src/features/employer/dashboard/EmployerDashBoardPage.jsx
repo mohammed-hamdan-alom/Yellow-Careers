@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space } from "antd";
-import JobSearchList from "../../../components/search/JobSearchList";
+import JobList from "../../../components/search/JobList";
 import { Label } from "@/components/ui/label";
 import "./switch.css";
 
@@ -48,7 +48,7 @@ function EmployerDashBoardPage() {
               />
             )}
           </div>
-          <JobSearchList data={companyJobs} />
+          <JobList data={companyJobs} />
         </div>
       ) : (
         <div>
@@ -64,7 +64,7 @@ function EmployerDashBoardPage() {
               />
             )}
           </div>
-          <JobSearchList data={employerJobs} />
+          <JobList data={employerJobs} />
         </div>
       )}
     </div>

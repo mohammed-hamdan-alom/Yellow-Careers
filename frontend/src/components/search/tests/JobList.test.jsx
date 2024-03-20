@@ -1,7 +1,7 @@
 import React from 'react';
 import { vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import JobSearchList from '../JobSearchList';
+import JobList from '../JobList';
 
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
@@ -45,7 +45,7 @@ describe('JobSearchList component', () => {
         render(
             <MemoryRouter>
                 <AuthProvider>
-                    <JobSearchList data={data} />
+                    <JobList data={data} />
                 </AuthProvider>
             </MemoryRouter>
         );

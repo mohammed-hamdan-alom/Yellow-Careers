@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import JobSearchList from "../search/JobSearchList";
+import JobSearchList from "./JobList";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Select } from 'antd';
 import { Label } from "@/components/ui/label";
 
-const JobFilterList = ({ data }) => {
+const JobFilter = ({ data }) => {
   const [results, setResults] = useState([]);
   const [filters, setFilters] = useState({
     pay: "all",
@@ -136,4 +136,4 @@ const JobFilterList = ({ data }) => {
   );
 };
 
-export default JobFilterList;
+export default JobFilter;

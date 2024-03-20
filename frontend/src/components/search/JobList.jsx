@@ -3,7 +3,7 @@ import JobSummary from "../JobSummary/JobSummary";
 import { Input } from "@/components/ui/input";
 import { Pagination } from "antd";
 
-const JobSearchList = ({ data }) => {
+const JobList = ({ data }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,4 +64,4 @@ const JobSearchList = ({ data }) => {
   );
 };
 
-export default JobSearchList;
+export default JobList;

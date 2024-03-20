@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobSearchList from "../../../../components/search/JobSearchList";
+import JobList from "../../../../components/search/JobList";
 
 function AppliedJobListPage() {
   //
@@ -19,7 +19,7 @@ function AppliedJobListPage() {
   return (
     <div className=" flex flex-col justify-center">
       {jobs.length > 0 ? (
-        <JobSearchList data={jobs} />
+        <JobList data={jobs} />
       ) : (
         <h1>No applied jobs</h1>
       )}
