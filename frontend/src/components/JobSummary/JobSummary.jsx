@@ -40,7 +40,7 @@ const JobSummary = ({ job }) => {
 
   return (
     <div className="w-full justify-center" onClick={handleClick}>
-      <JobCard title={job.title} companyName={company.company_name} city={address.city} country={address.country} description={formattedDescription} salary={job.salary}/>
+      <JobCard title={job.title} companyName={company.company_name} city={address.city} country={address.country} description={formattedDescription} salary={job.salary} jobType={job.job_type}/>
     </div>
   );
 };
