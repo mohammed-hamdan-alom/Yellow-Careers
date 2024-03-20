@@ -15,6 +15,19 @@ class JobSeekerSerializer(serializers.ModelSerializer):
 
         job_seeker = JobSeeker.objects.create(address=address, **validated_data)
         return job_seeker
+    '''
+        def create(self, validated_data):
+        address_data = validated_data.pop('address')
+        # address = Address.objects.create(**address_data)
+        address_serializer = AddressSerializer(data=address_data)  
+        if address_serializer.is_valid():
+            address = address_serializer.save()  # Save address if valid
+        else:
+            raise serializers.ValidationError(address_serializer.errors)
+        
+        job_seeker = JobSeeker.objects.create(address=address, **validated_data)
+        return job_seeker
+    '''
 
     def update(self, instance, validated_data):
         address_data = validated_data.pop('address', None)

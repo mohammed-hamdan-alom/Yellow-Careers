@@ -7,18 +7,18 @@ const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
-    email: '',
-    first_name: '',
-    last_name: '',
-    other_names: '',
-    phone_number: '',
-    dob: '',
-    nationality: '',
-    sex: '',
+    email: user?.email || "",
+    first_name: user?.first_name || "",
+    last_name: user?.last_name || "",
+    other_names: user?.other_names || "",
+    phone_number: user?.phone_number || "",
+    dob: user?.dob || "",
+    nationality: user?.nationality || "",
+    sex: user?.sex || "",
     address: {
-      city: '',
-      post_code: '',
-      country: ''
+      city: user?.address?.city || "",
+      post_code: user?.address?.post_code || "",
+      country: user?.address?.country || "",
     },
   });
 
