@@ -31,50 +31,23 @@ function JobCreationForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (addressData.city && addressData.country && addressData.post_code) {
-      AxiosInstance.post('api/addresses/create/', {
-        city: addressData.city,
-        country: addressData.country,
-        post_code: addressData.post_code
-      }).then((response) => {
-        AxiosInstance.post('api/jobs/create-job', {
-          title: formData.title,
-          description: formData.description,
-          salary: formData.salary,
-          address: response.data.id,
-          job_type: formData.job_type
-        }).then((response) => {
-          AxiosInstance.post('api/employer-job-relations/create/', {
-            employer: userId,
-            job: response.data.id
-          });
-          showJobCreatedSuccess();
-          navigate(`/employer/create-questions/${response.data.id}`);
-        }).catch((error) => {
-          showJobCreatedError();
-          console.log(error);
-        });
+    AxiosInstance.post('api/jobs/create-job', {
+      title: formData.title,
+      description: formData.description,
+      salary: formData.salary,
+      address: addressData,
+      job_type: formData.job_type
+    }).then((response) => {
+      AxiosInstance.post('api/employer-job-relations/create/', {
+        employer: userId,
+        job: response.data.id
       });
-    }
-    else {
-      AxiosInstance.post('api/jobs/create-job', {
-        title: formData.title,
-        description: formData.description,
-        salary: formData.salary,
-        address: formData.address,
-        job_type: formData.job_type
-      }).then((response) => {
-        AxiosInstance.post('api/employer-job-relations/create/', {
-          employer: userId,
-          job: response.data.id
-        });
-        showJobCreatedSuccess();
-        navigate(`/employer/create-questions/${response.data.id}`);
-      }).catch((error) => {
-        showJobCreatedError();
-        console.log(error);
-      });
-    }
+      showJobCreatedSuccess();
+      navigate(`/employer/create-questions/${response.data.id}`);
+    }).catch((error) => {
+      showJobCreatedError();
+      console.log(error);
+    });
   };
 
   const handleChange = (event) => {
