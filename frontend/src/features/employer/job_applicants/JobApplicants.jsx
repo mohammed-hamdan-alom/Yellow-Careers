@@ -41,7 +41,7 @@ const JobApplicantsPage = () => {
     return (
         <div className="mb-8"> 
             <Button className="viewJobDetailsButton mb-4" onClick={handleShowDetails}>View Job Details</Button> 
-            <h2 className="mb-4">Matched Applicants</h2>
+            <h2 className="mb-4"><b>Matched Applicants</b></h2>
             {applicants.map(applicant => (
                 <div key={applicant.id} className="applicant-item mb-4">
                     <h3 className="mb-2">

@@ -7,3 +7,21 @@
     cursor: pointer; /* Add cursor style */
     border-radius: 4px; /* Add border radius */
   }
+
+  .viewJobDetailsButton:hover {
+    background-color: #0086f4 !important; /* Change background color to a darker shade of yellow on hover */
+    color: white !important; /* Set the text color on hover */
+  }
+
+  .seeApplicantsButton {
+    background-color: #2196F3 !important; /* Set the background color to a nice yellow */
+    color: white; /* Set the text color */
+    border: none; /* Remove the border */
+    cursor: pointer; /* Add cursor style */
+    border-radius: 4px; /* Add border radius */
+  }
+
+  .seeApplicantsButton:hover {
+    background-color: #0086f4 !important; /* Change background color to a darker shade of yellow on hover */
+    color: white !important; /* Set the text color on hover */
+  }
