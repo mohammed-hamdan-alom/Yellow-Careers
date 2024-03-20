@@ -19,14 +19,19 @@ function DisplayResume({ resumeId }) {
   const [resume, setResume] = useState(defaultResumeState);
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/`)
-      .then((response) => {
+    const fetchResume = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/`);
         setResume(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchResume();
   }, [resumeId]);
 
   return (

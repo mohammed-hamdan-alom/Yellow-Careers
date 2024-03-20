@@ -13,12 +13,15 @@ const JobSummary = ({ job }) => {
   const [address, setAddress] = useState({});
 
   useEffect(() => {
-    AxiosInstance.get(`api/jobs/${job.id}/company/`).then((res) =>
-      SetCompany(res.data)
-    );
-    AxiosInstance.get(`api/jobs/${job.id}/address/`).then((res) =>
-      setAddress(res.data)
-    );
+    const fetchData = async () => {
+      const companyResponse = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
+      SetCompany(companyResponse.data);
+  
+      const addressResponse = await AxiosInstance.get(`api/jobs/${job.id}/address/`);
+      setAddress(addressResponse.data);
+    };
+  
+    fetchData();
   }, []);
 
   const handleClick = () => {

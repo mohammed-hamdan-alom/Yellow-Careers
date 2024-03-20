@@ -21,66 +21,72 @@ function JobQuestions() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        Promise.all([
-            AxiosInstance.get(`api/jobs/${jobId}/questions/`),
-            AxiosInstance.get(`api/job-seeker/${userId}/resume/`)
-        ]).then((responses) => {
+        const fetchData = async () => {
+          try {
+            const responses = await Promise.all([
+              AxiosInstance.get(`api/jobs/${jobId}/questions/`),
+              AxiosInstance.get(`api/job-seeker/${userId}/resume/`)
+            ]);
             setQuestions(responses[0].data);
             setResume(responses[1].data);
-        }).catch((error) => console.error('Error fetching data:', error));
-    }, [jobId, userId]);
-
-    const createAnswers = (applicationId) => {
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+      
+        fetchData();
+      }, [jobId, userId]);
+      
+      const createAnswers = async (applicationId) => {
         for (const questionId in answers) {
-            AxiosInstance.post(`api/answers/create/`, {
-                application: applicationId,
-                question: questionId,
-                answer: answers[questionId],
-            })
-                .then(() => {
-                    navigate(`/job-seeker/job-details/${jobId}`);
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        error.response.json().then(data => {
-                            let errorMessage = '';
-                            for (let key in data) {
-                                if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
-                                    errorMessage += `${key}: ${data[key].join(', ')}\n`;
-                                }
-                            }
-                            showError(errorMessage);
-                        });
-                    }
-                });
-        }
-    };
-
-    const handleApply = () => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "Are you sure you want to apply for this job?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#FFD700",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, apply!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const applicationData = {
-                    job_seeker: userId,
-                    job: jobId,
-                    resume: resume.id,
+          try {
+            await AxiosInstance.post(`api/answers/create/`, {
+              application: applicationId,
+              question: questionId,
+              answer: answers[questionId],
+            });
+            navigate(`/job-seeker/job-details/${jobId}`);
+          } catch (error) {
+            if (error.response) {
+              const data = await error.response.json();
+              let errorMessage = '';
+              for (let key in data) {
+                if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
+                  errorMessage += `${key}: ${data[key].join(', ')}\n`;
                 }
-                AxiosInstance.post('api/applications/create/', applicationData)
-                    .then((response) => {
-                        const application = response.data;
-                        createAnswers(application.id);
-                    })
-                    .catch((error) => console.error('Error creating application:', error));
+              }
+              showError(errorMessage);
             }
+          }
+        }
+      };
+      
+      const handleApply = async () => {
+        const result = await Swal.fire({
+          title: "Are you sure?",
+          text: "Are you sure you want to apply for this job?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#FFD700",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, apply!",
         });
-    };
+      
+        if (result.isConfirmed) {
+          const applicationData = {
+            job_seeker: userId,
+            job: jobId,
+            resume: resume.id,
+          }
+          try {
+            const response = await AxiosInstance.post('api/applications/create/', applicationData);
+            const application = response.data;
+            createAnswers(application.id);
+          } catch (error) {
+            console.error('Error creating application:', error);
+          }
+        }
+      };
 
     const handleInputChange = (questionId, newValue) => {
         setAnswers(prevAnswers => ({

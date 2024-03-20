@@ -8,16 +8,20 @@ function DisplayLanguages({ resumeId }) {
   const [languages, setLanguages] = useState([]);
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/languages/`)
-      .then((response) => {
+    const fetchLanguages = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
         setLanguages(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchLanguages();
   }, [resumeId]);
-
   return (
     <div className="bg-white shadow-orange rounded-md p-6 mt-6">
       <h3 className="text-lg font-semibold mb-2">
