@@ -142,14 +142,14 @@ function JobDetails() {
             </div>
             <Space>
                 {isJobApplied ? (
-                    <Button className="applyButton" onClick={handleSeeApplication}>See Application</Button>
+                    <Button className="applyButton large-button" onClick={handleSeeApplication}>See Application</Button>
                 ) : (
-                    <Button className="applyButton" onClick={handleApply} >Apply</Button>
+                    <Button className="applyButton large-button" onClick={handleApply} >Apply</Button>
                 )}
                 {isJobSaved ? (
-                    <Button className="unsaveButton" onClick={handleSave}>Unsave</Button>
+                    <Button className="unsaveButton large-button" onClick={handleSave}>Unsave</Button>
                 ) : (
-                    <Button className="saveButton" onClick={handleSave}>Save</Button>
+                    <Button className="saveButton large-button" onClick={handleSave}>Save</Button>
                 )}
                 <FloatButton
                     tooltip={<div>Visit Company Page</div>}

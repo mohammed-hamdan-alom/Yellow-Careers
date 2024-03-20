@@ -32,7 +32,7 @@ const JobSummary = ({ job }) => {
     }
   };
 
-  const formattedDescription = job.description
+  const formattedDescription = (job.description.length > 200 ? job.description.substring(0, 200) + '...' : job.description)
     .split("\n")
     .map((paragraph, index) => (
       <React.Fragment key={index}>
@@ -43,7 +43,7 @@ const JobSummary = ({ job }) => {
 
   return (
     <div className="w-full justify-center" onClick={handleClick}>
-      <JobCard title={job.title} companyName={company.company_name} city={address.city} country={address.country} description={formattedDescription} />
+      <JobCard title={job.title} companyName={company.company_name} city={address.city} country={address.country} description={formattedDescription} salary={job.salary} jobType={job.job_type}/>
     </div>
   );
 };
