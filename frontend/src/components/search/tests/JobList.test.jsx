@@ -56,7 +56,9 @@ vi.mock("../../../utils/AxiosInstance", () => ({
 
 describe('JobSearchList component', () => {
 
-    beforeEach(() => {
+    afterEach(cleanup);
+
+    test('renders search bar', async () => {
         act(() => {
             render(
                 <MemoryRouter>
@@ -66,21 +68,34 @@ describe('JobSearchList component', () => {
                 </MemoryRouter>
             );
         })
-    });
-
-    afterEach(cleanup);
-
-    test('renders search bar', async () => {
         const searchBar = await screen.findByTestId("jobsearchbar");
         expect(searchBar).toBeInTheDocument();
     });
 
     test('renders jobs correctly', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobList data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
+        })
         const jobs = await screen.findAllByRole("list");
         expect(jobs).toHaveLength(5); //there are 4 jobs, but this includes antd for some reason
     });
 
     test('search updates on change', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobList data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
+        })
         const input = await screen.findByPlaceholderText("Search Jobs")
         act(() => {
             fireEvent.change(input, { target: { value: 'test' } })
@@ -89,6 +104,15 @@ describe('JobSearchList component', () => {
     });
 
     test('searched jobs appear correctly', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobList data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
+        })
         const input = await screen.findByPlaceholderText("Search Jobs")
         act(() => {
             fireEvent.change(input, { target: { value: 'administrator' } })
