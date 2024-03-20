@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import JobSearchList from "./JobList";
+import JobList from "./JobList";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Select } from 'antd';
 import { Label } from "@/components/ui/label";
@@ -54,7 +54,7 @@ const JobFilter = ({ data }) => {
   const applyFilters = (pay, ct, location) => {
     const payFilter = (job) => job.salary >= pay;
     const ctFilter = (job) => job.job_type == ct;
-    const locationFilter = (job) => getCountry(job.address) == location;
+    const locationFilter = (job) => job.address.country == location;
 
     let filters = []
     let filteredResults = data;
@@ -97,7 +97,7 @@ const JobFilter = ({ data }) => {
       <Select data-testid='location' showSearch id="location" className="w-80 mt-2" onChange={onLocationChangeFilter} title="LocationFilter">
         <Select.Option value="all">All</Select.Option>
         {countries.map((country, i) =>
-          <Select.Option value={country} key={i}> {country} </Select.Option>
+          <Select.Option value={country} key={i}>{country}</Select.Option>
         )
         }
       </Select>
@@ -129,7 +129,7 @@ const JobFilter = ({ data }) => {
 
       <br></br>
 
-      <JobSearchList data={results}></JobSearchList>
+      <JobList data={results}></JobList>
     </div>
 
 

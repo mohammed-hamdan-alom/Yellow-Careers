@@ -5,15 +5,40 @@ import JobFilter from '../JobFilter';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 
-// const countries = [{
-//     { "country": }
-// }]
+const addressF = {
+    "country": "France",
+}
+
+const addressG = {
+    "country": "Germany",
+}
+
+const addresses = [{
+    "id:": 501,
+    "country": "France",
+},
+{
+    "id": 502,
+    "country": "France",
+},
+{
+    "id": 503,
+    "country": "Germany",
+},
+{
+    "id": 504,
+    "country": "Germany",
+}]
+
+const company = [{
+    "company_name": "The Company",
+}]
 
 const data = [{
     "id": 1,
     "title": "Administrator, local government",
     "description": "Labore provident corporis deserunt perferendis. Magni a modi autem earum dolor. Commodi iure consectetur doloribus minima aliquid minima. Quidem recusandae quisquam facilis repudiandae occaecati similique.",
-    "address": 501,
+    "address": { "country": "France" },
     "job_type": "FT",
     "salary": 44976
 },
@@ -21,7 +46,7 @@ const data = [{
     "id": 2,
     "title": "Contracting civil engineer",
     "description": "Fugiat adipisci tempore. Consectetur veniam quaerat deleniti assumenda sapiente.",
-    "address": 502,
+    "address": { "country": "France" },
     "job_type": "IN",
     "salary": 74726
 },
@@ -29,7 +54,7 @@ const data = [{
     "id": 3,
     "title": "Office manager",
     "description": "Pariatur magnam quisquam distinctio. Repudiandae asperiores quidem dolor. Voluptatum omnis dolorem magnam et commodi magnam officiis.",
-    "address": 503,
+    "address": { "country": "Germany" },
     "job_type": "TM",
     "salary": 35685
 },
@@ -37,16 +62,28 @@ const data = [{
     "id": 4,
     "title": "Chief Executive Officer",
     "description": "Aliquid mollitia vitae blanditiis dignissimos dignissimos. Maiores architecto voluptatum ex. Corrupti voluptatem esse eum nostrum adipisci explicabo.",
-    "address": 504,
+    "address": { "country": "Germany" },
     "job_type": "PT",
     "salary": 61939
 }]
 
-const mockedAxios = vi.mock("../../../utils/AxiosInstance", () => ({
+vi.mock("../../../utils/AxiosInstance", () => ({
     __esModule: true,
     default: {
-        get: vi.fn(() => {
-            return Promise.resolve({ data: data })
+        get: vi.fn((url) => {
+            if (url == "api/jobs/1/company/" || url == "api/jobs/2/company/") {
+                return Promise.resolve({ data: company })
+            }
+            else if (url == "api/addresses/") {
+                return Promise.resolve({ data: addresses })
+            }
+            else if (url == "api/jobs/1/address/" || url == "api/jobs/2/address/") {
+                return Promise.resolve({ data: addressF })
+            }
+            else if (url == "api/jobs/3/address/" || url == "api/jobs/4/address/") {
+                return Promise.resolve({ data: addressG })
+            }
+            return Promise.resolve({ data: {} })
         }),
     },
 }));
@@ -156,6 +193,7 @@ describe('JobFilterList component', () => {
         act(() => {
             fireEvent.change(jobTypeFilter, { target: { value: "TM" } });
             const temporary = screen.getByText("Temporary")
+
             fireEvent.click(temporary)
         })
         const jobs = await screen.findAllByRole("list");
@@ -175,12 +213,13 @@ describe('JobFilterList component', () => {
         });
         const locationFilter = await (await screen.findByTestId("location")).querySelector('input')
         act(() => {
-            fireEvent.change(locationFilter, { target: { value: "france" } });
-            const france = screen.getByText("france")
-            fireEvent.click(france)
+            fireEvent.change(locationFilter, { target: { value: "France" } });
+            fireEvent.keyDown(locationFilter, { key: 'Enter', keyCode: 13 })
+
         })
         const jobs = await screen.findAllByRole("list");
-        expect(jobs).toHaveLength(2);
-        expect(screen.getByText("Office manager")).toBeInTheDocument();
+        expect(jobs).toHaveLength(3);
+        expect(screen.getByText("Contracting civil engineer")).toBeInTheDocument();
+        expect(screen.getByText("Administrator, local government")).toBeInTheDocument();
     })
 });
