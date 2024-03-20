@@ -5,19 +5,19 @@ function DisplaySoftSkills({ resumeId }) {
   const [softSkills, setSoftSkills] = useState([]);
 
   useEffect(() => {
-    const fetchResume = async () => {
+    const fetchSoftSkills = async () => {
       if (!resumeId) {
         return;
       }
       try {
-        const response = await AxiosInstance.get(`api/resumes/${resumeId}/`);
-        setResume(response.data);
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/soft-skills/`);
+        setSoftSkills(response.data);
       } catch (error) {
         console.error("Error:", error);
       }
     };
   
-    fetchResume();
+    fetchSoftSkills();
   }, [resumeId]);
   return (
     <div>
