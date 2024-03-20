@@ -1,8 +1,7 @@
 import React from 'react';
 import { vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act, cleanup } from '@testing-library/react';
 import JobList from '../JobList';
-
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 
@@ -39,54 +38,63 @@ const data = [{
     "salary": 61939
 }]
 
+vi.mock("../../JobSummary/JobSummary", async (importOriginal) => {
+    const actual = await importOriginal()
+    return {
+        ...actual,
+        JobCard: vi.fn(() => <div></div>)
+    }
+});
+vi.mock("../../../utils/AxiosInstance", () => ({
+    __esModule: true,
+    default: {
+        get: vi.fn(() => {
+            return Promise.resolve({ data: {} })
+        }),
+    },
+}));
+
 describe('JobSearchList component', () => {
 
     beforeEach(() => {
-        render(
-            <MemoryRouter>
-                <AuthProvider>
-                    <JobList data={data} />
-                </AuthProvider>
-            </MemoryRouter>
-        );
-    });
-
-    test('renders search bar', () => {
-        vi.mock("../../JobSummary/JobSummary", () => {
-            return {
-                default: () => (<div data-testid="mock-jobsummary"> </div>)
-            }
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobList data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
         })
-        const searchBar = screen.getByTestId("jobsearchbar");
-        expect(searchBar).toBeInTheDocument();
-        vi.unmock("../../JobSummary/JobSummary")
     });
 
-    test('renders jobs correctly', () => {
-        const jobs = screen.getAllByRole("list");
+    afterEach(cleanup);
+
+    test('renders search bar', async () => {
+        const searchBar = await screen.findByTestId("jobsearchbar");
+        expect(searchBar).toBeInTheDocument();
+    });
+
+    test('renders jobs correctly', async () => {
+        const jobs = await screen.findAllByRole("list");
         expect(jobs).toHaveLength(5); //there are 4 jobs, but this includes antd for some reason
     });
 
-    test('search updates on change', () => {
-        vi.mock("../../JobSummary/JobSummary", () => {
-            return {
-                default: () => (<div data-testid="mock-jobsummary"> </div>)
-            }
+    test('search updates on change', async () => {
+        const input = await screen.findByPlaceholderText("Search Jobs")
+        act(() => {
+            fireEvent.change(input, { target: { value: 'test' } })
         })
-        const input = screen.getByPlaceholderText("Search Jobs")
-
-        fireEvent.change(input, { target: { value: 'test' } })
-
         expect(input.value).toBe('test')
-        vi.unmock("../../JobSummary/JobSummary")
     });
 
-    test('searched jobs appear correctly', () => {
-        const input = screen.getByPlaceholderText("Search Jobs")
-        fireEvent.change(input, { target: { value: 'administrator' } })
-        const jobs = screen.getAllByRole("list")
+    test('searched jobs appear correctly', async () => {
+        const input = await screen.findByPlaceholderText("Search Jobs")
+        act(() => {
+            fireEvent.change(input, { target: { value: 'administrator' } })
+        })
+        const jobs = await screen.findAllByRole("list")
         expect(jobs).toHaveLength(2);
         expect(screen.getByText("Administrator, local government")).toBeInTheDocument()
     });
-
 });
