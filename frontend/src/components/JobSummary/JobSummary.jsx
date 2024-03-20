@@ -10,14 +10,10 @@ const JobSummary = ({ job }) => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [company, SetCompany] = useState({});
-  const [address, setAddress] = useState({});
 
   useEffect(() => {
     AxiosInstance.get(`api/jobs/${job.id}/company/`).then((res) =>
       SetCompany(res.data)
-    );
-    AxiosInstance.get(`api/jobs/${job.id}/address/`).then((res) =>
-      setAddress(res.data)
     );
   }, []);
 
@@ -40,7 +36,7 @@ const JobSummary = ({ job }) => {
 
   return (
     <div className="w-full justify-center" onClick={handleClick}>
-      <JobCard title={job.title} companyName={company.company_name} city={address.city} country={address.country} description={formattedDescription} />
+      <JobCard title={job.title} companyName={company.company_name} city={job.address.city} country={job.address.country} description={formattedDescription} />
     </div>
   );
 };

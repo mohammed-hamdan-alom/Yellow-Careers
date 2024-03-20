@@ -11,18 +11,7 @@ const JobFilter = ({ data }) => {
     contractType: "all",
     location: "all", //Location is treated as only country
   });
-  const [addresses, setAddresses] = useState([]);
   const [countries, setCountries] = useState([]);
-
-
-  //Return country from address id
-  const getCountry = (id) => {
-    if (id == undefined) {
-      return "None"
-    }
-    const address = addresses.find(address => address.id == id)
-    return address.country
-  }
 
   const onPayChangeFilter = (e) => {
     const value = e;
@@ -79,7 +68,6 @@ const JobFilter = ({ data }) => {
   useEffect(() => {
     AxiosInstance.get(`api/addresses/`)
       .then((res) => {
-        setAddresses(res.data)
         const countries = res.data.map(address => address.country)
         setCountries(Array.from(new Set(countries)))
       })

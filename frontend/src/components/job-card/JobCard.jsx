@@ -5,7 +5,7 @@ import { MapPin } from 'lucide-react';
 const JobCard = ({ title, companyName, city, country, description }) => {
   return (
     <div>
-      <Card className="w-full mt-10 cursor-pointer" style={{ boxShadow: '0 0 5px #808080' } }>
+      <Card className="w-full mt-10 cursor-pointer" style={{ boxShadow: '0 0 5px #808080' }}>
         <CardHeader className="justify-center items-left mt-4">
           <CardTitle className="text-3xl font-bold">{title}</CardTitle>
         </CardHeader>
@@ -14,8 +14,8 @@ const JobCard = ({ title, companyName, city, country, description }) => {
           <div className="mt-4">
             <div className="justify-start items-start flex flex-row">
               <MapPin className="mr-2" />
-              <span className="mr-1">{city}, </span>
-              <span>{country}</span>
+              <span data-testid="city" className="mr-1">{city}, </span>
+              <span data-testid="country">{country}</span>
             </div>
           </div>
           <div className="mt-4">
