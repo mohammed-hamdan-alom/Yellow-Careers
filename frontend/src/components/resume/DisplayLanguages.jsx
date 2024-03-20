@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
+import { Tag } from "antd";
+import '../styling/tag.css';
+import '../styling/shadow.css';
+
 
 function DisplayLanguages({ resumeId }) {
   const [languages, setLanguages] = useState([]);
@@ -16,14 +20,16 @@ function DisplayLanguages({ resumeId }) {
   }, [resumeId]);
 
   return (
-    <div>
-      <h3>Languages</h3>
+    <div className="bg-white shadow-orange rounded-md p-6 mt-6">
+      <h3 className="text-lg font-semibold mb-2">
+        <Tag className="tag-large" color="orange">Languages</Tag>
+      </h3>
       <ul>
         {languages.map((language, index) => (
-          <li key={index}>
-            <p>Language: {language.language}</p>
-            <p>Spoken proficiency: {language.spoken_proficiency}</p>
-            <p>Written proficiency: {language.written_proficiency}</p>
+          <li key={index} className="text-gray-600 mb-4">
+            <p><strong>Language:</strong> {language.language}</p>
+            <p><strong>Spoken proficiency:</strong> {language.spoken_proficiency}</p>
+            <p><strong>Written proficiency:</strong> {language.written_proficiency}</p>
           </li>
         ))}
       </ul>
