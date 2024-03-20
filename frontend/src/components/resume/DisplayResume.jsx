@@ -32,10 +32,18 @@ function DisplayResume({ resumeId }) {
   return (
     <div className="bg-white shadow-orange rounded-md p-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-semibold mb-4">Resume Info</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <h2 className="text-2xl font-semibold mb-4">Resume</h2>
+        <div className="flex flex-col mb-4">
+          <Label>About:</Label>
+          <span className="text-gray-500">{resume.about}</span>
+        </div>
+        <div className="flex flex-col mb-4">
+          <Label>Experience:</Label>
+          <span className="text-gray-500">{resume.experience}</span>
+        </div>
+        <div className="flex space-x-20">
           <div className="flex flex-col">
-            <Label>Github:</Label>
+            <Label>GitHub:</Label>
             <span>
               <a
                 href={resume.github}
@@ -59,14 +67,6 @@ function DisplayResume({ resumeId }) {
                 {resume.linkedin}
               </a>
             </span>
-          </div>
-          <div className="flex flex-col">
-            <Label>About:</Label>
-            <span className="text-gray-500">{resume.about}</span>
-          </div>
-          <div className="flex flex-col">
-            <Label>Experience:</Label>
-            <span className="text-gray-500">{resume.experience}</span>
           </div>
         </div>
       </div>
