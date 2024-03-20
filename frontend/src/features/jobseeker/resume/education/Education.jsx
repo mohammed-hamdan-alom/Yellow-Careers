@@ -16,31 +16,33 @@ function Education({ resumeId }) {
   const [openPopupId, setOpenPopupId] = useState(null);
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/educations/`)
-      .then((response) => {
+    const fetchEducations = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
         setEducations(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchEducations();
   }, [resumeId]);
 
   //Delete education
-  const handleDeleteEducation = (educationObj) => {
-    AxiosInstance.delete(
-      `http://localhost:8000/api/resumes/${resumeId}/educations/update/${educationObj.id}`
-    )
-      .then((response) => {
-        showSuccess("Education Deleted");
-        setEducations((prevEducations) =>
-          prevEducations.filter((item) => item !== educationObj)
-        );
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showError("Deleting Education Failed");
-      });
+  const handleDeleteEducation = async (educationObj) => {
+    try {
+      await AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/educations/update/${educationObj.id}`);
+      showSuccess("Education Deleted");
+      setEducations((prevEducations) =>
+        prevEducations.filter((item) => item !== educationObj)
+      );
+    } catch (error) {
+      console.error("Error:", error);
+      showError("Deleting Education Failed");
+    }
   };
 
   return (

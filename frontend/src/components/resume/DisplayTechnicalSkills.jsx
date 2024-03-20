@@ -5,14 +5,19 @@ function DisplayTechnicalSkills({ resumeId }) {
   const [technicalSkills, setTechnicalSkills] = useState([]);
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/technical-skills/`)
-      .then((response) => {
+    const fetchTechnicalSkills = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/technical-skills/`);
         setTechnicalSkills(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchTechnicalSkills();
   }, [resumeId]);
 
   return (

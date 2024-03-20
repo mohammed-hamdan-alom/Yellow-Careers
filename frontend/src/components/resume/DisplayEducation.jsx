@@ -5,14 +5,18 @@ function DisplayEducation({ resumeId }) {
   const [educations, setEducations] = useState([]);
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/educations/`)
-      .then((response) => {
+    const fetchEducations = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
         setEducations(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };  
+    fetchEducations();
   }, [resumeId]);
 
 

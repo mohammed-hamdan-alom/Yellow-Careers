@@ -4,16 +4,23 @@ import AxiosInstance from "@/utils/AxiosInstance";
 
 function DisplayProfessionalExperience({ resumeId }) {
   const [professionalExperiences, setProfessionalExperiences] = useState([]);
+  
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`)
-      .then((response) => {
+    const fetchProfessionalExperiences = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`);
         setProfessionalExperiences(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchProfessionalExperiences();
   }, [resumeId]);
+
 
   return (
     <div>

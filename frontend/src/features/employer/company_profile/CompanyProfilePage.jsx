@@ -27,28 +27,27 @@ function CompanyProfilePage() {
   const userId = user.user_id;
 
   useEffect(() => {
-    AxiosInstance.get(`api/employers/${userId}`)
-      .then((response) => {
-        setEmployer(response.data);
-        AxiosInstance.get(`api/companies/${response.data.company}`).then(
-          (response) => {
-            setCompanyData({
-              company_name: response.data.company_name,
-              about: response.data.about,
-              website: response.data.website,
-              id: response.data.id,
-            });
-            AxiosInstance.get(
-              `api/companies/${response.data.id}/employers`
-            ).then((response) => {
-              setEmployers(response.data);
-            });
-          }
-        );
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      try {
+        const employerResponse = await AxiosInstance.get(`api/employers/${userId}`);
+        setEmployer(employerResponse.data);
+  
+        const companyResponse = await AxiosInstance.get(`api/companies/${employerResponse.data.company}`);
+        setCompanyData({
+          company_name: companyResponse.data.company_name,
+          about: companyResponse.data.about,
+          website: companyResponse.data.website,
+          id: companyResponse.data.id,
+        });
+  
+        const employersResponse = await AxiosInstance.get(`api/companies/${companyResponse.data.id}/employers`);
+        setEmployers(employersResponse.data);
+      } catch (error) {
         console.error(error);
-      });
+      }
+    };
+  
+    fetchData();
   }, []);
 
   const [errors, setErrors] = useState({
@@ -64,21 +63,18 @@ function CompanyProfilePage() {
     });
   };
 
-  const handleSubmit = (event) => {
-
-
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    AxiosInstance.put(`api/companies/${companyData.id}/update/`, editedCompanyData)
-      .then((response) => {
-        showSuccess("Company Profile Updated");
-        setShowEdit(false);
-        setCompanyData(editedCompanyData);
-      })
-      .catch((error) => {
-        console.error(error);
-        setErrors(error.response.data);
-        showError("Company Profile Update Failed");
-      });
+    try {
+      const response = await AxiosInstance.put(`api/companies/${companyData.id}/update/`, editedCompanyData);
+      showSuccess("Company Profile Updated");
+      setShowEdit(false);
+      setCompanyData(editedCompanyData);
+    } catch (error) {
+      console.error(error);
+      setErrors(error.response.data);
+      showError("Company Profile Update Failed");
+    }
   };
 
   return (
