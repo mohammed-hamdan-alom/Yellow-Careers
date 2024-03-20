@@ -1,12 +1,13 @@
 import React from 'react';
 import { vi } from 'vitest';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, cleanup, act } from '@testing-library/react';
 import JobFilter from '../JobFilter';
-import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 
-
+// const countries = [{
+//     { "country": }
+// }]
 
 const data = [{
     "id": 1,
@@ -41,47 +42,145 @@ const data = [{
     "salary": 61939
 }]
 
+const mockedAxios = vi.mock("../../../utils/AxiosInstance", () => ({
+    __esModule: true,
+    default: {
+        get: vi.fn(() => {
+            return Promise.resolve({ data: data })
+        }),
+    },
+}));
+
+vi.mock("../../JobSummary/JobSummary", async (importOriginal) => {
+    const actual = await importOriginal()
+    return {
+        ...actual,
+        JobCard: vi.fn(() => <div></div>)
+    }
+});
+
 describe('JobFilterList component', () => {
 
-    beforeEach(() => {
-        render(
-            <MemoryRouter>
-                <AuthProvider>
-                    <JobFilter data={data} />
-                </AuthProvider>
-            </MemoryRouter>
-        );
-    });
+    afterEach(cleanup);
 
-    test('renders JobSearchList component', () => {
-        const searchList = screen.getByTestId("jobsearchbar");
+    test('renders JobList component', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobFilter data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
+        })
+        const searchList = await screen.findByTestId("jobsearchbar");
         expect(searchList).toBeInTheDocument();
     });
 
-    test('renders Location filter', () => {
-        const location = screen.getByTestId("location");
+    test('renders Location filter', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobFilter data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
+        })
+        const location = await screen.findByTestId("location");
         expect(location).toBeInTheDocument();
     });
 
-    test('renders Pay filter', () => {
-        const pay = screen.getByTestId("pay");
+    test('renders Pay filter', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobFilter data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
+        })
+        const pay = await screen.findByTestId("pay");
         expect(pay).toBeInTheDocument();
     });
 
-    test('renders Contract filter', () => {
-        const contract = screen.getByTestId("contract");
+    test('renders Contract filter', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobFilter data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
+        })
+        const contract = await screen.findByTestId("jobType");
         expect(contract).toBeInTheDocument();
     });
 
-    // test('Pay Filter filters correctly', () => {
-    //     const payFilter = within(screen.getByTestId("pay")).getByRole("combobox")
-    //     console.log(payFilter)
-    //     userEvent.click(payFilter)
-    //     userEvent.click(screen.getByTitle("£45,000+"))
-    //     const jobs = screen.getAllByRole("list");
-    //     expect(jobs).toHaveLength(2);
-    //     expect(screen.getByText("Contracting civil engineer")).toBeInTheDocument();
-    //     expect(screen.getByText("Chief Executive Officer")).toBeInTheDocument();
+    test('Pay filters correctly', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobFilter data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
+        });
+        const payFilter = await (await screen.findByTestId("pay")).querySelector('input')
+        act(() => {
+            fireEvent.change(payFilter, { target: { value: "45000" } });
+            const fortyfivethousand = screen.getByText("£45,000+")
+            fireEvent.click(fortyfivethousand)
+        })
+        const jobs = await screen.findAllByRole("list");
+        expect(jobs).toHaveLength(3);
+        expect(screen.getByText("Contracting civil engineer")).toBeInTheDocument();
+        expect(screen.getByText("Chief Executive Officer")).toBeInTheDocument();
 
-    // })
+    })
+
+    test('JobType filters correctly', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobFilter data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
+        });
+        const jobTypeFilter = await (await screen.findByTestId("jobType")).querySelector('input')
+        act(() => {
+            fireEvent.change(jobTypeFilter, { target: { value: "TM" } });
+            const temporary = screen.getByText("Temporary")
+            fireEvent.click(temporary)
+        })
+        const jobs = await screen.findAllByRole("list");
+        expect(jobs).toHaveLength(2);
+        expect(screen.getByText("Office manager")).toBeInTheDocument();
+    })
+
+    test('Location filters correctly', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthProvider>
+                        <JobFilter data={data} />
+                    </AuthProvider>
+                </MemoryRouter>
+            );
+        });
+        const locationFilter = await (await screen.findByTestId("location")).querySelector('input')
+        act(() => {
+            fireEvent.change(locationFilter, { target: { value: "france" } });
+            const france = screen.getByText("france")
+            fireEvent.click(france)
+        })
+        const jobs = await screen.findAllByRole("list");
+        expect(jobs).toHaveLength(2);
+        expect(screen.getByText("Office manager")).toBeInTheDocument();
+    })
 });
