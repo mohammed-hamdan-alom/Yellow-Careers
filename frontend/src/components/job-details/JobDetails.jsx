@@ -3,10 +3,18 @@ import { Label } from '@/components/ui/label';
 import { MapPin, HandCoins } from 'lucide-react';
 
 const JobDetailsDisplay = ({ title, description, companyName, salary, jobType, address }) => {
+
+  const formattedDescription = description ? description.split("\n").map((line, index) => (
+    <React.Fragment key={index}>
+      {line}
+      <br />
+    </React.Fragment>
+  )) : '';
+
   return (
     <div>
       <Label className="text-3xl font-bold">{title}</Label>
-      <p className="text-lg mb-4 mt-3">{description}</p>
+      <p className="text-lg mb-4 mt-3">{formattedDescription}</p>
       <Label className="text-xl font-semibold mb-2 " style={{ color: '#4A5568' }}>{companyName}</Label> 
       <div className="flex flex-wrap mb-4">
         <div className="w-full md:w-1/2 flex items-center mb-2">

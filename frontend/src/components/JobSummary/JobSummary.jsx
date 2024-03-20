@@ -29,7 +29,7 @@ const JobSummary = ({ job }) => {
     }
   };
 
-  const formattedDescription = job.description
+  const formattedDescription = (job.description.length > 200 ? job.description.substring(0, 200) + '...' : job.description)
     .split("\n")
     .map((paragraph, index) => (
       <React.Fragment key={index}>
