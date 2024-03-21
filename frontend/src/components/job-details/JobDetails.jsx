@@ -21,7 +21,7 @@ const JobDetailsDisplay = ({ title, description, companyName, salary, jobType, a
       <div className="flex flex-wrap mb-4">
         <div className="w-auto flex items-center">
           <Tag className="tag-large flex items-center" color='green'>
-            <MapPin className="mr-2 text-gray-700" size={20} />
+            <MapPin className="mr-2 text-gray-700" color='green' size={20} />
             <span>Location: {address.post_code}, {address.city}, {address.country}</span>
           </Tag>
         </div>

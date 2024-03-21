@@ -72,7 +72,7 @@ function AppliedJobDetails() {
         <div>
             <Label className="text-xl font-semibold">
                 Date Applied: {application.date_applied} | 
-                Status: <Tag className="tag-large" icon={decisionIcon} color={decisionColor}>{decisionText}</Tag>
+                Status: <Tag className='pulsate tag-medium' icon={decisionIcon} color={decisionColor}>{decisionText}</Tag>
             </Label>
             <div className="mb-4"></div>
             <DisplayResume resumeId={resume.id} />

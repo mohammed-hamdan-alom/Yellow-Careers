@@ -137,7 +137,7 @@ function JobDetails() {
 
     return (
         <div>
-            <div className="mb-8">
+            <div className="mb-3">
                 <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
             <Space>
