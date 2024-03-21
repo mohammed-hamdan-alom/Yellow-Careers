@@ -14,15 +14,15 @@ const JobCard = ({ title, companyName, city, country, description, salary, jobTy
                     <div className="font-bold" style={{ color: '#4A5568' }}>{companyName}</div> {/* Set Company Name to grey and bold */}
                     <div className="flex mt-4">
                         <Tag style={{ display: 'flex', alignItems: 'center' }} color='green'>
-                            <MapPin className="mr-2 text-gray-700" size={20} />
+                            <MapPin className="mr-2 text-gray-700" color='green' size={15} />
                             <span>Location: {city}, {country}</span>
                         </Tag>
                         <Tag style={{ display: 'flex', alignItems: 'center', marginLeft: '10px' }} color='blue'>
-                            <HandCoins className="mr-2" size={20} />
+                            <HandCoins className="mr-2" size={15} />
                             <span>Salary: £{salary}</span>
                         </Tag>
                         <Tag style={{ display: 'flex', alignItems: 'center', marginLeft: '10px' }} color='purple'>
-                            <Briefcase className="mr-2" size={20} /> Job Type: {jobType}
+                            <Briefcase className="mr-2" size={15} /> Job Type: {jobType}
                         </Tag>
                     </div>
                     <div className="mt-4">

@@ -15,17 +15,17 @@ const JobDetailsDisplay = ({ title, description, companyName, salary, jobType, a
   return (
     <div>
       <Label className="text-3xl font-bold">{title}</Label>
-      <div className="flex mb-2">
+      <div className="flex mb-1">
         <Label className="text-xl font-semibold" style={{ color: '#4A5568' }}>{companyName}</Label>
       </div>
-      <div className="flex flex-wrap mb-4">
-        <div className="w-auto flex items-center">
+      <div className="flex flex-wrap mb-2">
+        <div className="w-auto flex items-center mr-2">
           <Tag className="tag-large flex items-center" color='green'>
-            <MapPin className="mr-2 text-gray-700" size={20} />
+            <MapPin className="mr-2 text-gray-700" color='green' size={20} />
             <span>Location: {address.post_code}, {address.city}, {address.country}</span>
           </Tag>
         </div>
-        <div className="w-auto flex items-center">
+        <div className="w-auto flex items-center mr-2">
           <Tag className="tag-large flex items-center" color='blue'>
             <HandCoins className="mr-2" size={20} />
             <span>Salary: £{salary}</span>

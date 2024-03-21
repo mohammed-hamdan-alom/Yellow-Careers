@@ -48,7 +48,7 @@ function JobQuestions() {
             navigate(`/job-seeker/job-details/${jobId}`);
           } catch (error) {
             if (error.response) {
-              const data = await error.response.json();
+              const data = await error.response.data;
               let errorMessage = '';
               for (let key in data) {
                 if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
@@ -83,7 +83,16 @@ function JobQuestions() {
             const application = response.data;
             createAnswers(application.id);
           } catch (error) {
-            console.error('Error creating application:', error);
+            if (error.response) {
+              const data = await error.response.data;
+              let errorMessage = '';
+              for (let key in data) {
+                if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
+                  errorMessage += `${key}: ${data[key].join(', ')}\n`;
+                }
+              }
+              showError(errorMessage);
+            }
           }
         }
       };
