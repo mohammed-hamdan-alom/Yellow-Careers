@@ -126,7 +126,7 @@ const EmployerProfile = () => {
       </div>
 
       <div style={{ marginTop: '25px' }}>
-          <Button className="applyButton" type="submit" onClick={handleSubmit} >Update Profile</Button>
+          <Button className="yellowButton" type="submit" onClick={handleSubmit} >Update Profile</Button>
       </div>
     </form>
   );
