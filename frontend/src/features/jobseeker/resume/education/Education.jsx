@@ -67,7 +67,7 @@ function Education({ resumeId }) {
                   setOpenPopupId(education.id);
                 }}
               >
-                <SquarePen className="w-5 h-5"/>
+                <SquarePen className="w-5 h-5" />
               </Button>
               <Popup trigger={editPopup} setTrigger={setEditPopup}>
                 <EditEducationPage
@@ -84,7 +84,7 @@ function Education({ resumeId }) {
                   handleDeleteEducation(education);
                 }}
               >
-                <MinusCircle className="w-5 h-5"/>
+                <MinusCircle className="w-5 h-5" />
               </Button>
             </div>
           </div>
@@ -96,7 +96,7 @@ function Education({ resumeId }) {
           variant="outline"
           onClick={() => setCreatePopup(true)}
         >
-          Add Education 
+          Add Education
         </Button>
         <Popup trigger={createPopup} setTrigger={setCreatePopup}>
           <EditEducationPage

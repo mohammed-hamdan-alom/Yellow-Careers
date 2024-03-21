@@ -22,7 +22,8 @@ import SavedJobListPage from "./features/jobseeker/job-list/saved-jobs/SavedJobs
 import AppliedJobDetails from "./features/jobseeker/job-details/applied-job-details-page/AppliedJobDetailsPage";
 
 import JobApplicantsPage from "./features/employer/job_applicants/JobApplicants";
-import JobCreation from "@/features/employer/job_creation/JobCreation";
+import JobCreation from "@/features/employer/job_creation/JobCreation";;
+import QuestionCreation from "./features/employer/job_creation/QuestionCreation";
 import EmployerLayout from "./features/employer/layout/EmployerLayout";
 import EmployerDashBoardPage from "./features/employer/dashboard/EmployerDashBoardPage";
 import ApplicationDetails from "./features/employer/application_details/ApplicationDetails";
@@ -62,6 +63,7 @@ function App() {
       <Route path="/employer/*" element={<EmployerLayout />}>
         <Route path="dashboard" element={<EmployerDashBoardPage />} />
         <Route path="create-job" element={<JobCreation />} />
+        <Route path="create-questions/:jobId" element={<QuestionCreation />} />
         <Route path="job-applicants/:jobId" element={<JobApplicantsPage />} />
         <Route path="job-details/:jobId" element={<JobDetailsEmployer />} />
         <Route path="application-details/:applicationId" element={<ApplicationDetails />} />

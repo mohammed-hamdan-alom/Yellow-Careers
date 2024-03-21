@@ -4,7 +4,7 @@ from api.models import JobSeeker, Job, Application, EmployerJobRelation,Employer
 from api.serializers import JobSeekerSerializer
 from api.matchmaker.matchmaker import *
 from rest_framework.exceptions import PermissionDenied
-
+from django.shortcuts import get_object_or_404
 
 class BaseJobSeekerView:
     queryset = JobSeeker.objects.all()
@@ -37,3 +37,10 @@ class ApplicantListView(BaseJobSeekerView, generics.ListAPIView):
             return getMatchedApplicantsForJob(Job.objects.get(id=job_id), [application.job_seeker for application in applications])
         else:
             raise PermissionDenied("You do not have permission to view this application.")
+
+class JobSeekerFromApplicationRetrieveView(BaseJobSeekerView, generics.RetrieveAPIView):
+
+    def get_object(self):
+        application_id = self.kwargs["application_id"]
+        application = get_object_or_404(Application, id=application_id)
+        return application.job_seeker
