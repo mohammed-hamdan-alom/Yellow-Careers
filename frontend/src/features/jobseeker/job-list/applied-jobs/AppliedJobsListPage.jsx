@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobList from "../../../../components/search/JobList";
+import JobFilter from "../../../../components/search/JobFilter";
 
 function AppliedJobListPage() {
   //
@@ -26,7 +27,7 @@ function AppliedJobListPage() {
   return (
     <div className=" flex flex-col justify-center">
       {jobs.length > 0 ? (
-        <JobList data={jobs} />
+        <JobFilter data={jobs} />
       ) : (
         <h1>No applied jobs</h1>
       )}

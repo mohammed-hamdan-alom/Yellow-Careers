@@ -3,6 +3,7 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobList from "../../../../components/search/JobList";
 import { Label } from "@/components/ui/label";
+import JobFilter from "../../../../components/search/JobFilter";
 
 function SavedJobListPage() {
   // get the user id from the context
@@ -29,7 +30,7 @@ function SavedJobListPage() {
   return (
     <div className="flex flex-col justify-center">
       {jobs.length > 0 ? (
-        <JobList data={jobs} />
+        <JobFilter data={jobs} />
       ) : (
         <Label className="text-lg text-gray-500 font-semibold mt-4">No Saved jobs</Label>
       )}
