@@ -3,7 +3,7 @@ import JobSummary from "../JobSummary/JobSummary";
 import { Input } from "@/components/ui/input";
 import { Pagination } from "antd";
 
-const JobSearchBar = ({ database }) => {
+const JobList = ({ data }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +12,7 @@ const JobSearchBar = ({ database }) => {
   const handleSearch = (e) => {
     const query = e.target.value;
     setQuery(query);
-    const filteredResults = database.filter((item) =>
+    const filteredResults = data.filter((item) =>
       item.title.toLowerCase().includes(query.toLowerCase())
     );
     setResults(filteredResults);
@@ -20,8 +20,8 @@ const JobSearchBar = ({ database }) => {
   };
 
   useEffect(() => {
-    setResults(database);
-  }, [database]);
+    setResults(data);
+  }, [data]);
 
   const handlePageChange = (page, pageSize) => {
     setCurrentPage(page);
@@ -41,6 +41,7 @@ const JobSearchBar = ({ database }) => {
       <Input
         className="form-control mt-4"
         type="text"
+        data-testid="jobsearchbar"
         value={query}
         onChange={handleSearch}
         placeholder="Search Jobs"
@@ -63,4 +64,4 @@ const JobSearchBar = ({ database }) => {
   );
 };
 
-export default JobSearchBar;
+export default JobList;

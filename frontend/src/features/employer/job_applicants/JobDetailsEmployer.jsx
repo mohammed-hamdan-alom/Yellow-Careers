@@ -9,6 +9,7 @@ import { Button } from "antd";
 const JobDetailsEmployer = () => {
     const { user } = useContext(AuthContext);
     const userId = user.user_id;
+    const [dataReceived, setDataReceived] = useState(false);
 
     const { jobId } = useParams();
     const navigate = useNavigate();
@@ -24,35 +25,45 @@ const JobDetailsEmployer = () => {
     const [company, setCompany] = useState({});
     const [employers, setEmployers] = useState([]);
     const [companyEmployers, setCompanyEmployers] = useState([]);
+    const [currentEmployer, setCurrentEmployer] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const responses = await Promise.all([
-              AxiosInstance.get(`api/jobs/${jobId}/`),
-              AxiosInstance.get(`api/jobs/${jobId}/company/`),
-              AxiosInstance.get(`api/jobs/${jobId}/address/`),
-              AxiosInstance.get(`api/jobs/${jobId}/questions/`),
-              AxiosInstance.get(`api/job/${jobId}/employers/`),
-              AxiosInstance.get(`api/employers/company/${userId}/`)
-            ]);
-      
-            setJob(responses[0].data);
-            setCompany(responses[1].data);
-            setAddress(responses[2].data);
-            setQuestions(responses[3].data);
-            setEmployers(responses[4].data);
-            setCompanyEmployers(responses[5].data);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-            if (error.response && (error.response.status === 403 || error.response.status === 404)) {
-              window.location.href = "/employer/dashboard";
+            try {
+                const responses = await Promise.all([
+                    AxiosInstance.get(`api/jobs/${jobId}/`),
+                    AxiosInstance.get(`api/jobs/${jobId}/company/`),
+                    AxiosInstance.get(`api/jobs/${jobId}/address/`),
+                    AxiosInstance.get(`api/jobs/${jobId}/questions/`),
+                    AxiosInstance.get(`api/job/${jobId}/employers/`),
+                    AxiosInstance.get(`api/employers/company/${userId}/`)
+                ]);
+
+                setJob(responses[0].data);
+                setCompany(responses[1].data);
+                setAddress(responses[2].data);
+                setQuestions(responses[3].data);
+                setEmployers(responses[4].data);
+                setCompanyEmployers(responses[5].data);
+                setDataReceived(true);
+                //Sets current employer to logged in employer in order to receive company admin status
+                responses[4].data.forEach((employer) => {
+                    if (employer.id == user.user_id) {
+                        setCurrentEmployer(employer)
+                    }
+                })
             }
-          }
+
+            catch (error) {
+                console.error('Error fetching data:', error);
+                if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+                    window.location.href = "/employer/dashboard";
+                }
+            }
         };
-      
+
         fetchData();
-      }, [jobId, userId]);
+    }, [jobId, userId, dataReceived]);
 
     const handleClick = () => {
         navigate(`/employer/job-applicants/${jobId}`);
@@ -68,31 +79,31 @@ const JobDetailsEmployer = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
-        try {
-          await AxiosInstance.post('api/employer-job-relations/create/', {
-            employer: formData.employer,
-            job: formData.job
-          });
-      
-          window.location.reload();
-        } catch (error) {
-          console.log(error);
-        }
-      };
 
-      const handleRemove = async (id) => {
         try {
-          await AxiosInstance.delete(`api/employer-job-relations/delete/${jobId}/${id}/`, {
-            employer: id,
-            job: jobId
-          });
-      
-          window.location.reload();
+            await AxiosInstance.post('api/employer-job-relations/create/', {
+                employer: formData.employer,
+                job: formData.job
+            });
+
+            window.location.reload();
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
+    };
+
+    const handleRemove = async (id) => {
+        try {
+            await AxiosInstance.delete(`api/employer-job-relations/delete/${jobId}/${id}/`, {
+                employer: id,
+                job: jobId
+            });
+
+            window.location.reload();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <div>
@@ -115,7 +126,7 @@ const JobDetailsEmployer = () => {
             {employers.map(employer => (
                 <ul key={employer.id}>
                     <h5>{employer.first_name} {employer.last_name}</h5>
-                    {employer.id !== userId && <button onClick={() => handleRemove(employer.id)}>Remove</button>}
+                    {employer.id != userId && currentEmployer.is_company_admin ? <button onClick={() => handleRemove(employer.id)}>Remove</button> : null}
                 </ul>
             ))}
 

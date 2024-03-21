@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import swal from "sweetalert2";
+import swal from 'sweetalert2'
+import { nationalityOptions } from "@/components/Nationalities/nationalityOptions"
 import { UserOutlined } from '@ant-design/icons';
 import { Label } from "@/components/ui/label";
-import { Input,Select, Button } from "antd";
+import { Input, Select, Button } from "antd";
 const { Option } = Select;
-import { Mail, Phone, Calendar, Earth, MapPin   } from 'lucide-react';
+import { Mail, Phone, Calendar, Earth, MapPin } from 'lucide-react';
 import './styling/button.css';
 
 
@@ -112,6 +113,15 @@ const JobSeekerProfile = () => {
     }
   }
 
+  const handleNationalityChange = (value, name) => {
+    console.log(value)
+    if (name === "nationality") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }))
+    }
+  }
 
 
   const handleSubmit = async (e) => {
@@ -140,40 +150,52 @@ const JobSeekerProfile = () => {
 
   return (
     <form onSubmit={handleSubmit} className="container mt-5">
-        <div className="mb-3">
+      <div className="mb-3">
         <Label htmlFor="email" className="text-lg mr-2">
           Email:
         </Label>
-        <Input prefix={<Mail size={16} />} disabled  value={user?.email} />
+        <Input prefix={<Mail size={16} />} disabled value={user?.email} />
       </div>
 
       <div className="mb-3">
         <Label htmlFor="first_name" >First Name: </Label>
-        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon" /> } id="first_name" name="first_name" value={formData.first_name} onChange={(e) => handleChange(e, 'first_name')} />
-      </div> 
+        <Input type="text" prefix={<UserOutlined className="site-form-item-icon" />} id="first_name" name="first_name" value={formData.first_name} onChange={(e) => handleChange(e, 'first_name')} />
+      </div>
       <div className="mb-3">
         <Label htmlFor="last_name">Last Name: </Label>
-        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon"  /> } id="last_name" name="last_name" value={formData.last_name} onChange={(e) => handleChange(e, 'last_name')} />
+        <Input type="text" prefix={<UserOutlined className="site-form-item-icon" />} id="last_name" name="last_name" value={formData.last_name} onChange={(e) => handleChange(e, 'last_name')} />
       </div>
       <div className="mb-3">
         <Label htmlFor="other_names">Other Names: </Label>
-        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon" /> } id="other_names" name="other_names" value={formData.other_names} onChange={(e) => handleChange(e, 'other_names')} />
+        <Input type="text" prefix={<UserOutlined className="site-form-item-icon" />} id="other_names" name="other_names" value={formData.other_names} onChange={(e) => handleChange(e, 'other_names')} />
       </div>
       <div className="mb-3">
         <Label htmlFor="phone_number">Phone Number: </Label>
-        <Input type="text" prefix = {<Phone size={15}/>} id="phone_number" name="phone_number" value={formData.phone_number} onChange={(e) => handleChange(e, 'phone_number')} />
+        <Input type="text" prefix={<Phone size={15} />} id="phone_number" name="phone_number" value={formData.phone_number} onChange={(e) => handleChange(e, 'phone_number')} />
       </div>
       <div className="mb-3">
         <Label htmlFor="dob">Date of Birth: </Label>
-        <Input type="date" prefix = {<Calendar size={15}/>} id="dob" name="dob" value={formData.dob} onChange={(e) => handleChange(e, 'dob')} />
+        <Input type="date" prefix={<Calendar size={15} />} id="dob" name="dob" value={formData.dob} onChange={(e) => handleChange(e, 'dob')} />
       </div>
       <div className="mb-3">
         <Label htmlFor="nationality">Nationality: </Label>
-        <Input type="text" prefix = {<Earth size={15}/>} id="nationality" name="nationality" value={formData.nationality} onChange={(e) => handleChange(e, 'nationality')} />
+        <Select showSearch
+          name="nationality"
+          id="nationality"
+          onChange={(e) => handleNationalityChange(e, "nationality")}
+          value={formData.nationality}
+        >
+          {nationalityOptions
+            .map((option, index) => (
+              <Option key={index} value={option}>
+                {option}
+              </Option>
+            ))}
+        </Select>
       </div>
       <div className="mb-3">
         <Label htmlFor="sex">Sex: </Label>
-        <br/>
+        <br />
         <Select id="sex" name="sex" value={formData.sex} onChange={(e) => handleSexChange(e, 'sex')}>
           <Option value="M">Male</Option>
           <Option value="F">Female</Option>
@@ -181,20 +203,20 @@ const JobSeekerProfile = () => {
       </div>
       <div className="mb-3">
         <Label htmlFor="city">City: </Label>
-        <Input type="text" prefix = {<MapPin size={15}/>} id="city" name="city" value={formData.address.city} onChange={(e) => handleChange(e, 'city')} />
-      </div>
+        <Input type="text" prefix={<MapPin size={15} />} id="city" name="city" value={formData.address.city} onChange={(e) => handleChange(e, 'city')} />
+      </div >
       <div className="mb-3">
         <Label htmlFor="post_code">Post Code: </Label>
-        <Input type="text" prefix = {<MapPin size={15}/>} id="post_code" name="post_code" value={formData.address.post_code} onChange={(e) => handleChange(e, 'post_code')} />
+        <Input type="text" prefix={<MapPin size={15} />} id="post_code" name="post_code" value={formData.address.post_code} onChange={(e) => handleChange(e, 'post_code')} />
       </div>
       <div className="mb-3">
         <Label htmlFor="country">Country: </Label>
-        <Input type="text" prefix = {<MapPin size={15}/>} id="country" name="country" value={formData.address.country} onChange={(e) => handleChange(e, 'country')} />
+        <Input type="text" prefix={<MapPin size={15} />} id="country" name="country" value={formData.address.country} onChange={(e) => handleChange(e, 'country')} />
       </div>
       <div style={{ marginTop: '25px' }}>
-          <Button className="applyButton" type="submit" onClick={handleSubmit} >Update Profile</Button>
+        <Button className="applyButton" type="submit" onClick={handleSubmit} >Update Profile</Button>
       </div>
-    </form>
+    </form >
   );
 };
 

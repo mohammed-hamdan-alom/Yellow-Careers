@@ -2,64 +2,54 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
+import ApplicantSummary from "@/features/employer/job_applicants/ApplicantSummary"
 import Swal from 'sweetalert2';
 import { Label } from '@/components/ui/label';
 import { Button, Space } from 'antd';
 import './button.css';
 
+
 const JobApplicantsPage = () => {
-    const { user } = useContext(AuthContext);
-    const userId = user.user_id;
+  const { user } = useContext(AuthContext);
+  const userId = user.user_id;
 
-    const [applicants, setApplicants] = useState([]);
-    const { jobId } = useParams();
+  const [applications, setApplications] = useState([]);
+  const [jobSeeker, setJobSeeker] = useState({});
+  const { jobId } = useParams();
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchApplicants = async () => {
-          try {
-            const response = await AxiosInstance.get(`api/applicants/${jobId}`);
-            setApplicants(response.data);
-          } catch (error) {
-            console.error("Error:", error.response.data);
-            if (error.response && (error.response.status === 403 || error.response.status === 404)) {
-              window.location.href = "/employer/dashboard";
-            }
-          }
-        };
-      
-        fetchApplicants();
-      }, []);
-
-    const handleShowDetails = () => {
-        navigate(`/employer/job-details/${jobId}`);
-    }
-
-    const handleShowApplication = async (key) => {
-        try {
-          const res = await AxiosInstance.get(`api/applications/${key}/${jobId}`);
-          const applicationId = res.data.id;
-          navigate(`/employer/application-details/${applicationId}`);
-        } catch (error) {
-          console.error("Error:", error.response.data);
+  useEffect(() => {
+    const fetchApplicants = async () => {
+      try {
+        const response = await AxiosInstance.get(`api/applications/job/${jobId}`);
+        setApplications(response.data);
+      } catch (error) {
+        console.error("Error:", error.response.data);
+        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+          window.location.href = "/employer/dashboard";
         }
-      };
+      }
+    };
 
-    return (
-        <div className="mb-8"> 
-            <Button className="viewJobDetailsButton mb-4" onClick={handleShowDetails}>View Job Details</Button> 
-            <h2 className="mb-4"><b>Matched Applicants</b></h2>
-            {applicants.map(applicant => (
-                <div key={applicant.id} className="applicant-item mb-4">
-                    <h3 className="mb-2">
-                        <Button onClick={() => handleShowApplication(applicant.id)} className="mr-2">Show Application</Button>
-                        <Label>{applicant.first_name} {applicant.last_name}</Label>
-                    </h3>
-                </div>
-            ))}
-        </div>
-    )
+    fetchApplicants();
+  }, []);
+
+  const handleShowDetails = () => {
+    navigate(`/employer/job-details/${jobId}`);
+  }
+
+  return (
+    <div>
+      <button onClick={handleShowDetails}> Job Details </button>
+      <h2>Matched applicants</h2>
+      {applications.map(application => (
+        <ul key={application.id}>
+          <ApplicantSummary id={application.id}></ApplicantSummary>
+        </ul>
+      ))}
+    </div>
+  )
 };
 
 

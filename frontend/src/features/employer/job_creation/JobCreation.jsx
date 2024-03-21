@@ -8,6 +8,7 @@ import { Input, InputNumber } from "antd";
 import { Select } from "antd";
 import { Button } from "@/components/ui/button";
 const { TextArea } = Input;
+import { showJobCreatedError, showJobCreatedSuccess } from '@/components/Alert/Alert';
 
 function JobCreationForm() {
   const { user } = useContext(AuthContext);
@@ -30,7 +31,6 @@ function JobCreationForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
     try {
       const jobResponse = await AxiosInstance.post("api/jobs/create-job", {
         title: formData.title,
@@ -39,14 +39,15 @@ function JobCreationForm() {
         address: addressData,
         job_type: formData.job_type,
       });
-  
+
       await AxiosInstance.post("api/employer-job-relations/create/", {
         employer: userId,
         job: jobResponse.data.id,
       });
-  
+      showJobCreatedSuccess();
       navigate(`/employer/job-details/${jobResponse.data.id}`);
     } catch (error) {
+      showJobCreatedError();
       console.log(error);
     }
   };
