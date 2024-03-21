@@ -4,7 +4,7 @@ import JobSeekerProfile from "../JobSeekerProfile";
 import { vi } from "vitest";
 import AuthContext from "@/context/AuthContext";
 
-const mockUser1 = {
+const mockUser = {
   email: "johndoe@example.com",
   first_name: "John",
   last_name: "Doe",
@@ -61,7 +61,7 @@ vi.mock("@/utils/AxiosInstance", () => ({
 describe("JobSeekerProfile component", () => {
   beforeEach(() => {
     render(
-      <AuthContext.Provider value={{ user: mockUser1 }}>
+      <AuthContext.Provider value={{ user: mockUser }}>
         <JobSeekerProfile />
       </AuthContext.Provider>
     );
@@ -76,7 +76,7 @@ describe("JobSeekerProfile component", () => {
       const value = getValueFromFormData(formData, field);
       expect(screen.getByLabelText(label)).toHaveValue(value);
     });
-    expect(screen.getByLabelText(/Email/i)).toHaveValue(mockUser1.email);
+    expect(screen.getByLabelText(/Email/i)).toHaveValue(mockUser.email);
   };
 
   const getValueFromFormData = (formData, field) => {
@@ -89,7 +89,7 @@ describe("JobSeekerProfile component", () => {
   };
 
   test("fetches job seeker data on mount", async () => {
-    assertFormValues(mockUser1);
+    assertFormValues(mockUser);
   });
 
   test("updates data on submit", async () => {
@@ -114,7 +114,15 @@ describe("JobSeekerProfile component", () => {
     submitForm();
 
     await waitFor(() => {
-      expect(screen.getByLabelText(/Email/i)).toHaveValue(mockUser1.email);
+      expect(screen.getByLabelText(/Email/i)).toHaveValue(mockUser.email);
     });
   });
+
+  // test("displays popover with invalid DOB", () => {
+  //   const DOBInput = screen.getByLabelText("Date of Birth");
+  //   fireEvent.change(DOBInput, { target: { value: "3000-03-25" } });
+  //   submitForm();
+  //   expect(screen.getByText("Date of birth cannot be in the future.")).toBeInTheDocument();
+  // });
+
 });

@@ -14,7 +14,8 @@ const EmployerProfile = () => {
     phone_number: user?.phone_number || "",
     company: user?.company || "",
   });
-  //  React automatically subscribes to context changes, so any time the value provided by the context provider changes, the components using that context will update accordingly.
+  const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
+
 
   useEffect(() => {
     const fetchEmployerData = async () => {
@@ -74,23 +75,29 @@ const EmployerProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (user?.user_id) {
-      try {
-        const response = await AxiosInstance.put(
-          `/api/employers/${user?.user_id}/update/`,
-          formData
-        );
-
-        if (response.status === 200) {
-          swal.fire(
-            "Profile Updated",
-            "Your profile has been updated successfully.",
-            "success"
+      const phoneNumberInput = document.getElementById("phone_number");
+      if (phoneNumberInput.checkValidity()) {
+        setIsValidPhoneNumber(true); // Update phone number validity state
+        try {
+          const response = await AxiosInstance.put(
+            `/api/employers/${user?.user_id}/update/`,
+            formData
           );
-        } else {
-          swal.fire("Update Failed", `Error: ${response.status}`, "error");
+
+          if (response.status === 200) {
+            swal.fire(
+              "Profile Updated",
+              "Your profile has been updated successfully.",
+              "success"
+            );
+          } else {
+            swal.fire("Update Failed", `Error: ${response.status}`, "error");
+          }
+        } catch (error) {
+          swal.fire("Update Failed", error.message, "error");
         }
-      } catch (error) {
-        swal.fire("Update Failed", error.message, "error");
+      } else {
+        setIsValidPhoneNumber(false);
       }
     }
   };
@@ -98,7 +105,7 @@ const EmployerProfile = () => {
   return (
     <form onSubmit={handleSubmit} className="container mt-5">
       <div className="mb-3">
-        <label htmlFor="email">Email:   </label>
+        <label htmlFor="email">Email</label>
         <input
           type="email"
           id="email"
@@ -108,44 +115,56 @@ const EmployerProfile = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="first_name">First Name:   </label>
+        <label htmlFor="first_name">First Name</label>
         <input
           type="text"
           id="first_name"
           name="first_name"
           value={formData.first_name}
           onChange={handleChange}
+          maxLength={50}
+          required
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="last_name">Last Name:   </label>
+        <label htmlFor="last_name">Last Name</label>
         <input
           type="text"
           id="last_name"
           name="last_name"
           value={formData.last_name}
           onChange={handleChange}
+          maxLength={50}
+          required
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="other_names">Other Names:   </label>
+        <label htmlFor="other_names">Other Names</label>
         <input
           type="text"
           id="other_names"
           name="other_names"
           value={formData.other_names}
           onChange={handleChange}
+          maxLength={50}
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="phone_number">Phone Number:   </label>
+        <label htmlFor="phone_number">Phone Number</label>
         <input
           type="text"
           id="phone_number"
           name="phone_number"
           value={formData.phone_number}
           onChange={handleChange}
+          pattern="[0-9]{9,15}"
+          required
         />
+        <span className="text-danger">
+          {formData.phone_number !== "" &&
+            !isValidPhoneNumber &&
+            "Please match the format requested."}
+        </span>
       </div>
 
       <button type="submit" className="btn btn-primary">
