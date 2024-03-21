@@ -13,17 +13,21 @@ const JobListPage = () => {
   const [jobRetrieved, setJobRetrieved] = useState(false);
 
   useEffect(() => {
-    AxiosInstance.get(`api/job-seeker/${userId}/resume/`).then((response) => {
-      setResume(response.data);
-      if (response.data.id !== undefined) {
-        AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
-          .then((res) => {
-            setJobs(res.data);
-            setJobRetrieved(true);
-          })
-          .catch((error) => console.error("Error fetching data:", error));
+    const fetchResumeAndJobs = async () => {
+      try {
+        const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
+        setResume(response.data);
+        if (response.data.id !== undefined) {
+          const res = await AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`);
+          setJobs(res.data);
+          setJobRetrieved(true);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    });
+    };
+  
+    fetchResumeAndJobs();
   }, [jobRetrieved]);
 
   return (

@@ -14,14 +14,19 @@ function TechnicalSkill({ resumeId }) {
 
   // Fetch technical skills
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/technical-skills/`)
-      .then((response) => {
+    const fetchTechnicalSkills = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/technical-skills/`);
         setTechnicalSkills(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchTechnicalSkills();
   }, [resumeId]);
 
   const handleTechnicalSkillChange = (event) => {
@@ -29,49 +34,42 @@ function TechnicalSkill({ resumeId }) {
   };
 
   //Create technical skill
-  const handleSubmitTechnicalSkills = (event) => {
+  const handleSubmitTechnicalSkills = async (event) => {
     event.preventDefault();
-    AxiosInstance.post(
-      `http://localhost:8000/api/resumes/${resumeId}/technical-skills/create/`,
-      {
+    try {
+      const response = await AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/technical-skills/create/`, {
         skill: technicalSkill,
+      });
+      showSuccess("Technical Skill Added");
+      setTechnicalSkill("");
+      setErrors({ technicalSkill: "" });
+      setTechnicalSkills((prevTechnicalSkills) => [
+        ...prevTechnicalSkills,
+        response.data,
+      ]);
+    } catch (error) {
+      console.error("Error:", error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors({ technicalSkill: error.response.data.skill[0] });
       }
-    )
-      .then((response) => {
-        showSuccess("Technical Skill Added");
-        setTechnicalSkill("");
-        setErrors({ technicalSkill: "" });
-        setTechnicalSkills((prevTechnicalSkills) => [
-          ...prevTechnicalSkills,
-          response.data,
-        ]);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors({ technicalSkill: error.response.data.skill[0] });
-        }
-        showError("Creating Technical Skill Failed");
-      });
+      showError("Creating Technical Skill Failed");
+    }
   };
-
+  
   //Delete technical skill
-  const handleDeleteTechnicalSkill = (skillObj) => {
-    AxiosInstance.delete(
-      `api/resumes/${resumeId}/technical-skills/update/${skillObj.id}`
-    )
-      .then((response) => {
-        showSuccess("Technical Skill Deleted");
-        setTechnicalSkills((prevSoftSkills) =>
-          prevSoftSkills.filter((item) => item !== skillObj)
-        );
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showError("Deleting Technical Skill Failed");
-      });
+  const handleDeleteTechnicalSkill = async (skillObj) => {
+    try {
+      await AxiosInstance.delete(`api/resumes/${resumeId}/technical-skills/update/${skillObj.id}`);
+      showSuccess("Technical Skill Deleted");
+      setTechnicalSkills((prevSoftSkills) =>
+        prevSoftSkills.filter((item) => item !== skillObj)
+      );
+    } catch (error) {
+      console.error("Error:", error);
+      showError("Deleting Technical Skill Failed");
+    }
   };
 
   return (

@@ -16,33 +16,32 @@ function ProfessionalExperience({ resumeId }) {
   const [openPopupId, setOpenPopupId] = useState(null);
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`)
-      .then((response) => {
+    const fetchProfessionalExperiences = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`);
         setProfessionalExperiences(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
-  }, [resumeId]);
-
-  //Delete a professional experience
-  const handleDeleteProfessionalExperience = (professionalExperienceObj) => {
-    AxiosInstance.delete(
-      `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`
-    )
-      .then((response) => {
-        showSuccess("Professional Experience Deleted");
-        setProfessionalExperiences((prevprofessionalExperiences) =>
-          prevprofessionalExperiences.filter(
-            (item) => item !== professionalExperienceObj
-          )
-        );
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error:", error);
-        showError("Deleting Professional Experience Failed");
-      });
+      }
+    };
+  
+    fetchProfessionalExperiences();
+  }, [resumeId]);
+  
+  const handleDeleteProfessionalExperience = async (professionalExperienceObj) => {
+    try {
+      await AxiosInstance.delete(`api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`);
+      showSuccess("Professional Experience Deleted");
+      setProfessionalExperiences((prevprofessionalExperiences) =>
+        prevprofessionalExperiences.filter((item) => item !== professionalExperienceObj)
+      );
+    } catch (error) {
+      console.error("Error:", error);
+      showError("Deleting Professional Experience Failed");
+    }
   };
 
   return (

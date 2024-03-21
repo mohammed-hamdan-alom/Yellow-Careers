@@ -17,26 +17,34 @@ const JobApplicantsPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        AxiosInstance.get(`api/applicants/${jobId}`)
-            .then((res) => setApplicants(res.data))
-            .catch((error) => {console.error("Error:", error.response.data);
+        const fetchApplicants = async () => {
+          try {
+            const response = await AxiosInstance.get(`api/applicants/${jobId}`);
+            setApplicants(response.data);
+          } catch (error) {
+            console.error("Error:", error.response.data);
             if (error.response && (error.response.status === 403 || error.response.status === 404)) {
-                window.location.href = "/employer/dashboard";
-            }});
-    }, []);
+              window.location.href = "/employer/dashboard";
+            }
+          }
+        };
+      
+        fetchApplicants();
+      }, []);
 
     const handleShowDetails = () => {
         navigate(`/employer/job-details/${jobId}`);
     }
 
-    const handleShowApplication = (key) => {
-        AxiosInstance.get(`api/applications/${key}/${jobId}`)
-            .then((res) => {
-                const applicationId = res.data.id;
-                navigate(`/employer/application-details/${applicationId}`);
-            })
-            .catch((error) =>{ console.error("Error:", error.response.data)});
-    }
+    const handleShowApplication = async (key) => {
+        try {
+          const res = await AxiosInstance.get(`api/applications/${key}/${jobId}`);
+          const applicationId = res.data.id;
+          navigate(`/employer/application-details/${applicationId}`);
+        } catch (error) {
+          console.error("Error:", error.response.data);
+        }
+      };
 
     return (
         <div className="mb-8"> 
