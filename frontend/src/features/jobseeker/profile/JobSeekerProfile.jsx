@@ -7,8 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Input,Select, Button } from "antd";
 const { Option } = Select;
 import { Mail, Phone, Calendar, Earth, MapPin   } from 'lucide-react';
-import './styling/button.css';
-
+import '@/components/styling/button.css';
 
 
 const JobSeekerProfile = () => {

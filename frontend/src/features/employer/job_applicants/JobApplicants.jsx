@@ -5,7 +5,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import Swal from 'sweetalert2';
 import { Label } from '@/components/ui/label';
 import { Button, Space } from 'antd';
-import './button.css';
+import '@/components/styling/button.css';
 
 const JobApplicantsPage = () => {
     const { user } = useContext(AuthContext);
@@ -48,12 +48,12 @@ const JobApplicantsPage = () => {
 
     return (
         <div className="mb-8"> 
-            <Button className="viewJobDetailsButton mb-4" onClick={handleShowDetails}>View Job Details</Button> 
+            <Button className="applyButton mb-4" onClick={handleShowDetails}>View Job Details</Button> 
             <h2 className="mb-4"><b>Matched Applicants</b></h2>
             {applicants.map(applicant => (
                 <div key={applicant.id} className="applicant-item mb-4">
                     <h3 className="mb-2">
-                        <Button onClick={() => handleShowApplication(applicant.id)} className="mr-2">Show Application</Button>
+                        <Button className='applyButton mr-2' onClick={() => handleShowApplication(applicant.id)}>Show Application</Button>
                         <Label>{applicant.first_name} {applicant.last_name}</Label>
                     </h3>
                 </div>

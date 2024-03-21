@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input, Tooltip,Select, Button } from "antd";
 import { Mail, Phone, Calendar,Globe, User, Earth, MapPin   } from 'lucide-react';
 import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
+import '@/components/styling/button.css';
 
 
 const EmployerProfile = () => {

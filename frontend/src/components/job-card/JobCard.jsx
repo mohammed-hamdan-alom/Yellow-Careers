@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { MapPin, HandCoins, Briefcase } from 'lucide-react';
 import { Tag } from 'antd';
+import '@/components/styling/tag.css';
 
 const JobCard = ({ title, companyName, city, country, description, salary, jobType }) => {
     return (
