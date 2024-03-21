@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobList from "../../../../components/search/JobList";
 import { Label } from "@/components/ui/label";
-import JobFilter from "../../../../components/search/JobFilter";
+import JobFilter from "@/components/search/JobFilter";
 
 function SavedJobListPage() {
   // get the user id from the context
