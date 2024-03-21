@@ -3,6 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import ApplicantSummary from "@/features/employer/job_applicants/ApplicantSummary"
+import Swal from 'sweetalert2';
+import { Label } from '@/components/ui/label';
+import { Button, Space } from 'antd';
+import './button.css';
+
 
 const JobApplicantsPage = () => {
   const { user } = useContext(AuthContext);
@@ -46,5 +51,7 @@ const JobApplicantsPage = () => {
     </div>
   )
 };
+
+
 
 export default JobApplicantsPage;

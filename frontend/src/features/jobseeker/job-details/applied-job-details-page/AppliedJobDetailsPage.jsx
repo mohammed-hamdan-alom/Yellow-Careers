@@ -10,7 +10,7 @@ import {
     CloseCircleOutlined,
     QuestionCircleOutlined,
   } from '@ant-design/icons';
-  import '../styling/tag.css';
+  import '@/components/styling/tag.css';
 
 
 function AppliedJobDetails() {

@@ -2,10 +2,9 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobDetailsDisplay from '@/components/job-details/JobDetails'
+import JobDetailsDisplay from '@/components/job-details/JobDetails';
 import StyledQuestion from "@/components/questions_and_answers/Question";
-
-
+import { Button } from "antd";
 
 const JobDetailsEmployer = () => {
     const { user } = useContext(AuthContext);
@@ -13,7 +12,6 @@ const JobDetailsEmployer = () => {
     const [dataReceived, setDataReceived] = useState(false);
 
     const { jobId } = useParams();
-
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -69,7 +67,7 @@ const JobDetailsEmployer = () => {
 
     const handleClick = () => {
         navigate(`/employer/job-applicants/${jobId}`);
-    }
+    };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -108,25 +106,25 @@ const JobDetailsEmployer = () => {
     };
 
     return (
-
-        // ANY EMPLOYER (even if not from company) CAN VIEW THIS
         <div>
-            <button onClick={handleClick}>See Applicants</button>
-            <div className="mt-3 mb-8"> {/* Add margin bottom to create space */}
+            <div className="mb-3">
+            <Button className="seeApplicantsButton" onClick={handleClick}>See Applicants</Button>
+            </div>
+            <div className="mt-3 mb-8">
                 <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
-            {questions.length === 0 ? null : <h4>Questions:</h4>}
+            {questions.length > 0 && <h4>Questions:</h4>}
             {questions.map(question => (
-                < ul key={question.id} >
+                <ul key={question.id}>
                     <StyledQuestion question={question.question} />
                 </ul>
             ))}
 
-            <br></br>
+            <br />
 
             <h4>Employers:</h4>
             {employers.map(employer => (
-                < ul key={employer.id} >
+                <ul key={employer.id}>
                     <h5>{employer.first_name} {employer.last_name}</h5>
                     {employer.id != userId && currentEmployer.is_company_admin ? <button onClick={() => handleRemove(employer.id)}>Remove</button> : null}
                 </ul>
@@ -140,15 +138,15 @@ const JobDetailsEmployer = () => {
                     onChange={handleChange}
                 >
                     {companyEmployers.map(employer => (
-                        employer.id != userId ? <option value={employer.id} key={employer.id} > {employer.first_name} {employer.last_name}</option> : null
+                        employer.id !== userId && <option value={employer.id} key={employer.id}>{employer.first_name} {employer.last_name}</option>
                     ))}
                 </select>
                 <div className="form-actions">
                     <button type="submit">Submit</button>
                 </div>
             </form>
-        </div >
-    )
+        </div>
+    );
 };
 
 export default JobDetailsEmployer;
