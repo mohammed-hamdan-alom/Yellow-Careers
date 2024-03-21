@@ -60,4 +60,9 @@ describe('JobCard component', () => {
         expect(description).toBeInTheDocument();
     });
 
+    test('renders jobType', async () => {
+        const jobType = await screen.findByText("Job Type: " + data.job_type);
+        expect(jobType).toBeInTheDocument();
+    });
+
 });
