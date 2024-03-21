@@ -206,13 +206,14 @@ class Command(BaseCommand):
         for i in range(self.EMPLOYER_COUNT):
 
             random_company = random.choice(companies)
+            
 
             employer = Employer.objects.create(
                 email=self.generate_unique_email(),
                 first_name=self.faker.first_name(),
                 last_name=self.faker.last_name(),
                 other_names='bean + cheese + begel',
-                phone_number=self.faker.phone_number(),
+                phone_number = self.faker.numerify(text='+1##########'),
                 company=random_company,
                 is_company_admin=self.faker.boolean(),
             )
