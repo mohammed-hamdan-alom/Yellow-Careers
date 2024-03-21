@@ -15,7 +15,7 @@ function classNames(...classes) {
 const StyledNavLink = styled(NavLink)`
   &.active {
     font-weight: bold;
-    color: #FFD700; /* Yellow color */
+    color: #ffd700; /* Yellow color */
   }
 `;
 
@@ -28,8 +28,9 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
     console.log("logoutUser is not defined");
   }
 
-  const activeNavItem = navigation.find(item => location.pathname.includes(item.to)) || {};
-  
+  const activeNavItem =
+    navigation.find((item) => location.pathname.includes(item.to)) || {};
+
   return (
     <>
       <div className="min-h-full">
@@ -43,7 +44,10 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <NavLink to={`${baseUrl}/dashboard`} className="flex items-center">
+                      <NavLink
+                        to={`${baseUrl}/dashboard`}
+                        className="flex items-center"
+                      >
                         <img
                           className="h-8 w-8"
                           src={logo}
@@ -148,20 +152,13 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
               <Disclosure.Panel className="md:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                   {navigation.map((item) => (
-                    <Disclosure.Button
+                    <StyledNavLink
                       key={item.name}
-                      as="a"
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-white text-black"
-                          : "text-gray-300 hover:text-black",
-                        "block rounded-md px-3 py-2 text-base font-medium"
-                      )}
-                      aria-current={item.current ? "page" : undefined}
+                      to={`${baseUrl}${item.to}`}
+                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:text-black"
                     >
                       {item.name}
-                    </Disclosure.Button>
+                    </StyledNavLink>
                   ))}
                 </div>
                 <div className="border-t border-gray-700 pb-3 pt-4">
@@ -211,7 +208,7 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
         <header className="sticky border-b-[1px] w-full bg-white dark:border-b-slate-700 dark:bg-background">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {activeNavItem.name}
+              {activeNavItem.name}
             </h1>
           </div>
         </header>

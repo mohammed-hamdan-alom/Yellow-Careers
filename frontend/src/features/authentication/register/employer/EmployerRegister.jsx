@@ -2,6 +2,7 @@ import  { useState, useContext, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
+import { useParams } from 'react-router-dom';
 import AxiosInstance from '@/utils/AxiosInstance';
 
 const EmployerRegister = () => {

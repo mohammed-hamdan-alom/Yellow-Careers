@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -27,7 +26,7 @@ const GetStarted = () => {
     if (selectedOption === 'job-seeker') {
       navigate('/auth/register-jobseeker');
     } else if (selectedOption === 'employer') {
-      navigate('/auth/verify-invited-employer');
+      navigate('/auth/join-or-create-company');
     }
   }
 

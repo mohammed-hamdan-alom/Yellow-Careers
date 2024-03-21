@@ -46,21 +46,21 @@ function UpdateResumePage() {
   }, [userId]);
 
   return (
-
     <div className='pb-96'>
-      <div className="flex flex-row justify-left">
-        <ResumeForm resumeId={resumeId} />
-        <SoftSkill resumeId={resumeId} />
+      <div className="flex flex-row justify-left sm:flex-wrap">
+          <ResumeForm resumeId={resumeId} />
+          <SoftSkill resumeId={resumeId} />
       </div>
-      <div className="flex flex-row justify-left mt-12">
-        <Language resumeId={resumeId} />
-        <TechnicalSkill resumeId={resumeId} />
+      <div className="flex flex-row justify-left mt-4 md:flex-col">
+          <Language resumeId={resumeId} />
+          <TechnicalSkill resumeId={resumeId} />
       </div>
-      <div className="flex flex-row justify-left mt-12 w-full">
-        <Education resumeId={resumeId} />
-        <ProfessionalExperience resumeId={resumeId} />
+      <div className="flex flex-row justify-left mt-4 md:flex-col">
+          <Education resumeId={resumeId} />
+          <ProfessionalExperience resumeId={resumeId} />
       </div>
     </div>
+
   );
 }
 
