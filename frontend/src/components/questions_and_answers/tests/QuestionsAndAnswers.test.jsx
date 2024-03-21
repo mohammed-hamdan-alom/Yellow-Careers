@@ -37,7 +37,7 @@ vi.mock("@/components/ui/label", () => ({
     Label: vi.fn(({ children }) => <label data-testid="mock-label">{children}</label>)
 }))
 
-describe('Question component', () => {
+describe('QuestionAndAnswers component', () => {
 
     beforeEach(async () => {
         await act(async () => {
@@ -62,4 +62,26 @@ describe('Question component', () => {
         const question = await screen.findByText(questions[1].question);
         expect(question).toBeInTheDocument();
     });
+
+    test('renders first answer', async () => {
+        const answer = await screen.findByText(answers[0].answer);
+        expect(answer).toBeInTheDocument();
+    });
+
+    test('renders second answer', async () => {
+        const answer = await screen.findByText(answers[1].answer);
+        expect(answer).toBeInTheDocument();
+    });
+
+    test('renders correct order for questions and answers', async () => {
+        const html = await document.body.innerHTML;
+        const question1 = html.search(questions[0].question)
+        const answer1 = html.search(answers[0].answer)
+        const question2 = html.search(questions[1].question)
+        const answer2 = html.search(answers[1].answer)
+
+        expect(question1).toBeLessThan(answer1)
+        expect(answer1).toBeLessThan(question2)
+        expect(question2).toBeLessThan(answer2)
+    })
 });
