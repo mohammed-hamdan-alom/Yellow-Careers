@@ -35,15 +35,18 @@ function EditLanguagePage({
   const [errors, setErrors] = useState(defaultLanguageState);
 
   useEffect(() => {
-    if (put) {
-      AxiosInstance.get(
-        `api/resumes/${resumeId}/languages/update/${languageId}`
-      )
-        .then((response) => {
+    const fetchLanguage = async () => {
+      if (put) {
+        try {
+          const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/update/${languageId}`);
           setLanguage(response.data);
-        })
-        .catch((error) => console.error("Error:", error));
-    }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+  
+    fetchLanguage();
   }, []);
 
   const handleLanguageChange = (event) => {
@@ -83,58 +86,50 @@ function EditLanguagePage({
     }
   };
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
-    AxiosInstance.put(
-      `api/resumes/${resumeId}/languages/update/${languageId}`,
-      language
-    )
-      .then((res) => {
-        showSuccess("Language Updated");
-        setErrors(defaultLanguageState);
-        setLanguage(defaultLanguageState);
-        AxiosInstance.get(`api/resumes/${resumeId}/languages/`)
-          .then((response) => {
-            setLanguages(response.data);
-          })
-          .catch((error) => console.error("Error:", error));
-        setButtonPopup(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Updating Language Failed");
-      });
+    try {
+      await AxiosInstance.put(`api/resumes/${resumeId}/languages/update/${languageId}`, language);
+      showSuccess("Language Updated");
+      setErrors(defaultLanguageState);
+      setLanguage(defaultLanguageState);
+  
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
+      setLanguages(response.data);
+  
+      setButtonPopup(false);
+    } catch (error) {
+      console.error(error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Updating Language Failed");
+    }
   };
 
-  const handleCreateLanguage = (event) => {
+  const handleCreateLanguage = async (event) => {
     event.preventDefault();
-    AxiosInstance.post(`api/resumes/${resumeId}/languages/create/`, language)
-      .then((response) => {
-        showSuccess("Language Added");
-        setLanguage(defaultLanguageState);
-        setErrors(defaultLanguageState);
-        AxiosInstance.get(`api/resumes/${resumeId}/languages/`)
-          .then((response) => {
-            setLanguages(response.data);
-          })
-          .catch((error) => console.error("Error:", error));
-
-        setButtonPopup(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Creating Language Failed");
-      });
+    try {
+      await AxiosInstance.post(`api/resumes/${resumeId}/languages/create/`, language);
+      showSuccess("Language Added");
+      setLanguage(defaultLanguageState);
+      setErrors(defaultLanguageState);
+  
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
+      setLanguages(response.data);
+  
+      setButtonPopup(false);
+    } catch (error) {
+      console.error("Error:", error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Creating Language Failed");
+    }
   };
 
   return (

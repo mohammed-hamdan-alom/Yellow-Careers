@@ -29,25 +29,27 @@ function JobCreationForm() {
     country: "",
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    AxiosInstance.post('api/jobs/create-job', {
-      title: formData.title,
-      description: formData.description,
-      salary: formData.salary,
-      address: addressData,
-      job_type: formData.job_type
-    }).then((response) => {
-      AxiosInstance.post('api/employer-job-relations/create/', {
+    try {
+      const jobResponse = await AxiosInstance.post("api/jobs/create-job", {
+        title: formData.title,
+        description: formData.description,
+        salary: formData.salary,
+        address: addressData,
+        job_type: formData.job_type,
+      });
+
+      await AxiosInstance.post("api/employer-job-relations/create/", {
         employer: userId,
-        job: response.data.id
+        job: jobResponse.data.id,
       });
       showJobCreatedSuccess();
-      navigate(`/employer/create-questions/${response.data.id}`);
-    }).catch((error) => {
+      navigate(`/employer/job-details/${jobResponse.data.id}`);
+    } catch (error) {
       showJobCreatedError();
       console.log(error);
-    });
+    }
   };
 
   const handleChange = (event) => {

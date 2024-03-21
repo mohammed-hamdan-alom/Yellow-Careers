@@ -4,6 +4,14 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from '@/components/ui/label';
 import DisplayResume from "@/components/resume/DisplayResume";
 import QuestionsAndAnswers from "@/components/questions_and_answers/QuestionsAndAnswers";
+import { Tag } from 'antd';
+import {
+    CheckCircleOutlined,
+    CloseCircleOutlined,
+    QuestionCircleOutlined,
+  } from '@ant-design/icons';
+  import '../styling/tag.css';
+
 
 function AppliedJobDetails() {
 
@@ -48,16 +56,31 @@ function AppliedJobDetails() {
         fetchData();
     }, [applicationId]);
 
+    const decisionText = application.decision === 'A' ? 'Accepted' :
+                         application.decision === 'R' ? 'Rejected' :
+                         'Undecided';
+
+    const decisionColor = application.decision === 'A' ? 'success' :
+                          application.decision === 'R' ? 'error' :
+                          'processing';
+
+    const decisionIcon = application.decision === 'A' ? <CheckCircleOutlined /> :
+                         application.decision === 'R' ? <CloseCircleOutlined /> :
+                         <QuestionCircleOutlined />;
+
     return (
         <div>
-            <h1>Date Applied: {application.date_applied}</h1>
-            <br />
-            <h2>Resume:</h2>
+            <Label className="text-xl font-semibold">
+                Date Applied: {application.date_applied} | 
+                Status: <Tag className='pulsate tag-medium' icon={decisionIcon} color={decisionColor}>{decisionText}</Tag>
+            </Label>
+            <div className="mb-4"></div>
             <DisplayResume resumeId={resume.id} />
 
+            <div className="mb-4"></div>
             {questions.length > 0 ? (
                 <div>
-                    <Label className="text-xl font-semibold">Questions and Answers:</Label>
+                    <Label className="text-xl font-semibold mb-4">Questions and Answers:</Label>
                     <QuestionsAndAnswers questions={questions} answers={answers} />
                 </div>
             ) : (
@@ -66,5 +89,4 @@ function AppliedJobDetails() {
         </div>
     )
 }
-
 export default AppliedJobDetails;

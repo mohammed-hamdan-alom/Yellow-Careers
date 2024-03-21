@@ -1,0 +1,40 @@
+/* button.css */
+
+.applyButton {
+    background-color: #FFD700 !important; /* Set the background color to a nice yellow */
+    color: white; /* Set the text color */
+    border: none; /* Remove the border */
+    cursor: pointer; /* Add cursor style */
+    border-radius: 4px; /* Add border radius */
+  }
+  
+  .applyButton:hover {
+    background-color: #FFC107 !important; /* Change background color to a darker shade of yellow on hover */
+    color: white !important; /* Set the text color on hover */
+  }
+  
+  .saveButton {
+    background-color: #2196F3 !important; /* Set the background color to a nice blue */
+    color: white; /* Set the text color to white */
+    border: none; /* Remove the border */
+    cursor: pointer; /* Add cursor style */
+    border-radius: 4px; /* Add border radius */
+  }
+  
+  .saveButton:hover {
+    background-color: #0b7dda !important; /* Change background color to a darker shade of blue on hover */
+    color: white !important; /* Set the text color on hover */
+  }
+  
+  .unsaveButton {
+    background-color: #F44336 !important; /* Set the background color to a nice red */
+    color: white; /* Set the text color to white */
+    border: none; /* Remove the border */
+    cursor: pointer; /* Add cursor style */
+    border-radius: 4px; /* Add border radius */
+  }
+  
+  .unsaveButton:hover {
+    background-color: #d32f2f !important; /* Change background color to a darker shade of red on hover */
+    color: white !important; /* Set the text color on hover */
+  }

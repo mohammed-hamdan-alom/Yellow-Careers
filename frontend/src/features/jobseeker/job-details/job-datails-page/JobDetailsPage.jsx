@@ -29,14 +29,16 @@ function JobDetails() {
     const [company, setCompany] = useState({});
 
     useEffect(() => {
-        Promise.all([
-            AxiosInstance.get(`api/jobs/${jobId}/`),
-            AxiosInstance.get(`api/jobs/${jobId}/company/`),
-            AxiosInstance.get(`api/jobs/${jobId}/address/`),
-            AxiosInstance.get(`api/jobs/${jobId}/questions/`),
-            AxiosInstance.get(`api/job-seeker/${userId}/resume/`),
-            AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`),
-        ]).then((responses) => {
+        const fetchData = async () => {
+          try {
+            const responses = await Promise.all([
+              AxiosInstance.get(`api/jobs/${jobId}/`),
+              AxiosInstance.get(`api/jobs/${jobId}/company/`),
+              AxiosInstance.get(`api/jobs/${jobId}/address/`),
+              AxiosInstance.get(`api/jobs/${jobId}/questions/`),
+              AxiosInstance.get(`api/job-seeker/${userId}/resume/`),
+              AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`),
+            ]);
             setJob(responses[0].data);
             setCompany(responses[1].data);
             setAddress(responses[2].data);
@@ -44,75 +46,90 @@ function JobDetails() {
             setResume(responses[4].data);
             setAppliedJobs(responses[5].data);
             setIsJobApplied(responses[5].data.some(appliedJob => String(appliedJob.id) === String(jobId)));
-        }).catch((error) => console.error('Error fetching data:', error));
-    }, [jobId, userId]);
-
-    // check if the job is saved
-    useEffect(() => {
-        AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`)
-            .then((res) => {
-                setSavedJobs(res.data);
-                setIsJobSaved(res.data.some(savedJob => String(savedJob.id) === String(jobId)));
-            }).catch((error) => console.error('Error fetching data:', error));
-    }, [isJobSaved]);
-
-    const handleApply = () => {
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+      
+        fetchData();
+      }, [jobId, userId]);
+      
+      // check if the job is saved
+      useEffect(() => {
+        const fetchSavedJobs = async () => {
+          try {
+            const res = await AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`);
+            setSavedJobs(res.data);
+            setIsJobSaved(res.data.some(savedJob => String(savedJob.id) === String(jobId)));
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+      
+        fetchSavedJobs();
+      }, [isJobSaved]);
+      
+      const handleApply = async () => {
         if (questions.length === 0) {
-            Swal.fire({ // Using SweetAlert2 for confirmation
-                title: "Are you sure?",
-                text: "There are no job specific questions. Are you sure you want to apply for this job?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#FFD700",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, apply!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const applicationData = {
-                        job_seeker: userId,
-                        job: jobId,
-                        resume: resume.id,
-                    }
-                    AxiosInstance.post('api/applications/create/', applicationData)
-                        .then(() => {
-                            window.location.reload(); // Reload the page after applying
-                        })
-                        .catch((error) => console.error('Error creating application:', error));
-                }
-            });
+          const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "There are no job specific questions. Are you sure you want to apply for this job?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#FFD700",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, apply!"
+          });
+      
+          if (result.isConfirmed) {
+            const applicationData = {
+              job_seeker: userId,
+              job: jobId,
+              resume: resume.id,
+            }
+            try {
+              await AxiosInstance.post('api/applications/create/', applicationData);
+              window.location.reload(); // Reload the page after applying
+            } catch (error) {
+              console.error('Error creating application:', error);
+            }
+          }
         } else {
-            navigate(`questions/`)
+          navigate(`questions/`)
         }
-    };
-
-    const handleSeeApplication = () => {
-        AxiosInstance.get(`api/applications/${userId}/${jobId}`)
-            .then((res) => {
-                const applicationId = res.data.id;
-                navigate(`/job-seeker/application-details/${applicationId}`);
-            })
-            .catch((error) => console.error("Error:", error.response.data));
-    };
-
-    const handleSave = () => {
+      };
+      
+      const handleSeeApplication = async () => {
+        try {
+          const res = await AxiosInstance.get(`api/applications/${userId}/${jobId}`);
+          const applicationId = res.data.id;
+          navigate(`/job-seeker/application-details/${applicationId}`);
+        } catch (error) {
+          console.error("Error:", error.response.data);
+        }
+      };
+      
+      const handleSave = async () => {
         const savedJob = savedJobs.find(savedJob => String(savedJob.id) === String(jobId));
         if (savedJob) {
-            AxiosInstance.delete(`api/saved-jobs/update/${userId}/${jobId}/`)
-                .then(() => {
-                    setIsJobSaved(false);
-                })
-                .catch((error) => console.error('Error unsaving job:', error));
+          try {
+            await AxiosInstance.delete(`api/saved-jobs/update/${userId}/${jobId}/`);
+            setIsJobSaved(false);
+          } catch (error) {
+            console.error('Error unsaving job:', error);
+          }
         } else {
-            AxiosInstance.post(`api/saved-jobs/create/`, {
-                job_seeker: userId,
-                job: jobId,
-            })
-                .then(() => {
-                    setIsJobSaved(true);
-                })
-                .catch((error) => console.error('Error saving job:', error));
+          try {
+            await AxiosInstance.post(`api/saved-jobs/create/`, {
+              job_seeker: userId,
+              job: jobId,
+            });
+            setIsJobSaved(true);
+          } catch (error) {
+            console.error('Error saving job:', error);
+          }
         }
-    };
+      };
 
     const handleFloatButtonClick = () => {
         window.open(company.website, '_blank');
@@ -120,19 +137,19 @@ function JobDetails() {
 
     return (
         <div>
-            <div className="mb-8">
+            <div className="mb-3">
                 <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
             <Space>
                 {isJobApplied ? (
-                    <Button className="applyButton" onClick={handleSeeApplication}>See Application</Button>
+                    <Button className="applyButton large-button" onClick={handleSeeApplication}>See Application</Button>
                 ) : (
-                    <Button className="applyButton" onClick={handleApply} >Apply</Button>
+                    <Button className="applyButton large-button" onClick={handleApply} >Apply</Button>
                 )}
                 {isJobSaved ? (
-                    <Button className="unsaveButton" onClick={handleSave}>Unsave</Button>
+                    <Button className="unsaveButton large-button" onClick={handleSave}>Unsave</Button>
                 ) : (
-                    <Button className="saveButton" onClick={handleSave}>Save</Button>
+                    <Button className="saveButton large-button" onClick={handleSave}>Save</Button>
                 )}
                 <FloatButton
                     tooltip={<div>Visit Company Page</div>}

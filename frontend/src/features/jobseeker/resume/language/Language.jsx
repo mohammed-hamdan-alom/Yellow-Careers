@@ -16,31 +16,33 @@ function Language({ resumeId }) {
   const [openPopupId, setOpenPopupId] = useState(null);
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/languages/`)
-      .then((response) => {
+    const fetchLanguages = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
         setLanguages(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchLanguages();
   }, [resumeId]);
 
   //Delete language
-  const handleDeleteLanguage = (languageObj) => {
-    AxiosInstance.delete(
-      `api/resumes/${resumeId}/languages/update/${languageObj.id}`
-    )
-      .then((response) => {
-        showSuccess("Language Deleted");
-        setLanguages((prevLanguages) =>
-          prevLanguages.filter((item) => item !== languageObj)
-        );
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showError("Deleting Language Failed");
-      });
+  const handleDeleteLanguage = async (languageObj) => {
+    try {
+      await AxiosInstance.delete(`api/resumes/${resumeId}/languages/update/${languageObj.id}`);
+      showSuccess("Language Deleted");
+      setLanguages((prevLanguages) =>
+        prevLanguages.filter((item) => item !== languageObj)
+      );
+    } catch (error) {
+      console.error("Error:", error);
+      showError("Deleting Language Failed");
+    }
   };
 
   return (

@@ -13,21 +13,23 @@ const JobListPage = () => {
   const [isJobRetrieved, setIsJobRetrieved] = useState(false);
 
   useEffect(() => {
-    async function fetchData() {
-      AxiosInstance.get(`api/job-seeker/${userId}/resume/`)
-        .then((response) => {
-          setResume(response.data)
-          if (response.data.id !== undefined) {
-            AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
-              .then((res) => {
-                setJobs(res.data)
-                setIsJobRetrieved(true);
-              }).catch((error) => console.error('Error fetching data:', error));
-          }
-        })
-    }
-    fetchData();
+    const fetchResumeAndJobs = async () => {
+      try {
+        const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
+        setResume(response.data);
+        if (response.data.id !== undefined) {
+          const res = await AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`);
+          setJobs(res.data);
+          setIsJobRetrieved(true);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchResumeAndJobs();
   }, [isJobRetrieved]);
+
   return (
     <div className="flex flex-col justify-center">
       <Label className="text-3xl">Job List</Label>

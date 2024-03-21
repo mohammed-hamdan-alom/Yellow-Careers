@@ -11,9 +11,16 @@ function AppliedJobListPage() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`).then((res) =>
-      setJobs(res.data)
-    );
+    const fetchAppliedJobs = async () => {
+      try {
+        const res = await AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`);
+        setJobs(res.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchAppliedJobs();
   }, [userId]);
 
   return (

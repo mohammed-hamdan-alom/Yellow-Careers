@@ -37,15 +37,18 @@ function EditProfessionalExperience({
   const [errors, setErrors] = useState(defaultExperienceState);
 
   useEffect(() => {
-    if (put) {
-      AxiosInstance.get(
-        `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`
-      )
-        .then((response) => {
+    const fetchProfessionalExperience = async () => {
+      if (put) {
+        try {
+          const response = await AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`);
           setProfessionalExperience(response.data);
-        })
-        .catch((error) => console.error("Error:", error));
-    }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+  
+    fetchProfessionalExperience();
   }, []);
 
   const handleProfessionalExperienceChange = (event) => {
@@ -84,60 +87,49 @@ function EditProfessionalExperience({
     }
   };
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
-    AxiosInstance.put(
-      `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`,
-      professionalExperience
-    )
-      .then((res) => {
-        showSuccess("Professional Experience Updated");
-        setErrors(defaultExperienceState);
-        setProfessionalExperience(defaultExperienceState);
-        AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`)
-          .then((response) => {
-            setProfessionalExperiences(response.data);
-          })
-          .catch((error) => console.error("Error:", error));
-        setButtonPopup(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Updating Professional Experience Failed");
-      });
+    try {
+      await AxiosInstance.put(`api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`, professionalExperience);
+      showSuccess("Professional Experience Updated");
+      setErrors(defaultExperienceState);
+      setProfessionalExperience(defaultExperienceState);
+  
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`);
+      setProfessionalExperiences(response.data);
+  
+      setButtonPopup(false);
+    } catch (error) {
+      console.error(error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Updating Professional Experience Failed");
+    }
   };
-
-  const handleCreateProfessionalExperience = (event) => {
+  
+  const handleCreateProfessionalExperience = async (event) => {
     event.preventDefault();
-    AxiosInstance.post(
-      `api/resumes/${resumeId}/professional-experiences/create/`,
-      professionalExperience
-    )
-      .then((response) => {
-        showSuccess("Professional Experience Added");
-        setProfessionalExperience(defaultExperienceState);
-        setErrors(defaultExperienceState);
-        setButtonPopup(false);
-        AxiosInstance.get(
-          `api/resumes/${resumeId}/professional-experiences/`
-        ).then((response) => {
-          setProfessionalExperiences(response.data);
-        });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Creating Professional Experience Failed");
-      });
+    try {
+      await AxiosInstance.post(`api/resumes/${resumeId}/professional-experiences/create/`, professionalExperience);
+      showSuccess("Professional Experience Added");
+      setProfessionalExperience(defaultExperienceState);
+      setErrors(defaultExperienceState);
+      setButtonPopup(false);
+  
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`);
+      setProfessionalExperiences(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Creating Professional Experience Failed");
+    }
   };
 
   return (

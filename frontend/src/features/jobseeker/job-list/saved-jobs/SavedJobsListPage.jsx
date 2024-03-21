@@ -13,9 +13,16 @@ function SavedJobListPage() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`).then((res) =>
-      setJobs(res.data)
-    );
+    const fetchJobs = async () => {
+      try {
+        const res = await AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`);
+        setJobs(res.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchJobs();
   }, [userId]);
 
   // display the saved jobs

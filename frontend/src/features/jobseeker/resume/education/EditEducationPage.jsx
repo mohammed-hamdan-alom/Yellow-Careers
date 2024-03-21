@@ -34,15 +34,18 @@ function EditEducationPage({
   const [errors, setErrors] = useState(defaultEducationState);
 
   useEffect(() => {
-    if (put) {
-      AxiosInstance.get(
-        `api/resumes/${resumeId}/educations/update/${educationId}`
-      )
-        .then((response) => {
+    const fetchEducation = async () => {
+      if (put) {
+        try {
+          const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/update/${educationId}`);
           setEducation(response.data);
-        })
-        .catch((error) => console.error("Error:", error));
-    }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+  
+    fetchEducation();
   }, []);
 
   const handleEducationChange = (event) => {
@@ -81,57 +84,49 @@ function EditEducationPage({
     }
   };
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
-    AxiosInstance.put(
-      `api/resumes/${resumeId}/educations/update/${educationId}`,
-      education
-    )
-      .then((res) => {
-        showSuccess("Education Updated");
-        setErrors(defaultEducationState);
-        setEducation(defaultEducationState);
-        AxiosInstance.get(`api/resumes/${resumeId}/educations/`)
-          .then((response) => {
-            setEducations(response.data);
-          })
-          .catch((error) => console.error("Error:", error));
-        setButtonPopup(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Updating Education Failed");
-      });
+    try {
+      await AxiosInstance.put(`api/resumes/${resumeId}/educations/update/${educationId}`, education);
+      showSuccess("Education Updated");
+      setErrors(defaultEducationState);
+      setEducation(defaultEducationState);
+  
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
+      setEducations(response.data);
+  
+      setButtonPopup(false);
+    } catch (error) {
+      console.error(error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Updating Education Failed");
+    }
   };
 
-  const handleCreateEducation = (event) => {
+  const handleCreateEducation = async (event) => {
     event.preventDefault();
-    AxiosInstance.post(`api/resumes/${resumeId}/educations/create/`, education)
-      .then((response) => {
-        showSuccess("Education Added");
-        setEducation(defaultEducationState);
-        setErrors(defaultEducationState);
-        setButtonPopup(false);
-        AxiosInstance.get(`api/resumes/${resumeId}/educations/`)
-          .then((response) => {
-            setEducations(response.data);
-          })
-          .catch((error) => console.error("Error:", error));
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Creating Education Failed");
-      });
+    try {
+      await AxiosInstance.post(`api/resumes/${resumeId}/educations/create/`, education);
+      showSuccess("Education Added");
+      setEducation(defaultEducationState);
+      setErrors(defaultEducationState);
+      setButtonPopup(false);
+  
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
+      setEducations(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Creating Education Failed");
+    }
   };
 
   return (
