@@ -6,7 +6,7 @@ import ApplicantSummary from "@/features/employer/job_applicants/ApplicantSummar
 import Swal from 'sweetalert2';
 import { Label } from '@/components/ui/label';
 import { Button, Space } from 'antd';
-import './button.css';
+import '@/components/styling/button.css';
 
 
 const JobApplicantsPage = () => {
