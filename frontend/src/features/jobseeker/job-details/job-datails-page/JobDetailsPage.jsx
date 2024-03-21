@@ -3,7 +3,7 @@ import AuthContext from "@/context/AuthContext";
 import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Button, Space } from 'antd';
-import '../styling/button.css';
+import '@/components/styling/button.css';
 import JobDetailsDisplay from '@/components/job-details/JobDetails';
 import ReactDOM from 'react-dom';
 import { FloatButton } from 'antd';
