@@ -2,54 +2,82 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-
+import ApplicantSummary from "@/features/employer/job_applicants/ApplicantSummary"
+import Swal from 'sweetalert2';
+import { Label } from '@/components/ui/label';
+import { Button, Space } from 'antd';
+import '@/components/styling/button.css';
 
 
 const JobApplicantsPage = () => {
-    const { user } = useContext(AuthContext);
-    const userId = user.user_id;
 
-    const [applicants, setApplicants] = useState([]);
-    const { jobId } = useParams();
+  const [applications, setApplications] = useState([]);
+  const [filteredApplications, setFilteredApplications] = useState([]);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [decisionFilter, setDecisionFilter] = useState('all');
 
-    const navigate = useNavigate();
+  const { jobId } = useParams();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        AxiosInstance.get(`api/applicants/${jobId}`)
-            .then((res) => setApplicants(res.data))
-            .catch((error) => {console.error("Error:", error.response.data);
-            if (error.response && (error.response.status === 403 || error.response.status === 404)) {
-                window.location.href = "/employer/dashboard";
-            }});
-    }, []);
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const response = await AxiosInstance.get(`api/applications/job/${jobId}`);
+        setApplications(response.data);
+        setFilteredApplications(response.data);
+      } catch (error) {
+        console.error("Error:", error.response.data);
+        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+          window.location.href = "/employer/dashboard";
+        }
+      }
+    };
 
-    const handleShowDetails = () => {
-        navigate(`/employer/job-details/${jobId}`);
-    }
+    fetchApplications();
+  }, []);
 
-    const handleShowApplication = (key) => {
-        AxiosInstance.get(`api/applications/${key}/${jobId}`)
-            .then((res) => {
-                const applicationId = res.data.id;
-                navigate(`/employer/application-details/${applicationId}`);
-            })
-            .catch((error) =>{ console.error("Error:", error.response.data)});
-    }
+  useEffect(() => {
+    const filtered = applications.filter(application => 
+        (statusFilter === 'all' || application.status === statusFilter) &&
+        (decisionFilter === 'all' || application.decision === decisionFilter)
+    );
 
-    return (
-        <div>
-            <button onClick={handleShowDetails}> Job Details </button>
-            <h2>Matched applicants</h2>
-            {applicants.map(applicant => (
-                <ul key={applicant.id}>
-                    <h3>
-                        <button onClick={() => handleShowApplication(applicant.id)}> Show Application </button>
-                        {applicant.first_name} {applicant.last_name}
-                    </h3>
-                </ul>
-            ))}
-        </div>
-    )
+    setFilteredApplications(filtered);
+}, [statusFilter, decisionFilter, applications]);
+
+
+  const handleShowDetails = () => {
+    navigate(`/employer/job-details/${jobId}`);
+  }
+
+  return (
+    <div>
+      <button onClick={handleShowDetails}> Job Details </button>
+      <h2>Matched applicants</h2>
+      <div>
+          <label>Status Filter:</label>
+          <select onChange={e => setStatusFilter(e.target.value)}>
+              <option value="all">All</option>
+              <option value="U">Unread</option>
+              <option value="R">Read</option>
+          </select>
+          <label>Decision Filter:</label>
+          <select onChange={e => setDecisionFilter(e.target.value)}>
+              <option value="all">All</option>
+              <option value="U">Undecided</option>
+              <option value="R">Rejected</option>
+              <option value="A">Accepted</option>
+          </select>
+      </div>
+      {filteredApplications.map(application => (
+        <ul key={application.id}>
+          <ApplicantSummary id={application.id} />
+        </ul>
+      ))}
+    </div>
+  )
 };
+
+
 
 export default JobApplicantsPage;

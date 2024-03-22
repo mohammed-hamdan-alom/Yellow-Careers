@@ -13,14 +13,21 @@ function SoftSkill({ resumeId }) {
 
   // Fetch soft skills
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/soft-skills/`)
-      .then((response) => {
+    const fetchSoftSkills = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(
+          `api/resumes/${resumeId}/soft-skills/`
+        );
         setSoftSkills(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchSoftSkills();
   }, [resumeId]);
 
   const handleSoftSkillChange = (event) => {
@@ -28,43 +35,44 @@ function SoftSkill({ resumeId }) {
   };
 
   //Create soft skill
-  const handleSubmitSoftSkills = (event) => {
+  const handleSubmitSoftSkills = async (event) => {
     event.preventDefault();
-    AxiosInstance.post(`api/resumes/${resumeId}/soft-skills/create/`, {
-      skill: softSkill,
-    })
-      .then((response) => {
-        showSuccess("Soft Skill Added");
-        setSoftSkill("");
-        setErrors({ softSkill: "" });
-        setSoftSkills((prevSoftSkills) => [...prevSoftSkills, response.data]);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors({ softSkill: error.response.data.skill[0] });
+    try {
+      const response = await AxiosInstance.post(
+        `api/resumes/${resumeId}/soft-skills/create/`,
+        {
+          skill: softSkill,
         }
-        showError("Creating Soft Skill Failed");
-      });
+      );
+      showSuccess("Soft Skill Added");
+      setSoftSkill("");
+      setErrors({ softSkill: "" });
+      setSoftSkills((prevSoftSkills) => [...prevSoftSkills, response.data]);
+    } catch (error) {
+      console.error("Error:", error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors({ softSkill: error.response.data.skill[0] });
+      }
+      showError("Creating Soft Skill Failed");
+    }
   };
 
   //Delete soft skill
-  const handleDeleteSoftSkill = (skillObj) => {
-    AxiosInstance.delete(
-      `api/resumes/${resumeId}/soft-skills/update/${skillObj.id}`
-    )
-      .then((response) => {
-        showSuccess("Soft Skill Deleted");
-        setSoftSkills((prevSoftSkills) =>
-          prevSoftSkills.filter((item) => item !== skillObj)
-        );
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showError("Deleting Soft Skill Failed");
-      });
+  const handleDeleteSoftSkill = async (skillObj) => {
+    try {
+      await AxiosInstance.delete(
+        `api/resumes/${resumeId}/soft-skills/update/${skillObj.id}`
+      );
+      showSuccess("Soft Skill Deleted");
+      setSoftSkills((prevSoftSkills) =>
+        prevSoftSkills.filter((item) => item !== skillObj)
+      );
+    } catch (error) {
+      console.error("Error:", error);
+      showError("Deleting Soft Skill Failed");
+    }
   };
 
   return (

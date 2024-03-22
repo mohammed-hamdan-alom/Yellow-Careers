@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space } from "antd";
-import JobSearchBar from "@/components/search/JobSearchBar";
 import { Label } from "@/components/ui/label";
 import "./switch.css";
+import JobFilter from "@/components/search/JobFilter";
 
 function EmployerDashBoardPage() {
   const { user } = useContext(AuthContext);
@@ -14,18 +14,20 @@ function EmployerDashBoardPage() {
   const [showCompanyJobs, setShowCompanyJobs] = useState(false);
 
   useEffect(() => {
-    AxiosInstance.get(`api/employer/${userId}/jobs/`)
-      .then((response) => {
-        setEmployerJobs(response.data);
-      })
-      .catch((error) => console.error('Error fetching employer jobs:', error));
-    
-    AxiosInstance.get(`api/employer/${userId}/company-jobs/`)
-      .then((response) => {
-        setCompanyJobs(response.data);
-        setShowCompanyJobs(response.data.length > 0);
-      })
-      .catch((error) => console.error('Error fetching company jobs:', error));
+    const fetchData = async () => {
+      try {
+        const employerJobsResponse = await AxiosInstance.get(`api/employer/${userId}/jobs/`);
+        setEmployerJobs(employerJobsResponse.data);
+
+        const companyJobsResponse = await AxiosInstance.get(`api/employer/${userId}/company-jobs/`);
+        setCompanyJobs(companyJobsResponse.data);
+        setShowCompanyJobs(companyJobsResponse.data.length > 0);
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      }
+    };
+
+    fetchData();
   }, [userId]);
 
   const handleSwitchChange = (checked) => {
@@ -48,7 +50,7 @@ function EmployerDashBoardPage() {
               />
             )}
           </div>
-          <JobSearchBar database={companyJobs} /> 
+          <JobFilter data={companyJobs} />
         </div>
       ) : (
         <div>
@@ -64,7 +66,7 @@ function EmployerDashBoardPage() {
               />
             )}
           </div>
-          <JobSearchBar database={employerJobs} />
+          <JobFilter data={employerJobs} />
         </div>
       )}
     </div>

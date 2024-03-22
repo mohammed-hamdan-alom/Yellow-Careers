@@ -14,8 +14,8 @@ if (authTokens && authTokens.access) {
 }
 
 const AxiosInstance = axios.create({
-    baseURL: DEV_BASE_URL,
-    timeout:10000,
+    baseURL: PROD_BASE_URL,
+    timeout: 10000,
     headers: headers
 })
 

@@ -19,36 +19,40 @@ function ResumeForm({ resumeId }) {
   const [errors, setErrors] = useState(defaultResumeState);
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/update/`)
-      .then((response) => {
+    const fetchResume = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/update/`);
         setResume(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchResume();
   }, [resumeId]);
-
+  
   const handleResumeChange = (event) => {
     setResume({ ...resume, [event.target.name]: event.target.value });
   };
-
-  const handleSubmitResume = (event) => {
+  
+  const handleSubmitResume = async (event) => {
     event.preventDefault();
-    AxiosInstance.put(`api/resumes/${resumeId}/update/`, resume)
-      .then((response) => {
-        showSuccess("Resume Updated");
-        setErrors(defaultResumeState);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Updating Resume Failed");
-      });
+    try {
+      await AxiosInstance.put(`api/resumes/${resumeId}/update/`, resume);
+      showSuccess("Resume Updated");
+      setErrors(defaultResumeState);
+    } catch (error) {
+      console.error("Error:", error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Updating Resume Failed");
+    }
   };
 
   return (
