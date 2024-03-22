@@ -13,17 +13,30 @@ function SavedJobListPage() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    const fetchJobs = async () => {
+    const fetchJobs = async (retryCount = 0) => {
       try {
         const res = await AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`);
         setJobs(res.data);
       } catch (error) {
         console.error("Error:", error);
+        // Retry logic
+        const maxRetries = 3;
+        if (retryCount < maxRetries) {
+          const delay = 2000; // 2 seconds delay, adjust as needed
+          console.log(`Retrying after ${delay} milliseconds...`);
+          setTimeout(() => {
+            fetchJobs(retryCount + 1); // Retry with incremented retryCount
+          }, delay);
+        } else {
+          console.error("Max retries exceeded. Unable to fetch saved jobs.");
+          // Handle max retries exceeded, maybe display an error message
+        }
       }
     };
   
     fetchJobs();
   }, [userId]);
+  
 
   // display the saved jobs
   return (

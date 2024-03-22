@@ -27,11 +27,11 @@ function CompanyProfilePage() {
   const userId = user.user_id;
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (retryCount = 0) => {
       try {
         const employerResponse = await AxiosInstance.get(`api/employers/${userId}`);
         setEmployer(employerResponse.data);
-
+  
         const companyResponse = await AxiosInstance.get(`api/companies/${employerResponse.data.company}`);
         setCompanyData({
           company_name: companyResponse.data.company_name,
@@ -39,16 +39,29 @@ function CompanyProfilePage() {
           website: companyResponse.data.website,
           id: companyResponse.data.id,
         });
-
+  
         const employersResponse = await AxiosInstance.get(`api/companies/${companyResponse.data.id}/employers`);
         setEmployers(employersResponse.data);
       } catch (error) {
         console.error(error);
+        // Retry logic
+        const maxRetries = 3;
+        if (retryCount < maxRetries) {
+          const delay = 2000; // 2 seconds delay, adjust as needed
+          console.log(`Retrying after ${delay} milliseconds...`);
+          setTimeout(() => {
+            fetchData(retryCount + 1); // Retry with incremented retryCount
+          }, delay);
+        } else {
+          console.error("Max retries exceeded. Unable to fetch data.");
+          // Handle max retries exceeded, maybe display an error message
+        }
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   const [errors, setErrors] = useState({
     company_name: "",

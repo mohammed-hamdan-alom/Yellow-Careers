@@ -14,21 +14,34 @@ function EmployerDashBoardPage() {
   const [showCompanyJobs, setShowCompanyJobs] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (retryCount = 0) => {
       try {
         const employerJobsResponse = await AxiosInstance.get(`api/employer/${userId}/jobs/`);
         setEmployerJobs(employerJobsResponse.data);
-
+  
         const companyJobsResponse = await AxiosInstance.get(`api/employer/${userId}/company-jobs/`);
         setCompanyJobs(companyJobsResponse.data);
         setShowCompanyJobs(companyJobsResponse.data.length > 0);
       } catch (error) {
         console.error('Error fetching jobs:', error);
+        // Retry logic
+        const maxRetries = 3;
+        if (retryCount < maxRetries) {
+          const delay = 2000; // 2 seconds delay, adjust as needed
+          console.log(`Retrying after ${delay} milliseconds...`);
+          setTimeout(() => {
+            fetchData(retryCount + 1); // Retry with incremented retryCount
+          }, delay);
+        } else {
+          console.error("Max retries exceeded. Unable to fetch data.");
+          // Handle max retries exceeded, maybe display an error message
+        }
       }
     };
-
+  
     fetchData();
   }, [userId]);
+  
 
   const handleSwitchChange = (checked) => {
     setShowCompanyJobs(checked);

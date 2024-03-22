@@ -20,7 +20,7 @@ const JobApplicantsPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchApplicants = async () => {
+    const fetchApplicants = async (retryCount = 0) => {
       try {
         const response = await AxiosInstance.get(`api/applications/job/${jobId}`);
         setApplications(response.data);
@@ -29,11 +29,24 @@ const JobApplicantsPage = () => {
         if (error.response && (error.response.status === 403 || error.response.status === 404)) {
           window.location.href = "/employer/dashboard";
         }
+        // Retry logic
+        const maxRetries = 3;
+        if (retryCount < maxRetries) {
+          const delay = 2000; // 2 seconds delay, adjust as needed
+          console.log(`Retrying after ${delay} milliseconds...`);
+          setTimeout(() => {
+            fetchApplicants(retryCount + 1); // Retry with incremented retryCount
+          }, delay);
+        } else {
+          console.error("Max retries exceeded. Unable to fetch data.");
+          // Handle max retries exceeded, maybe display an error message
+        }
       }
     };
-
+  
     fetchApplicants();
   }, []);
+  
 
   const handleShowDetails = () => {
     navigate(`/employer/job-details/${jobId}`);

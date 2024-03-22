@@ -24,37 +24,51 @@ function AppliedJobDetails() {
 
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [applicationResponse] = await Promise.all([
-                    AxiosInstance.get(`api/applications/${applicationId}`),
-                ]);
-
-                setApplication(applicationResponse.data);
-
-                const [
-                    resumeResponse,
-                    questionsResponse,
-                    answersResponse,
-                ] = await Promise.all([
-                    AxiosInstance.get(`/api/applications/${applicationResponse.data.id}/resume`),
-                    AxiosInstance.get(`/api/jobs/${applicationResponse.data.job}/questions`),
-                    AxiosInstance.get(`/api/applications/${applicationResponse.data.id}/answers`),
-                ]);
-
-                setResume(resumeResponse.data);
-                setQuestions(questionsResponse.data);
-                setAnswers(answersResponse.data);
-            } catch (error) {
-                console.error('Error retrieving info:', error);
-                if (error.response && (error.response.status === 403 || error.response.status === 404)) {
-                    window.location.href = "/job-seeker/dashboard";
-                }
+        const fetchData = async (retryCount = 0) => {
+          try {
+            const [applicationResponse] = await Promise.all([
+              AxiosInstance.get(`api/applications/${applicationId}`),
+            ]);
+      
+            setApplication(applicationResponse.data);
+      
+            const [
+              resumeResponse,
+              questionsResponse,
+              answersResponse,
+            ] = await Promise.all([
+              AxiosInstance.get(`/api/applications/${applicationResponse.data.id}/resume`),
+              AxiosInstance.get(`/api/jobs/${applicationResponse.data.job}/questions`),
+              AxiosInstance.get(`/api/applications/${applicationResponse.data.id}/answers`),
+            ]);
+      
+            setResume(resumeResponse.data);
+            setQuestions(questionsResponse.data);
+            setAnswers(answersResponse.data);
+          } catch (error) {
+            console.error('Error retrieving info:', error);
+            if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+              window.location.href = "/job-seeker/dashboard";
+            } else {
+              // Retry logic
+              const maxRetries = 3;
+              if (retryCount < maxRetries) {
+                const delay = 2000; // 2 seconds delay, adjust as needed
+                console.log(`Retrying after ${delay} milliseconds...`);
+                setTimeout(() => {
+                  fetchData(retryCount + 1); // Retry with incremented retryCount
+                }, delay);
+              } else {
+                console.error("Max retries exceeded. Unable to fetch data.");
+                // Handle max retries exceeded, maybe display an error message
+              }
             }
-        }
-
+          }
+        };
+      
         fetchData();
-    }, [applicationId]);
+      }, [applicationId]);
+      
 
     const decisionText = application.decision === 'A' ? 'Accepted' :
                          application.decision === 'R' ? 'Rejected' :

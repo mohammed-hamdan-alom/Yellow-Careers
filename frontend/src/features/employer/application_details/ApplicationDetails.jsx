@@ -14,13 +14,13 @@ const ApplicationDetails = () => {
   const { applicationId } = useParams();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (retryCount = 0) => {
       try {
         const applicationResponse = await AxiosInstance.get(
           `/api/applications/${applicationId}`
         );
         setApplication(applicationResponse.data);
-
+  
         const [
           jobSeekerResponse,
           questionsResponse,
@@ -32,7 +32,7 @@ const ApplicationDetails = () => {
           AxiosInstance.get(`/api/applications/${applicationId}/resume`),
           AxiosInstance.get(`/api/applications/${applicationId}/answers`),
         ]);
-
+  
         setJobSeeker(jobSeekerResponse.data);
         setQuestions(questionsResponse.data);
         setResume(resumeResponse.data);
@@ -41,12 +41,26 @@ const ApplicationDetails = () => {
         console.error("Failed to fetch data:", error);
         if (error.response && (error.response.status === 403 || error.response.status === 404)) {
           window.location.href = "/employer/dashboard";
-      }
+        } else {
+          // Retry logic
+          const maxRetries = 3;
+          if (retryCount < maxRetries) {
+            const delay = 2000; // 2 seconds delay, adjust as needed
+            console.log(`Retrying after ${delay} milliseconds...`);
+            setTimeout(() => {
+              fetchData(retryCount + 1); // Retry with incremented retryCount
+            }, delay);
+          } else {
+            console.error("Max retries exceeded. Unable to fetch data.");
+            // Handle max retries exceeded, maybe display an error message
+          }
+        }
       }
     };
-
+  
     fetchData();
   }, [applicationId]);
+  
 
   const markAsRead = async () => {
     let newStatus = application.status === "R" ? "U" : "R";

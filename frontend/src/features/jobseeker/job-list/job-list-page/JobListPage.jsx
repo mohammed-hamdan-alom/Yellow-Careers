@@ -21,12 +21,12 @@ const JobListPage = () => {
         if (response.data.id !== undefined) {
           const res = await AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`);
           setJobs(res.data);
-          setJobRetrieved(true);
+          setIsJobRetrieved(true);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
         // Retry logic
-        const maxRetries = 10;
+        const maxRetries = 3;
         if (retryCount < maxRetries) {
           const delay = 2000; // 2 seconds delay, adjust as needed
           console.log(`Retrying after ${delay} milliseconds...`);

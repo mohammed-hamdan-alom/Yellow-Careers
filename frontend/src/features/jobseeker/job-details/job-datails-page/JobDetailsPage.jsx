@@ -29,45 +29,70 @@ function JobDetails() {
     const [company, setCompany] = useState({});
 
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const responses = await Promise.all([
-              AxiosInstance.get(`api/jobs/${jobId}/`),
-              AxiosInstance.get(`api/jobs/${jobId}/company/`),
-              AxiosInstance.get(`api/jobs/${jobId}/address/`),
-              AxiosInstance.get(`api/jobs/${jobId}/questions/`),
-              AxiosInstance.get(`api/job-seeker/${userId}/resume/`),
-              AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`),
-            ]);
-            setJob(responses[0].data);
-            setCompany(responses[1].data);
-            setAddress(responses[2].data);
-            setQuestions(responses[3].data);
-            setResume(responses[4].data);
-            setAppliedJobs(responses[5].data);
-            setIsJobApplied(responses[5].data.some(appliedJob => String(appliedJob.id) === String(jobId)));
-          } catch (error) {
-            console.error('Error fetching data:', error);
+      const fetchData = async (retryCount = 0) => {
+        try {
+          const responses = await Promise.all([
+            AxiosInstance.get(`api/jobs/${jobId}/`),
+            AxiosInstance.get(`api/jobs/${jobId}/company/`),
+            AxiosInstance.get(`api/jobs/${jobId}/address/`),
+            AxiosInstance.get(`api/jobs/${jobId}/questions/`),
+            AxiosInstance.get(`api/job-seeker/${userId}/resume/`),
+            AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`),
+          ]);
+          setJob(responses[0].data);
+          setCompany(responses[1].data);
+          setAddress(responses[2].data);
+          setQuestions(responses[3].data);
+          setResume(responses[4].data);
+          setAppliedJobs(responses[5].data);
+          setIsJobApplied(responses[5].data.some(appliedJob => String(appliedJob.id) === String(jobId)));
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          // Retry logic
+          const maxRetries = 3;
+          if (retryCount < maxRetries) {
+            const delay = 2000; // 2 seconds delay, adjust as needed
+            console.log(`Retrying after ${delay} milliseconds...`);
+            setTimeout(() => {
+              fetchData(retryCount + 1); // Retry with incremented retryCount
+            }, delay);
+          } else {
+            console.error("Max retries exceeded. Unable to fetch job data.");
+            // Handle max retries exceeded, maybe display an error message
           }
-        };
-      
-        fetchData();
-      }, [jobId, userId]);
-      
-      // check if the job is saved
-      useEffect(() => {
-        const fetchSavedJobs = async () => {
-          try {
-            const res = await AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`);
-            setSavedJobs(res.data);
-            setIsJobSaved(res.data.some(savedJob => String(savedJob.id) === String(jobId)));
-          } catch (error) {
-            console.error('Error fetching data:', error);
+        }
+      };
+    
+      fetchData();
+    }, [jobId, userId]);
+    
+    // check if the job is saved
+    useEffect(() => {
+      const fetchSavedJobs = async (retryCount = 0) => {
+        try {
+          const res = await AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`);
+          setSavedJobs(res.data);
+          setIsJobSaved(res.data.some(savedJob => String(savedJob.id) === String(jobId)));
+        } catch (error) {
+          console.error('Error fetching saved jobs:', error);
+          // Retry logic
+          const maxRetries = 3;
+          if (retryCount < maxRetries) {
+            const delay = 2000; // 2 seconds delay, adjust as needed
+            console.log(`Retrying after ${delay} milliseconds...`);
+            setTimeout(() => {
+              fetchSavedJobs(retryCount + 1); // Retry with incremented retryCount
+            }, delay);
+          } else {
+            console.error("Max retries exceeded. Unable to fetch saved jobs.");
+            // Handle max retries exceeded, maybe display an error message
           }
-        };
-      
-        fetchSavedJobs();
-      }, [isJobSaved]);
+        }
+      };
+    
+      fetchSavedJobs();
+    }, [isJobSaved]);
+    
       
       const handleApply = async () => {
         if (questions.length === 0) {

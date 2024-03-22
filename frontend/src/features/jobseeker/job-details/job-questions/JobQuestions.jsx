@@ -21,21 +21,34 @@ function JobQuestions() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const responses = await Promise.all([
-              AxiosInstance.get(`api/jobs/${jobId}/questions/`),
-              AxiosInstance.get(`api/job-seeker/${userId}/resume/`)
-            ]);
-            setQuestions(responses[0].data);
-            setResume(responses[1].data);
-          } catch (error) {
-            console.error('Error fetching data:', error);
+      const fetchData = async (retryCount = 0) => {
+        try {
+          const responses = await Promise.all([
+            AxiosInstance.get(`api/jobs/${jobId}/questions/`),
+            AxiosInstance.get(`api/job-seeker/${userId}/resume/`)
+          ]);
+          setQuestions(responses[0].data);
+          setResume(responses[1].data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          // Retry logic
+          const maxRetries = 3;
+          if (retryCount < maxRetries) {
+            const delay = 2000; // 2 seconds delay, adjust as needed
+            console.log(`Retrying after ${delay} milliseconds...`);
+            setTimeout(() => {
+              fetchData(retryCount + 1); // Retry with incremented retryCount
+            }, delay);
+          } else {
+            console.error("Max retries exceeded. Unable to fetch data.");
+            // Handle max retries exceeded, maybe display an error message
           }
-        };
-      
-        fetchData();
-      }, [jobId, userId]);
+        }
+      };
+    
+      fetchData();
+    }, [jobId, userId]);
+    
       
       const createAnswers = async (applicationId) => {
         for (const questionId in answers) {

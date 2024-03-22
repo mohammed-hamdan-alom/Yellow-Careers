@@ -28,42 +28,53 @@ const JobDetailsEmployer = () => {
     const [currentEmployer, setCurrentEmployer] = useState({});
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const responses = await Promise.all([
-                    AxiosInstance.get(`api/jobs/${jobId}/`),
-                    AxiosInstance.get(`api/jobs/${jobId}/company/`),
-                    AxiosInstance.get(`api/jobs/${jobId}/address/`),
-                    AxiosInstance.get(`api/jobs/${jobId}/questions/`),
-                    AxiosInstance.get(`api/job/${jobId}/employers/`),
-                    AxiosInstance.get(`api/employers/company/${userId}/`)
-                ]);
-
-                setJob(responses[0].data);
-                setCompany(responses[1].data);
-                setAddress(responses[2].data);
-                setQuestions(responses[3].data);
-                setEmployers(responses[4].data);
-                setCompanyEmployers(responses[5].data);
-                setDataReceived(true);
-                //Sets current employer to logged in employer in order to receive company admin status
-                responses[4].data.forEach((employer) => {
-                    if (employer.id == user.user_id) {
-                        setCurrentEmployer(employer)
-                    }
-                })
+        const fetchData = async (retryCount = 0) => {
+          try {
+            const responses = await Promise.all([
+              AxiosInstance.get(`api/jobs/${jobId}/`),
+              AxiosInstance.get(`api/jobs/${jobId}/company/`),
+              AxiosInstance.get(`api/jobs/${jobId}/address/`),
+              AxiosInstance.get(`api/jobs/${jobId}/questions/`),
+              AxiosInstance.get(`api/job/${jobId}/employers/`),
+              AxiosInstance.get(`api/employers/company/${userId}/`),
+            ]);
+      
+            setJob(responses[0].data);
+            setCompany(responses[1].data);
+            setAddress(responses[2].data);
+            setQuestions(responses[3].data);
+            setEmployers(responses[4].data);
+            setCompanyEmployers(responses[5].data);
+            setDataReceived(true);
+            // Sets current employer to logged-in employer to receive company admin status
+            responses[4].data.forEach((employer) => {
+              if (employer.id == user.user_id) {
+                setCurrentEmployer(employer);
+              }
+            });
+          } catch (error) {
+            console.error('Error fetching data:', error);
+            if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+              window.location.href = "/employer/dashboard";
             }
-
-            catch (error) {
-                console.error('Error fetching data:', error);
-                if (error.response && (error.response.status === 403 || error.response.status === 404)) {
-                    window.location.href = "/employer/dashboard";
-                }
+            // Retry logic
+            const maxRetries = 3;
+            if (retryCount < maxRetries) {
+              const delay = 2000; // 2 seconds delay, adjust as needed
+              console.log(`Retrying after ${delay} milliseconds...`);
+              setTimeout(() => {
+                fetchData(retryCount + 1); // Retry with incremented retryCount
+              }, delay);
+            } else {
+              console.error("Max retries exceeded. Unable to fetch data.");
+              // Handle max retries exceeded, maybe display an error message
             }
+          }
         };
-
+      
         fetchData();
-    }, [jobId, userId, dataReceived]);
+      }, [jobId, userId, dataReceived]);
+      
 
     const handleClick = () => {
         navigate(`/employer/job-applicants/${jobId}`);
