@@ -6,9 +6,7 @@ import JobDetailsDisplay from '@/components/job-details/JobDetails';
 import StyledQuestion from "@/components/questions_and_answers/Question";
 import { Button, Space } from "antd";
 import '@/components/styling/button.css';
-import { GlobalOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
-
 
 const JobDetailsEmployer = () => {
     const { user } = useContext(AuthContext);
@@ -50,7 +48,7 @@ const JobDetailsEmployer = () => {
                 setEmployers(responses[4].data);
                 setCompanyEmployers(responses[5].data);
                 setDataReceived(true);
-                //Sets current employer to logged in employer in order to receive company admin status
+
                 responses[4].data.forEach((employer) => {
                     if (employer.id == user.user_id) {
                         setCurrentEmployer(employer)
@@ -94,19 +92,6 @@ const JobDetailsEmployer = () => {
         }
     };
 
-    const handleRemove = async (id) => {
-        try {
-            await AxiosInstance.delete(`api/employer-job-relations/delete/${jobId}/${id}/`, {
-                employer: id,
-                job: jobId
-            });
-
-            window.location.reload();
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const handleRemoveEmployer = async (id) => {
         Swal.fire({
             title: 'Are you sure you want to remove this employer?',
@@ -140,21 +125,18 @@ const JobDetailsEmployer = () => {
     return (
         <div>
             <div className="mb-3">
-                <Button className="seeApplicantsButton" onClick={handleClick}>See Applicants</Button>
+                <Button className="blueButton" onClick={handleClick}>See Applicants</Button>
             </div>
             <div className="mt-3 mb-8">
                 <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
-            {questions.length > 0 && <h5 className="text-lg font-semibold mb-2">Questions:</h5>
-}
+            {questions.length > 0 && <h5 className="text-lg font-semibold mb-2">Questions:</h5>}
             {questions.map(question => (
                 <ul key={question.id}>
                     <StyledQuestion question={question.question} />
                 </ul>
             ))}
-
             <br />
-
             <div>
                 <div className="mb-6">
                     <h4 className="text-lg font-semibold mb-2">Employers:</h4>
@@ -169,21 +151,20 @@ const JobDetailsEmployer = () => {
                         ))}
                     </ul>
                 </div>
-
                 <div className="mb-6">
                     <h5 className="text-lg font-semibold mb-2">Add employers:</h5>
-                    <form onSubmit={handleSubmit} className="flex items-center">
+                    <form onSubmit={handleSubmit} className="flex items-center bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                         <select
                             name="employer"
                             value={formData.employer}
                             onChange={handleChange}
-                            className="mr-3 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         >
                             {companyEmployers.map(employer => (
                                 employer.id !== userId && <option value={employer.id} key={employer.id}>{employer.first_name} {employer.last_name}</option>
                             ))}
                         </select>
-                        <Button className="yellowButton" type="submit" onClick={handleSubmit}>Submit</Button>
+                        <Button className="yellowButton bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4" type="submit" onClick={handleSubmit}>Submit</Button>
                     </form>
                 </div>
             </div>
