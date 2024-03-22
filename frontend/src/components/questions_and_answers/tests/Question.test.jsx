@@ -36,7 +36,7 @@ describe('Question component', () => {
         expect(questionName).toBeInTheDocument();
     });
 
-    test('renders label', async () => {
+    test('renders Label component', async () => {
         const label = await screen.findByTestId("mock-label");
         expect(label).toBeInTheDocument();
     });
