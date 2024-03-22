@@ -64,10 +64,6 @@ vi.mock('react-router-dom', async (importOriginal) => {
 
 describe('JobSummary component', () => {
 
-    beforeEach(() => {
-
-    })
-
     afterEach(cleanup);
 
     test('renders JobCard title', async () => {
