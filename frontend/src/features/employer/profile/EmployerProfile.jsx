@@ -3,11 +3,18 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import swal from "sweetalert2";
 import { Label } from "@/components/ui/label";
-import { Input, Tooltip,Select, Button } from "antd";
-import { Mail, Phone, Calendar,Globe, User, Earth, MapPin   } from 'lucide-react';
-import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-import '@/components/styling/button.css';
-
+import { Input, Tooltip, Select, Button } from "antd";
+import {
+  Mail,
+  Phone,
+  Calendar,
+  Globe,
+  User,
+  Earth,
+  MapPin,
+} from "lucide-react";
+import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
+import "@/components/styling/button.css";
 
 const EmployerProfile = () => {
   const { user } = useContext(AuthContext);
@@ -21,7 +28,6 @@ const EmployerProfile = () => {
     company: user?.company || "",
   });
   const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
-
 
   useEffect(() => {
     const fetchEmployerData = async () => {
@@ -114,26 +120,58 @@ const EmployerProfile = () => {
         <Label htmlFor="email" className="text-lg mr-2">
           Email:
         </Label>
-        <Input prefix={<Mail size={16} />} disabled  value={user?.email} />
+        <Input prefix={<Mail size={16} />} disabled value={user?.email} />
       </div>
       <div className="mb-3">
-        <Label htmlFor="first_name" >First Name: </Label>
-        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon" /> } id="first_name" name="first_name" value={formData.first_name} onChange={(e) => handleChange(e, 'first_name')} maxLength={50}
-          required/>
-      </div> 
+        <Label htmlFor="first_name">First Name: </Label>
+        <Input
+          type="text"
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          id="first_name"
+          name="first_name"
+          value={formData.first_name}
+          onChange={(e) => handleChange(e, "first_name")}
+          maxLength={50}
+          required
+        />
+      </div>
       <div className="mb-3">
         <Label htmlFor="last_name">Last Name: </Label>
-        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon"  /> } id="last_name" name="last_name" value={formData.last_name} onChange={(e) => handleChange(e, 'last_name')} maxLength={50}
-          required />
+        <Input
+          type="text"
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          id="last_name"
+          name="last_name"
+          value={formData.last_name}
+          onChange={(e) => handleChange(e, "last_name")}
+          maxLength={50}
+          required
+        />
       </div>
       <div className="mb-3">
         <Label htmlFor="other_names">Other Names: </Label>
-        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon" /> } id="other_names" name="other_names" value={formData.other_names} onChange={(e) => handleChange(e, 'other_names')} maxLength={50}/>
+        <Input
+          type="text"
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          id="other_names"
+          name="other_names"
+          value={formData.other_names}
+          onChange={(e) => handleChange(e, "other_names")}
+          maxLength={50}
+        />
       </div>
       <div className="mb-3">
         <Label htmlFor="phone_number">Phone Number: </Label>
-        <Input type="text" prefix = {<Phone size={15}/>} id="phone_number" name="phone_number" value={formData.phone_number} onChange={(e) => handleChange(e, 'phone_number')}   pattern="[0-9]{9,15}"
-          required/>
+        <Input
+          type="text"
+          prefix={<Phone size={15} />}
+          id="phone_number"
+          name="phone_number"
+          value={formData.phone_number}
+          onChange={(e) => handleChange(e, "phone_number")}
+          pattern="[0-9]{9,15}"
+          required
+        />
         <span className="text-danger">
           {formData.phone_number !== "" &&
             !isValidPhoneNumber &&
@@ -141,8 +179,10 @@ const EmployerProfile = () => {
         </span>
       </div>
 
-      <div style={{ marginTop: '25px' }}>
-          <Button className="yellowButton" type="submit" onClick={handleSubmit} >Update Profile</Button>
+      <div style={{ marginTop: "25px" }}>
+        <Button className="yellowButton" type="submit" onClick={handleSubmit}>
+          Update Profile
+        </Button>
       </div>
     </form>
   );

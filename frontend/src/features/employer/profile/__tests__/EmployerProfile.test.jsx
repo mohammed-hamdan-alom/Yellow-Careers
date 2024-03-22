@@ -44,21 +44,30 @@ describe("EmployerProfile component", () => {
     fireEvent.submit(screen.getByText("Update Profile"));
   };
 
-  const assertFormValues = (formData) => {
-    Object.entries(formData).forEach(([field, value]) => {
-      const label = fieldToLabelMap[field];
-      if (label) {
-        expect(screen.getByLabelText(label)).toHaveValue(value);
-      }
-    });
-    expect(screen.getByLabelText(/Email/i)).toHaveValue(mockUser.email);
+  const getValueFromFormData = (formData, field) => {
+    const path = field.split(".");
+    let value = { ...formData };
+    for (const key of path) {
+      value = value[key];
+    }
+    return value;
   };
 
-  const fieldToLabelMap = {
-    first_name: "First Name",
-    last_name: "Last Name",
-    other_names: "Other Names",
-    phone_number: "Phone Number",
+  const assertFormValues = (formData) => {
+    Object.entries(fieldMap).forEach(([label, field]) => {
+      let value;
+      if (label != "Email:") {
+        value = getValueFromFormData(formData, field);
+      }
+      expect(screen.getByLabelText(label)).toHaveValue(value);
+    });
+  };
+
+  const fieldMap = {
+    "First Name:": "first_name",
+    "Last Name:": "last_name",
+    "Other Names:": "other_names",
+    "Phone Number:": "phone_number",
   };
 
   test("fetches employer data on mount", async () => {
@@ -66,28 +75,18 @@ describe("EmployerProfile component", () => {
   });
 
   test("updates data on submit", async () => {
-    const fieldsToUpdate = {
-      first_name: updatedFormData.first_name,
-      last_name: updatedFormData.last_name,
-      other_names: updatedFormData.other_names,
-      phone_number: updatedFormData.phone_number,
-    };
-
-    Object.entries(fieldsToUpdate).forEach(([field, value]) => {
-      fireEvent.change(screen.getByLabelText(fieldToLabelMap[field]), {
-        target: { value },
-      });
+    Object.entries(fieldMap).forEach(([label, field]) => {
+      const value = getValueFromFormData(updatedFormData, field);
+      fireEvent.change(screen.getByLabelText(label), { target: { value } });
     });
-
     submitForm();
-
     await waitFor(() => {
       assertFormValues(updatedFormData);
     });
   });
 
   test("displays popover with invalid phone number", () => {
-    const phoneNumberInput = screen.getByLabelText("Phone Number");
+    const phoneNumberInput = screen.getByLabelText("Phone Number:");
     fireEvent.change(phoneNumberInput, { target: { value: "123" } });
     submitForm();
     expect(screen.getByText("Please match the format requested.")).toBeInTheDocument();
