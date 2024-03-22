@@ -5,7 +5,6 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { Button, Space } from 'antd';
 import '@/components/styling/button.css';
 import JobDetailsDisplay from '@/components/job-details/JobDetails';
-import ReactDOM from 'react-dom';
 import { FloatButton } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';

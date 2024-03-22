@@ -39,7 +39,7 @@ function JobCreationForm() {
         address: addressData,
         job_type: formData.job_type,
       });
-
+  
       await AxiosInstance.post("api/employer-job-relations/create/", {
         employer: userId,
         job: jobResponse.data.id,
