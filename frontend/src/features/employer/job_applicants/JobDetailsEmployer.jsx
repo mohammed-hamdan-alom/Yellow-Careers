@@ -4,7 +4,11 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from '@/components/job-details/JobDetails';
 import StyledQuestion from "@/components/questions_and_answers/Question";
-import { Button } from "antd";
+import { Button, Space } from "antd";
+import '@/components/styling/button.css';
+import { GlobalOutlined } from '@ant-design/icons';
+import Swal from 'sweetalert2';
+
 
 const JobDetailsEmployer = () => {
     const { user } = useContext(AuthContext);
@@ -52,9 +56,7 @@ const JobDetailsEmployer = () => {
                         setCurrentEmployer(employer)
                     }
                 })
-            }
-
-            catch (error) {
+            } catch (error) {
                 console.error('Error fetching data:', error);
                 if (error.response && (error.response.status === 403 || error.response.status === 404)) {
                     window.location.href = "/employer/dashboard";
@@ -105,15 +107,46 @@ const JobDetailsEmployer = () => {
         }
     };
 
+    const handleRemoveEmployer = async (id) => {
+        Swal.fire({
+            title: 'Are you sure you want to remove this employer?',
+            showCancelButton: true,
+            confirmButtonText: `Yes`,
+            denyButtonText: `No`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                AxiosInstance.delete(`api/employer-job-relations/delete/${jobId}/${id}/`)
+                    .then(() => {
+                        Swal.fire(
+                            'Removed',
+                            'The employer has been removed successfully!',
+                            'success'
+                        ).then(() => {
+                            window.location.reload();
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Error removing employer:', error);
+                        Swal.fire(
+                            'Error',
+                            'There was an error removing the employer.',
+                            'error'
+                        )
+                    });
+            }
+        });
+    }
+
     return (
         <div>
             <div className="mb-3">
-            <Button className="seeApplicantsButton" onClick={handleClick}>See Applicants</Button>
+                <Button className="seeApplicantsButton" onClick={handleClick}>See Applicants</Button>
             </div>
             <div className="mt-3 mb-8">
                 <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
-            {questions.length > 0 && <h4>Questions:</h4>}
+            {questions.length > 0 && <h5 className="text-lg font-semibold mb-2">Questions:</h5>
+}
             {questions.map(question => (
                 <ul key={question.id}>
                     <StyledQuestion question={question.question} />
@@ -122,29 +155,38 @@ const JobDetailsEmployer = () => {
 
             <br />
 
-            <h4>Employers:</h4>
-            {employers.map(employer => (
-                <ul key={employer.id}>
-                    <h5>{employer.first_name} {employer.last_name}</h5>
-                    {employer.id != userId && currentEmployer.is_company_admin ? <button onClick={() => handleRemove(employer.id)}>Remove</button> : null}
-                </ul>
-            ))}
-
-            <h5>Add employers:</h5>
-            <form onSubmit={handleSubmit}>
-                <select
-                    name="employer"
-                    value={formData.employer}
-                    onChange={handleChange}
-                >
-                    {companyEmployers.map(employer => (
-                        employer.id !== userId && <option value={employer.id} key={employer.id}>{employer.first_name} {employer.last_name}</option>
-                    ))}
-                </select>
-                <div className="form-actions">
-                    <button type="submit">Submit</button>
+            <div>
+                <div className="mb-6">
+                    <h4 className="text-lg font-semibold mb-2">Employers:</h4>
+                    <ul className="space-y-2">
+                        {employers.map(employer => (
+                            <li key={employer.id} className="flex items-center border-b py-2">
+                                <span className="font-medium">{employer.first_name} {employer.last_name}</span>
+                                {employer.id !== userId && currentEmployer.is_company_admin &&
+                                    <Button onClick={() => handleRemoveEmployer(employer.id)} className="redButton ml-2">Remove</Button>
+                                }
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-            </form>
+
+                <div className="mb-6">
+                    <h5 className="text-lg font-semibold mb-2">Add employers:</h5>
+                    <form onSubmit={handleSubmit} className="flex items-center">
+                        <select
+                            name="employer"
+                            value={formData.employer}
+                            onChange={handleChange}
+                            className="mr-3 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        >
+                            {companyEmployers.map(employer => (
+                                employer.id !== userId && <option value={employer.id} key={employer.id}>{employer.first_name} {employer.last_name}</option>
+                            ))}
+                        </select>
+                        <Button className="yellowButton" type="submit" onClick={handleSubmit}>Submit</Button>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 };
