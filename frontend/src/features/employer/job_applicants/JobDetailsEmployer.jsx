@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from '@/components/job-details/JobDetails'
-import StyledQuestion from "@/components/questions_and_answers/Question";
+import Question from "@/components/questions_and_answers/Question";
 
 
 
@@ -12,7 +12,6 @@ const JobDetailsEmployer = () => {
     const userId = user.user_id;
 
     const { jobId } = useParams();
-
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -28,33 +27,33 @@ const JobDetailsEmployer = () => {
     const [companyEmployers, setCompanyEmployers] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const responses = await Promise.all([
-              AxiosInstance.get(`api/jobs/${jobId}/`),
-              AxiosInstance.get(`api/jobs/${jobId}/company/`),
-              AxiosInstance.get(`api/jobs/${jobId}/address/`),
-              AxiosInstance.get(`api/jobs/${jobId}/questions/`),
-              AxiosInstance.get(`api/job/${jobId}/employers/`),
-              AxiosInstance.get(`api/employers/company/${userId}/`)
-            ]);
-      
-            setJob(responses[0].data);
-            setCompany(responses[1].data);
-            setAddress(responses[2].data);
-            setQuestions(responses[3].data);
-            setEmployers(responses[4].data);
-            setCompanyEmployers(responses[5].data);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-            if (error.response && (error.response.status === 403 || error.response.status === 404)) {
-              window.location.href = "/employer/dashboard";
-            }
+      const fetchData = async () => {
+        try {
+          const responses = await Promise.all([
+            AxiosInstance.get(`api/jobs/${jobId}/`),
+            AxiosInstance.get(`api/jobs/${jobId}/company/`),
+            AxiosInstance.get(`api/jobs/${jobId}/address/`),
+            AxiosInstance.get(`api/jobs/${jobId}/questions/`),
+            AxiosInstance.get(`api/job/${jobId}/employers/`),
+            AxiosInstance.get(`api/employers/company/${userId}/`)
+          ]);
+    
+          setJob(responses[0].data);
+          setCompany(responses[1].data);
+          setAddress(responses[2].data);
+          setQuestions(responses[3].data);
+          setEmployers(responses[4].data);
+          setCompanyEmployers(responses[5].data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+            window.location.href = "/employer/dashboard";
           }
-        };
-      
-        fetchData();
-      }, [jobId, userId]);
+        }
+      };
+    
+      fetchData();
+    }, [jobId, userId]);
 
     const handleClick = () => {
         navigate(`/employer/job-applicants/${jobId}`);
@@ -106,7 +105,7 @@ const JobDetailsEmployer = () => {
             {questions.length === 0 ? null : <h4>Questions:</h4>}
             {questions.map(question => (
                 < ul key={question.id} >
-                    <StyledQuestion question={question.question} />
+                    <Question question={question.question} />
                 </ul>
             ))}
 
