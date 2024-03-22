@@ -61,7 +61,7 @@ const JobApplicantsPage = () => {
       </div>
       <div className="filter-container">
         <div className="filter-item">
-        <Label className="text-xl"><Tag color="blue" className="tag-medium">Status Filter:</Tag></Label>
+        <Label className="text-xl"><Tag color="purple" className="tag-medium">Status Filter:</Tag></Label>
         <Select data-testid='status' id="status" className="w-60 mt-2" defaultValue="all" onChange={value => setStatusFilter(value)}>
           <Select.Option value="all">All</Select.Option>
           <Select.Option value="U">Unread</Select.Option>
@@ -80,7 +80,6 @@ const JobApplicantsPage = () => {
       </div>
       {filteredApplications.map(application => (
         <ul key={application.id}>
-          {console.log(application)}
           <ApplicantSummary application_id={application.id} status={application.status} decision={application.decision}/>
         </ul>
       ))}
