@@ -39,13 +39,13 @@ function JobCreationForm() {
         address: addressData,
         job_type: formData.job_type,
       });
-
+  
       await AxiosInstance.post("api/employer-job-relations/create/", {
         employer: userId,
         job: jobResponse.data.id,
       });
       showJobCreatedSuccess();
-      navigate(`/employer/job-details/${jobResponse.data.id}`);
+      navigate(`/employer/create-questions/${jobResponse.data.id}`);
     } catch (error) {
       showJobCreatedError();
       console.log(error);
