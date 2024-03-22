@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space } from "antd";
-import JobSearchBar from "@/components/search/JobSearchBar";
 import { Label } from "@/components/ui/label";
 import "./switch.css";
+import JobFilter from "@/components/search/JobFilter";
 
 function EmployerDashBoardPage() {
   const { user } = useContext(AuthContext);
@@ -18,7 +18,7 @@ function EmployerDashBoardPage() {
       try {
         const employerJobsResponse = await AxiosInstance.get(`api/employer/${userId}/jobs/`);
         setEmployerJobs(employerJobsResponse.data);
-  
+
         const companyJobsResponse = await AxiosInstance.get(`api/employer/${userId}/company-jobs/`);
         setCompanyJobs(companyJobsResponse.data);
         setShowCompanyJobs(companyJobsResponse.data.length > 0);
@@ -26,7 +26,7 @@ function EmployerDashBoardPage() {
         console.error('Error fetching jobs:', error);
       }
     };
-  
+
     fetchData();
   }, [userId]);
 
@@ -50,7 +50,7 @@ function EmployerDashBoardPage() {
               />
             )}
           </div>
-          <JobSearchBar database={companyJobs} /> 
+          <JobFilter data={companyJobs} />
         </div>
       ) : (
         <div>
@@ -66,7 +66,7 @@ function EmployerDashBoardPage() {
               />
             )}
           </div>
-          <JobSearchBar database={employerJobs} />
+          <JobFilter data={employerJobs} />
         </div>
       )}
     </div>

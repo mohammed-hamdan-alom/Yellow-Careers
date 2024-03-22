@@ -3,12 +3,12 @@ import AuthContext from "@/context/AuthContext";
 import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Button, Space } from 'antd';
-import '../styling/button.css';
+import '@/components/styling/button.css';
 import JobDetailsDisplay from '@/components/job-details/JobDetails';
 import ReactDOM from 'react-dom';
 import { FloatButton } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
-import Swal from 'sweetalert2'; // Import SweetAlert2
+import Swal from 'sweetalert2';
 
 function JobDetails() {
     const { user } = useContext(AuthContext);
@@ -142,14 +142,14 @@ function JobDetails() {
             </div>
             <Space>
                 {isJobApplied ? (
-                    <Button className="applyButton large-button" onClick={handleSeeApplication}>See Application</Button>
+                    <Button className="yellowButton large-button" onClick={handleSeeApplication}>See Application</Button>
                 ) : (
-                    <Button className="applyButton large-button" onClick={handleApply} >Apply</Button>
+                    <Button className="yellowButton large-button" onClick={handleApply} >Apply</Button>
                 )}
                 {isJobSaved ? (
-                    <Button className="unsaveButton large-button" onClick={handleSave}>Unsave</Button>
+                    <Button className="redButton large-button" onClick={handleSave}>Unsave</Button>
                 ) : (
-                    <Button className="saveButton large-button" onClick={handleSave}>Save</Button>
+                    <Button className="blueButton large-button" onClick={handleSave}>Save</Button>
                 )}
                 <FloatButton
                     tooltip={<div>Visit Company Page</div>}

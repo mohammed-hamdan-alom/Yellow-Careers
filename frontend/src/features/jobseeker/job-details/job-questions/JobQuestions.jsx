@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from '../../../../components/Alert/Alert';
 import { Input, Button, Space } from 'antd';
-import '../styling/button.css';
+import '@/components/styling/button.css';
 import StyledQuestion from "@/components/questions_and_answers/Question";
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
@@ -45,10 +45,10 @@ function JobQuestions() {
               question: questionId,
               answer: answers[questionId],
             });
-            navigate(`/job-seeker/job-details/${jobId}`);
-          } catch (error) {
+          } 
+          catch (error) {
             if (error.response) {
-              const data = await error.response.data;
+              const data = error.response.data;
               let errorMessage = '';
               for (let key in data) {
                 if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
@@ -56,9 +56,11 @@ function JobQuestions() {
                 }
               }
               showError(errorMessage);
+              return; // Return early to prevent navigation
             }
           }
         }
+        navigate(`/job-seeker/job-details/${jobId}`);
       };
       
       const handleApply = async () => {
@@ -84,7 +86,7 @@ function JobQuestions() {
             createAnswers(application.id);
           } catch (error) {
             if (error.response) {
-              const data = await error.response.data;
+              const data = error.response.data;
               let errorMessage = '';
               for (let key in data) {
                 if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
@@ -123,7 +125,7 @@ function JobQuestions() {
             </div>
           ))}
           <div style={{ marginTop: '25px' }}>
-            <Button className="applyButton" type="primary" onClick={handleApply}>Apply</Button>
+            <Button className="yellowButton large-button" type="primary" onClick={handleApply}>Apply</Button>
           </div>
         </div>
       );
