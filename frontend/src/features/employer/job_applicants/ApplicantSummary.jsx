@@ -1,9 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Card, Button } from "antd";
-const ApplicantSummary = ({ id }) => {
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { User } from 'lucide-react';
+import '@/components/styling/tag.css';
+
+const ApplicantCard = ({ firstName, lastName }) => {
     const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/employer/application-details/${id}`);
+    };
+
+    return (
+        <div>
+            <Card className="w-full mt-10 cursor-pointer" style={{ boxShadow: '0 0 5px #808080' }} onClick={handleClick}>
+                <CardHeader className="justify-center items-left mt-4">
+                    <CardTitle className="text-3xl font-bold">{firstName} {lastName}</CardTitle>
+                </CardHeader>
+            </Card>
+        </div>
+    );
+};
+
+const ApplicantSummary = ({ id }) => {
+
     const [jobSeeker, setJobSeeker] = useState({});
 
     useEffect(() => {
@@ -11,15 +32,9 @@ const ApplicantSummary = ({ id }) => {
             .then((res) => setJobSeeker(res.data))
     }, []);
 
-    const handleShowApplication = (key) => {
-        navigate(`/employer/application-details/${key}`);
-    }
-
     return (
         <>
-            <Card title={jobSeeker.first_name + " " + jobSeeker.last_name} >
-                <Button onClick={() => handleShowApplication(id)}> Show Application </Button>
-            </Card >
+            <ApplicantCard firstName={jobSeeker.first_name} lastName={jobSeeker.last_name} id={id} />
         </>
     );
 };

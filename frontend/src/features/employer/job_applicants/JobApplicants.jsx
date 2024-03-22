@@ -57,7 +57,7 @@ const JobApplicantsPage = () => {
         <Button className='yellowButton mb-2' onClick={handleShowDetails}> Job Details </Button>
       </div>
       <div>
-        <Label className="text-2xl font-bold">Matched applicants</Label>
+        <Label className="text-3xl font-bold">Matched applicants</Label>
       </div>
       <div className="filter-container">
         <div className="filter-item">
