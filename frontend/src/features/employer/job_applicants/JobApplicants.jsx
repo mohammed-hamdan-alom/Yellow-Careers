@@ -20,7 +20,7 @@ const JobApplicantsPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchApplicants = async () => {
+    const fetchApplications = async () => {
       try {
         const response = await AxiosInstance.get(`api/applications/job/${jobId}`);
         setApplications(response.data);
@@ -33,7 +33,7 @@ const JobApplicantsPage = () => {
       }
     };
 
-    fetchApplicants();
+    fetchApplications();
   }, []);
 
   useEffect(() => {
@@ -58,15 +58,15 @@ const JobApplicantsPage = () => {
           <label>Status Filter:</label>
           <select onChange={e => setStatusFilter(e.target.value)}>
               <option value="all">All</option>
-              <option value="unread">Unread</option>
-              <option value="read">Read</option>
+              <option value="U">Unread</option>
+              <option value="R">Read</option>
           </select>
           <label>Decision Filter:</label>
           <select onChange={e => setDecisionFilter(e.target.value)}>
               <option value="all">All</option>
-              <option value="undecided">Undecided</option>
-              <option value="rejected">Rejected</option>
-              <option value="accepted">Accepted</option>
+              <option value="U">Undecided</option>
+              <option value="R">Rejected</option>
+              <option value="A">Accepted</option>
           </select>
       </div>
       {filteredApplications.map(application => (
