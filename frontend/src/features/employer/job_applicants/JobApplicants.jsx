@@ -46,7 +46,6 @@ const JobApplicantsPage = () => {
       }
     };
     fetchApplications();
->>>>>>> origin/main
   }, []);
   
 
