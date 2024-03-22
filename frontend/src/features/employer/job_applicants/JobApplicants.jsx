@@ -10,20 +10,21 @@ import '@/components/styling/button.css';
 
 
 const JobApplicantsPage = () => {
-  const { user } = useContext(AuthContext);
-  const userId = user.user_id;
 
   const [applications, setApplications] = useState([]);
-  const [jobSeeker, setJobSeeker] = useState({});
-  const { jobId } = useParams();
+  const [filteredApplications, setFilteredApplications] = useState([]);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [decisionFilter, setDecisionFilter] = useState('all');
 
+  const { jobId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchApplicants = async () => {
+    const fetchApplications = async () => {
       try {
         const response = await AxiosInstance.get(`api/applications/job/${jobId}`);
         setApplications(response.data);
+        setFilteredApplications(response.data);
       } catch (error) {
         console.error("Error:", error.response.data);
         if (error.response && (error.response.status === 403 || error.response.status === 404)) {
@@ -32,8 +33,18 @@ const JobApplicantsPage = () => {
       }
     };
 
-    fetchApplicants();
+    fetchApplications();
   }, []);
+
+  useEffect(() => {
+    const filtered = applications.filter(application => 
+        (statusFilter === 'all' || application.status === statusFilter) &&
+        (decisionFilter === 'all' || application.decision === decisionFilter)
+    );
+
+    setFilteredApplications(filtered);
+}, [statusFilter, decisionFilter, applications]);
+
 
   const handleShowDetails = () => {
     navigate(`/employer/job-details/${jobId}`);
@@ -43,9 +54,24 @@ const JobApplicantsPage = () => {
     <div>
       <button onClick={handleShowDetails}> Job Details </button>
       <h2>Matched applicants</h2>
-      {applications.map(application => (
+      <div>
+          <label>Status Filter:</label>
+          <select onChange={e => setStatusFilter(e.target.value)}>
+              <option value="all">All</option>
+              <option value="U">Unread</option>
+              <option value="R">Read</option>
+          </select>
+          <label>Decision Filter:</label>
+          <select onChange={e => setDecisionFilter(e.target.value)}>
+              <option value="all">All</option>
+              <option value="U">Undecided</option>
+              <option value="R">Rejected</option>
+              <option value="A">Accepted</option>
+          </select>
+      </div>
+      {filteredApplications.map(application => (
         <ul key={application.id}>
-          <ApplicantSummary id={application.id}></ApplicantSummary>
+          <ApplicantSummary id={application.id} />
         </ul>
       ))}
     </div>

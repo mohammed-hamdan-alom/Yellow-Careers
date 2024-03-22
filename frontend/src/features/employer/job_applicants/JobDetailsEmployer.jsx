@@ -2,8 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobDetailsDisplay from '@/components/job-details/JobDetails';
-import StyledQuestion from "@/components/questions_and_answers/Question";
+import JobDetailsDisplay from '@/components/job-details/JobDetails'
+import Question from "@/components/questions_and_answers/Question";
 import { Button } from "antd";
 
 const JobDetailsEmployer = () => {
@@ -115,8 +115,8 @@ const JobDetailsEmployer = () => {
             </div>
             {questions.length > 0 && <h4>Questions:</h4>}
             {questions.map(question => (
-                <ul key={question.id}>
-                    <StyledQuestion question={question.question} />
+                < ul key={question.id} >
+                    <Question question={question.question} />
                 </ul>
             ))}
 
