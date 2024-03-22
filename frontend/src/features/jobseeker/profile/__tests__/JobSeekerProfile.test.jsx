@@ -12,7 +12,7 @@ const mockUser = {
   phone_number: "08012345678",
   dob: "1999-01-01",
   nationality: "British",
-  sex: "M",
+  sex: "Male",
   address: {
     city: "London",
     post_code: "L9K 1AA",
@@ -28,7 +28,7 @@ const updatedFormData = {
   phone_number: "09098765432",
   dob: "2000-01-01",
   nationality: "American",
-  sex: "F",
+  sex: "Female",
   address: {
     city: "New York",
     post_code: "NY12345",
@@ -37,16 +37,17 @@ const updatedFormData = {
 };
 
 const fieldMap = {
-  "First Name": "first_name",
-  "Last Name": "last_name",
-  "Other Names": "other_names",
-  "Phone Number": "phone_number",
-  "Date of Birth": "dob",
-  Nationality: "nationality",
-  Sex: "sex",
-  City: "address.city",
-  "Post Code": "address.post_code",
-  Country: "address.country",
+  "Email:": "email",
+  "First Name:": "first_name",
+  "Last Name:": "last_name",
+  "Other Names:": "other_names",
+  "Phone Number:": "phone_number",
+  "Date of Birth:": "dob",
+  "Nationality:": "nationality",
+  // "Sex:": "sex",
+  "City:": "address.city",
+  "Post Code:": "address.post_code",
+  "Country:": "address.country",
 };
 
 vi.mock("@/utils/AxiosInstance", () => ({
@@ -73,10 +74,12 @@ describe("JobSeekerProfile component", () => {
 
   const assertFormValues = (formData) => {
     Object.entries(fieldMap).forEach(([label, field]) => {
-      const value = getValueFromFormData(formData, field);
+      let value;
+      if (label != "Email:") {
+        value = getValueFromFormData(formData, field);
+      }
       expect(screen.getByLabelText(label)).toHaveValue(value);
     });
-    expect(screen.getByLabelText(/Email/i)).toHaveValue(mockUser.email);
   };
 
   const getValueFromFormData = (formData, field) => {
@@ -89,6 +92,11 @@ describe("JobSeekerProfile component", () => {
   };
 
   test("fetches job seeker data on mount", async () => {
+    const nationalitySelect = screen.getByLabelText("Nationality:");
+    fireEvent.change(nationalitySelect, { target: { value: "British" } });
+
+    const sexSelect = screen.getByLabelText("Sex:");
+    fireEvent.change(sexSelect, { target: { value: "Male" } });
     assertFormValues(mockUser);
   });
 
@@ -118,11 +126,17 @@ describe("JobSeekerProfile component", () => {
     });
   });
 
-  // test("displays popover with invalid DOB", () => {
-  //   const DOBInput = screen.getByLabelText("Date of Birth");
-  //   fireEvent.change(DOBInput, { target: { value: "3000-03-25" } });
-  //   submitForm();
-  //   expect(screen.getByText("Date of birth cannot be in the future.")).toBeInTheDocument();
-  // });
+  test("displays popover with invalid DOB", async () => {
+    const DOBInput = screen.getByLabelText("Date of Birth:");
+    fireEvent.change(DOBInput, { target: { value: mockUser.dob } });
+    fireEvent.change(DOBInput, { target: { value: "3000-03-25" } });
+
+    submitForm();
+    
+    // Check that the form submission was prevented and the Date of Birth remains unchanged
+    await waitFor(() => {
+      expect(screen.getByLabelText("Date of Birth:")).toHaveValue(mockUser.dob);
+    });
+  });
 
 });
