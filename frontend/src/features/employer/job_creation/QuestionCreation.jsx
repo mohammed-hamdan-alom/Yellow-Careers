@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/components/Alert/Alert"
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button";
+
 
 function QuestionCreation() {
     const { jobId } = useParams();
@@ -67,7 +66,7 @@ function QuestionCreation() {
             <form onSubmit={handleSubmit} className="space-y-4">
                 <h2 className="text-2xl font-bold">Add a question</h2>
                 <div className="form-group">
-                    <Label htmlFor="question" className="block text-sm font-medium text-gray-700">Question</Label>
+                    <Label className="text-xl font-semibold" style={{ color: '#4A5568' }}>Question</Label>
                     <Input
                         type="text"
                         name="question"
@@ -76,24 +75,33 @@ function QuestionCreation() {
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                     />
                     <div className='form-actions mt-4'>
-                        <Button type="button" onClick={handleSubmit} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Submit Question</Button>
+                        <Button onClick={handleSubmit} className="blueButton">Submit Question</Button>
                     </div>
                 </div>
             </form>
-            <Button type="button" onClick={handleSkip} className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Finish</Button>
-            <p className="mt-4"></p>
-            {questions.length == 0 ? <h2 className="text-xl font-bold mt-4">Current Questions:</h2> : null}
             <br></br>
+            <Button onClick={handleSkip} className="yellowButton">Finish</Button>
+            <p className="mt-4"></p>
+            <h2 className="text-xl font-bold mt-4">Current Questions:</h2>
+            {questions.length == 0 ? <h1 className="text-xl font-semibold" style={{ color: '#4A5568' }}>There are currently no questions</h1> : null}
             {questions.map(question => (
                 <ul key={question.id} className="list-disc ml-5">
                     <li className="flex justify-between items-center">
                         <span>{question.question}</span>
-                        <Button onClick={() => handleRemove(question.id)} className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700">Remove</Button>
+                        <Button onClick={() => handleRemove(question.id)} className="redButton mt-1">Remove</Button>
                     </li>
                 </ul>
             ))}
         </div>
     );
 }
+
+const Employer = ({ employer }) => {
+    return (
+      <div className="border-t border-b border-gray-300 py-4">
+        <Label className="text-lg font-semibold"></Label>
+      </div>
+    );
+  };
 
 export default QuestionCreation;

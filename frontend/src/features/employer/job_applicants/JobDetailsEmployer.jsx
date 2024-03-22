@@ -4,7 +4,7 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from '@/components/job-details/JobDetails';
 import StyledQuestion from "@/components/questions_and_answers/Question";
-import { Button, Space } from "antd";
+import { Button } from "antd";
 import '@/components/styling/button.css';
 import Swal from 'sweetalert2';
 
@@ -130,7 +130,7 @@ const JobDetailsEmployer = () => {
             <div className="mt-3 mb-8">
                 <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
-            {questions.length > 0 && <h5 className="text-lg font-semibold mb-2">Questions:</h5>}
+            {questions.length > 0 && <h5 className="text-lg font-semibold mb-2 " style={{ color: '#4A5568' }}>Questions:</h5>}
             {questions.map(question => (
                 <ul key={question.id}>
                     <StyledQuestion question={question.question} />
@@ -139,11 +139,11 @@ const JobDetailsEmployer = () => {
             <br />
             <div>
                 <div className="mb-6">
-                    <h4 className="text-lg font-semibold mb-2">Employers:</h4>
-                    <ul className="space-y-2">
+                    <h4 className="text-lg font-semibold mb-2 " style={{ color: '#4A5568' }}>Employers:</h4>
+                    <ul className="border-t border-b border-gray-300 py-4">
                         {employers.map(employer => (
                             <li key={employer.id} className="flex items-center border-b py-2">
-                                <span className="font-medium">{employer.first_name} {employer.last_name}</span>
+                                <span className="font-">{employer.first_name} {employer.last_name}</span>
                                 {employer.id !== userId && currentEmployer.is_company_admin &&
                                     <Button onClick={() => handleRemoveEmployer(employer.id)} className="redButton ml-2">Remove</Button>
                                 }
@@ -152,7 +152,7 @@ const JobDetailsEmployer = () => {
                     </ul>
                 </div>
                 <div className="mb-6">
-                    <h5 className="text-lg font-semibold mb-2">Add employers:</h5>
+                    <h5 className="text-lg font-semibold mb-2 " style={{ color: '#4A5568' }}>Add employers:</h5>
                     <form onSubmit={handleSubmit} className="flex items-center bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                         <select
                             name="employer"
