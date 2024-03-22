@@ -34,7 +34,6 @@ const data = [
 // })
 
 vi.mock("@/features/employer/job_applicants/ApplicantSummary", () => ({
-
     default: vi.fn(({ children }) => <div data-testid="mock-applicationsummary" >{children}</div >)
 })
 )

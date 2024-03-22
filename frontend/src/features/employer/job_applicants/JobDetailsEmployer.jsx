@@ -108,7 +108,7 @@ const JobDetailsEmployer = () => {
     return (
         <div>
             <div className="mb-3">
-            <Button className="seeApplicantsButton" onClick={handleClick}>See Applicants</Button>
+                <Button className="seeApplicantsButton" onClick={handleClick}>See Applicants</Button>
             </div>
             <div className="mt-3 mb-8">
                 <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
@@ -134,6 +134,7 @@ const JobDetailsEmployer = () => {
             <form onSubmit={handleSubmit}>
                 <select
                     name="employer"
+                    data-testid="employerDropDown"
                     value={formData.employer}
                     onChange={handleChange}
                 >
