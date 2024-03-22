@@ -135,7 +135,8 @@ vi.mock("@/utils/AxiosInstance", () => ({
             }
             return Promise.resolve({ data: {} })
         }),
-        delete: vi.fn((url) => { return url })
+        delete: vi.fn((url) => { return url }),
+        post: vi.fn((url) => { return url })
     },
 }));
 
@@ -205,7 +206,7 @@ describe('JobDetailsEmployer component', () => {
     test('employer remove button renders for the correct employer', async () => {
         const removeButton = await screen.findByText("Remove")
         await act(async () => {
-            await fireEvent.click(removeButton)
+            fireEvent.click(removeButton)
         })
         const employerToRemove = {
             "employer": 2,
@@ -224,5 +225,16 @@ describe('JobDetailsEmployer component', () => {
         expect(employer2).toHaveTextContent("Jane Doe")
         expect(employer3).toHaveTextContent("Jonathon Doe")
         expect(employer4).toHaveTextContent("Joseph Doe")
+    })
+
+    test('dropdown adds employer to job successfully', async () => {
+        const employerDropDown = await screen.getByTestId("employerDropDown")
+        const submit = await screen.getByText("Submit")
+        const employerToAdd = { "employer": "3", "job": 1 }
+        await act(async () => {
+            fireEvent.change(employerDropDown, { target: { value: 3 } });
+            fireEvent.click(submit)
+        })
+        expect(AxiosInstance.post).toBeCalledWith('api/employer-job-relations/create/', employerToAdd)
     })
 });
