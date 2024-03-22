@@ -8,7 +8,6 @@ import '@/components/styling/button.css';
 
 const JobApplicantsPage = () => {
   const { user } = useContext(AuthContext);
-  const userId = user.user_id;
 
   const [applications, setApplications] = useState([]);
   const [jobSeeker, setJobSeeker] = useState({});
