@@ -97,7 +97,7 @@ const JobFilter = ({ data }) => {
         </div>
   
         <div className="filter-item">
-          <Label className="text-xl"><Tag color="blue" className="tag-medium">Pay:</Tag></Label>
+          <Label className="text-xl"><Tag color="blue" className="tag-medium">Salary:</Tag></Label>
           <Select data-testid='pay' className="w-40 mt-2" id="pay" defaultValue="all" onChange={onPayChangeFilter} title="PayFilter">
             <Select.Option value="all">All</Select.Option>
             <Select.Option value="20000">£20,000+</Select.Option>

@@ -96,8 +96,7 @@ class Resume(models.Model):
         return self.professionalexperience_set.all()
 
     def to_string(self):
-        # education_strings = [education.to_string() for education in self.get_education()]
-        education_strings = []
+        education_strings = [education.to_string() for education in self.get_education()]
         skills_strings = [skills.to_string() for skills in self.get_technical_skills()] + [skills.to_string() for skills in self.get_soft_skills()]
         language_strings = [language.to_string() for language in self.get_languages()]
         experience_strings = [experience.to_string() for experience in self.get_professional_experience()]
