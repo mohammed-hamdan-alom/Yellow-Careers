@@ -26,13 +26,6 @@ const data = [
     }
 ]
 
-// vi.mock("@/features/employer/job_applicants/ApplicantSummary", async (importOriginal) => {
-//     const actual = await importOriginal()
-//     return {
-//         <div data- testid="mock-applicationsummary" ></div >
-//     }
-// })
-
 vi.mock("@/features/employer/job_applicants/ApplicantSummary", () => ({
     default: vi.fn(({ children }) => <div data-testid="mock-applicationsummary" >{children}</div >)
 })
@@ -88,7 +81,7 @@ describe('JobApplicants component', () => {
         expect(title).toBeInTheDocument();
     })
 
-    test("renders correCt number of applications", async () => {
+    test("renders correct number of applications", async () => {
         const applications = await screen.getAllByTestId("mock-applicationsummary");
         expect(applications).toHaveLength(2);
     });

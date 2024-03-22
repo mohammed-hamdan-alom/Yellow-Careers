@@ -215,10 +215,13 @@ describe('JobDetailsEmployer component', () => {
         expect(AxiosInstance.delete).toBeCalledWith("api/employer-job-relations/delete/1/2/", employerToRemove)
     })
 
-    test('employer dropdown contains all employers in company', async () => {
-        const employer2 = await screen.getAllByRole("option")[0]
-        const employer3 = await screen.getAllByRole("option")[1]
-        const employer4 = await screen.getAllByRole("option")[2]
+    test('employer dropdown contains all non-admin employers in company', async () => {
+        const selectEmployer = await screen.getAllByRole("option")[0]
+        const employer2 = await screen.getAllByRole("option")[1]
+        const employer3 = await screen.getAllByRole("option")[2]
+        const employer4 = await screen.getAllByRole("option")[3]
+        expect(selectEmployer).toBeInTheDocument()
+        expect(selectEmployer).toBeDisabled()
         expect(employer2).toBeInTheDocument()
         expect(employer3).toBeInTheDocument()
         expect(employer4).toBeInTheDocument()

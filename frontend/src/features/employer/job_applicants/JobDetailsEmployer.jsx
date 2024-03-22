@@ -135,9 +135,10 @@ const JobDetailsEmployer = () => {
                 <select
                     name="employer"
                     data-testid="employerDropDown"
-                    value={formData.employer}
+                    defaultValue={""}
                     onChange={handleChange}
                 >
+                    <option value="" disabled>Select Employer:</option>
                     {companyEmployers.map(employer => (
                         employer.id !== userId && <option value={employer.id} key={employer.id}>{employer.first_name} {employer.last_name}</option>
                     ))}
