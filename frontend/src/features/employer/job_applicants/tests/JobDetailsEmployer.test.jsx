@@ -135,8 +135,9 @@ vi.mock("@/utils/AxiosInstance", () => ({
             }
             return Promise.resolve({ data: {} })
         }),
-        delete: vi.fn((url) => { return url }),
-        post: vi.fn((url) => { return url })
+        delete: vi.fn((url) => { return Promise.resolve({}) }),
+        then: vi.fn(() => { }),
+        post: vi.fn(() => { return Promise.resolve({}) })
     },
 }));
 
@@ -205,14 +206,16 @@ describe('JobDetailsEmployer component', () => {
 
     test('employer remove button renders for the correct employer', async () => {
         const removeButton = await screen.findByText("Remove")
+
         await act(async () => {
             fireEvent.click(removeButton)
+            fireEvent.click(screen.getByText("Yes"))
         })
         const employerToRemove = {
             "employer": 2,
             "job": 1,
         }
-        expect(AxiosInstance.delete).toBeCalledWith("api/employer-job-relations/delete/1/2/", employerToRemove)
+        expect(AxiosInstance.delete).toBeCalledWith("api/employer-job-relations/delete/1/2/")
     })
 
     test('employer dropdown contains all non-admin employers in company', async () => {
