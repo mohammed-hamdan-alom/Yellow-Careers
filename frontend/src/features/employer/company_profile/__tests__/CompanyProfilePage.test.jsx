@@ -1,9 +1,6 @@
-import { vi } from "vitest";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import {render, screen, fireEvent, waitFor} from "@testing-library/react";
 import CompanyProfilePage from "../CompanyProfilePage";
 import { MemoryRouter } from "react-router-dom";
-import { AuthProvider } from "@/context/AuthContext";
-import AxiosInstance from "@/utils/AxiosInstance";
 import AuthContext from "@/context/AuthContext";
 import React from "react";
 
@@ -16,7 +13,7 @@ const mockEmployerResponse = {
     email: "kcarter@example.net",
     first_name: "Billy",
     last_name: "O'Sullivan",
-    other_names: "bean + cheese + begel",
+    other_names: "Charles",
     phone_number: "+44(0)1414960525",
     is_company_admin: false,
     company: 25,
@@ -28,7 +25,7 @@ const mockAdminEmployerResponse = {
     email: "kcarter@example.net",
     first_name: "Billy",
     last_name: "O'Sullivan",
-    other_names: "bean + cheese + begel",
+    other_names: "Charles",
     phone_number: "+44(0)1414960525",
     is_company_admin: true,
     company: 25,
@@ -49,7 +46,7 @@ const mockEmployersResponse = {
       email: "denise50@example.net",
       first_name: "Margaret",
       last_name: "Field",
-      other_names: "bean + cheese + begel",
+      other_names: "Elizabeth",
       phone_number: "01164960220",
       is_company_admin: false,
       company: 25,
@@ -59,7 +56,7 @@ const mockEmployersResponse = {
       email: "kcarter@example.net",
       first_name: "Billy",
       last_name: "O'Sullivan",
-      other_names: "bean + cheese + begel",
+      other_names: "Charles",
       phone_number: "+44(0)1414960525",
       is_company_admin: true,
       company: 25,
@@ -69,7 +66,7 @@ const mockEmployersResponse = {
       email: "joel34@example.net",
       first_name: "Guy",
       last_name: "Wilson",
-      other_names: "bean + cheese + begel",
+      other_names: "John",
       phone_number: "0306 9990733",
       is_company_admin: true,
       company: 25,
@@ -103,8 +100,77 @@ describe("CompanyProfilePage component", () => {
     const aboutInput = screen.getByLabelText("About:");
     expect(aboutInput).toHaveValue(companyResponse.data.about);
 
-    //TODO: CHECK IF EMPLYERS ARE RENDERED
-
+    //Test employers show up
+    // await waitFor(() => {
+    //     expect(screen.getByText(/Employers/i)).toBeInTheDocument(); // Using a regex matcher to match case-insensitively
+    //     employersResponse.data.forEach((employer) => {
+    //       expect(screen.getByText(employer.first_name)).toBeInTheDocument();
+    //       expect(screen.getByText(`Email: ${employer.email}`)).toBeInTheDocument();
+    //     });
+    //  });
   });
 
+  test("Edit button shows as admin", async () => {
+    const employerResponse = mockAdminEmployerResponse;
+    render(
+      <MemoryRouter>
+        <AuthContext.Provider value={user}>
+          <CompanyProfilePage />
+        </AuthContext.Provider>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Edit")).toBeInTheDocument();
+    });
+  });
+
+  test("Edit button doesn't show when not admin", async () => {
+    const employerResponse = mockEmployerResponse;
+    render(
+      <MemoryRouter>
+        <AuthContext.Provider value={user}>
+          <CompanyProfilePage />
+        </AuthContext.Provider>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByText("Edit")).toBeNull();
+    });
+  });
+
+  test("Edit button toggles edit mode", async () => {
+    const employerResponse = mockAdminEmployerResponse;
+    render(
+      <MemoryRouter>
+        <AuthContext.Provider value={user}>
+          <CompanyProfilePage />
+        </AuthContext.Provider>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Edit")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      expect(screen.getByText("Update")).toBeInTheDocument();
+      expect(screen.getByText("Cancel")).toBeInTheDocument();
+    });
+
+    //TEST IF THE TEXTAREAS ARE THERE
+    // await waitFor(() => {
+    //   const companyNameLabel = screen.getByLabelText("Company Name:");
+    //   const aboutLabel = screen.getByLabelText("About: ");
+    //   const websiteLabel = screen.getByLabelText("Website: ");
+
+    //   expect(companyNameLabel).toBeInTheDocument();
+    //   expect(aboutLabel).toBeInTheDocument();
+    //   expect(websiteLabel).toBeInTheDocument();
+    // });
+    //test employers still there
+  });
 });
