@@ -5,8 +5,9 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { User } from 'lucide-react';
 import '@/components/styling/tag.css';
 
-const ApplicantCard = ({ firstName, lastName }) => {
+const ApplicantCard = ({ id, firstName, lastName }) => {
     const navigate = useNavigate();
+
 
     const handleClick = () => {
         navigate(`/employer/application-details/${id}`);
@@ -14,7 +15,7 @@ const ApplicantCard = ({ firstName, lastName }) => {
 
     return (
         <div>
-            <Card className="w-full mt-10 cursor-pointer" style={{ boxShadow: '0 0 5px #808080' }} onClick={handleClick}>
+            <Card className="w-full mt-10 cursor-pointer hover:bg-gray-100" style={{ boxShadow: '0 0 5px #808080' }} onClick={handleClick}>
                 <CardHeader className="justify-center items-left mt-4">
                     <CardTitle className="text-3xl font-bold">{firstName} {lastName}</CardTitle>
                 </CardHeader>
@@ -34,7 +35,7 @@ const ApplicantSummary = ({ id }) => {
 
     return (
         <>
-            <ApplicantCard firstName={jobSeeker.first_name} lastName={jobSeeker.last_name} id={id} />
+            <ApplicantCard id={id} firstName={jobSeeker.first_name} lastName={jobSeeker.last_name} />
         </>
     );
 };
