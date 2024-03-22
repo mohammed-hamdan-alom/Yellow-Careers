@@ -5,9 +5,10 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import ApplicantSummary from "@/features/employer/job_applicants/ApplicantSummary"
 import Swal from 'sweetalert2';
 import { Label } from '@/components/ui/label';
-import { Button, Space } from 'antd';
+import { Button, Space, Select, Tag } from 'antd';
 import '@/components/styling/button.css';
-
+import '@/components/styling/filter.css';
+import '@/components/styling/tag.css';
 
 const JobApplicantsPage = () => {
 
@@ -52,22 +53,30 @@ const JobApplicantsPage = () => {
 
   return (
     <div>
-      <button onClick={handleShowDetails}> Job Details </button>
-      <h2>Matched applicants</h2>
       <div>
-          <label>Status Filter:</label>
-          <select onChange={e => setStatusFilter(e.target.value)}>
-              <option value="all">All</option>
-              <option value="U">Unread</option>
-              <option value="R">Read</option>
-          </select>
-          <label>Decision Filter:</label>
-          <select onChange={e => setDecisionFilter(e.target.value)}>
-              <option value="all">All</option>
-              <option value="U">Undecided</option>
-              <option value="R">Rejected</option>
-              <option value="A">Accepted</option>
-          </select>
+        <Button className='yellowButton mb-2' onClick={handleShowDetails}> Job Details </Button>
+      </div>
+      <div>
+        <Label className="text-2xl font-bold">Matched applicants</Label>
+      </div>
+      <div className="filter-container">
+        <div className="filter-item">
+          <Label className="text-xl"><Tag color="blue" className="tag-medium">Status Filter:</Tag></Label>
+          <Select data-testid='status' id="status" className="w-60 mt-2" defaultValue="all" onChange={e => setStatusFilter(e.target.value)}>
+            <Select.Option value="all">All</Select.Option>
+            <Select.Option value="U">Unread</Select.Option>
+            <Select.Option value="R">Read</Select.Option>
+          </Select>
+        </div>
+        <div className="filter-item">
+          <Label className="text-xl"><Tag color="pink" className="tag-medium">Decision Filter:</Tag></Label>
+          <Select data-testid='decision' id="decision" className="w-60 mt-2" defaultValue="all" onChange={e => setDecisionFilter(e.target.value)}>
+            <Select.Option value="all">All</Select.Option>
+            <Select.Option value="U">Undecided</Select.Option>
+            <Select.Option value="R">Rejected</Select.Option>
+            <Select.Option value="A">Accepted</Select.Option>
+          </Select>
+        </div>
       </div>
       {filteredApplications.map(application => (
         <ul key={application.id}>
@@ -75,9 +84,8 @@ const JobApplicantsPage = () => {
         </ul>
       ))}
     </div>
-  )
-};
-
+  );
+}
 
 
 export default JobApplicantsPage;
