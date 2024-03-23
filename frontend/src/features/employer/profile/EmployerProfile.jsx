@@ -169,7 +169,6 @@ const EmployerProfile = () => {
           name="phone_number"
           value={formData.phone_number}
           onChange={(e) => handleChange(e, "phone_number")}
-          pattern="[0-9]{9,15}"
           required
         />
         <span className="text-danger">

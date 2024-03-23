@@ -181,42 +181,6 @@ export const AuthProvider = ({ children }) => {
         });
     };
 
-
-    const changePassword = async (oldPassword, newPassword) => {
-      try {
-        const response = await AxiosInstance.put("/api/job-seeker/change-password/", {
-          old_password: oldPassword,
-          new_password: newPassword,
-        });
-
-        if (response.status === 200) {
-          swal.fire({
-            title: "Password Changed Successfully",
-            icon: "success",
-            toast: true,
-            timer: 6000,
-            position: "top-right",
-            timerProgressBar: true,
-            showConfirmButton: false,
-          });
-        }
-      } catch (error) {
-        swal.fire({
-          title: "Failed to Change Password",
-          text: error.message,
-          icon: "error",
-          toast: true,
-          timer: 6000,
-          position: "top-right",
-          timerProgressBar: true,
-          showConfirmButton: false,
-        });
-      }
-    };
-
-
-
-
     const contextData = {
       user,
       setUser,
@@ -227,7 +191,6 @@ export const AuthProvider = ({ children }) => {
       registerEmployer,
       loginUser,
       logoutUser,
-      changePassword,
     };
 
     useEffect(() => {

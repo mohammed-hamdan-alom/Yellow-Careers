@@ -10,6 +10,7 @@ const { Option } = Select;
 import { Mail, Phone, Calendar, MapPin } from "lucide-react";
 import "@/components/styling/button.css";
 import moment from "moment";
+import { showError } from "@/components/Alert/Alert";
 
 const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
@@ -30,17 +31,10 @@ const JobSeekerProfile = () => {
     },
   });
 
-  // const [passwordFormData, setPasswordFormData] = useState({
-  //   oldPassword: "",
-  //   newPassword: "",
-  //   confirmNewPassword: "",
-  // });
-  const { changePassword } = useContext(AuthContext);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
-  const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
 
   useEffect(() => {
     const fetchJobSeekerData = async () => {
@@ -151,52 +145,81 @@ const JobSeekerProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (user?.user_id) {
-      const phoneNumberInput = document.getElementById("phone_number");
-      if (phoneNumberInput.checkValidity()) {
-        setIsValidPhoneNumber(true);  
-        try {
-          const response = await AxiosInstance.put(
-            `/api/job-seekers/${user?.user_id}/update/`,
-            formData
-          );
+      try {
+        const response = await AxiosInstance.put(
+          `/api/job-seekers/${user?.user_id}/update/`,
+          formData
+        );
 
-          if (response.status === 200) {
-            swal.fire(
-              "Profile Updated",
-              "Your profile has been updated successfully.",
-              "success"
-            );
-          } else {
-            swal.fire("Update Failed", `Error: ${response.status}`, "error");
+        if (response.status === 200) {
+          swal.fire(
+            "Profile Updated",
+            "Your profile has been updated successfully.",
+            "success"
+          );
+        } else {
+          swal.fire("Update Failed", `Error: ${response.status}`, "error");
+          if (error.response) {
+            const data = await error.response.data;
+            let errorMessage = "";
+            for (let key in data) {
+              if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
+                errorMessage += `${key}: ${data[key].join(", ")}\n`;
+              }
+            }
+            showError(errorMessage);
           }
-        } catch (error) {
-          swal.fire("Update Failed", error.message, "error");
         }
-      } else {
-        setIsValidPhoneNumber(false);
+      } catch (error) {
+        swal.fire("Update Failed", error.message, "error");
+        if(error.response){
+          const data = await error.response.data;
+          let errorMessage = '';
+          for(let key in data){
+            if(data.hasOwnProperty(key) && Array.isArray(data[key])){
+              errorMessage += `${key}: ${data[key].join(', ')}\n`;
+            }
+          }
+          showError(errorMessage)
+        }
       }
     }
   };
 
-  const handlePasswordChange = async () => {
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
     try {
-      if (!newPassword) {
-        alert("New password is required.");
-        return;
-      }
-      await changePassword(oldPassword, newPassword);
-    } catch (error) {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.old_password
-        ) {
-          // Backend indicates that the old password is incorrect
-          const errorMessage = error.response.data.old_password[0];
-          console.error("Old password is incorrect:", errorMessage);
-        } else {
-          console.error("Error changing password:", error);
+      const response = await AxiosInstance.put(
+        "/api/job-seeker/change-password/",
+        {
+          old_password: oldPassword,
+          new_password: newPassword,
+          confirm_password: confirmNewPassword,
         }
+      );
+
+      if (response.status === 200) {
+        swal.fire({
+          title: "Password Changed Successfully",
+          icon: "success",
+          toast: true,
+          timer: 6000,
+          position: "top-right",
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      }
+    } catch (error) {
+      if (error.response) {
+        const data = await error.response.data;
+        let errorMessage = "";
+        for (let key in data) {
+          if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
+            errorMessage += `${key}: ${data[key].join(", ")}\n`;
+          }
+        }
+        showError(errorMessage);
+      }
     }
   };
 
@@ -339,27 +362,38 @@ const JobSeekerProfile = () => {
         </div>
       </form>
 
-
-      <div>
-        <input
-          type="password"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-          placeholder="Old Password"
-        />
-        <input
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          placeholder="New Password"
-        />
-        <input
-          type="password"
-          value={confirmNewPassword}
-          onChange={(e) => setConfirmNewPassword(e.target.value)}
-          placeholder="Confirm New Password"
-        />
-        <button onClick={handlePasswordChange}>Change Password</button>
+      {/* Password Change Section */}
+      <div className="container mt-5">
+        <Label htmlFor="email" className="text-lg mr-2">
+          Change Password:
+        </Label>
+        <div className="mb-3">
+          <Input.Password
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+            placeholder="Old Password"
+          />
+        </div>
+        <div className="mb-3">
+          <Input.Password
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="New Password"
+          />
+        </div>
+        <div className="mb-3">
+          <Input.Password
+            value={confirmNewPassword}
+            onChange={(e) => setConfirmNewPassword(e.target.value)}
+            placeholder="Confirm New Password"
+            onPaste={(e) => e.preventDefault()}
+          />
+        </div>
+        <div style={{ marginTop: "25px" }}>
+          <Button className="yellowButton" onClick={handlePasswordSubmit}>
+            Change Password
+          </Button>
+        </div>
       </div>
     </div>
   );

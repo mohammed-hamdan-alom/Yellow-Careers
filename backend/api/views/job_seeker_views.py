@@ -1,7 +1,7 @@
 from rest_framework import generics
 from api.serializers.job_seeker_serializers import JobSeekerSerializer
 from api.models import JobSeeker, Job, Application, EmployerJobRelation,Employer
-from api.serializers import JobSeekerSerializer, ChangePasswordSerializer
+from api.serializers import JobSeekerSerializer, JobSeekerChangePasswordSerializer
 from api.matchmaker.matchmaker import *
 from rest_framework.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
@@ -50,8 +50,8 @@ class JobSeekerFromApplicationRetrieveView(BaseJobSeekerView, generics.RetrieveA
         return application.job_seeker
 
 
-class ChangePasswordView(generics.UpdateAPIView):
-    serializer_class = ChangePasswordSerializer
+class JobSeekerChangePasswordView(generics.UpdateAPIView):
+    serializer_class = JobSeekerChangePasswordSerializer
 
     def get_object(self):
         return self.request.user
@@ -63,9 +63,15 @@ class ChangePasswordView(generics.UpdateAPIView):
         if serializer.is_valid():
             old_password = serializer.validated_data.get("old_password")
             new_password = serializer.validated_data.get("new_password")
+            confirm_password = serializer.validated_data.get("confirm_password")
+
 
             if not check_password(old_password, instance.password):
                 return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            
+            if new_password != confirm_password:
+                return Response({"error": "New password and confirm password do not match."}, status=status.HTTP_400_BAD_REQUEST)
+
 
             instance.set_password(new_password)
             instance.save()

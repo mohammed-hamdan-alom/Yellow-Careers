@@ -62,7 +62,7 @@ class JobSeekerRegisterSerializer(serializers.ModelSerializer):
         return jobseeker
     
     def update(self, instance, validated_data):
-        # If the password is being updated
+        print("UPDATE JOBSEEKER REGISTER SERIALIZER ")
         if 'password' in validated_data:
             password = validated_data.pop('password')
             password2 = validated_data.pop('password2')
@@ -89,13 +89,3 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             token['user_type'] = 'job_seeker'
 
         return token
-    
-# class ChangePasswordSerializer(serializers.Serializer):
-#     old_password = serializers.CharField(required=True)
-#     new_password = serializers.CharField(required=True, validators=[validate_password])
-#     confirm_new_password = serializers.CharField(required=True)
-
-#     def validate(self, data):
-#         if data['new_password'] != data['confirm_new_password']:
-#             raise serializers.ValidationError("The new passwords do not match.")
-#         return data
