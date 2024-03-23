@@ -180,41 +180,23 @@ const JobSeekerProfile = () => {
 
   const handlePasswordChange = async () => {
     try {
-      // Call the changePassword function with the old password, new password, and confirm new password
-      if(confirmNewPassword==newPassword){
-        await changePassword(oldPassword, newPassword);
+      if (!newPassword) {
+        alert("New password is required.");
+        return;
       }
-      else{
-        alert("passwords must match")
-      }
-      
-      // Password changed successfully, handle any UI updates or redirects
+      await changePassword(oldPassword, newPassword);
     } catch (error) {
-      // Handle error, display error message to the user, etc.
-    }
-  };
-
-  const handleSubmitPasswordChange = async (e) => {
-    e.preventDefault();
-    if (user?.user_id) {
-      try {
-        const response = await AxiosInstance.put(
-          `/api/job-seekers/${user?.user_id}/update/`,
-          passwordFormData
-        );
-
-        if (response.status === 200) {
-          swal.fire(
-            "Password Updated",
-            "Your password has been updated successfully.",
-            "success"
-          );
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.old_password
+        ) {
+          // Backend indicates that the old password is incorrect
+          const errorMessage = error.response.data.old_password[0];
+          console.error("Old password is incorrect:", errorMessage);
         } else {
-          swal.fire("Update Failed", `Error: ${response.status}`, "error");
+          console.error("Error changing password:", error);
         }
-      } catch (error) {
-        swal.fire("Update Failed", error.message, "error");
-      }
     }
   };
 
@@ -379,48 +361,6 @@ const JobSeekerProfile = () => {
         />
         <button onClick={handlePasswordChange}>Change Password</button>
       </div>
-      {/* 
-      <form onSubmit={handleSubmitPasswordChange} className="container mt-5">
-        <h2>Change Password</h2>
-        <div className="mb-3">
-          <Label htmlFor="old_password">Old Password: </Label>
-          <Input
-            type="password"
-            id="old_password"
-            name="oldPassword"
-            value={passwordFormData.oldPassword}
-            onChange={handlePasswordChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="new_password">New Password: </Label>
-          <Input
-            type="password"
-            id="new_password"
-            name="newPassword"
-            value={passwordFormData.newPassword}
-            onChange={handlePasswordChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="confirm_new_password">Confirm New Password: </Label>
-          <Input
-            type="password"
-            id="confirm_new_password"
-            name="confirmNewPassword"
-            value={passwordFormData.confirmNewPassword}
-            onChange={handlePasswordChange}
-            required
-          />
-        </div>
-        <div style={{ marginTop: "25px" }}>
-          <Button className="yellowButton" type="submit">
-            Change Password
-          </Button>
-        </div> 
-      </form> */}
     </div>
   );
 };
