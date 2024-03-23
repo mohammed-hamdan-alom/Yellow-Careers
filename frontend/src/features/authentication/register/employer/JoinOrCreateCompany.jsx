@@ -15,7 +15,7 @@ const JoinOrCreateCompany = () => {
 
   const handleSubmit = () => { 
     if (selectedOption === 'join-company') {
-      navigate('/auth/join-company'); // Ahmads route
+      navigate('/auth/verify-invited-employer'); // Ahmads route
     } else if (selectedOption === 'create-company') {
       navigate('/auth/create-company');
     }
