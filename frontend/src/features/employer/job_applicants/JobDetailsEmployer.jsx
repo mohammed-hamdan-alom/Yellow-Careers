@@ -5,6 +5,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from '@/components/job-details/JobDetails'
 import Question from "@/components/questions_and_answers/Question";
 import { Button } from "antd";
+import { Label } from "@/components/ui/label";
 
 const JobDetailsEmployer = () => {
     const { user } = useContext(AuthContext);
@@ -113,7 +114,7 @@ const JobDetailsEmployer = () => {
             <div className="mt-3 mb-8">
                 <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
-            {questions.length > 0 && <h4>Questions:</h4>}
+            {questions.length > 0 && <Label className="text-2xl font-bold">Questions:</Label>}
             {questions.map(question => (
                 < ul key={question.id} >
                     <Question question={question.question} />

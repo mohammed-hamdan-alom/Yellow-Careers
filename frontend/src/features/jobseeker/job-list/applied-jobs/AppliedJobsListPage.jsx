@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobFilter from "@/components/search/JobFilter";
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 function AppliedJobListPage() {
   //
@@ -16,7 +17,7 @@ function AppliedJobListPage() {
         const res = await AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`);
         setJobs(res.data);
       } catch (error) {
-        console.error("Error:", error);
+        handleErrorAndShowMessage("Error retrieving data:", error);
       }
     };
   
