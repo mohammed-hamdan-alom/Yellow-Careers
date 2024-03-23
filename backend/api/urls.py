@@ -89,7 +89,7 @@ urlpatterns = [
     path('job-seeker/<int:pk>/saved-jobs/', JobSeekerSavedJobsListView.as_view(), name='job-seeker-saved-jobs'),
     path('job-seeker/<int:pk>/matched-jobs/', JobSeekerMatchedJobsListingView.as_view(), name='job-seeker-matched-jobs'),
     path('job-seeker/application/<int:application_id>/', JobSeekerFromApplicationRetrieveView.as_view(), name='job=seeker-from-application-get'),
-    path('job-seeker/change-password/', JobSeekerChangePasswordView.as_view(), name='change_password'),
+    path('job-seeker/change-password/', JobSeekerChangePasswordView.as_view(), name='job-seeker-change-password'),
 
 
     path('saved-jobs/', SavedJobsListView.as_view(), name='saved-jobs-list'),
@@ -106,6 +106,7 @@ urlpatterns = [
     
     path('employer/<int:pk>/company-jobs/', AdminJobListingView.as_view(), name='view-admin-jobs'),
     path('employer/<int:pk>/jobs/', EmployerJobListingView.as_view(), name='view-employer-jobs'),
+    path('employer/change-password/', EmployerChangePasswordView.as_view(), name='employer-change-password'),
 
     path('invited-employer/create/', InvitedEmployerCreateView.as_view(), name='invited-employer-create'),
     path('invited-employer/get/', InvitedEmployerRetrieveByEmailView.as_view(), name='invited-employer-get'),

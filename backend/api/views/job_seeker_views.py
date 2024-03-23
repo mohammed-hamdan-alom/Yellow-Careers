@@ -1,7 +1,7 @@
 from rest_framework import generics
 from api.serializers.job_seeker_serializers import JobSeekerSerializer
 from api.models import JobSeeker, Job, Application, EmployerJobRelation,Employer
-from api.serializers import JobSeekerSerializer, JobSeekerChangePasswordSerializer
+from api.serializers import JobSeekerSerializer, ChangePasswordSerializer
 from api.matchmaker.matchmaker import *
 from rest_framework.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
@@ -51,7 +51,7 @@ class JobSeekerFromApplicationRetrieveView(BaseJobSeekerView, generics.RetrieveA
 
 
 class JobSeekerChangePasswordView(generics.UpdateAPIView):
-    serializer_class = JobSeekerChangePasswordSerializer
+    serializer_class = ChangePasswordSerializer
 
     def get_object(self):
         return self.request.user
