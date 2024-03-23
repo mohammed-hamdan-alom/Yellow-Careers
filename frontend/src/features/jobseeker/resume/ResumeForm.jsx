@@ -19,36 +19,40 @@ function ResumeForm({ resumeId }) {
   const [errors, setErrors] = useState(defaultResumeState);
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/update/`)
-      .then((response) => {
+    const fetchResume = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/update/`);
         setResume(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchResume();
   }, [resumeId]);
-
+  
   const handleResumeChange = (event) => {
     setResume({ ...resume, [event.target.name]: event.target.value });
   };
-
-  const handleSubmitResume = (event) => {
+  
+  const handleSubmitResume = async (event) => {
     event.preventDefault();
-    AxiosInstance.put(`api/resumes/${resumeId}/update/`, resume)
-      .then((response) => {
-        showSuccess("Resume Updated");
-        setErrors(defaultResumeState);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Updating Resume Failed");
-      });
+    try {
+      await AxiosInstance.put(`api/resumes/${resumeId}/update/`, resume);
+      showSuccess("Resume Updated");
+      setErrors(defaultResumeState);
+    } catch (error) {
+      console.error("Error:", error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Updating Resume Failed");
+    }
   };
 
   return (
@@ -57,23 +61,23 @@ function ResumeForm({ resumeId }) {
       <form onSubmit={handleSubmitResume}>
         <div className="flex space-x-4">
           <div className="w-1/2">
-            <Label className='text-1xl'>Github:</Label>
-            <Input type="text" name="github" value={resume.github} onChange={handleResumeChange} />
+            <Label className='text-1xl' htmlFor='github'>Github:</Label>
+            <Input type="text" name="github" id='github' value={resume.github} onChange={handleResumeChange} />
           </div>
           <div className="w-1/2">
-            <Label className='text-1xl'>LinkedIn:</Label>
-            <Input type="text" name="linkedin" value={resume.linkedin} onChange={handleResumeChange} />
+            <Label className='text-1xl' htmlFor='linkedin'>LinkedIn:</Label>
+            <Input type="text" name="linkedin" id='linkedin' value={resume.linkedin} onChange={handleResumeChange} />
           </div>
         </div>
         <div className="mt-4">
-          <Label className='text-1xl'>About:</Label>
-          <Textarea name="about" value={resume.about} onChange={handleResumeChange} />
+          <Label className='text-1xl' htmlFor='about'>About:</Label>
+          <Textarea name="about" id='about' value={resume.about} onChange={handleResumeChange} />
         </div>
         <div className="mt-4">
-          <Label className='text-1xl'>Experience:</Label>
-          <Textarea name="experience" value={resume.experience} onChange={handleResumeChange} />
+          <Label className='text-1xl' htmlFor='experience'>Experience:</Label>
+          <Textarea name="experience" id='experience' value={resume.experience} onChange={handleResumeChange} />
         </div>
-        <Button type="submit" className="mt-4">Update Resume</Button>
+        <Button type="submit" className="mt-4" data-testid='submit-button'>Update Resume</Button>
       </form>
     </div>
   );

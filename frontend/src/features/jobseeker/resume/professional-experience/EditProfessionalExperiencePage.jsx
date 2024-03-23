@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from '@/components/Alert/Alert'
+import { showError, showSuccess } from "@/components/Alert/Alert";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "antd";
+const { TextArea } = Input;
 import { DatePicker } from "antd";
-import { Select } from "antd";
-const { RangePicker } = DatePicker;
 import BigAlert from "@/components/Alert/BigAlert";
+import dayjs from "dayjs";
 
 function EditProfessionalExperience({
   put,
   post,
   resumeId,
   setProfessionalExperiences,
-  setButtonPopup,
   professionalExperienceId,
+  closeAddModal,
+  closeEditModal,
 }) {
   const defaultExperienceState = {
     start_date: "",
@@ -30,21 +31,24 @@ function EditProfessionalExperience({
     },
   };
 
-  const [professionalExperience, setProfessionalExperience] = useState(
-    defaultExperienceState
-  );
+  const [professionalExperience, setProfessionalExperience] = useState(defaultExperienceState);
   const [errors, setErrors] = useState(defaultExperienceState);
 
   useEffect(() => {
-    if (put) {
-      AxiosInstance.get(
-        `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`
-      )
-        .then((response) => {
+    const fetchProfessionalExperience = async () => {
+      if (put) {
+        try {
+          const response = await AxiosInstance.get(
+            `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`
+          );
           setProfessionalExperience(response.data);
-        })
-        .catch((error) => console.error("Error:", error));
-    }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+
+    fetchProfessionalExperience();
   }, []);
 
   const handleProfessionalExperienceChange = (event) => {
@@ -63,12 +67,22 @@ function EditProfessionalExperience({
     }
   };
 
-  const handleDateChange = (dateStrings) => {
-    setProfessionalExperience({
-      ...professionalExperience,
-      start_date: dateStrings[0],
-      end_date: dateStrings[1],
-    });
+  const handleStartDateChange = (date) => {
+    if (date) {
+      setProfessionalExperience({
+        ...professionalExperience,
+        start_date: dayjs(date).format("YYYY-MM-DD"),
+      });
+    }
+  };
+
+  const handleEndDateChange = (date) => {
+    if (date) {
+      setProfessionalExperience({
+        ...professionalExperience,
+        end_date: dayjs(date).format("YYYY-MM-DD"),
+      });
+    }
   };
 
   const handleSubmit = (event) => {
@@ -83,159 +97,190 @@ function EditProfessionalExperience({
     }
   };
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
-    AxiosInstance.put(
-      `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`,
-      professionalExperience
-    )
-      .then((res) => {
-        showSuccess("Professional Experience Updated");
-        setErrors(defaultExperienceState);
-        setProfessionalExperience(defaultExperienceState);
-        AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`)
-          .then((response) => {
-            setProfessionalExperiences(response.data);
-          })
-          .catch((error) => console.error("Error:", error));
-        setButtonPopup(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Updating Professional Experience Failed");
-      });
+    try {
+      await AxiosInstance.put(
+        `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`,
+        professionalExperience
+      );
+      showSuccess("Professional Experience Updated");
+      setErrors(defaultExperienceState);
+      setProfessionalExperience(defaultExperienceState);
+
+      const response = await AxiosInstance.get(
+        `api/resumes/${resumeId}/professional-experiences/`
+      );
+      setProfessionalExperiences(response.data);
+      closeEditModal();
+    } catch (error) {
+      console.error(error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Updating Professional Experience Failed");
+    }
   };
 
-  const handleCreateProfessionalExperience = (event) => {
+  const handleCreateProfessionalExperience = async (event) => {
     event.preventDefault();
-    AxiosInstance.post(
-      `api/resumes/${resumeId}/professional-experiences/create/`,
-      professionalExperience
-    )
-      .then((response) => {
-        showSuccess("Professional Experience Added");
-        setProfessionalExperience(defaultExperienceState);
-        setErrors(defaultExperienceState);
-        setButtonPopup(false);
-        AxiosInstance.get(
-          `api/resumes/${resumeId}/professional-experiences/`
-        ).then((response) => {
-          setProfessionalExperiences(response.data);
-        });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Creating Professional Experience Failed");
-      });
+    try {
+      await AxiosInstance.post(
+        `api/resumes/${resumeId}/professional-experiences/create/`,
+        professionalExperience
+      );
+      showSuccess("Professional Experience Added");
+      setProfessionalExperience(defaultExperienceState);
+      setErrors(defaultExperienceState);
+      
+      const response = await AxiosInstance.get(
+        `api/resumes/${resumeId}/professional-experiences/`
+      );
+      setProfessionalExperiences(response.data);
+      closeAddModal();
+    } catch (error) {
+      console.error("Error:", error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Creating Professional Experience Failed");
+    }
   };
 
   return (
-    <div className="p-12">
+    <div className="p-6">
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px ]text-2xl"> Start -End Dates</Label>
-          <RangePicker
-            className="w-[400px]"
-            id={{ start: professionalExperience.start_date, end: professionalExperience.end_date }}
-            onChange={(dateStrings) => {
-              handleDateChange(dateStrings);
-            }}
-          />
-        </div>
-        <div>
-          <label>End Date</label>
-          <input
-            type="date"
-            name="end_date"
-            value={professionalExperience.end_date}
-            onChange={handleProfessionalExperienceChange}
-          />
-          {errors.end_date && <p>{errors.end_date}</p>}
-        </div>
-        <div>
-          <label>company</label>
-          <input
-            type="text"
+        <div className="mb-4">
+          <Label>Company</Label>
+          <Input
             name="company"
             value={professionalExperience.company}
             onChange={handleProfessionalExperienceChange}
           />
-          {errors.company && <p>{errors.company}</p>}
+          {errors.company && <BigAlert message={errors.company} />}
         </div>
-        <div>
-          <label>position</label>
-          <input
-            type="text"
+        <div className="mb-4">
+          <Label>Position</Label>
+          <Input
             name="position"
             value={professionalExperience.position}
             onChange={handleProfessionalExperienceChange}
           />
-          {errors.position && <p>{errors.position}</p>}
+          {errors.position && <BigAlert message={errors.position} />}
         </div>
-        <div>
-          <label>description</label>
-          <input
-            type="text"
+        <div className="mb-4 flex flex-row items-center justify-between">
+          <Label className="mr-4">Start Date</Label>
+          <DatePicker
+            className="w-4/5"
+            name="start_date"
+            value={
+              professionalExperience.start_date
+                ? dayjs(professionalExperience.start_date)
+                : null
+            }
+            onChange={handleStartDateChange}
+          />
+          {errors.start_date && <BigAlert message={errors.start_date} />}
+        </div>
+        <div className="mb-4 flex flex-row items-center justify-between">
+          <Label className="mr-4">End Date</Label>
+          <DatePicker
+            className="w-4/5"
+            name="end_date"
+            value={
+              professionalExperience.end_date
+                ? dayjs(professionalExperience.end_date)
+                : null
+            }
+            onChange={handleEndDateChange}
+          />
+          {errors.end_date && <BigAlert message={errors.end_date} />}
+        </div>
+        <div className="mb-4">
+          <Label>Description</Label>
+          <TextArea
             name="description"
             value={professionalExperience.description}
             onChange={handleProfessionalExperienceChange}
           />
-          {errors.description && <p>{errors.description}</p>}
+          {errors.description && <BigAlert message={errors.description} />}
         </div>
+
         {professionalExperience.address && (
-          <>
-            <div>
-              <label>city</label>
-              <input
+          <div className="flex flex-row w-full mt-8 justify-between items-center space-x-2">
+            <div className="flex flex-col justify-between items-center mb-4 ">
+              <Label className="w-full text-1xl">City</Label>
+              <Input
+                className="w-full"
                 type="text"
                 name="address.city"
                 value={professionalExperience.address.city}
                 onChange={handleProfessionalExperienceChange}
               />
+            </div>
+            <div className="mb-4">
               {errors.address && errors.address.city && (
-                <p>{errors.address.city}</p>
+                <BigAlert
+                  className="ml-4"
+                  message={"Enter valid city"}
+                  description={""}
+                  type="error"
+                />
               )}
             </div>
-            <div>
-              <label>post code</label>
-              <input
+            <div className="flex flex-col justify-between items-center mb-4">
+              <Label className="w-full text-1xl">Post Code</Label>
+              <Input
+                className="w-full"
                 type="text"
                 name="address.post_code"
                 value={professionalExperience.address.post_code}
                 onChange={handleProfessionalExperienceChange}
               />
+            </div>
+            <div className="mb-4">
               {errors.address && errors.address.post_code && (
-                <p>{errors.address.post_code}</p>
+                <BigAlert
+                  className="ml-4"
+                  message={"Enter valid post code"}
+                  description={""}
+                  type="error"
+                />
               )}
             </div>
-            <div>
-              <label>country</label>
-              <input
+            <div className="flex flex-col justify-between items-center mb-4">
+              <Label className="w-full text-1xl">Country</Label>
+              <Input
+                className="w-full"
                 type="text"
                 name="address.country"
                 value={professionalExperience.address.country}
                 onChange={handleProfessionalExperienceChange}
               />
+            </div>
+            <div className="mb-4">
               {errors.address && errors.address.country && (
-                <p>{errors.address.country}</p>
+                <BigAlert
+                  className="ml-4"
+                  message={"Enter valid country"}
+                  description={""}
+                  type="error"
+                />
               )}
             </div>
-          </>
+          </div>
         )}
         <br />
-        <button>Submit</button>
+        <Button className="w-full " variant="outline" type="submit">
+          Submit
+        </Button>
       </form>
     </div>
   );
 }
+
 export default EditProfessionalExperience;

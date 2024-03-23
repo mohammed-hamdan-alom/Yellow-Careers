@@ -1,46 +1,61 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Link } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/Alert";
-import Popup from "../Popup/Popup";
 import EditLanguagePage from "./EditLanguagePage";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { SquarePen, MinusCircle } from "lucide-react";
+import { Modal } from "antd";
 
 function Language({ resumeId }) {
   const [languages, setLanguages] = useState([]);
-  const [createPopup, setCreatePopup] = useState(false);
-  const [editPopup, setEditPopup] = useState(null);
-  const [openPopupId, setOpenPopupId] = useState(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const showAddModal = () => {
+    setIsAddModalOpen(true);
+  };
+
+  const showEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/languages/`)
-      .then((response) => {
+    const fetchLanguages = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
         setLanguages(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchLanguages();
   }, [resumeId]);
 
   //Delete language
-  const handleDeleteLanguage = (languageObj) => {
-    AxiosInstance.delete(
-      `api/resumes/${resumeId}/languages/update/${languageObj.id}`
-    )
-      .then((response) => {
-        showSuccess("Language Deleted");
-        setLanguages((prevLanguages) =>
-          prevLanguages.filter((item) => item !== languageObj)
-        );
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showError("Deleting Language Failed");
-      });
+  const handleDeleteLanguage = async (languageObj) => {
+    try {
+      await AxiosInstance.delete(`api/resumes/${resumeId}/languages/update/${languageObj.id}`);
+      showSuccess("Language Deleted");
+      setLanguages((prevLanguages) =>
+        prevLanguages.filter((item) => item !== languageObj)
+      );
+    } catch (error) {
+      console.error("Error:", error);
+      showError("Deleting Language Failed");
+    }
   };
 
   return (
@@ -60,14 +75,12 @@ function Language({ resumeId }) {
                 className="mr-4"
                 variant="secondary"
                 size="icon"
-                onClick={() => {
-                  setEditPopup(true);
-                  setOpenPopupId(language.id);
-                }}
+                onClick={showEditModal}
               >
                 <SquarePen className="w-5 h-5" />
               </Button>
               <Button
+                data-testid="delete-button"
                 className=""
                 variant="destructive"
                 size="icon"
@@ -75,29 +88,43 @@ function Language({ resumeId }) {
               >
                 <MinusCircle />
               </Button>
+              <Modal
+                title="Edit Language"
+                footer={null}
+                open={isEditModalOpen}
+                onOk={() => setIsEditModalOpen(false)}
+                onClose={() => setIsEditModalOpen(false)}
+              >
+                <EditLanguagePage
+                  post={false}
+                  put={true}
+                  resumeId={resumeId}
+                  languageId={language.id}
+                  setLanguages={setLanguages}
+                  closeEditModal={closeEditModal}
+                />
+              </Modal>
             </div>
-            <Popup trigger={editPopup} setTrigger={setEditPopup}>
-              <EditLanguagePage
-                post={false}
-                language={language}
-                resumeId={resumeId}
-                setLanguages={setLanguages}
-                setButtonPopup={setEditPopup}
-              />
-            </Popup>
           </div>
         ))}
       </div>
       <div>
-        <Button variant='outline' onClick={() => setCreatePopup(true)}>Add Language</Button>
-        <Popup trigger={createPopup} setTrigger={setCreatePopup}>
+        <Button variant='outline' onClick={showAddModal}>Add Language</Button>
+        <Modal
+          title="Add Language"
+          open={isAddModalOpen}
+          footer={null}
+          onOk={() => setIsAddModalOpen(false)}
+          onClose={() => setIsAddModalOpen(false)}
+        >
           <EditLanguagePage
             post={true}
+            put={false}
             resumeId={resumeId}
             setLanguages={setLanguages}
-            setButtonPopup={setCreatePopup}
+            closeAddModal={closeAddModal}
           />
-        </Popup>
+        </Modal>
       </div>
     </div>
   );

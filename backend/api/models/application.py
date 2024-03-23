@@ -28,6 +28,7 @@ class ApplicationManager(models.Manager):
                     post_code = education.address.post_code
                 )
                 Education.objects.create(
+                    course_name = education.course_name,
                     start_date = education.start_date,
                     end_date = education.end_date,
                     address = new_address,

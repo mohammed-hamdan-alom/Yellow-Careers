@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Link } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/Alert";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import { Select } from "antd";
 import BigAlert from "@/components/Alert/BigAlert";
 
@@ -14,10 +12,10 @@ function EditLanguagePage({
   post,
   resumeId,
   setLanguages,
-  setButtonPopup,
-  languageId,
+  lanugageId,
+  closeAddModal,
+  closeEditModal,
 }) {
-  const { toast } = useToast();
 
   const SkillLevelOptions = [
     { value: "B", label: "Basic" },
@@ -35,15 +33,18 @@ function EditLanguagePage({
   const [errors, setErrors] = useState(defaultLanguageState);
 
   useEffect(() => {
-    if (put) {
-      AxiosInstance.get(
-        `api/resumes/${resumeId}/languages/update/${languageId}`
-      )
-        .then((response) => {
+    const fetchLanguage = async () => {
+      if (put) {
+        try {
+          const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/update/${languageId}`);
           setLanguage(response.data);
-        })
-        .catch((error) => console.error("Error:", error));
-    }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+  
+    fetchLanguage();
   }, []);
 
   const handleLanguageChange = (event) => {
@@ -83,58 +84,49 @@ function EditLanguagePage({
     }
   };
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
-    AxiosInstance.put(
-      `api/resumes/${resumeId}/languages/update/${languageId}`,
-      language
-    )
-      .then((res) => {
-        showSuccess("Language Updated");
-        setErrors(defaultLanguageState);
-        setLanguage(defaultLanguageState);
-        AxiosInstance.get(`api/resumes/${resumeId}/languages/`)
-          .then((response) => {
-            setLanguages(response.data);
-          })
-          .catch((error) => console.error("Error:", error));
-        setButtonPopup(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Updating Language Failed");
-      });
+    try {
+      await AxiosInstance.put(`api/resumes/${resumeId}/languages/update/${languageId}`, language);
+      showSuccess("Language Updated");
+      setErrors(defaultLanguageState);
+      setLanguage(defaultLanguageState);
+  
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
+      setLanguages(response.data);
+      closeEditModal();
+    } catch (error) {
+      console.error(error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Updating Language Failed");
+    }
   };
 
-  const handleCreateLanguage = (event) => {
+  const handleCreateLanguage = async (event) => {
     event.preventDefault();
-    AxiosInstance.post(`api/resumes/${resumeId}/languages/create/`, language)
-      .then((response) => {
-        showSuccess("Language Added");
-        setLanguage(defaultLanguageState);
-        setErrors(defaultLanguageState);
-        AxiosInstance.get(`api/resumes/${resumeId}/languages/`)
-          .then((response) => {
-            setLanguages(response.data);
-          })
-          .catch((error) => console.error("Error:", error));
-
-        setButtonPopup(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        let errorMessages = "";
-        if (error.response && error.response.data) {
-          errorMessages = Object.values(error.response.data).join(" ");
-          setErrors(error.response.data);
-        }
-        showError("Creating Language Failed");
-      });
+    try {
+      await AxiosInstance.post(`api/resumes/${resumeId}/languages/create/`, language);
+      showSuccess("Language Added");
+      setLanguage(defaultLanguageState);
+      setErrors(defaultLanguageState);
+  
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
+      setLanguages(response.data);
+      closeAddModal();
+  
+    } catch (error) {
+      console.error("Error:", error);
+      let errorMessages = "";
+      if (error.response && error.response.data) {
+        errorMessages = Object.values(error.response.data).join(" ");
+        setErrors(error.response.data);
+      }
+      showError("Creating Language Failed");
+    }
   };
 
   return (

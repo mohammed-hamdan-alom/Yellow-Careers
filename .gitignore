@@ -194,7 +194,7 @@ cython_debug/
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
-.idea/**/dbnavigator.xml
+.idea/**/dbigator.xml
 
 # Gradle
 .idea/**/gradle.xml
@@ -265,11 +265,11 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/7238-sonarqube-community-plugin
 .idea/**/sonarIssues.xml
 
-# Markdown Navigator plugin
-# https://plugins.jetbrains.com/plugin/7896-markdown-navigator-enhanced
-.idea/**/markdown-navigator.xml
-.idea/**/markdown-navigator-enh.xml
-.idea/**/markdown-navigator/
+# Markdown igator plugin
+# https://plugins.jetbrains.com/plugin/7896-markdown-igator-enhanced
+.idea/**/markdown-igator.xml
+.idea/**/markdown-igator-enh.xml
+.idea/**/markdown-igator/
 
 # Cache file creation bug
 # See https://youtrack.jetbrains.com/issue/JBR-2257
@@ -484,3 +484,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux,intellij,visualstudiocode,react,django,python
+backend/api/migrations/0001_initial.py
