@@ -2,11 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobDetailsDisplay from '@/components/job-details/JobDetails';
-import StyledQuestion from "@/components/questions_and_answers/Question";
+import JobDetailsDisplay from '@/components/job-details/JobDetails'
+import Question from "@/components/questions_and_answers/Question";
 import { Button } from "antd";
 import '@/components/styling/button.css';
 import Swal from 'sweetalert2';
+import { Label } from "@/components/ui/label";
 
 const JobDetailsEmployer = () => {
     const { user } = useContext(AuthContext);
@@ -130,10 +131,10 @@ const JobDetailsEmployer = () => {
             <div className="mt-3 mb-8">
                 <JobDetailsDisplay title={job.title} description={job.description} companyName={company.company_name} salary={job.salary} jobType={job.job_type} address={address} />
             </div>
-            {questions.length > 0 && <h5 className="text-lg font-semibold mb-2 " style={{ color: '#4A5568' }}>Questions:</h5>}
+            {questions.length > 0 && <Label className="text-2xl font-bold">Questions:</Label>}
             {questions.map(question => (
-                <ul key={question.id}>
-                    <StyledQuestion question={question.question} />
+                < ul key={question.id} >
+                    <Question question={question.question} />
                 </ul>
             ))}
             <br />

@@ -7,7 +7,7 @@ import '@/components/styling/tag.css';
 const JobCard = ({ title, companyName, city, country, description, salary, jobType }) => {
   return (
     <div>
-      <Card className="w-full mt-10 cursor-pointer" style={{ boxShadow: '0 0 5px #808080' }}>
+      <Card className="w-full mt-10 cursor-pointer hover:bg-gray-100" style={{ boxShadow: '0 0 5px #808080' }}>
         <CardHeader className="justify-center items-left mt-4">
           <CardTitle className="text-3xl font-bold">{title}</CardTitle>
         </CardHeader>
