@@ -2,8 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from '../../../../components/Alert/Alert';
-import { Input, Button, Space } from 'antd';
+import { Input, Button } from 'antd';
 import '@/components/styling/button.css';
 import StyledQuestion from "@/components/questions_and_answers/Question";
 import Swal from 'sweetalert2'; // Import SweetAlert2
@@ -31,7 +30,7 @@ function JobQuestions() {
             setQuestions(responses[0].data);
             setResume(responses[1].data);
           } catch (error) {
-            console.error('Error fetching data:', error);
+            handleErrorAndShowMessage("Error fetching data:", error);
           }
         };
       
@@ -48,7 +47,7 @@ function JobQuestions() {
             });
           } 
           catch (error) {
-            handleErrorAndShowMessage(error);
+            handleErrorAndShowMessage("Error creating answers:", error);
           }
         }
         navigate(`/job-seeker/job-details/${jobId}`);
@@ -76,7 +75,7 @@ function JobQuestions() {
             const application = response.data;
             createAnswers(application.id);
           } catch (error) {
-              handleErrorAndShowMessage(error);
+              handleErrorAndShowMessage("Error applying to job:", error);
           }
         }
       };

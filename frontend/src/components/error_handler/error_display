@@ -14,7 +14,8 @@ export function formatErrorMessage(error) {
     return null;
 }
 
-export function handleErrorAndShowMessage(error) {
+export function handleErrorAndShowMessage(consoleMessage ,error) {
+    console.error(consoleMessage, error);
     const errorMessage = formatErrorMessage(error);
     if (errorMessage) {
         showError(errorMessage);

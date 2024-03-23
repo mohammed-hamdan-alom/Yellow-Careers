@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }) => {
                 });
             }
         } catch (error) {
-            handleErrorAndShowMessage(error);
+            handleErrorAndShowMessage("Error registering job seeker:", error);
         }
     };
 
@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }) => {
                 });
             }
         } catch (error) {
-            handleErrorAndShowMessage(error);
+            handleErrorAndShowMessage("Error registering employer:", error);
         }
     }
 
