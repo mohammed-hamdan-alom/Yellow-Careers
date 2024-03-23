@@ -43,6 +43,7 @@ class Command(BaseCommand):
         self.seed_job_seekers()
         self.seed_companies()
         self.seed_employers()
+        self.seed_comapny_admins()
         self.seed_jobs()
         self.seed_questions()
         self.seed_employer_job_relationship()
