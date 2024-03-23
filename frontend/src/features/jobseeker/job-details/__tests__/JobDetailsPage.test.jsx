@@ -2,10 +2,10 @@ import React from 'react';
 import { vi } from 'vitest';
 import { render, screen, fireEvent, act, cleanup, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { AuthProvider } from '@/context/AuthContext';
 import AxiosInstance from '@/utils/AxiosInstance';
 import JobDetails from '../job-datails-page/JobDetailsPage';
 import AuthContext from '@/context/AuthContext';
+
 const data = {
     "job": {
         "id": 1,
@@ -42,6 +42,16 @@ const data = {
     "saved_jobs": [],
 }
 
+
+
+const job_seeker1 = {
+    "user": {
+        "user_type": "job_seeker",
+        "user_id": 1
+    }
+}
+
+
 const data2 = {
     "job": {
         "id": 1,
@@ -65,17 +75,9 @@ const data2 = {
     "resume": {
         "id": 1
     },
-    "applied_jobs": [],
-    "saved_jobs": [{ "id": 1 }],
+    "applied_jobs": [{ "id": 1 }],
+    "saved_jobs": [],
 }
-
-const job_seeker1 = {
-    "user": {
-        "user_type": "job_seeker",
-        "user_id": 1
-    }
-}
-
 
 const job_seeker2 = {
     "user": {
@@ -121,14 +123,26 @@ vi.mock("@/utils/AxiosInstance", () => ({
             if (url == "api/jobs/1/") {
                 return Promise.resolve({ data: data.job })
             }
+            else if (url == "api/jobs/2/") {
+                return Promise.resolve({ data: data2.job })
+            }
             else if (url == `api/jobs/1/company/`) {
                 return Promise.resolve({ data: data.job.company })
+            }
+            else if (url == `api/jobs/2/company/`) {
+                return Promise.resolve({ data: data2.job.company })
             }
             else if (url == `api/jobs/1/address/`) {
                 return Promise.resolve({ data: data.job.address })
             }
+            else if (url == `api/jobs/2/address/`) {
+                return Promise.resolve({ data: data2.job.address })
+            }
             else if (url == `api/jobs/1/questions/`) {
                 return Promise.resolve({ data: data.questions })
+            }
+            else if (url == `api/jobs/2/questions/`) {
+                return Promise.resolve({ data: data2.questions })
             }
             else if (url == `api/job-seeker/1/resume/`) {
                 return Promise.resolve({ data: data.resume })
@@ -148,9 +162,9 @@ vi.mock("@/utils/AxiosInstance", () => ({
             else if (url == `api/job-seeker/2/saved-jobs/`) {
                 return Promise.resolve({ data: data2.saved_jobs })
             }
-            return Promise.resolve({ data: {} })
+            return Promise.resolve({ data: { id: 1 } })
         }),
-        delete: vi.fn((url) => { return Promise.resolve({}) }),
+        delete: vi.fn(() => { return Promise.resolve({}) }),
         then: vi.fn(() => { }),
         post: vi.fn(() => { return Promise.resolve({}) })
     },
@@ -170,7 +184,10 @@ describe('JobDetailsPage component with questions', () => {
         })
     })
 
-    afterEach(cleanup);
+    afterEach(async () => {
+        cleanup
+        vi.clearAllMocks()
+    });
 
     test('renders JobDetails component', async () => {
         const jobDetailsComponent = await screen.findByTestId("mock-jobdetails")
@@ -185,7 +202,7 @@ describe('JobDetailsPage component with questions', () => {
         expect(saveButton).toBeInTheDocument()
     })
 
-    test("apply button functions correctly with no questions", async () => {
+    test("apply button functions correctly with questions", async () => {
         const applyButton = await screen.findByText("Apply")
 
         await act(async () => {
@@ -206,8 +223,7 @@ describe('JobDetailsPage component with questions', () => {
     })
 });
 
-describe("JobDetailsPage without questions", async () => {
-
+describe("JobDetailsPage component has already applied job", async () => {
     beforeEach(async () => {
         await act(async () => {
             render(
@@ -220,24 +236,21 @@ describe("JobDetailsPage without questions", async () => {
         })
     })
 
-    afterEach(cleanup);
+    afterEach(cleanup)
 
-    test("renders apply and unsave buttons correctly", async () => {
-        const applyButton = await screen.findByText("Apply")
-        const saveButton = await screen.findByText("Unsave")
-
+    test("renders see application button correctly", async () => {
+        const applyButton = await screen.findByText("See Application")
         expect(applyButton).toBeInTheDocument()
-        expect(saveButton).toBeInTheDocument()
     })
 
-    test("unsave button functions correctly", async () => {
-        const saveButton = await screen.findByText("Unsave")
+    test("see application button functions correctly", async () => {
+        const applyButton = await screen.findByText("See Application")
 
         await act(async () => {
-            fireEvent.click(saveButton)
+            fireEvent.click(applyButton)
         })
 
-        expect(AxiosInstance.delete).toBeCalledWith(`api/saved-jobs/update/2/1/`)
+        expect(AxiosInstance.get).toBeCalledWith(`api/applications/2/1`)
+        expect(navigate).toBeCalledWith(`/job-seeker/application-details/1`)
     })
-
-});
+})
