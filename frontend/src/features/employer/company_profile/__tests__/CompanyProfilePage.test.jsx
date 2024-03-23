@@ -9,15 +9,14 @@ import CompanyProfilePage from "../CompanyProfilePage";
 import { MemoryRouter } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
 import React from "react";
-import { cp } from "fs";
 
 const mockAdminUser = {
   user: { user_id: 150, email: "denise50@example.net", user_type: "employer" },
 };
 
 const mockUser = {
-    user: { user_id: 115, email: "kcarter@example.net", user_type: "employer" },
-  };
+  user: { user_id: 115, email: "kcarter@example.net", user_type: "employer" },
+};
 
 const mockEmployerResponse = {
   data: {
@@ -32,7 +31,6 @@ const mockEmployerResponse = {
   },
 };
 
-
 const mockAdminEmployerResponse = {
   data: {
     id: 150,
@@ -45,6 +43,7 @@ const mockAdminEmployerResponse = {
     company: 25,
   },
 };
+
 const mockCompanyResponse = {
   data: {
     id: 25,
@@ -53,6 +52,7 @@ const mockCompanyResponse = {
     about: "Dolor et ea modi. Ducimus delectus ut accusantium.",
   },
 };
+
 const mockEmployersResponse = {
   data: [
     {
@@ -88,26 +88,44 @@ const mockEmployersResponse = {
   ],
 };
 
+const mockUpdateCompanyResponse = {
+  data: {
+    id: 25,
+    company_name: "New Company Name",
+    website: "https://www.burns.co.uk/",
+    about: "Dolor et ea modi. Ducimus delectus ut accusantium.",
+  },
+  status: 200,
+  statusText: "OK",
+  headers: {
+    "content-length": "141",
+    "content-type": "application/json",
+  },
+  request: {},
+};
+
 vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
   default: {
     get: vi.fn((url) => {
-        console.log(url);
       if (url === "api/employers/150") {
-        console.log("1");
         return Promise.resolve(mockAdminEmployerResponse);
       } else if (url === "api/companies/25") {
-        console.log("2");
         return Promise.resolve(mockCompanyResponse);
-      } else if (url ==="api/companies/25/employers" ) {
-        console.log("3");
+      } else if (url === "api/companies/25/employers") {
         return Promise.resolve(mockEmployersResponse);
       } else if (url === "api/employers/115") {
-        console.log("4");
         return Promise.resolve(mockEmployerResponse);
       } else {
-        console.log("5");
-        return Promise.resolve({data: []});
+        return Promise.resolve({ data: [] });
+      }
+    }),
+
+    put: vi.fn((url, data) => {
+      if (url === "api/companies/25/update/") {
+        return Promise.resolve(mockUpdateCompanyResponse);
+      } else {
+        return Promise.resolve({ data: [] });
       }
     }),
   },
@@ -115,7 +133,22 @@ vi.mock("@/utils/AxiosInstance", () => ({
 
 describe("CompanyProfilePage component", () => {
   test("renders company profile correctly", async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <AuthContext.Provider value={mockUser}>
+            <CompanyProfilePage />
+          </AuthContext.Provider>
+        </MemoryRouter>
+      );
+    });
 
+    expect(screen.getByText("About:")).toBeInTheDocument();
+    expect(screen.getByText("Website:")).toBeInTheDocument();
+    expect(screen.getByText("Employers:")).toBeInTheDocument();
+  });
+
+  test("information is displayed correctly", async () => {
     await act(async () => {
       render(
         <MemoryRouter>
@@ -147,16 +180,15 @@ describe("CompanyProfilePage component", () => {
   });
 
   test("Edit button shows as admin", async () => {
-   
     await act(async () => {
-        render(
-          <MemoryRouter>
-            <AuthContext.Provider value={mockAdminUser}>
-              <CompanyProfilePage />
-            </AuthContext.Provider>
-          </MemoryRouter>
-        );
-      });
+      render(
+        <MemoryRouter>
+          <AuthContext.Provider value={mockAdminUser}>
+            <CompanyProfilePage />
+          </AuthContext.Provider>
+        </MemoryRouter>
+      );
+    });
 
     await waitFor(() => {
       expect(screen.getByText("Edit")).toBeInTheDocument();
@@ -178,17 +210,15 @@ describe("CompanyProfilePage component", () => {
   });
 
   test("Edit button toggles edit mode", async () => {
-    const employerResponse = mockAdminEmployerResponse;
-    
     await act(async () => {
-        render(
-          <MemoryRouter>
-            <AuthContext.Provider value={mockAdminUser}>
-              <CompanyProfilePage />
-            </AuthContext.Provider>
-          </MemoryRouter>
-        );
-      });
+      render(
+        <MemoryRouter>
+          <AuthContext.Provider value={mockAdminUser}>
+            <CompanyProfilePage />
+          </AuthContext.Provider>
+        </MemoryRouter>
+      );
+    });
 
     await waitFor(() => {
       expect(screen.getByText("Edit")).toBeInTheDocument();
@@ -201,16 +231,71 @@ describe("CompanyProfilePage component", () => {
       expect(screen.getByText("Cancel")).toBeInTheDocument();
     });
 
-    //TEST IF THE TEXTAREAS ARE THERE
-    // await waitFor(() => {
-    //   const companyNameLabel = screen.getByLabelText("Company Name:");
-    //   const aboutLabel = screen.getByLabelText("About: ");
-    //   const websiteLabel = screen.getByLabelText("Website: ");
+    await waitFor(() => {
+      const companyNameLabel = screen.getByLabelText("Company Name:");
+      const aboutLabel = screen.getByLabelText("About:");
+      const websiteLabel = screen.getByLabelText("Website:");
 
-    //   expect(companyNameLabel).toBeInTheDocument();
-    //   expect(aboutLabel).toBeInTheDocument();
-    //   expect(websiteLabel).toBeInTheDocument();
-    // });
-    //test employers still there
+      expect(companyNameLabel).toBeInTheDocument();
+      expect(aboutLabel).toBeInTheDocument();
+      expect(websiteLabel).toBeInTheDocument();
+    });
+    //TODO: TEST EMPLOYERS ARE STILL THERE
+  });
+
+  test("Update and cancel buttons work", async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <AuthContext.Provider value={mockAdminUser}>
+            <CompanyProfilePage />
+          </AuthContext.Provider>
+        </MemoryRouter>
+      );
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Edit")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      expect(screen.getByText("Update")).toBeInTheDocument();
+      expect(screen.getByText("Cancel")).toBeInTheDocument();
+    });
+
+    const companyNameInput = screen.getByLabelText("Company Name:");
+    fireEvent.change(companyNameInput, {
+      target: { value: "New Company Name" },
+    });
+
+    const cancelButton = screen.getByText("Cancel");
+    fireEvent.click(cancelButton);
+
+    screen.findByText(mockCompanyResponse.data.company_name);
+
+    await waitFor(() => {
+      expect(screen.getByText("Edit")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Edit"));
+
+    await waitFor(() => {
+      expect(screen.getByText("Update")).toBeInTheDocument();
+      expect(screen.getByText("Cancel")).toBeInTheDocument();
+    });
+
+    const companyNameInput2 = screen.getByLabelText("Company Name:");
+    fireEvent.change(companyNameInput2, {
+      target: { value: "New Company Name" },
+    });
+
+    const updateButton = screen.getByText("Update");
+    fireEvent.click(updateButton);
+
+    await waitFor(() => {
+      expect(screen.getByText("New Company Name")).toBeInTheDocument();
+    });
   });
 });
