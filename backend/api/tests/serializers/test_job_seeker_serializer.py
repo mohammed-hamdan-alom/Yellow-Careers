@@ -1,6 +1,8 @@
 from django.test import TestCase
-from api.models import JobSeeker
+from api.models import JobSeeker, Address
 from api.serializers import JobSeekerSerializer
+from django.forms.models import model_to_dict
+from collections import OrderedDict
 
 class JobSeekerSerializerTestCase(TestCase):
 
@@ -17,8 +19,10 @@ class JobSeekerSerializerTestCase(TestCase):
     
     def setUp(self):
         self.job_seeker = JobSeeker.objects.get(pk=1)
+        self.job_seeker_address = Address.objects.get(pk=self.job_seeker.address_id)
         self.serializer = JobSeekerSerializer(instance=self.job_seeker)
     
+
     def test_serializer_fields(self):
         serializer = JobSeekerSerializer()
         expected_fields = {'id','first_name','last_name' ,'phone_number', 'email', 'other_names','dob', 'nationality', 'sex','address', 'resume'}
@@ -27,20 +31,19 @@ class JobSeekerSerializerTestCase(TestCase):
 
     def test_serializer_data(self):
         expected_data = {
-            'id' : self.job_seeker.id,
-            'first_name' : self.job_seeker.first_name,
-            'last_name' : self.job_seeker.last_name,
+            'id': self.job_seeker.id,
+            'first_name': self.job_seeker.first_name,
+            'last_name': self.job_seeker.last_name,
             'other_names': self.job_seeker.other_names,
             'phone_number': self.job_seeker.phone_number,
-            'email' : self.job_seeker.email,
-            'resume' : self.job_seeker.resume_id,
-            'dob' : str(self.job_seeker.dob),
-            'nationality' : self.job_seeker.nationality,
-            'address': self.job_seeker.address_id,
-            'sex' : self.job_seeker.sex
+            'email': self.job_seeker.email,
+            'resume': self.job_seeker.resume_id,
+            'dob': str(self.job_seeker.dob),
+            'nationality': self.job_seeker.nationality,
+            'address': OrderedDict(model_to_dict(self.job_seeker_address)),
+            'sex': self.job_seeker.sex
         }
         self.assertEqual(self.serializer.data, expected_data)
-
     
     def test_serializer_validation(self):
         # Test validation with empty data

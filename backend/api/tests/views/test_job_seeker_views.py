@@ -37,7 +37,6 @@ class JobSeekerViewTestCase(TestCase):
         self.assertEqual(response.data['sex'], job_seeker.sex)
 
     def test_create_job_seeker(self):
-        # print(serialize('json', [JobSeeker.objects.get(pk=1)], indent=2))       
         job_seeker_data = {
             "id": 3,
             "email": "test@example3.com",
@@ -48,18 +47,21 @@ class JobSeekerViewTestCase(TestCase):
             "dob": "1999-01-01",
             "nationality": "British",
             "sex": "M",
-            "address": 1,
+            "address": {
+                "city" : "London",
+                "post_code" : "L9K 1AA",
+                "country" : "United Kingdom",
+            },
             "resume": 1
         }
 
         response = self.client.post(reverse('job-seeker-post'), data=job_seeker_data, format='json')
-        print("\nResponse:", response.content)
+        print("\nResponse 1:", response.content)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(JobSeeker.objects.count(), len(self.job_seekers) + 1)
 
     def test_update_job_seeker(self):
         job_seeker = self.job_seekers[0]
-        # print(job_seeker)
         updated_job_seeker_data = {
             'email' : 'test@example.com',
             'password' : 'Password123',

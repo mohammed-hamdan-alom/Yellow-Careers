@@ -11,32 +11,27 @@ class JobSeekerSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         address_data = validated_data.pop('address')
-        address = Address.objects.create(**address_data)
-
-        job_seeker = JobSeeker.objects.create(address=address, **validated_data)
-        return job_seeker
-    '''
-        def create(self, validated_data):
-        address_data = validated_data.pop('address')
-        # address = Address.objects.create(**address_data)
         address_serializer = AddressSerializer(data=address_data)  
         if address_serializer.is_valid():
-            address = address_serializer.save()  # Save address if valid
+            address = address_serializer.save()
         else:
             raise serializers.ValidationError(address_serializer.errors)
         
         job_seeker = JobSeeker.objects.create(address=address, **validated_data)
         return job_seeker
-    '''
 
     def update(self, instance, validated_data):
         address_data = validated_data.pop('address', None)
         if address_data:
-            address_serializer = AddressSerializer(instance.address, data=address_data)
-            if address_serializer.is_valid():
-                address_serializer.save()
+            if instance.address:
+                address_serializer = AddressSerializer(instance.address, data=address_data)
+                if address_serializer.is_valid():
+                    address_serializer.save()
+                else:
+                    raise serializers.ValidationError(address_serializer.errors)
             else:
-                raise serializers.ValidationError(address_serializer.errors)
+                address = AddressSerializer().create(validated_data=address_data)
+                instance.address = address
             
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
