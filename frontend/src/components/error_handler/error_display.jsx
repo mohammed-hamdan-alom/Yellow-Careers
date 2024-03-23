@@ -21,3 +21,17 @@ export function handleErrorAndShowMessage(consoleMessage ,error) {
         showError(errorMessage);
     }
 }
+
+export function handleErrorAndShowMessageAutomatically(error) {
+  if (error.response) {
+    const data = error.response.data;
+    let errorMessage = "";
+    for (let key in data) {
+      if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
+        errorMessage += `${key}:\n${data[key].join("\n")}\n`;
+      }
+    }
+    showError(errorMessage);
+  }
+  return null;
+}

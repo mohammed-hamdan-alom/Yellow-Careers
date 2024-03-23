@@ -9,8 +9,9 @@ import { Input, Select, Button } from "antd";
 const { Option } = Select;
 import { Mail, Phone, Calendar, MapPin } from "lucide-react";
 import "@/components/styling/button.css";
-import moment from "moment";
-import { showError } from "@/components/Alert/Alert";
+import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
+import { handleErrorAndShowMessageAutomatically } from "@/components/error_handler/error_display";
+import ProfileDetails from "@/components/Profile/ProfileDetails";
 
 const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
@@ -83,6 +84,7 @@ const JobSeekerProfile = () => {
             "An error occurred while fetching the profile.",
             "error"
           );
+          handleErrorAndShowMessageAutomatically(error);
         }
       }
     };
@@ -108,22 +110,11 @@ const JobSeekerProfile = () => {
     }
   };
 
-  const handleSexChange = (value, name) => {
-    if (name === "sex") {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
-    }
-  };
-
-  const handleNationalityChange = (value, name) => {
-    if (name === "nationality") {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
-    }
+  const handleSelectChange = (value, name) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
   
   const isValidDOB = (dob) => {
@@ -157,31 +148,10 @@ const JobSeekerProfile = () => {
             "Your profile has been updated successfully.",
             "success"
           );
-        } else {
-          swal.fire("Update Failed", `Error: ${response.status}`, "error");
-          if (error.response) {
-            const data = await error.response.data;
-            let errorMessage = "";
-            for (let key in data) {
-              if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
-                errorMessage += `${key}: ${data[key].join(", ")}\n`;
-              }
-            }
-            showError(errorMessage);
-          }
         }
       } catch (error) {
         swal.fire("Update Failed", error.message, "error");
-        if(error.response){
-          const data = await error.response.data;
-          let errorMessage = '';
-          for(let key in data){
-            if(data.hasOwnProperty(key) && Array.isArray(data[key])){
-              errorMessage += `${key}: ${data[key].join(', ')}\n`;
-            }
-          }
-          showError(errorMessage)
-        }
+        handleErrorAndShowMessageAutomatically(error);
       }
     }
   };
@@ -210,191 +180,28 @@ const JobSeekerProfile = () => {
         });
       }
     } catch (error) {
-      if (error.response) {
-        const data = await error.response.data;
-        let errorMessage = "";
-        for (let key in data) {
-          if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
-            errorMessage += `${key}: ${data[key].join(", ")}\n`;
-          }
-        }
-        showError(errorMessage);
-      }
+      handleErrorAndShowMessageAutomatically(error);
     }
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="container mt-5">
-        <div className="mb-3">
-          <Label htmlFor="email" className="text-lg mr-2">
-            Email:
-          </Label>
-          <Input
-            id="email"
-            prefix={<Mail size={16} />}
-            disabled
-            value={user?.email}
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="first_name">First Name: </Label>
-          <Input
-            type="text"
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            id="first_name"
-            name="first_name"
-            value={formData.first_name}
-            onChange={(e) => handleChange(e, "first_name")}
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="last_name">Last Name: </Label>
-          <Input
-            type="text"
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            id="last_name"
-            name="last_name"
-            value={formData.last_name}
-            onChange={(e) => handleChange(e, "last_name")}
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="other_names">Other Names: </Label>
-          <Input
-            type="text"
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            id="other_names"
-            name="other_names"
-            value={formData.other_names}
-            onChange={(e) => handleChange(e, "other_names")}
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="phone_number">Phone Number: </Label>
-          <Input
-            type="text"
-            prefix={<Phone size={15} />}
-            id="phone_number"
-            name="phone_number"
-            value={formData.phone_number}
-            onChange={(e) => handleChange(e, "phone_number")}
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="dob">Date of Birth: </Label>
-          <Input
-            type="date"
-            prefix={<Calendar size={15} />}
-            id="dob"
-            name="dob"
-            value={formData.dob}
-            onChange={(e) => handleDOBChange(e.target.value, "dob")}
-            max={moment().format("YYYY-MM-DD")}
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="nationality">Nationality: </Label>
-          <Select
-            showSearch
-            name="nationality"
-            id="nationality"
-            value={formData.nationality}
-            onChange={(e) => handleNationalityChange(e, "nationality")}
-          >
-            {nationalityOptions.map((option, index) => (
-              <Option key={index} value={option}>
-                {option}
-              </Option>
-            ))}
-          </Select>
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="sex">Sex: </Label>
-          <br />
-          <Select
-            id="sex"
-            name="sex"
-            value={formData.sex}
-            onChange={(e) => handleSexChange(e, "sex")}
-          >
-            <Option value="Male">Male</Option>
-            <Option value="Female">Female</Option>
-          </Select>
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="city">City: </Label>
-          <Input
-            type="text"
-            prefix={<MapPin size={15} />}
-            id="city"
-            name="city"
-            value={formData.address.city}
-            onChange={(e) => handleChange(e, "city")}
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="post_code">Post Code: </Label>
-          <Input
-            type="text"
-            prefix={<MapPin size={15} />}
-            id="post_code"
-            name="post_code"
-            value={formData.address.post_code}
-            onChange={(e) => handleChange(e, "post_code")}
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="country">Country: </Label>
-          <Input
-            type="text"
-            prefix={<MapPin size={15} />}
-            id="country"
-            name="country"
-            value={formData.address.country}
-            onChange={(e) => handleChange(e, "country")}
-          />
-        </div>
-        <div style={{ marginTop: "25px" }}>
-          <Button className="yellowButton" type="submit" onClick={handleSubmit}>
-            Update Profile
-          </Button>
-        </div>
-      </form>
+      <ProfileDetails
+        formData={formData}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        userType="job-seeker"
+      />
 
-      {/* Password Change Section */}
-      <div className="container mt-5">
-        <Label htmlFor="email" className="text-lg mr-2">
-          Change Password:
-        </Label>
-        <div className="mb-3">
-          <Input.Password
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-            placeholder="Old Password"
-          />
-        </div>
-        <div className="mb-3">
-          <Input.Password
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            placeholder="New Password"
-          />
-        </div>
-        <div className="mb-3">
-          <Input.Password
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-            placeholder="Confirm New Password"
-            onPaste={(e) => e.preventDefault()}
-          />
-        </div>
-        <div style={{ marginTop: "25px" }}>
-          <Button className="yellowButton" onClick={handlePasswordSubmit}>
-            Change Password
-          </Button>
-        </div>
-      </div>
+      <PasswordChangeSection
+        oldPassword={oldPassword}
+        setOldPassword={setOldPassword}
+        newPassword={newPassword}
+        setNewPassword={setNewPassword}
+        confirmNewPassword={confirmNewPassword}
+        setConfirmNewPassword={setConfirmNewPassword}
+        onSubmit={handlePasswordSubmit}
+      />
     </div>
   );
 };

@@ -43,31 +43,31 @@ class CompanyEmployerListView(BaseEmployerView, generics.ListAPIView):
 class EmployerUpdateView(BaseEmployerView, generics.RetrieveUpdateDestroyAPIView):
     pass
 
-class EmployerChangePasswordView(generics.UpdateAPIView):
-    serializer_class = ChangePasswordSerializer
+# class EmployerChangePasswordView(generics.UpdateAPIView):
+#     serializer_class = ChangePasswordSerializer
 
-    def get_object(self):
-        return self.request.user
+#     def get_object(self):
+#         return self.request.user
 
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(data=request.data)
+#     def update(self, request, *args, **kwargs):
+#         instance = self.get_object()
+#         serializer = self.get_serializer(data=request.data)
 
-        if serializer.is_valid():
-            old_password = serializer.validated_data.get("old_password")
-            new_password = serializer.validated_data.get("new_password")
-            confirm_password = serializer.validated_data.get("confirm_password")
+#         if serializer.is_valid():
+#             old_password = serializer.validated_data.get("old_password")
+#             new_password = serializer.validated_data.get("new_password")
+#             confirm_password = serializer.validated_data.get("confirm_password")
 
 
-            if not check_password(old_password, instance.password):
-                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+#             if not check_password(old_password, instance.password):
+#                 return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
             
-            if new_password != confirm_password:
-                return Response({"error": "New password and confirm password do not match."}, status=status.HTTP_400_BAD_REQUEST)
+#             if new_password != confirm_password:
+#                 return Response({"error": "New password and confirm password do not match."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-            instance.set_password(new_password)
-            instance.save()
-            return Response({"message": "Password changed successfully."})
+#             instance.set_password(new_password)
+#             instance.save()
+#             return Response({"message": "Password changed successfully."})
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

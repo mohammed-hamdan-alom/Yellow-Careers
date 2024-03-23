@@ -3,19 +3,14 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import swal from "sweetalert2";
 import { Label } from "@/components/ui/label";
-import { Input, Tooltip, Select, Button } from "antd";
-import {
-  Mail,
-  Phone,
-  Calendar,
-  Globe,
-  User,
-  Earth,
-  MapPin,
-} from "lucide-react";
+import { Input, Button } from "antd";
+import { Mail, Phone } from "lucide-react";
 import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
 import "@/components/styling/button.css";
-import { showError } from "@/components/Alert/Alert";
+import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
+
+import { handleErrorAndShowMessageAutomatically } from "@/components/error_handler/error_display";
+import ProfileDetails from "@/components/Profile/ProfileDetails";
 
 const EmployerProfile = () => {
   const { user } = useContext(AuthContext);
@@ -28,7 +23,6 @@ const EmployerProfile = () => {
     phone_number: user?.phone_number || "",
     company: user?.company || "",
   });
-  const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -74,6 +68,7 @@ const EmployerProfile = () => {
             "An error occurred while fetching the employer profile.",
             "error"
           );
+          handleErrorAndShowMessageAutomatically(error);
         }
       }
     };
@@ -104,31 +99,10 @@ const EmployerProfile = () => {
             "Your profile has been updated successfully.",
             "success"
           );
-        } else {
-          swal.fire("Update Failed", `Error: ${response.status}`, "error");
-          if (error.response) {
-            const data = await error.response.data;
-            let errorMessage = "";
-            for (let key in data) {
-              if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
-                errorMessage += `${key}: ${data[key].join(", ")}\n`;
-              }
-            }
-            showError(errorMessage);
-          }
-        }
+        } 
       } catch (error) {
         swal.fire("Update Failed", error.message, "error");
-        if (error.response) {
-          const data = await error.response.data;
-          let errorMessage = "";
-          for (let key in data) {
-            if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
-              errorMessage += `${key}: ${data[key].join(", ")}\n`;
-            }
-          }
-          showError(errorMessage);
-        }
+        handleErrorAndShowMessageAutomatically(error);
       }
     }
   };
@@ -157,124 +131,86 @@ const EmployerProfile = () => {
         });
       }
     } catch (error) {
-      if (error.response) {
-        const data = await error.response.data;
-        let errorMessage = "";
-        for (let key in data) {
-          if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
-            errorMessage += `${key}: ${data[key].join(", ")}\n`;
-          }
-        }
-        showError(errorMessage);
-      }
+      handleErrorAndShowMessageAutomatically(error);
     }
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="container mt-5">
-        <div className="mb-3">
-          <Label htmlFor="email" className="text-lg mr-2">
-            Email:
-          </Label>
-          <Input prefix={<Mail size={16} />} disabled value={user?.email} />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="first_name">First Name: </Label>
-          <Input
-            type="text"
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            id="first_name"
-            name="first_name"
-            value={formData.first_name}
-            onChange={(e) => handleChange(e, "first_name")}
-            maxLength={50}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="last_name">Last Name: </Label>
-          <Input
-            type="text"
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            id="last_name"
-            name="last_name"
-            value={formData.last_name}
-            onChange={(e) => handleChange(e, "last_name")}
-            maxLength={50}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="other_names">Other Names: </Label>
-          <Input
-            type="text"
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            id="other_names"
-            name="other_names"
-            value={formData.other_names}
-            onChange={(e) => handleChange(e, "other_names")}
-            maxLength={50}
-          />
-        </div>
-        <div className="mb-3">
-          <Label htmlFor="phone_number">Phone Number: </Label>
-          <Input
-            type="text"
-            prefix={<Phone size={15} />}
-            id="phone_number"
-            name="phone_number"
-            value={formData.phone_number}
-            onChange={(e) => handleChange(e, "phone_number")}
-            required
-          />
-          <span className="text-danger">
-            {formData.phone_number !== "" &&
-              !isValidPhoneNumber &&
-              "Please match the format requested."}
-          </span>
-        </div>
+      {/* // <form onSubmit={handleSubmit} className="container mt-5">
+      //   <div className="mb-3">
+      //     <Label htmlFor="email" className="text-lg mr-2">
+      //       Email:
+      //     </Label>
+      //     <Input prefix={<Mail size={16} />} disabled value={user?.email} />
+      //   </div>
+      //   <div className="mb-3">
+      //     <Label htmlFor="first_name">First Name: </Label>
+      //     <Input
+      //       type="text"
+      //       prefix={<UserOutlined className="site-form-item-icon" />}
+      //       id="first_name"
+      //       name="first_name"
+      //       value={formData.first_name}
+      //       onChange={(e) => handleChange(e, "first_name")}
+      //       maxLength={50}
+      //       required
+      //     />
+      //   </div>
+      //   <div className="mb-3">
+      //     <Label htmlFor="last_name">Last Name: </Label>
+      //     <Input
+      //       type="text"
+      //       prefix={<UserOutlined className="site-form-item-icon" />}
+      //       id="last_name"
+      //       name="last_name"
+      //       value={formData.last_name}
+      //       onChange={(e) => handleChange(e, "last_name")}
+      //       maxLength={50}
+      //       required
+      //     />
+      //   </div>
+      //   <div className="mb-3">
+      //     <Label htmlFor="other_names">Other Names: </Label>
+      //     <Input
+      //       type="text"
+      //       prefix={<UserOutlined className="site-form-item-icon" />}
+      //       id="other_names"
+      //       name="other_names"
+      //       value={formData.other_names}
+      //       onChange={(e) => handleChange(e, "other_names")}
+      //       maxLength={50}
+      //     />
+      //   </div>
+      //   <div className="mb-3">
+      //     <Label htmlFor="phone_number">Phone Number: </Label>
+      //     <Input
+      //       type="text"
+      //       prefix={<Phone size={15} />}
+      //       id="phone_number"
+      //       name="phone_number"
+      //       value={formData.phone_number}
+      //       onChange={(e) => handleChange(e, "phone_number")}
+      //     />
+      //   </div>
+      // </form> */}
+            
+      <ProfileDetails
+        formData={formData}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        userType="employer"
+      />
 
-        <div style={{ marginTop: "25px" }}>
-          <Button className="yellowButton" type="submit" onClick={handleSubmit}>
-            Update Profile
-          </Button>
-        </div>
-      </form>
-
-      {/* Password Change Section */}
-      <div className="container mt-5">
-        <Label htmlFor="email" className="text-lg mr-2">
-          Change Password:
-        </Label>
-        <div className="mb-3">
-          <Input.Password
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-            placeholder="Old Password"
-          />
-        </div>
-        <div className="mb-3">
-          <Input.Password
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            placeholder="New Password"
-          />
-        </div>
-        <div className="mb-3">
-          <Input.Password
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-            placeholder="Confirm New Password"
-            onPaste={(e) => e.preventDefault()}
-          />
-        </div>
-        <div style={{ marginTop: "25px" }}>
-          <Button className="yellowButton" onClick={handlePasswordSubmit}>
-            Change Password
-          </Button>
-        </div>
-      </div>
+      <PasswordChangeSection
+        oldPassword={oldPassword}
+        setOldPassword={setOldPassword}
+        newPassword={newPassword}
+        setNewPassword={setNewPassword}
+        confirmNewPassword={confirmNewPassword}
+        setConfirmNewPassword={setConfirmNewPassword}
+        onSubmit={handlePasswordSubmit}
+      />
     </div>
   );
 };
