@@ -58,7 +58,6 @@ class JobViewTestCase(TestCase):
         response = view(request)
 
         ##response = self.client.post(reverse('create_job'), job_data)
-        print(response)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Job.objects.count(), len(self.jobs) + 1)
 

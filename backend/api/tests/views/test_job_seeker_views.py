@@ -36,6 +36,12 @@ class JobSeekerViewTestCase(TestCase):
         self.assertEqual(response.data['sex'], job_seeker.sex)
 
     def test_create_job_seeker(self):
+        new_address = Address.objects.create(
+            city = 'TestCity',
+            post_code = 'TE1 1ST',
+            country = 'TestCountry'
+        )
+
         job_seeker_data = {
             'email' : 'test@example.com',
             'password' : 'Password123',
@@ -43,7 +49,7 @@ class JobSeekerViewTestCase(TestCase):
             'last_name' : 'User',
             'phone_number' : '07123456789',
             'resume' : 1,
-            'address' : 3,
+            'address' : new_address.id,
             'dob' : '1990-01-01',
             'nationality' : 'British',
             'sex' : 'M'
