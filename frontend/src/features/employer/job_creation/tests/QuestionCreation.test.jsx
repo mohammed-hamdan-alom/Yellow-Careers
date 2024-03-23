@@ -6,6 +6,11 @@ import AuthContext from '@/context/AuthContext';
 import AxiosInstance from '@/utils/AxiosInstance';
 import QuestionCreation from '../QuestionCreation';
 
+Object.defineProperty(window, 'location', {
+    configurable: true,
+    value: { reload: vi.fn() },
+});
+
 const questionSubmitData = {
     "question": "TEST QUESTION",
     "job": 1

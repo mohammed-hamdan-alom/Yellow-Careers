@@ -21,7 +21,6 @@ function QuestionCreation() {
         AxiosInstance.get(`api/jobs/${jobId}/questions/`)
             .then((res) => {
                 setQuestions(res.data);
-                console.log(res);
             })
             .catch((error) => console.log(error));
         setQuestionsChanged(false);
