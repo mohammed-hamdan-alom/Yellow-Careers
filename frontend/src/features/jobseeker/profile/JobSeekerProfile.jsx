@@ -30,6 +30,16 @@ const JobSeekerProfile = () => {
     },
   });
 
+  // const [passwordFormData, setPasswordFormData] = useState({
+  //   oldPassword: "",
+  //   newPassword: "",
+  //   confirmNewPassword: "",
+  // });
+  const { changePassword } = useContext(AuthContext);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+
   const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
 
   useEffect(() => {
@@ -168,143 +178,250 @@ const JobSeekerProfile = () => {
     }
   };
 
+  const handlePasswordChange = async () => {
+    try {
+      // Call the changePassword function with the old password, new password, and confirm new password
+      if(confirmNewPassword==newPassword){
+        await changePassword(oldPassword, newPassword);
+      }
+      else{
+        alert("passwords must match")
+      }
+      
+      // Password changed successfully, handle any UI updates or redirects
+    } catch (error) {
+      // Handle error, display error message to the user, etc.
+    }
+  };
+
+  const handleSubmitPasswordChange = async (e) => {
+    e.preventDefault();
+    if (user?.user_id) {
+      try {
+        const response = await AxiosInstance.put(
+          `/api/job-seekers/${user?.user_id}/update/`,
+          passwordFormData
+        );
+
+        if (response.status === 200) {
+          swal.fire(
+            "Password Updated",
+            "Your password has been updated successfully.",
+            "success"
+          );
+        } else {
+          swal.fire("Update Failed", `Error: ${response.status}`, "error");
+        }
+      } catch (error) {
+        swal.fire("Update Failed", error.message, "error");
+      }
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="container mt-5">
-      <div className="mb-3">
-        <Label htmlFor="email" className="text-lg mr-2">
-          Email:
-        </Label>
-        <Input
-          id="email"
-          prefix={<Mail size={16} />}
-          disabled
-          value={user?.email}
+    <div>
+      <form onSubmit={handleSubmit} className="container mt-5">
+        <div className="mb-3">
+          <Label htmlFor="email" className="text-lg mr-2">
+            Email:
+          </Label>
+          <Input
+            id="email"
+            prefix={<Mail size={16} />}
+            disabled
+            value={user?.email}
+          />
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="first_name">First Name: </Label>
+          <Input
+            type="text"
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            id="first_name"
+            name="first_name"
+            value={formData.first_name}
+            onChange={(e) => handleChange(e, "first_name")}
+          />
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="last_name">Last Name: </Label>
+          <Input
+            type="text"
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            id="last_name"
+            name="last_name"
+            value={formData.last_name}
+            onChange={(e) => handleChange(e, "last_name")}
+          />
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="other_names">Other Names: </Label>
+          <Input
+            type="text"
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            id="other_names"
+            name="other_names"
+            value={formData.other_names}
+            onChange={(e) => handleChange(e, "other_names")}
+          />
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="phone_number">Phone Number: </Label>
+          <Input
+            type="text"
+            prefix={<Phone size={15} />}
+            id="phone_number"
+            name="phone_number"
+            value={formData.phone_number}
+            onChange={(e) => handleChange(e, "phone_number")}
+          />
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="dob">Date of Birth: </Label>
+          <Input
+            type="date"
+            prefix={<Calendar size={15} />}
+            id="dob"
+            name="dob"
+            value={formData.dob}
+            onChange={(e) => handleDOBChange(e.target.value, "dob")}
+            max={moment().format("YYYY-MM-DD")}
+          />
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="nationality">Nationality: </Label>
+          <Select
+            showSearch
+            name="nationality"
+            id="nationality"
+            value={formData.nationality}
+            onChange={(e) => handleNationalityChange(e, "nationality")}
+          >
+            {nationalityOptions.map((option, index) => (
+              <Option key={index} value={option}>
+                {option}
+              </Option>
+            ))}
+          </Select>
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="sex">Sex: </Label>
+          <br />
+          <Select
+            id="sex"
+            name="sex"
+            value={formData.sex}
+            onChange={(e) => handleSexChange(e, "sex")}
+          >
+            <Option value="Male">Male</Option>
+            <Option value="Female">Female</Option>
+          </Select>
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="city">City: </Label>
+          <Input
+            type="text"
+            prefix={<MapPin size={15} />}
+            id="city"
+            name="city"
+            value={formData.address.city}
+            onChange={(e) => handleChange(e, "city")}
+          />
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="post_code">Post Code: </Label>
+          <Input
+            type="text"
+            prefix={<MapPin size={15} />}
+            id="post_code"
+            name="post_code"
+            value={formData.address.post_code}
+            onChange={(e) => handleChange(e, "post_code")}
+          />
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="country">Country: </Label>
+          <Input
+            type="text"
+            prefix={<MapPin size={15} />}
+            id="country"
+            name="country"
+            value={formData.address.country}
+            onChange={(e) => handleChange(e, "country")}
+          />
+        </div>
+        <div style={{ marginTop: "25px" }}>
+          <Button className="yellowButton" type="submit" onClick={handleSubmit}>
+            Update Profile
+          </Button>
+        </div>
+      </form>
+
+
+      <div>
+        <input
+          type="password"
+          value={oldPassword}
+          onChange={(e) => setOldPassword(e.target.value)}
+          placeholder="Old Password"
         />
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="first_name">First Name: </Label>
-        <Input
-          type="text"
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          id="first_name"
-          name="first_name"
-          value={formData.first_name}
-          onChange={(e) => handleChange(e, "first_name")}
+        <input
+          type="password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          placeholder="New Password"
         />
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="last_name">Last Name: </Label>
-        <Input
-          type="text"
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          id="last_name"
-          name="last_name"
-          value={formData.last_name}
-          onChange={(e) => handleChange(e, "last_name")}
+        <input
+          type="password"
+          value={confirmNewPassword}
+          onChange={(e) => setConfirmNewPassword(e.target.value)}
+          placeholder="Confirm New Password"
         />
+        <button onClick={handlePasswordChange}>Change Password</button>
       </div>
-      <div className="mb-3">
-        <Label htmlFor="other_names">Other Names: </Label>
-        <Input
-          type="text"
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          id="other_names"
-          name="other_names"
-          value={formData.other_names}
-          onChange={(e) => handleChange(e, "other_names")}
-        />
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="phone_number">Phone Number: </Label>
-        <Input
-          type="text"
-          prefix={<Phone size={15} />}
-          id="phone_number"
-          name="phone_number"
-          value={formData.phone_number}
-          onChange={(e) => handleChange(e, "phone_number")}
-        />
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="dob">Date of Birth: </Label>
-        <Input
-          type="date"
-          prefix={<Calendar size={15} />}
-          id="dob"
-          name="dob"
-          value={formData.dob}
-          onChange={(e) => handleDOBChange(e.target.value, "dob")}
-          max={moment().format("YYYY-MM-DD")}
-        />
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="nationality">Nationality: </Label>
-        <Select
-          showSearch
-          name="nationality"
-          id="nationality"
-          value={formData.nationality}
-          onChange={(e) => handleNationalityChange(e, "nationality")}
-        >
-          {nationalityOptions.map((option, index) => (
-            <Option key={index} value={option}>
-              {option}
-            </Option>
-          ))}
-        </Select>
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="sex">Sex: </Label>
-        <br />
-        <Select
-          id="sex"
-          name="sex"
-          value={formData.sex}
-          onChange={(e) => handleSexChange(e, "sex")}
-        >
-          <Option value="Male">Male</Option>
-          <Option value="Female">Female</Option>
-        </Select>
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="city">City: </Label>
-        <Input
-          type="text"
-          prefix={<MapPin size={15} />}
-          id="city"
-          name="city"
-          value={formData.address.city}
-          onChange={(e) => handleChange(e, "city")}
-        />
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="post_code">Post Code: </Label>
-        <Input
-          type="text"
-          prefix={<MapPin size={15} />}
-          id="post_code"
-          name="post_code"
-          value={formData.address.post_code}
-          onChange={(e) => handleChange(e, "post_code")}
-        />
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="country">Country: </Label>
-        <Input
-          type="text"
-          prefix={<MapPin size={15} />}
-          id="country"
-          name="country"
-          value={formData.address.country}
-          onChange={(e) => handleChange(e, "country")}
-        />
-      </div>
-      <div style={{ marginTop: "25px" }}>
-        <Button className="yellowButton" type="submit" onClick={handleSubmit}>
-          Update Profile
-        </Button>
-      </div>
-    </form>
+      {/* 
+      <form onSubmit={handleSubmitPasswordChange} className="container mt-5">
+        <h2>Change Password</h2>
+        <div className="mb-3">
+          <Label htmlFor="old_password">Old Password: </Label>
+          <Input
+            type="password"
+            id="old_password"
+            name="oldPassword"
+            value={passwordFormData.oldPassword}
+            onChange={handlePasswordChange}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="new_password">New Password: </Label>
+          <Input
+            type="password"
+            id="new_password"
+            name="newPassword"
+            value={passwordFormData.newPassword}
+            onChange={handlePasswordChange}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <Label htmlFor="confirm_new_password">Confirm New Password: </Label>
+          <Input
+            type="password"
+            id="confirm_new_password"
+            name="confirmNewPassword"
+            value={passwordFormData.confirmNewPassword}
+            onChange={handlePasswordChange}
+            required
+          />
+        </div>
+        <div style={{ marginTop: "25px" }}>
+          <Button className="yellowButton" type="submit">
+            Change Password
+          </Button>
+        </div> 
+      </form> */}
+    </div>
   );
 };
 

@@ -11,3 +11,4 @@ from .job_seeker_serializers import *
 from .employer_serializer import *
 from .saved_jobs_serializer import *
 from .invited_employer_serializer import *
+from .change_password_serializer import *

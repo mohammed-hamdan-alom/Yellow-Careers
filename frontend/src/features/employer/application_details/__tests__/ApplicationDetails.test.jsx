@@ -90,15 +90,6 @@ describe("ApplicationDetails component", () => {
     );
   });
 
-  const markAsRead = () => {
-    fireEvent.click(screen.getByText(/Mark Application as Read/i));
-  };
-
-  const handleDecisionChange = (decision) => {
-    fireEvent.change(screen.getByLabelText(/Decision/i), {
-      target: { value: decision },
-    });
-  };
 
   test("fetches application details on mount", async () => {
     await waitFor(() => {
