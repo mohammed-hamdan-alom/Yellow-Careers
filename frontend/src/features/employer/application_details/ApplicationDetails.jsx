@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { useParams } from "react-router-dom";
-import DisplayResume from "./DisplayResume";
-import DisplaySoftSkills from "./DisplaySoftSkills";
-import DisplayTechnicalSkills from "./DisplayTechnicalSkills";
-import DisplayLanguages from "./DisplayLanguages";
-import DisplayEducation from "./DisplayEducation";
-import DisplayProfessionalExperience from "./DisplayProfessionalExperience";
+import { Label } from '@/components/ui/label';
+import DisplayResume from "@/components/resume/DisplayResume";
+import QuestionsAndAnswers from "@/components/questions_and_answers/QuestionsAndAnswers";
 
 const ApplicationDetails = () => {
   const [application, setApplication] = useState({});
@@ -42,6 +39,9 @@ const ApplicationDetails = () => {
         setAnswers(answersResponse.data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
+        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+          window.location.href = "/employer/dashboard";
+      }
       }
     };
 
@@ -103,27 +103,14 @@ const ApplicationDetails = () => {
 
       <h2>Resume:</h2>
       <DisplayResume resumeId={resume.id} />
-      <DisplaySoftSkills resumeId={resume.id} />
-      <DisplayTechnicalSkills resumeId={resume.id} />
-      <DisplayLanguages resumeId={resume.id} />
-      <DisplayEducation resumeId={resume.id} />
-      <DisplayProfessionalExperience resumeId={resume.id} />
 
       {questions.length > 0 ? (
-        <div>
-          <h3>Questions and Answers:</h3>
-          {questions.map((question, index) => (
-            <div key={index}>
-              <p>Question: {question.question}</p>
-              <p>
-                Answer:{" "}
-                {answers.find((answer) => answer.question === question.id)?.answer}
-              </p>
-            </div>
-          ))}
-        </div>
+          <div>
+              <Label className="text-xl font-semibold">Questions and Answers:</Label>
+              <QuestionsAndAnswers questions={questions} answers={answers} />
+          </div>
       ) : (
-        <h3>No questions</h3>
+          <Label className="text-xl font-semibold">No Questions</Label>
       )}
 
       <h3>Decision:</h3>

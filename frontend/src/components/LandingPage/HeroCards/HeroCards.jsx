@@ -45,9 +45,9 @@ export const HeroCards = () => {
             alt="user avatar"
             className="absolute grayscale-[0%] -top-12 rounded-full w-24 h-24 aspect-square object-cover"
           />
-          <CardTitle className="text-center">Shahzaib Malik Khan</CardTitle>
+          <CardTitle className="text-center">Malik Shahzaib Khan</CardTitle>
           <CardDescription className="font-normal text-primary">
-            Full stack Developer
+            Full Stack Developer
           </CardDescription>
         </CardHeader>
 

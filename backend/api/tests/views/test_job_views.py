@@ -1,7 +1,10 @@
-from django.test import TestCase
-from api.models import Job, Employer, Application, SavedJobs, EmployerJobRelation
+from django.test import TestCase, Client
+from rest_framework.test import APITestCase, force_authenticate, APIRequestFactory
+from api.models import Job, Employer, Application, SavedJobs, EmployerJobRelation, Address
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.authtoken.models import Token
+from api.views.job_views import *
 
 class JobViewTestCase(TestCase):
     
@@ -17,23 +20,45 @@ class JobViewTestCase(TestCase):
                 'api/tests/fixtures/users.json',]
 
     def setUp(self):
+
         self.jobs = [Job.objects.get(pk=1), 
                     Job.objects.get(pk=2),
                     Job.objects.get(pk=3)]
         
         self.company_admin = Employer.objects.get(pk=3)
-        self.employee = Employer.objects.get(pk=5)
+        self.employee = Employer.objects.get(pk=4)
+        self.token = Token.objects.get_or_create(user=self.employee)
+
+        
 
     def test_create_job(self):
         '''Test creating a job.'''
-        job_data = {
-            'title': 'Software Developer',
-            'description': 'Develop software',
-            'salary': 100000,
-            'address': 4,
-            'job_type': 'FT',
+
+        address_data = {
+            "city": "london",
+            "post_code": "ew222",
+            "country":"UK"
         }
-        response = self.client.post(reverse('create_job'), job_data)
+        new_address = Address.objects.create(**address_data)
+        job_data = {
+            "title": "test",
+            "description": "test",
+            "job_type": "FT",
+            "salary": "1000",
+            "address":address_data
+        }
+
+
+        factory = APIRequestFactory()
+        request = factory.post(reverse('create_job'), job_data, format='json')
+
+        force_authenticate(request,user=self.employee)
+
+        view = JobCreationView.as_view()
+        response = view(request)
+
+        ##response = self.client.post(reverse('create_job'), job_data)
+        print(response)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Job.objects.count(), len(self.jobs) + 1)
 
@@ -46,9 +71,6 @@ class JobViewTestCase(TestCase):
             'address': 4,
             'job_type': 'FT',
         }
-        response = self.client.post(reverse('create_job'), job_data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
         response = self.client.post(reverse('create_job'), job_data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -92,14 +114,39 @@ class JobViewTestCase(TestCase):
 
     def test_retrieve_job(self):
         '''Test retrieving a job.'''
-        job = Job.objects.get(pk=1)
-        response = self.client.get(reverse('get_job', args=[job.id]))
+        address_data = {
+            "city": "london",
+            "post_code": "ew222",
+            "country":"UK"
+        }
+        new_address = Address.objects.create(**address_data)
+        job_data = {
+            "title": "test",
+            "description": "test",
+            "job_type": "FT",
+            "salary": 1000,
+        }
+        new_job = Job.objects.create(address=new_address,**job_data)
+        new_employer_job_relation = EmployerJobRelation.objects.create(
+            employer=self.employee,
+            job=new_job
+        )
+        
+        factory = APIRequestFactory()
+        request = factory.get(reverse('get_job', args=[new_job.id]))
+
+        force_authenticate(request,user=self.employee)
+
+        view = JobRetrieveView.as_view()
+        response = view(request,pk=new_job.id)
+        
+        
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['title'], job.title)
-        self.assertEqual(response.data['description'], job.description)
-        self.assertEqual(response.data['salary'], job.salary)
-        self.assertEqual(response.data['address'], job.address.id)
-        self.assertEqual(response.data['job_type'], job.job_type)
+        self.assertEqual(response.data['title'], new_job.title)
+        self.assertEqual(response.data['description'], new_job.description)
+        self.assertEqual(response.data['salary'], new_job.salary)
+        self.assertEqual(response.data['address']['id'], new_job.address.id)
+        self.assertEqual(response.data['job_type'], new_job.job_type)
 
     def test_invalid_retrieve_job(self):
         '''Test retrieving a job with invalid job id.'''

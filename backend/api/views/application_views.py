@@ -1,7 +1,8 @@
 from rest_framework import generics
-from api.models import Application
+from api.models import Application, EmployerJobRelation,Employer
 from api.serializers.application_serializer import ApplicationSerializer
 from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import PermissionDenied
 
 class BaseApplicationView:
     queryset = Application.objects.all()
@@ -11,7 +12,29 @@ class ApplicationListView(BaseApplicationView, generics.ListAPIView):
     pass
 
 class ApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPIView):
-    pass
+    def get_object(self):
+        user = self.request.user
+        obj = super().get_object()
+        
+        if hasattr(user, 'jobseeker'):
+            if not obj.job_seeker.id == user.id:
+                raise PermissionDenied("You do not have permission to view this application.")
+        else:
+            try:
+                job_id = obj.job.id
+                employer = Employer.objects.get(user_ptr_id = user.id)
+                employer_ids = EmployerJobRelation.objects.filter(job_id=job_id).values_list('employer', flat=True)
+                job_company = Employer.objects.get(id=employer_ids[0]).company
+            except:
+                raise PermissionDenied("You do not have permission to view this application.")
+
+            if not employer.company == job_company:
+                raise PermissionDenied("You do not have permission to view this application.")
+            if not employer.is_company_admin:
+                if not user.id in employer_ids:
+                    raise PermissionDenied("You do not have permission to view this application.")
+        print(obj.resume.github)
+        return obj
 
 class JobSeekerApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPIView):
         
@@ -25,3 +48,9 @@ class ApplicationCreateView(BaseApplicationView, generics.CreateAPIView):
 
 class ApplicationUpdateView(BaseApplicationView, generics.RetrieveUpdateDestroyAPIView):
     pass
+
+class ApplicationsFromJobListView(BaseApplicationView, generics.ListAPIView):
+    '''Return applications with the same job'''
+    def get_queryset(self):
+        job_id = self.kwargs.get('job_id')
+        return Application.objects.filter(job_id = job_id)

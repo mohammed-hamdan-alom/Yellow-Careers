@@ -1,4 +1,4 @@
-import React, { useState, useContext }from 'react'
+import React, { useState, useContext } from 'react'
 import AuthContext from '@/context/AuthContext';
 import {
   Card,
@@ -12,9 +12,10 @@ import { Label } from '@/components/ui/label';
 import { Select } from 'antd';
 import { DatePicker } from 'antd';
 import { Button } from '@/components/ui/button';
+import { nationalityOptions } from '@/components/Nationalities/nationalityOptions';
 
 const JobSeekerRegister = () => {
-  
+
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -28,211 +29,16 @@ const JobSeekerRegister = () => {
     sex: '',
   });
 
-  const nationalityOptions = [
-    'Afghan',
-    'Albanian',
-    'Algerian',
-    'American',
-    'Andorran',
-    'Angolan',
-    'Antiguans',
-    'Argentinean',
-    'Armenian',
-    'Australian',
-    'Austrian',
-    'Azerbaijani',
-    'Bahamian',
-    'Bahraini',
-    'Bangladeshi',
-    'Barbadian',
-    'Barbudans',
-    'Batswana',
-    'Belarusian',
-    'Belgian',
-    'Belizean',
-    'Beninese',
-    'Bhutanese',
-    'Bolivian',
-    'Bosnian',
-    'Brazilian',
-    'British',
-    'Bruneian',
-    'Bulgarian',
-    'Burkinabe',
-    'Burmese',
-    'Burundian',
-    'Cambodian',
-    'Cameroonian',
-    'Canadian',
-    'Cape Verdean',
-    'Central African',
-    'Chadian',
-    'Chilean',
-    'Chinese',
-    'Colombian',
-    'Comoran',
-    'Congolese',
-    'Costa Rican',
-    'Croatian',
-    'Cuban',
-    'Cypriot',
-    'Czech',
-    'Danish',
-    'Djibouti',
-    'Dominican',
-    'Dutch',
-    'East Timorese',
-    'Ecuadorean',
-    'Egyptian',
-    'Emirian',
-    'Equatorial Guinean',
-    'Eritrean',
-    'Estonian',
-    'Ethiopian',
-    'Fijian',
-    'Filipino',
-    'Finnish',
-    'French',
-    'Gabonese',
-    'Gambian',
-    'Georgian',
-    'German',
-    'Ghanaian',
-    'Greek',
-    'Grenadian',
-    'Guatemalan',
-    'Guinea-Bissauan',
-    'Guinean',
-    'Guyanese',
-    'Haitian',
-    'Herzegovinian',
-    'Honduran',
-    'Hungarian',
-    'Icelander',
-    'Indian',
-    'Indonesian',
-    'Iranian',
-    'Iraqi',
-    'Irish',
-    'Italian',
-    'Ivorian',
-    'Jamaican',
-    'Japanese',
-    'Jordanian',
-    'Kazakhstani',
-    'Kenyan',
-    'Kittian and Nevisian',
-    'Kuwaiti',
-    'Kyrgyz',
-    'Laotian',
-    'Latvian',
-    'Lebanese',
-    'Liberian',
-    'Libyan',
-    'Liechtensteiner',
-    'Lithuanian',
-    'Luxembourger',
-    'Macedonian',
-    'Malagasy',
-    'Malawian',
-    'Malaysian',
-    'Maldivan',
-    'Malian',
-    'Maltese',
-    'Marshallese',
-    'Mauritanian',
-    'Mauritian',
-    'Mexican',
-    'Micronesian',
-    'Moldovan',
-    'Monacan',
-    'Mongolian',
-    'Moroccan',
-    'Mosotho',
-    'Motswana',
-    'Mozambican',
-    'Namibian',
-    'Nauruan',
-    'Nepalese',
-    'New Zealander',
-    'Ni-Vanuatu',
-    'Nicaraguan',
-    'Nigerien',
-    'North Korean',
-    'Northern Irish',
-    'Norwegian',
-    'Omani',
-    'Pakistani',
-    'Palauan',
-    'Palestinian',
-    'Panamanian',
-    'Papua New Guinean',
-    'Paraguayan',
-    'Peruvian',
-    'Polish',
-    'Portuguese',
-    'Qatari',
-    'Romanian',
-    'Russian',
-    'Rwandan',
-    'Saint Lucian',
-    'Salvadoran',
-    'Samoan',
-    'San Marinese',
-    'Sao Tomean',
-    'Saudi',
-    'Scottish',
-    'Senegalese',
-    'Serbian',
-    'Seychellois',
-    'Sierra Leonean',
-    'Singaporean',
-    'Slovakian',
-    'Slovenian',
-    'Solomon Islander',
-    'Somali',
-    'South African',
-    'South Korean',
-    'Spanish',
-    'Sri Lankan',
-    'Sudanese',
-    'Surinamer',
-    'Swazi',
-    'Swedish',
-    'Swiss',
-    'Syrian',
-    'Taiwanese',
-    'Tajik',
-    'Tanzanian',
-    'Thai',
-    'Togolese',
-    'Tongan',
-    'Trinidadian or Tobagonian',
-    'Tunisian',
-    'Turkish',
-    'Tuvaluan',
-    'Ugandan',
-    'Ukrainian',
-    'Uruguayan',
-    'Uzbekistani',
-    'Venezuelan',
-    'Vietnamese',
-    'Welsh',
-    'Yemenite',
-    'Zambian',
-    'Zimbabwean',
-  ];
-
   const nationalityOptionsWithLabel = () => {
     let options = []
     nationalityOptions.forEach(option => {
-      options.push({label: option, value: option.toLowerCase()})
+      options.push({ label: option, value: option.toLowerCase() })
     })
     return options
   }
- 
 
-  const {registerJobSeeker} = useContext(AuthContext)
+
+  const { registerJobSeeker } = useContext(AuthContext)
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -263,7 +69,7 @@ const JobSeekerRegister = () => {
   }
 
   const filterOption = (input, option) =>
-  (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+    (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
   return (
     <>
@@ -292,7 +98,7 @@ const JobSeekerRegister = () => {
               <div className='flex space-x-4 mt-4'>
                 <div className='w-1/2'>
                   <Label htmlFor='firstName'>First Name</Label>
-                  <Input type='text' id='firstName' name='firstName' onChange={handleChange}/>
+                  <Input type='text' id='firstName' name='firstName' onChange={handleChange} />
                 </div>
                 <div className='w-1/2'>
                   <Label htmlFor='lastName'>Last Name</Label>
@@ -308,7 +114,7 @@ const JobSeekerRegister = () => {
                 <div className='mt-2'>
                   <DatePicker className='w-full' onChange={handleDateChange} />
                 </div>
-              </div>        
+              </div>
               <div className='mt-4'>
                 <Label htmlFor='phoneNumber'>Phone Number</Label>
                 <Input type='text' id='phoneNumber' name='phoneNumber' onChange={handleChange} />
@@ -316,20 +122,20 @@ const JobSeekerRegister = () => {
               <div className='mt-4'>
                 <Label htmlFor='nationality'>Nationality</Label>
                 <div className='mt-2'>
-                <Select
-                  showSearch
-                  className='w-full bg-background'
-                  placeholder="Select a Nationality"
-                  optionFilterProp="children"
-                  onChange={handleNationalityChange}
-                  filterOption={filterOption}
-                  options={nationalityOptionsWithLabel()}
-                />
+                  <Select
+                    showSearch
+                    className='w-full bg-background'
+                    placeholder="Select a Nationality"
+                    optionFilterProp="children"
+                    onChange={handleNationalityChange}
+                    filterOption={filterOption}
+                    options={nationalityOptionsWithLabel()}
+                  />
                 </div>
               </div>
               <div className='mt-4'>
                 <Label htmlFor='sex'>Gender</Label>
-                <RadioGroup onChange={e => {setUser({...user, sex: e.target.value})}}>
+                <RadioGroup onChange={e => { setUser({ ...user, sex: e.target.value }) }}>
                   <div className="flex space-x-4 mt-2">
                     <div className="flex flex-row space-x-2">
                       <RadioGroupItem value="M" id="male" name="sex" />

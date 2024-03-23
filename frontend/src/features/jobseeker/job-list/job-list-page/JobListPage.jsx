@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobSearchBar from "../../../../components/search/JobSearchBar";
+import JobFilter from "@/components/search/JobFilter";
 import { Label } from "@/components/ui/label";
 
 const JobListPage = () => {
@@ -10,29 +10,33 @@ const JobListPage = () => {
 
   const [jobs, setJobs] = useState(undefined);
   const [resume, setResume] = useState({});
-  const [jobRetrieved, setJobRetrieved] = useState(false);
+  const [isJobRetrieved, setIsJobRetrieved] = useState(false);
 
   useEffect(() => {
-    AxiosInstance.get(`api/job-seeker/${userId}/resume/`).then((response) => {
-      setResume(response.data);
-      if (response.data.id !== undefined) {
-        AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`)
-          .then((res) => {
-            setJobs(res.data);
-            setJobRetrieved(true);
-          })
-          .catch((error) => console.error("Error fetching data:", error));
+    const fetchResumeAndJobs = async () => {
+      try {
+        const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
+        setResume(response.data);
+        if (response.data.id !== undefined) {
+          const res = await AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`);
+          setJobs(res.data);
+          setIsJobRetrieved(true);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    });
-  }, [jobRetrieved]);
+    };
+
+    fetchResumeAndJobs();
+  }, [isJobRetrieved]);
 
   return (
     <div className="flex flex-col justify-center">
       <Label className="text-3xl">Job List</Label>
       {resume.id && jobs ? (
-        <JobSearchBar database={jobs} />
+        <JobFilter data={jobs} />
       ) : (
-        <h1>Create a resume first</h1>
+        <h1>Error loading the jobs, please create a resume. If you have already done so, reload the page</h1>
       )}
     </div>
   );

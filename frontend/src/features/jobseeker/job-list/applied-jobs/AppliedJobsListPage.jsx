@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobSearchBar from "../../../../components/search/JobSearchBar";
+import JobFilter from "@/components/search/JobFilter";
 
 function AppliedJobListPage() {
   //
@@ -11,16 +11,22 @@ function AppliedJobListPage() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`).then((res) =>
-      setJobs(res.data)
-    );
+    const fetchAppliedJobs = async () => {
+      try {
+        const res = await AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`);
+        setJobs(res.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchAppliedJobs();
   }, [userId]);
 
   return (
-    <div>
-      <h1>Applied jobs</h1>
+    <div className=" flex flex-col justify-center">
       {jobs.length > 0 ? (
-        <JobSearchBar database={jobs} />
+        <JobFilter data={jobs} />
       ) : (
         <h1>No applied jobs</h1>
       )}

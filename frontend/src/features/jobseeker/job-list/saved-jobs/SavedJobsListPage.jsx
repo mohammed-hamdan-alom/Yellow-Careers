@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobSearchBar from "../../../../components/search/JobSearchBar";
+import { Label } from "@/components/ui/label";
+import JobFilter from "@/components/search/JobFilter";
 
 function SavedJobListPage() {
   // get the user id from the context
@@ -12,19 +13,25 @@ function SavedJobListPage() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`).then((res) =>
-      setJobs(res.data)
-    );
+    const fetchJobs = async () => {
+      try {
+        const res = await AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`);
+        setJobs(res.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchJobs();
   }, [userId]);
 
   // display the saved jobs
   return (
-    <div>
-      <h1>Saved Jobs:</h1>
+    <div className="flex flex-col justify-center">
       {jobs.length > 0 ? (
-        <JobSearchBar database={jobs} />
+        <JobFilter data={jobs} />
       ) : (
-        <h1>No saved jobs</h1>
+        <Label className="text-lg text-gray-500 font-semibold mt-4">No Saved jobs</Label>
       )}
     </div>
   );

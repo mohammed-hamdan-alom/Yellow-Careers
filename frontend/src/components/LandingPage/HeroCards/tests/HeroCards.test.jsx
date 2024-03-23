@@ -44,10 +44,10 @@ describe('HeroCards component', () => {
     const avatarImage = screen.getByAltText('user avatar');
     expect(avatarImage).toHaveAttribute('src', '/src/components/LandingPage/assets/shazaib.png');
 
-    const teamMemberName = screen.getByText('Shahzaib Malik Khan');
+    const teamMemberName = screen.getByText('Malik Shahzaib Khan');
     expect(teamMemberName).toBeInTheDocument();
 
-    const teamMemberRole = screen.getByText('Full stack Developer');
+    const teamMemberRole = screen.getByText('Full Stack Developer');
     expect(teamMemberRole).toBeInTheDocument();
 
     const teamMemberDescription = screen.getByText(/I really enjoy transforming ideas into functional software that exceeds expectations/i);

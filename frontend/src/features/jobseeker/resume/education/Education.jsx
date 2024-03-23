@@ -16,31 +16,33 @@ function Education({ resumeId }) {
   const [openPopupId, setOpenPopupId] = useState(null);
 
   useEffect(() => {
-    if (!resumeId) {
-      return;
-    }
-    AxiosInstance.get(`api/resumes/${resumeId}/educations/`)
-      .then((response) => {
+    const fetchEducations = async () => {
+      if (!resumeId) {
+        return;
+      }
+      try {
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
         setEducations(response.data);
-      })
-      .catch((error) => console.error("Error:", error));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchEducations();
   }, [resumeId]);
 
   //Delete education
-  const handleDeleteEducation = (educationObj) => {
-    AxiosInstance.delete(
-      `http://localhost:8000/api/resumes/${resumeId}/educations/update/${educationObj.id}`
-    )
-      .then((response) => {
-        showSuccess("Education Deleted");
-        setEducations((prevEducations) =>
-          prevEducations.filter((item) => item !== educationObj)
-        );
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showError("Deleting Education Failed");
-      });
+  const handleDeleteEducation = async (educationObj) => {
+    try {
+      await AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/educations/update/${educationObj.id}`);
+      showSuccess("Education Deleted");
+      setEducations((prevEducations) =>
+        prevEducations.filter((item) => item !== educationObj)
+      );
+    } catch (error) {
+      console.error("Error:", error);
+      showError("Deleting Education Failed");
+    }
   };
 
   return (
@@ -65,7 +67,7 @@ function Education({ resumeId }) {
                   setOpenPopupId(education.id);
                 }}
               >
-                <SquarePen className="w-5 h-5"/>
+                <SquarePen className="w-5 h-5" />
               </Button>
               <Popup trigger={editPopup} setTrigger={setEditPopup}>
                 <EditEducationPage
@@ -82,7 +84,7 @@ function Education({ resumeId }) {
                   handleDeleteEducation(education);
                 }}
               >
-                <MinusCircle className="w-5 h-5"/>
+                <MinusCircle className="w-5 h-5" />
               </Button>
             </div>
           </div>
@@ -94,7 +96,7 @@ function Education({ resumeId }) {
           variant="outline"
           onClick={() => setCreatePopup(true)}
         >
-          Add Education 
+          Add Education
         </Button>
         <Popup trigger={createPopup} setTrigger={setCreatePopup}>
           <EditEducationPage

@@ -5,10 +5,19 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import AuthContext from "@/context/AuthContext";
 import logo from "./assets/yellow-careers-logo.png";
+import styled from "styled-components";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
+// Styled NavLink component
+const StyledNavLink = styled(NavLink)`
+  &.active {
+    font-weight: bold;
+    color: #FFD700; /* Yellow color */
+  }
+`;
 
 const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
   const authContext = useContext(AuthContext);
@@ -18,6 +27,8 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
   if (!logoutUser) {
     console.log("logoutUser is not defined");
   }
+
+  const activeNavItem = navigation.find(item => location.pathname.includes(item.to)) || {};
 
   return (
     <>
@@ -43,35 +54,19 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <NavLink
+                          <StyledNavLink
                             key={item.name}
                             to={`${baseUrl}${item.to}`}
-                            className={({ isActive }) =>
-                              classNames(
-                                isActive
-                                  ? "text-black"
-                                  : "text-gray-500 hover:text-black",
-                                "rounded-md px-3 py-2 text-sm font-medium"
-                              )
-                            }
+                            className="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-black"
                           >
                             {item.name}
-                          </NavLink>
+                          </StyledNavLink>
                         ))}
                       </div>
                     </div>
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
-                      <button
-                        type="button"
-                        className="relative rounded-full bg-white p-1 text-gray-500 hover:text-black "
-                      >
-                        <span className="absolute -inset-1.5" />
-                        <span className="sr-only">View notifications</span>
-                        <BellIcon className="h-6 w-6" aria-hidden="true" />
-                      </button>
-
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
@@ -177,14 +172,6 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                         {user.email}
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                    >
-                      <span className="absolute -inset-1.5" />
-                      <span className="sr-only">View notifications</span>
-                      <BellIcon className="h-6 w-6" aria-hidden="true" />
-                    </button>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (
@@ -207,7 +194,7 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
         <header className="sticky border-b-[1px] w-full bg-white dark:border-b-slate-700 dark:bg-background">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Dashboard
+              {activeNavItem.name}
             </h1>
           </div>
         </header>

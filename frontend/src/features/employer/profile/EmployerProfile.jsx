@@ -2,6 +2,12 @@ import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import swal from "sweetalert2";
+import { Label } from "@/components/ui/label";
+import { Input, Tooltip,Select, Button } from "antd";
+import { Mail, Phone, Calendar,Globe, User, Earth, MapPin   } from 'lucide-react';
+import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
+import '@/components/styling/button.css';
+
 
 const EmployerProfile = () => {
   const { user } = useContext(AuthContext);
@@ -98,59 +104,31 @@ const EmployerProfile = () => {
   return (
     <form onSubmit={handleSubmit} className="container mt-5">
       <div className="mb-3">
-        <label htmlFor="email">Email:   </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={user?.email}
-          disabled
-        />
+        <Label htmlFor="email" className="text-lg mr-2">
+          Email:
+        </Label>
+        <Input prefix={<Mail size={16} />} disabled  value={user?.email} />
       </div>
       <div className="mb-3">
-        <label htmlFor="first_name">First Name:   </label>
-        <input
-          type="text"
-          id="first_name"
-          name="first_name"
-          value={formData.first_name}
-          onChange={handleChange}
-        />
+        <Label htmlFor="first_name" >First Name: </Label>
+        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon" /> } id="first_name" name="first_name" value={formData.first_name} onChange={(e) => handleChange(e, 'first_name')} />
+      </div> 
+      <div className="mb-3">
+        <Label htmlFor="last_name">Last Name: </Label>
+        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon"  /> } id="last_name" name="last_name" value={formData.last_name} onChange={(e) => handleChange(e, 'last_name')} />
       </div>
       <div className="mb-3">
-        <label htmlFor="last_name">Last Name:   </label>
-        <input
-          type="text"
-          id="last_name"
-          name="last_name"
-          value={formData.last_name}
-          onChange={handleChange}
-        />
+        <Label htmlFor="other_names">Other Names: </Label>
+        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon" /> } id="other_names" name="other_names" value={formData.other_names} onChange={(e) => handleChange(e, 'other_names')} />
       </div>
       <div className="mb-3">
-        <label htmlFor="other_names">Other Names:   </label>
-        <input
-          type="text"
-          id="other_names"
-          name="other_names"
-          value={formData.other_names}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="phone_number">Phone Number:   </label>
-        <input
-          type="text"
-          id="phone_number"
-          name="phone_number"
-          value={formData.phone_number}
-          onChange={handleChange}
-        />
+        <Label htmlFor="phone_number">Phone Number: </Label>
+        <Input type="text" prefix = {<Phone size={15}/>} id="phone_number" name="phone_number" value={formData.phone_number} onChange={(e) => handleChange(e, 'phone_number')} />
       </div>
 
-      <button type="submit" className="btn btn-primary">
-        Update Profile
-      </button>
+      <div style={{ marginTop: '25px' }}>
+          <Button className="yellowButton" type="submit" onClick={handleSubmit} >Update Profile</Button>
+      </div>
     </form>
   );
 };
