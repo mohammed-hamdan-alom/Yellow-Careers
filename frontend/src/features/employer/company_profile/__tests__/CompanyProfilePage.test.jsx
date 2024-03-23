@@ -143,6 +143,8 @@ describe("CompanyProfilePage component", () => {
       );
     });
 
+    screen.debug()
+
     expect(screen.getByText("About:")).toBeInTheDocument();
     expect(screen.getByText("Website:")).toBeInTheDocument();
     expect(screen.getByText("Employers:")).toBeInTheDocument();
@@ -169,14 +171,20 @@ describe("CompanyProfilePage component", () => {
     const aboutInput = screen.getByLabelText("About:");
     expect(aboutInput).toHaveValue(mockCompanyResponse.data.about);
 
-    //Test employers show up
-    // await waitFor(() => {
-    //     expect(screen.getByText(/Employers/i)).toBeInTheDocument(); // Using a regex matcher to match case-insensitively
-    //     employersResponse.data.forEach((employer) => {
-    //       expect(screen.getByText(employer.first_name)).toBeInTheDocument();
-    //       expect(screen.getByText(`Email: ${employer.email}`)).toBeInTheDocument();
-    //     });
-    //  });
+    // Test employers show up
+    await waitFor(() => {
+      expect(screen.getByText(/Employers/i)).toBeInTheDocument(); 
+      mockEmployersResponse.data.forEach((employer) => {
+        expect(screen.getByText((content, element) => {
+          return element.tagName.toLowerCase() === 'label' && 
+                 element.textContent.includes(employer.first_name);
+        })).toBeInTheDocument(); 
+        expect(screen.getByText((content, element) => {
+          return element.tagName.toLowerCase() === 'label' && 
+                 element.textContent.includes(`Email: ${employer.email}`);
+        })).toBeInTheDocument();
+      });
+   });
   });
 
   test("Edit button shows as admin", async () => {
@@ -240,7 +248,20 @@ describe("CompanyProfilePage component", () => {
       expect(aboutLabel).toBeInTheDocument();
       expect(websiteLabel).toBeInTheDocument();
     });
-    //TODO: TEST EMPLOYERS ARE STILL THERE
+    //TEST EMPLOYERS ARE STILL THERE
+    await waitFor(() => {
+      expect(screen.getByText(/Employers/i)).toBeInTheDocument(); 
+      mockEmployersResponse.data.forEach((employer) => {
+        expect(screen.getByText((content, element) => {
+          return element.tagName.toLowerCase() === 'label' && 
+                 element.textContent.includes(employer.first_name);
+        })).toBeInTheDocument(); 
+        expect(screen.getByText((content, element) => {
+          return element.tagName.toLowerCase() === 'label' && 
+                 element.textContent.includes(`Email: ${employer.email}`);
+        })).toBeInTheDocument(); 
+      });
+   });
   });
 
   test("Update and cancel buttons work", async () => {
