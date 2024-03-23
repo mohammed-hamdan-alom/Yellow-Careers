@@ -37,6 +37,15 @@ const savedJobsData = [{
     "salary": 74726
 }]
 
+const addresses = [{
+    "id:": 501,
+    "country": "France",
+},
+{
+    "id": 502,
+    "country": "France",
+}]
+
 const navigate = vi.fn();
 
 vi.mock("@/components/ui/label", () => ({
@@ -60,6 +69,9 @@ vi.mock("@/utils/AxiosInstance", () => ({
             }
             else if (url == `api/job-seeker/2/saved-jobs/`) {
                 return Promise.resolve({ data: savedJobsData })
+            }
+            else if (url == `api/addresses/`) {
+                return Promise.resolve({ data: addresses }) //For Job Filter call
             }
             else {
                 return Promise.resolve({ data: { "company_name": "The Company" } }) //For job summary call
