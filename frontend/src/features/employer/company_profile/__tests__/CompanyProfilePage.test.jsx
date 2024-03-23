@@ -9,6 +9,7 @@ import CompanyProfilePage from "../CompanyProfilePage";
 import { MemoryRouter } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
 import React from "react";
+import { cp } from "fs";
 
 const mockAdminUser = {
   user: { user_id: 150, email: "denise50@example.net", user_type: "employer" },
@@ -91,15 +92,21 @@ vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
   default: {
     get: vi.fn((url) => {
-      if (url === "api/employers/115") {
-        return Promise.resolve(mockEmployerResponse);
-      } else if (url === "api/companies/25") {
-        return Promise.resolve(mockCompanyResponse);
-      } else if (url ==="api/companies/25"/employers ) {
-        return Promise.resolve(mockEmployersResponse);
-      } else if (url === "api/employers/150") {
+        console.log(url);
+      if (url === "api/employers/150") {
+        console.log("1");
         return Promise.resolve(mockAdminEmployerResponse);
+      } else if (url === "api/companies/25") {
+        console.log("2");
+        return Promise.resolve(mockCompanyResponse);
+      } else if (url ==="api/companies/25/employers" ) {
+        console.log("3");
+        return Promise.resolve(mockEmployersResponse);
+      } else if (url === "api/employers/115") {
+        console.log("4");
+        return Promise.resolve(mockEmployerResponse);
       } else {
+        console.log("5");
         return Promise.resolve({data: []});
       }
     }),
@@ -118,8 +125,6 @@ describe("CompanyProfilePage component", () => {
         </MemoryRouter>
       );
     });
-
-    screen.debug();
 
     expect(
       await screen.findByText(mockCompanyResponse.data.company_name)
@@ -172,40 +177,40 @@ describe("CompanyProfilePage component", () => {
     });
   });
 
-//   test("Edit button toggles edit mode", async () => {
-//     const employerResponse = mockAdminEmployerResponse;
+  test("Edit button toggles edit mode", async () => {
+    const employerResponse = mockAdminEmployerResponse;
     
-//     await act(async () => {
-//         render(
-//           <MemoryRouter>
-//             <AuthContext.Provider value={mockAdminUser}>
-//               <CompanyProfilePage />
-//             </AuthContext.Provider>
-//           </MemoryRouter>
-//         );
-//       });
+    await act(async () => {
+        render(
+          <MemoryRouter>
+            <AuthContext.Provider value={mockAdminUser}>
+              <CompanyProfilePage />
+            </AuthContext.Provider>
+          </MemoryRouter>
+        );
+      });
 
-//     await waitFor(() => {
-//       expect(screen.getByText("Edit")).toBeInTheDocument();
-//     });
+    await waitFor(() => {
+      expect(screen.getByText("Edit")).toBeInTheDocument();
+    });
 
-//     fireEvent.click(screen.getByText("Edit"));
+    fireEvent.click(screen.getByText("Edit"));
 
-//     await waitFor(() => {
-//       expect(screen.getByText("Update")).toBeInTheDocument();
-//       expect(screen.getByText("Cancel")).toBeInTheDocument();
-//     });
+    await waitFor(() => {
+      expect(screen.getByText("Update")).toBeInTheDocument();
+      expect(screen.getByText("Cancel")).toBeInTheDocument();
+    });
 
-//     //TEST IF THE TEXTAREAS ARE THERE
-//     // await waitFor(() => {
-//     //   const companyNameLabel = screen.getByLabelText("Company Name:");
-//     //   const aboutLabel = screen.getByLabelText("About: ");
-//     //   const websiteLabel = screen.getByLabelText("Website: ");
+    //TEST IF THE TEXTAREAS ARE THERE
+    // await waitFor(() => {
+    //   const companyNameLabel = screen.getByLabelText("Company Name:");
+    //   const aboutLabel = screen.getByLabelText("About: ");
+    //   const websiteLabel = screen.getByLabelText("Website: ");
 
-//     //   expect(companyNameLabel).toBeInTheDocument();
-//     //   expect(aboutLabel).toBeInTheDocument();
-//     //   expect(websiteLabel).toBeInTheDocument();
-//     // });
-//     //test employers still there
-//   });
+    //   expect(companyNameLabel).toBeInTheDocument();
+    //   expect(aboutLabel).toBeInTheDocument();
+    //   expect(websiteLabel).toBeInTheDocument();
+    // });
+    //test employers still there
+  });
 });
