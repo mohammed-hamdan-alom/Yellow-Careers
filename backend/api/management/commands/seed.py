@@ -218,6 +218,21 @@ class Command(BaseCommand):
             )
             employer.set_password(self.PASSWORD)
             employer.save()
+    
+    def seed_comapny_admins(self):
+        '''Guarantee that each company has an admin'''
+        for company in Company.objects.all():
+            employer = Employer.objects.create(
+                email=self.generate_unique_email(),
+                first_name=self.faker.first_name(),
+                last_name=self.faker.last_name(),
+                other_names='bean + cheese + begel',
+                phone_number=self.faker.phone_number(),
+                company=company,
+                is_company_admin=True,
+            )
+            employer.set_password(self.PASSWORD)
+            employer.save()
         
     def seed_jobs(self):
         '''Seeding the jobs'''
