@@ -5,7 +5,7 @@ import JobFilter from "../../../../components/search/JobFilter";
 import { Label } from "@/components/ui/label";
 
 const JobListPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, updateToken } = useContext(AuthContext);
   const userId = user.user_id;
 
   const [jobs, setJobs] = useState(undefined);
@@ -14,6 +14,7 @@ const JobListPage = () => {
 
   useEffect(() => {
     const fetchResumeAndJobs = async () => {
+      updateToken();
       try {
         const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
         setResume(response.data);

@@ -4,28 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Button } from '@/components/ui/button'
-import { ArrowRightIcon } from '@radix-ui/react-icons'
-
+import { Button } from "@/components/ui/button";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
 
 const JoinOrCreateCompany = () => {
-
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState();
 
-  const handleSubmit = () => { 
-    if (selectedOption === 'join-company') {
-      navigate('/auth/verify-invited-employer'); // Ahmads route
-    } else if (selectedOption === 'create-company') {
-      navigate('/auth/create-company');
+  const handleSubmit = () => {
+    if (selectedOption === "join-company") {
+      navigate("/auth/verify-invited-employer"); // Ahmads route
+    } else if (selectedOption === "create-company") {
+      navigate("/auth/create-company");
     }
-  }
+  };
 
   const handleOptionChange = (e) => {
     if (e.target.value) {
       setSelectedOption(e.target.value);
     }
-  }
+  };
 
   return (
     <div className="h-screen flex justify-center items-center">
@@ -52,7 +50,12 @@ const JoinOrCreateCompany = () => {
               <Label htmlFor="create-company">Create a Company</Label>
             </div>
           </RadioGroup>
-          <Button className='w-full mt-5' onClick={handleSubmit}>Go<div className='ml-1'><ArrowRightIcon/></div></Button>
+          <Button className="w-full mt-5" onClick={handleSubmit}>
+            Go
+            <div className="ml-1">
+              <ArrowRightIcon />
+            </div>
+          </Button>
         </CardContent>
       </Card>
     </div>

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
-import { showError, showSuccess } from "@/components/Alert/Alert"
+import { showError, showSuccess } from "@/components/Alert/Alert";
 
 const CreateCompany = () => {
   const [company, setCompany] = useState({
@@ -14,26 +14,30 @@ const CreateCompany = () => {
     website: "",
     about: "",
   });
-  const [adminEmail, setAdminEmail] = useState("")
+  const [adminEmail, setAdminEmail] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AxiosInstance.post("api/companies/create/", company)
-        if (response.status === 201) {
-          console.log(response);
-          showSuccess("Company Created");
-          navigate(`/auth/register-employer`, { state: { companyId: response.data.id, registerEmail: adminEmail } });
-        }
-    } catch (error) { 
-        console.log(error);
-        setErrors(error.response.data);
-        showError("Creating Company Failed");
-    };
+      const response = await AxiosInstance.post(
+        "api/companies/create/",
+        company
+      );
+      if (response.status === 201) {
+        console.log(response);
+        showSuccess("Company Created");
+        navigate(`/auth/register-employer`, {
+          state: { companyId: response.data.id, registerEmail: adminEmail, isAdmin: true },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      setErrors(error.response.data);
+      showError("Creating Company Failed");
     }
-  
+  };
 
   return (
     <div className="h-screen flex items-center justify-center">
@@ -63,7 +67,9 @@ const CreateCompany = () => {
                   id="website"
                   name="website"
                   value={company.website}
-                  onChange={(e) => setCompany({ ...company, website: e.target.value })}
+                  onChange={(e) =>
+                    setCompany({ ...company, website: e.target.value })
+                  }
                 />
               </div>
               <div>
@@ -73,20 +79,24 @@ const CreateCompany = () => {
                   id="about"
                   name="about"
                   value={company.about}
-                  onChange={(e) => setCompany({ ...company, about: e.target.value })}
+                  onChange={(e) =>
+                    setCompany({ ...company, about: e.target.value })
+                  }
                 />
-              <div>
-                <Label htmlFor='admin_email'>Admin Email</Label>
-                <Input
-                  type="email"
-                  id="admin_email"
-                  name="admin_email"
-                  value={adminEmail}
-                  onChange={(e) => setAdminEmail(e.target.value)}
-                />
+                <div>
+                  <Label htmlFor="admin_email">Admin Email</Label>
+                  <Input
+                    type="email"
+                    id="admin_email"
+                    name="admin_email"
+                    value={adminEmail}
+                    onChange={(e) => setAdminEmail(e.target.value)}
+                  />
+                </div>
               </div>
-              </div>
-              <Button type="submit" data-testid='submit-button'>Create</Button>
+              <Button type="submit" data-testid="submit-button">
+                Create
+              </Button>
             </div>
           </form>
         </CardContent>

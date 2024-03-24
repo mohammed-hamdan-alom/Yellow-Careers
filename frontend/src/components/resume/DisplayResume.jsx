@@ -17,7 +17,6 @@ function DisplayResume({ resumeId }) {
   };
 
   const [resume, setResume] = useState(defaultResumeState);
-  const [educations, setEducations] = useState([]);
 
   useEffect(() => {
     const fetchResume = async () => {
@@ -32,18 +31,6 @@ function DisplayResume({ resumeId }) {
       }
     };
 
-    const fetchEducations = async () => {
-      if (!resumeId) {
-        return;
-      }
-      try {
-        const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
-        setEducations(response.data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-    fetchEducations();
     fetchResume();
   }, [resumeId]);
 
@@ -88,15 +75,12 @@ function DisplayResume({ resumeId }) {
           </div>
         </div>
       </div>
-      <DisplayProfessionalExperience resumeId={resumeId} />
-      {educations.map((education) => (
-        <DisplayEducation key={education.id} education={education} />
-        ))}
-      <DisplayTechnicalSkills resumeId={resumeId} />
       <DisplaySoftSkills resumeId={resumeId} />
+      <DisplayTechnicalSkills resumeId={resumeId} />
       <DisplayLanguages resumeId={resumeId} />
+      <DisplayEducation resumeId={resumeId} />
+      <DisplayProfessionalExperience resumeId={resumeId} />
     </div>
   );
 }
-
 export default DisplayResume;

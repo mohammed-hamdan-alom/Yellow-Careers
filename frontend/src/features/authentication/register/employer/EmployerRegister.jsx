@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const EmployerRegister = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { companyId, registerEmail } = location.state || {};
+  const { companyId, registerEmail, isAdmin } = location.state || {};
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -24,16 +24,17 @@ const EmployerRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await AxiosInstance.delete(
-        `api/invited-employer/delete/?email=${registerEmail}`
-      );
-      if (response.status === 200) {
-        registerEmployer(registerEmail, password, password2, companyId);
+    if (!isAdmin) {
+      try {
+        const response = await AxiosInstance.delete(
+          `api/invited-employer/delete/?email=${registerEmail}`
+        );
+        if (response.status === 200) {
+          registerEmployer(registerEmail, password, password2, companyId);
+        }
+      } catch (error) {
+        console.error("Error registering employer:", error);
       }
-    } catch (error) {
-      console.error("Error registering employer:", error);
     }
   };
 
