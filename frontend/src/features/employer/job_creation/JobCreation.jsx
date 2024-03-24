@@ -8,7 +8,23 @@ import { Input, InputNumber } from "antd";
 import { Select } from "antd";
 import { Button } from "@/components/ui/button";
 const { TextArea } = Input;
-import {  } from '@/components/Alert/BigAlert';
+import Swal from 'sweetalert2';
+
+const showJobCreatedSuccess = () => {
+  Swal.fire(
+    'Job Created',
+    'Your job has been created successfully!',
+    'success'
+  );
+};
+
+const showJobCreatedError = () => {
+  Swal.fire(
+    'Error',
+    'There was an error creating the job.',
+    'error'
+  );
+};
 
 function JobCreationForm() {
   const { user } = useContext(AuthContext);
@@ -44,10 +60,10 @@ function JobCreationForm() {
         employer: userId,
         job: jobResponse.data.id,
       });
-      BigAlert('The job has been created successfully', '', 'success');
+      showJobCreatedSuccess();
       navigate(`/employer/create-questions/${jobResponse.data.id}`);
     } catch (error) {
-      //ERROR MESSAGE GOES HERE MUHAMMAD
+      showJobCreatedError();
       console.log(error);
     }
   };
