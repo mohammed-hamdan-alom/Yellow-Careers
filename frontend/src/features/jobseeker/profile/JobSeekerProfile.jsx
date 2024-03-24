@@ -10,7 +10,7 @@ const { Option } = Select;
 import { Mail, Phone, Calendar, MapPin } from "lucide-react";
 import "@/components/styling/button.css";
 import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
-import { handleErrorAndShowMessageAutomatically } from "@/components/error_handler/error_display";
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 
 const JobSeekerProfile = () => {
@@ -79,12 +79,7 @@ const JobSeekerProfile = () => {
             );
           }
         } catch (error) {
-          swal.fire(
-            "Error",
-            "An error occurred while fetching the profile.",
-            "error"
-          );
-          handleErrorAndShowMessageAutomatically(error);
+          handleErrorAndShowMessage("Error retrieving data:", error);
         }
       }
     };
@@ -127,8 +122,7 @@ const JobSeekerProfile = () => {
           );
         }
       } catch (error) {
-        swal.fire("Update Failed", error.message, "error");
-        handleErrorAndShowMessageAutomatically(error);
+        handleErrorAndShowMessage("Error updating profile:", error);
       }
     }
   };
@@ -157,7 +151,7 @@ const JobSeekerProfile = () => {
         });
       }
     } catch (error) {
-      handleErrorAndShowMessageAutomatically(error);
+      handleErrorAndShowMessage("Error changing password:", error);
     }
   };
 

@@ -8,8 +8,7 @@ import { Mail, Phone } from "lucide-react";
 import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
 import "@/components/styling/button.css";
 import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
-
-import { handleErrorAndShowMessageAutomatically } from "@/components/error_handler/error_display";
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 
 const EmployerProfile = () => {
@@ -62,14 +61,8 @@ const EmployerProfile = () => {
             );
           }
         } catch (error) {
-          console.log(error);
-          swal.fire(
-            "Error",
-            "An error occurred while fetching the employer profile.",
-            "error"
-          );
-          handleErrorAndShowMessageAutomatically(error);
-        }
+          handleErrorAndShowMessage("Error fetching employer profile:", error);
+      }
       }
     };
 
@@ -101,8 +94,7 @@ const EmployerProfile = () => {
           );
         } 
       } catch (error) {
-        swal.fire("Update Failed", error.message, "error");
-        handleErrorAndShowMessageAutomatically(error);
+        handleErrorAndShowMessage("Error updating profile:", error);
       }
     }
   };
@@ -131,7 +123,7 @@ const EmployerProfile = () => {
         });
       }
     } catch (error) {
-      handleErrorAndShowMessageAutomatically(error);
+      handleErrorAndShowMessage("Error updating password:", error);
     }
   };
 
