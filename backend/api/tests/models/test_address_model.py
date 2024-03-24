@@ -80,6 +80,10 @@ class AddressModelTestCase(TestCase):
         self.address.post_code = 'a a'
         self._assert_address_is_valid()
 
+    def test_to_string(self):
+        expected_string = "London L9K 1AA United Kingdom"
+        self.assertEqual(self.address.to_string(), expected_string)
+
 
     def _assert_address_is_valid(self):
         self.address.full_clean()

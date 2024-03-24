@@ -122,4 +122,3 @@ class ApplicationViewTestCase(TestCase):
         # Authenticate the user and obtain the authentication token
         client = APIClient()
         response = client.post(reverse('token_obtain_pair'), {'email': user_email, 'password': 'Password123'})
-        print(response.data)
