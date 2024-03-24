@@ -1,13 +1,11 @@
 from rest_framework import generics
 from api.serializers.job_seeker_serializers import JobSeekerSerializer
 from api.models import JobSeeker, Job, Application, EmployerJobRelation,Employer
-from api.serializers import JobSeekerSerializer, ChangePasswordSerializer
+from api.serializers import JobSeekerSerializer
 from api.matchmaker.matchmaker import *
 from rest_framework.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, status
-from rest_framework.response import Response
-from django.contrib.auth.hashers import check_password
+from rest_framework import generics
 
 
 class BaseJobSeekerView:
@@ -48,33 +46,3 @@ class JobSeekerFromApplicationRetrieveView(BaseJobSeekerView, generics.RetrieveA
         application_id = self.kwargs["application_id"]
         application = get_object_or_404(Application, id=application_id)
         return application.job_seeker
-
-
-# class JobSeekerChangePasswordView(generics.UpdateAPIView):
-#     serializer_class = ChangePasswordSerializer
-
-#     def get_object(self):
-#         return self.request.user
-
-#     def update(self, request, *args, **kwargs):
-#         instance = self.get_object()
-#         serializer = self.get_serializer(data=request.data)
-
-#         if serializer.is_valid():
-#             old_password = serializer.validated_data.get("old_password")
-#             new_password = serializer.validated_data.get("new_password")
-#             confirm_password = serializer.validated_data.get("confirm_password")
-
-
-#             if not check_password(old_password, instance.password):
-#                 return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
-            
-#             if new_password != confirm_password:
-#                 return Response({"error": "New password and confirm password do not match."}, status=status.HTTP_400_BAD_REQUEST)
-
-
-#             instance.set_password(new_password)
-#             instance.save()
-#             return Response({"message": "Password changed successfully."})
-
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

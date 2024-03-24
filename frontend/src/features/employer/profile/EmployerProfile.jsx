@@ -136,72 +136,13 @@ const EmployerProfile = () => {
   };
 
   return (
-    <div>
-      {/* // <form onSubmit={handleSubmit} className="container mt-5">
-      //   <div className="mb-3">
-      //     <Label htmlFor="email" className="text-lg mr-2">
-      //       Email:
-      //     </Label>
-      //     <Input prefix={<Mail size={16} />} disabled value={user?.email} />
-      //   </div>
-      //   <div className="mb-3">
-      //     <Label htmlFor="first_name">First Name: </Label>
-      //     <Input
-      //       type="text"
-      //       prefix={<UserOutlined className="site-form-item-icon" />}
-      //       id="first_name"
-      //       name="first_name"
-      //       value={formData.first_name}
-      //       onChange={(e) => handleChange(e, "first_name")}
-      //       maxLength={50}
-      //       required
-      //     />
-      //   </div>
-      //   <div className="mb-3">
-      //     <Label htmlFor="last_name">Last Name: </Label>
-      //     <Input
-      //       type="text"
-      //       prefix={<UserOutlined className="site-form-item-icon" />}
-      //       id="last_name"
-      //       name="last_name"
-      //       value={formData.last_name}
-      //       onChange={(e) => handleChange(e, "last_name")}
-      //       maxLength={50}
-      //       required
-      //     />
-      //   </div>
-      //   <div className="mb-3">
-      //     <Label htmlFor="other_names">Other Names: </Label>
-      //     <Input
-      //       type="text"
-      //       prefix={<UserOutlined className="site-form-item-icon" />}
-      //       id="other_names"
-      //       name="other_names"
-      //       value={formData.other_names}
-      //       onChange={(e) => handleChange(e, "other_names")}
-      //       maxLength={50}
-      //     />
-      //   </div>
-      //   <div className="mb-3">
-      //     <Label htmlFor="phone_number">Phone Number: </Label>
-      //     <Input
-      //       type="text"
-      //       prefix={<Phone size={15} />}
-      //       id="phone_number"
-      //       name="phone_number"
-      //       value={formData.phone_number}
-      //       onChange={(e) => handleChange(e, "phone_number")}
-      //     />
-      //   </div>
-      // </form> */}
-            
+    <div>   
       <ProfileDetails
         formData={formData}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         userType="employer"
       />
-
       <PasswordChangeSection
         oldPassword={oldPassword}
         setOldPassword={setOldPassword}

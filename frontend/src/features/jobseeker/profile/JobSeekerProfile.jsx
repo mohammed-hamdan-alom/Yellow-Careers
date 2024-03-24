@@ -110,29 +110,6 @@ const JobSeekerProfile = () => {
     }
   };
 
-  const handleSelectChange = (value, name) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-  
-  const isValidDOB = (dob) => {
-    const currentDate = new Date();
-    const selectedDate = new Date(dob);
-    return selectedDate <= currentDate;
-  };
-
-  const handleDOBChange = (value, name) => {
-    if (isValidDOB(value)) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
-    }
-  };
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (user?.user_id) {
@@ -192,7 +169,6 @@ const JobSeekerProfile = () => {
         handleSubmit={handleSubmit}
         userType="job-seeker"
       />
-
       <PasswordChangeSection
         oldPassword={oldPassword}
         setOldPassword={setOldPassword}
