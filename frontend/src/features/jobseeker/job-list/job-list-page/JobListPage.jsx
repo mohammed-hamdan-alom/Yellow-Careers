@@ -16,11 +16,15 @@ const JobListPage = () => {
     const fetchResumeAndJobs = async () => {
       try {
         const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
+        console.log(userId)
         setResume(response.data);
         if (response.data.id !== undefined) {
           const res = await AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`);
           setJobs(res.data);
           setIsJobRetrieved(true);
+        }
+        if (response.data.id !== undefined){
+          windows.location.reload()
         }
       } catch (error) {
         console.error("Error fetching data:", error);
