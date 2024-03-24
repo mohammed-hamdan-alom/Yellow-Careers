@@ -42,15 +42,12 @@ const data = {
     "saved_jobs": [],
 }
 
-
-
 const job_seeker1 = {
     "user": {
         "user_type": "job_seeker",
         "user_id": 1
     }
 }
-
 
 const data2 = {
     "job": {
