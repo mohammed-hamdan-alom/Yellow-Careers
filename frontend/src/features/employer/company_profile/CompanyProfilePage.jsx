@@ -188,7 +188,7 @@ function CompanyProfilePage() {
             </Label>
             {errors.website && <p>{errors.website}</p>}
           </div>
-          <Button type="submit" className="updateButton" onClick={handleSubmit}>
+          <Button type="submit" className="updateButton mr-2" onClick={handleSubmit}>
             Update
           </Button>
           <Button
