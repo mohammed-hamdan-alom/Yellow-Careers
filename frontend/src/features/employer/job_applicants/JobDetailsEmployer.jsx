@@ -140,7 +140,7 @@ const JobDetailsEmployer = () => {
             <br />
             <div>
                 <div className="mb-6">
-                    <h4 className="text-lg font-semibold mb-2 " style={{ color: '#4A5568' }}>Employers:</h4>
+                    <h4 className="text-lg font-semibold mb-2 " style={{ color: '#4A5568' }}>Employers that can acces this job:</h4>
                     <ul className="border-t border-b border-gray-300 py-4">
                         {employers.map(employer => (
                             <li key={employer.id} className="flex items-center border-b py-2">
@@ -153,7 +153,7 @@ const JobDetailsEmployer = () => {
                     </ul>
                 </div>
                 <div className="mb-6">
-                    <h5 className="text-lg font-semibold mb-2 " style={{ color: '#4A5568' }}>Add employers:</h5>
+                    <h4 className="text-lg font-semibold mb-2 " style={{ color: '#4A5568' }}>Add employer:</h4>
                     <form onSubmit={handleSubmit} className="flex items-center bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                         <select data-testid="employerDropDown"
                             name="employer"

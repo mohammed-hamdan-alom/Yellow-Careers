@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { useParams } from "react-router-dom";
 import { Label } from '@/components/ui/label';
+import { Button, Select } from "antd";
+import '@/components/styling/button.css';
+import Swal from 'sweetalert2';
 import DisplayResume from "@/components/resume/DisplayResume";
 import QuestionsAndAnswers from "@/components/questions_and_answers/QuestionsAndAnswers";
 
@@ -65,60 +68,89 @@ const ApplicationDetails = () => {
     }
   };
 
-  const handleDecisionChange = async (event) => {
-    try {
-      setApplication((prevApplication) => ({
-        ...prevApplication,
-        decision: event.target.value,
-      }));
+  const handleDecisionChange = async (value) => {
+    let confirmationText = '';
+    if (value === 'A') {
+      confirmationText = 'Are you sure you want to accept this application?';
+    } else if (value === 'R') {
+      confirmationText = 'Are you sure you want to reject this application?';
+    } else {
+      confirmationText = 'Are you sure you want to set this application to undecided?';
+    }
 
-      await AxiosInstance.put(`/api/applications/${applicationId}/update/`, {
-        ...application,
-        decision: event.target.value,
-      });
-    } catch (error) {
-      console.error("Failed to update application status:", error);
+    const confirmed = await Swal.fire({
+      title: 'Confirmation',
+      text: confirmationText,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+    });
+
+    if (confirmed.isConfirmed) {
+      try {
+        setApplication((prevApplication) => ({
+          ...prevApplication,
+          decision: value,
+        }));
+
+        await AxiosInstance.put(`/api/applications/${applicationId}/update/`, {
+          ...application,
+          decision: value,
+        });
+      } catch (error) {
+        console.error("Failed to update application status:", error);
+      }
     }
   };
 
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <h1>Application Details</h1>
-        <button onClick={markAsRead}>
+      <div className="mb-3" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Label className="text-3xl font-bold">Application Details</Label>
+        <Button className="blueButton" onClick={markAsRead}>
           {application.status === "R"
             ? "Mark Application as Unread"
             : "Mark Application as Read"}
-        </button>
+        </Button>
       </div>
 
-      <h2>Job Seeker: {jobSeeker.first_name + jobSeeker.last_name}</h2>
-      <p>Date of Birth: {jobSeeker.dob}</p>
-      <p>Nationality: {jobSeeker.nationality}</p>
-      <p>Sex: {jobSeeker.sex}</p>
-      <h3>Address:</h3>
-      <p>City: {jobSeeker.address?.city}</p>
-      <p>Post Code: {jobSeeker.address?.post_code}</p>
-      <p>Country: {jobSeeker.address?.country}</p>
+      <div className="mb-3">
+        <Label className="text-xl font-semibold">Full name: {jobSeeker.first_name} {jobSeeker.last_name}</Label>
+        <Label className="text-lg">
+          <p>Other names: {jobSeeker.other_names}</p>
+          <p>Email: {jobSeeker.email}</p>
+          <p>Phone: {jobSeeker.phone_number}</p>
+          <p>Date of Birth: {jobSeeker.dob}</p>
+          <p>Nationality: {jobSeeker.nationality}</p>
+          <p>Sex: {jobSeeker.sex === "M" ? "Male" : "Female"}</p>
+          <p className="text-lg font-semibold">Address:</p>
+          <p>City: {jobSeeker.address?.city}</p>
+          <p>Post Code: {jobSeeker.address?.post_code}</p>
+          <p>Country: {jobSeeker.address?.country}</p>
+        </Label>
+      </div>
 
-      <h2>Resume:</h2>
-      <DisplayResume resumeId={resume.id} />
+      <div className="mb-3">
+        <DisplayResume resumeId={resume.id} />
+      </div>
 
-      {questions.length > 0 ? (
-          <div>
-              <Label className="text-xl font-semibold">Questions and Answers:</Label>
-              <QuestionsAndAnswers questions={questions} answers={answers} />
-          </div>
-      ) : (
-          <Label className="text-xl font-semibold">No Questions</Label>
+      {questions.length > 0 && (
+        <div className="mb-3">
+          <Label className="text-xl font-semibold">Questions and Answers:</Label>
+          <QuestionsAndAnswers questions={questions} answers={answers} />
+        </div>
       )}
 
-      <h3>Decision:</h3>
-      <select value={application.decision} onChange={handleDecisionChange}>
-        <option value="A">Accepted</option>
-        <option value="R">Rejected</option>
-        <option value="U">Undecided</option>
-      </select>
+      <div className="mb-3">
+        <Label className="text-xl font-semibold">Decision:</Label>
+        <br />
+        <Select id="decision" className="w-60 mt-2" value={application.decision} onChange={value => handleDecisionChange(value)}>
+          <Select.Option value="U">Undecided</Select.Option>
+          <Select.Option value="R">Rejected</Select.Option>
+          <Select.Option value="A">Accepted</Select.Option>
+        </Select>
+      </div>
     </div>
   );
 };
