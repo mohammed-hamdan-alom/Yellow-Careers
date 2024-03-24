@@ -42,15 +42,6 @@ export const AuthProvider = ({ children }) => {
 
                 localStorage.setItem("authTokens", JSON.stringify(data));
                 navigate(userObj.userType === 'job_seeker' ? "/job-seeker/dashboard" : "/employer/dashboard");
-                swal.fire({
-                    title: "Login Successful",
-                    icon: "success",
-                    toast: true,
-                    timer: 6000,
-                    position: 'top-right',
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                });
             }
         } catch (error) {
             swal.fire({
@@ -153,15 +144,6 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem("authTokens");
         navigate("/");
-        swal.fire({
-            title: "You have been logged out...",
-            icon: "success",
-            toast: true,
-            timer: 6000,
-            position: 'top-right',
-            timerProgressBar: true,
-            showConfirmButton: false,
-        });
     };
 
 
