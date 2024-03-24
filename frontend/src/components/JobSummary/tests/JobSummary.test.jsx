@@ -27,16 +27,16 @@ const employer = {
 }
 
 const jobseeker = {
-    "user_type": "jobseeker"
+    "user": { "user_type": "jobseeker" }
 }
 
-// vi.mock('@/components/job-card/JobCard', async (importOriginal) => {
-//     const actual = await importOriginal();
-//     return {
-//         ...actual,
-//         JobCard: vi.fn(({ children }) => <div data-testid="mock-jobcard">{children}</div>)
-//     };
-// });
+vi.mock('@/components/job-card/JobCard', async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        JobCard: vi.fn(({ children }) => <div data-testid="mock-jobcard">{children}</div>)
+    };
+});
 
 vi.mock("@/utils/AxiosInstance", () => ({
     __esModule: true,
@@ -52,7 +52,8 @@ vi.mock("@/context/AuthContext", () => ({
     default: React.createContext()
 }));
 
-const navigate = vi.fn()
+const navigate = vi.fn();
+
 vi.mock('react-router-dom', async (importOriginal) => {
     const actual = await importOriginal()
     return {
@@ -63,19 +64,15 @@ vi.mock('react-router-dom', async (importOriginal) => {
 
 describe('JobSummary component', () => {
 
-    beforeEach(() => {
-
-    })
-
     afterEach(cleanup);
 
     test('renders JobCard title', async () => {
         act(() => {
             render(
                 <MemoryRouter>
-                    <AuthProvider>
+                    <AuthContext.Provider value={employer}>
                         <JobSummary job={data} />
-                    </AuthProvider>
+                    </AuthContext.Provider>
                 </MemoryRouter>
             );
         })
@@ -94,10 +91,27 @@ describe('JobSummary component', () => {
                 </MemoryRouter>
             );
         })
-        act(() => {
+        await act(async () => {
             fireEvent.click(screen.getByText(data.title))
         })
         expect(navigate).toHaveBeenCalledWith("/employer/job-details/1");
+
+    })
+
+    test('click as jobseeker redirects to correct URL', async () => {
+        act(() => {
+            render(
+                <MemoryRouter>
+                    <AuthContext.Provider value={jobseeker}>
+                        <JobSummary job={data} />
+                    </AuthContext.Provider>
+                </MemoryRouter>
+            );
+        })
+        await act(async () => {
+            fireEvent.click(screen.getByText(data.title))
+        })
+        expect(navigate).toHaveBeenCalledWith("/job-seeker/job-details/1");
 
     })
 

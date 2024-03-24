@@ -26,7 +26,7 @@ describe('JobCard component', () => {
             render(
                 <MemoryRouter>
                     <AuthProvider>
-                        <JobCard title={data.title} description={data.description} companyName={data.company} city={data.address.city} country={data.address.country} />
+                        <JobCard title={data.title} description={data.description} companyName={data.company} city={data.address.city} country={data.address.country} jobType={data.job_type} />
                     </AuthProvider>
                 </MemoryRouter>
             );
@@ -50,19 +50,19 @@ describe('JobCard component', () => {
         expect(company).toBeInTheDocument();
     });
 
-    test('renders city', async () => {
-        const city = await screen.findByTestId("city");
+    test('renders location', async () => {
+        const city = await screen.findByText("Location: " + data.address.city + ", " + data.address.country);
         expect(city).toBeInTheDocument();
-    });
-
-    test('renders country', async () => {
-        const country = await screen.findByTestId("country");
-        expect(country).toBeInTheDocument();
     });
 
     test('renders description', async () => {
         const description = await screen.findByText(data.description);
         expect(description).toBeInTheDocument();
+    });
+
+    test('renders jobType', async () => {
+        const jobType = await screen.findByText("Job Type: " + data.job_type);
+        expect(jobType).toBeInTheDocument();
     });
 
 });

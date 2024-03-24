@@ -38,9 +38,9 @@ const JobApplicantsPage = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = applications.filter(application => 
-        (statusFilter === 'all' || application.status === statusFilter) &&
-        (decisionFilter === 'all' || application.decision === decisionFilter)
+    const filtered = applications.filter(application =>
+      (statusFilter === 'all' || application.status === statusFilter) &&
+      (decisionFilter === 'all' || application.decision === decisionFilter)
     );
 
     setFilteredApplications(filtered);
@@ -73,26 +73,26 @@ const JobApplicantsPage = () => {
       </div>
       <div className="filter-container">
         <div className="filter-item">
-        <Label className="text-xl"><Tag color="purple" className="tag-medium">Status Filter:</Tag></Label>
-        <Select data-testid='status' id="status" className="w-60 mt-2" defaultValue="all" onChange={value => setStatusFilter(value)}>
-          <Select.Option value="all">All</Select.Option>
-          <Select.Option value="U">Unread</Select.Option>
-          <Select.Option value="R">Read</Select.Option>
-        </Select>
+          <Label className="text-xl"><Tag color="purple" className="tag-medium">Status Filter:</Tag></Label>
+          <Select data-testid='status' id="status" className="w-60 mt-2" defaultValue="all" onChange={value => setStatusFilter(value)}>
+            <Select.Option value="all">All</Select.Option>
+            <Select.Option value="U">Unread</Select.Option>
+            <Select.Option value="R">Read</Select.Option>
+          </Select>
         </div>
         <div className="filter-item">
-        <Label className="text-xl"><Tag color="pink" className="tag-medium">Decision Filter:</Tag></Label>
-        <Select data-testid='decision' id="decision" className="w-60 mt-2" defaultValue="all" onChange={value => setDecisionFilter(value)}>
-          <Select.Option value="all">All</Select.Option>
-          <Select.Option value="U">Undecided</Select.Option>
-          <Select.Option value="R">Rejected</Select.Option>
-          <Select.Option value="A">Accepted</Select.Option>
-        </Select>
+          <Label className="text-xl"><Tag color="pink" className="tag-medium">Decision Filter:</Tag></Label>
+          <Select data-testid='decision' id="decision" className="w-60 mt-2" defaultValue="all" onChange={value => setDecisionFilter(value)}>
+            <Select.Option value="all">All</Select.Option>
+            <Select.Option value="U">Undecided</Select.Option>
+            <Select.Option value="R">Rejected</Select.Option>
+            <Select.Option value="A">Accepted</Select.Option>
+          </Select>
         </div>
       </div>
       {currentPageApplications.map(application => (
         <ul key={application.id}>
-          <ApplicantSummary application_id={application.id} status={application.status} decision={application.decision}/>
+          <ApplicantSummary application_id={application.id} status={application.status} decision={application.decision} />
         </ul>
       ))}
       <Pagination

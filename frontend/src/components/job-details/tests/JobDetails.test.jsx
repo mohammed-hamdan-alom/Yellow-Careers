@@ -51,7 +51,7 @@ describe('JobDetails component', () => {
     });
 
     test('renders salary', async () => {
-        const salary = await screen.findByText("Salary: " + data.salary);
+        const salary = await screen.findByText("Salary: £" + data.salary);
         expect(salary).toBeInTheDocument();
     });
 
@@ -61,7 +61,7 @@ describe('JobDetails component', () => {
     });
 
     test('renders address', async () => {
-        const address = await screen.findByTestId("address")
+        const address = await screen.findByText("Location: " + data.address.post_code + ", " + data.address.city + ", " + data.address.country)
         expect(address).toBeInTheDocument();
     });
 
