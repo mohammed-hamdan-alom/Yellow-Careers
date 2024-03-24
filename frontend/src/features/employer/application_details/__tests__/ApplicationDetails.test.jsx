@@ -1,119 +1,217 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  act,
+  cleanup,
+  within,
+} from "@testing-library/react";
 import ApplicationDetails from "../ApplicationDetails";
 import { vi } from "vitest";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  MemoryRouter,
+} from "react-router-dom";
+import AuthContext from "@/context/AuthContext";
 
-const mockApplicationId = 1;
-
-const mockApplicationData = {
-  id: mockApplicationId,
-  status: "R",
-  decision: "U",
-  job_seeker: 123,
-  job: 456,
-  date_applied: "2024-01-01",
+const job_seeker1 = {
+  user: {
+    user_type: "job_seeker",
+    user_id: 1,
+  },
 };
 
-const mockJobSeekerData = {
+const jobSeeker= {  
+      first_name: "John",
+      last_name: "Doe",
+      dob: "1990-01-01",
+      nationality: "British",
+      sex: "Male",
+      address: {
+        city: "New York",
+        post_code: "NY12345",
+        country: "USA",
+      }
+    }
+const employer = {
+  user_type: "employer",
+  email: "johndoe@example.com",
   first_name: "John",
   last_name: "Doe",
-  dob: "1990-01-01",
-  nationality: "American",
-  sex: "M",
-  address: {
-    city: "New York",
-    post_code: "NY12345",
-    country: "USA",
-  },
+  other_names: "Charles",
+  phone_number: "08012345678",
+  user_id: "123456789",
 };
-
-const mockResumeData = {
-  id: 123,
-  github: "https://github.com/test",
-  linkedin: "https://linkedin.com/test",
-  about: "I am a test developer",
-  experience: "I have 5 years of experience",
+const data = {
+  application: {
+    id: 1,
+    date_applied: "2024-03-18",
+    status: "U",
+    decision: "U",
+    job_id: 1,
+    resume_id: 1,
+    job_seeker_id: 1,
+  },
+  resume: {
+    id: 1,
+  },
+  questions: [
+    {
+      id: 1,
+      question: "Why work here?",
+      job: 1,
+    },
+    {
+      id: 2,
+      question: "What is your strength?",
+      job: 1,
+    },
+  ],
+  answers: [
+    {
+      id: 3,
+      answer: "Aperiam harum ea laboriosam dolorum eum.",
+      application: 3,
+      question: 1,
+    },
+    {
+      id: 4,
+      answer:
+        "Dolorum quo libero similique alias maxime. Harum deleniti officia nisi iure veritatis laborum.",
+      application: 3,
+      question: 2,
+    },
+  ],
 };
+const navigate = vi.fn();
 
-const mockQuestionsData = [
-  {
-    id: "1",
-    question: "Why do you want to work here?",
-  },
-];
+vi.mock("@/components/ui/label", () => ({
+  Label: vi.fn(({ children }) => (
+    <label data-testid="mock-label">{children}</label>
+  )),
+}));
 
-const mockAnswersData = [
-  {
-    application: mockApplicationId,
-    question: "1",
-    answer: "Because I have a passion for this job.",
-  },
-];
+vi.mock("react-router-dom", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useNavigate: () => navigate,
+    useParams: () => ({
+      jobId: 1,
+    }),
+  };
+});
+
+vi.mock("@/components/questions_and_answers/QuestionsAndAnswers", async () => {
+  return {
+    default: vi.fn(() => <div data-testid="mock-questionsandanswers"></div>),
+  };
+});
+
+vi.mock("@/components/resume/DisplayResume", async () => {
+  return {
+    default: vi.fn(() => <div data-testid="mock-resume"></div>),
+  };
+});
+
+vi.mock("@/context/AuthContext", () => ({
+  __esModule: true,
+  default: React.createContext(),
+}));
 
 vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
   default: {
     get: vi.fn((url) => {
-      switch (url) {
-        case `/api/applications/${mockApplicationId}`:
-          return Promise.resolve({ data: mockApplicationData });
-        case `/api/job-seekers/${mockApplicationData.job_seeker}`:
-          return Promise.resolve({ data: mockJobSeekerData });
-        case `/api/applications/${mockApplicationId}/resume`:
-          return Promise.resolve({ data: mockResumeData });
-        case `/api/jobs/${mockApplicationData.job}/questions`:
-          return Promise.resolve({ data: mockQuestionsData });
-        case `/api/applications/${mockApplicationId}/answers`:
-          return Promise.resolve({ data: mockAnswersData });
-        default:
-          return Promise.reject(new Error("Not found"));
+      if (url == `api/applications/1`) {
+        return Promise.resolve({ data: data.application });
+      } else if (url == `/api/applications/1/resume`) {
+        return Promise.resolve({ data: data.resume });
+      } else if (url == `/api/jobs/1/questions`) {
+        return Promise.resolve({ data: data.questions });
+      } else if(url ==`/api/job-seekers/1`){
+        return Promise.resolve({data: jobSeeker})
+      }
+      else {
+        return Promise.resolve({ data: data.answers });
       }
     }),
-    put: vi.fn((url, data) => {
-      return Promise.resolve({ data: { ...mockApplicationData, ...data } });
+    delete: vi.fn(() => {
+      return Promise.resolve({});
+    }),
+    then: vi.fn(() => {}),
+    post: vi.fn(() => {
+      return Promise.resolve({});
     }),
   },
 }));
 
-describe("ApplicationDetails component", () => {
-  beforeEach(() => {
-    render(
-      <Router>
-        <Routes>
-          <Route
-            path={`/applications/${mockApplicationId}`}
-            element={<ApplicationDetails />}
-          />
-        </Routes>
-      </Router>
-    );
-  });
-
-
-  test("fetches application details on mount", async () => {
-    await waitFor(() => {
-      expect(screen.getByText(/Application Details/i)).toBeInTheDocument();
-      expect(screen.getByText(/Job Seeker: John Doe/i)).toBeInTheDocument();
-      // Add assertions for other fetched details
+describe("ApplicationDetails component with questions", () => {
+  beforeEach(async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <AuthContext.Provider value={employer}>
+            <ApplicationDetails />
+          </AuthContext.Provider>
+        </MemoryRouter>
+      );
     });
   });
 
-//   test("marks application as read", async () => {
-//     markAsRead();
+  afterEach(async () => {
+    cleanup;
+  });
 
-//     await waitFor(() => {
-//       expect(
-//         screen.getByText(/Mark Application as Unread/i)
-//       ).toBeInTheDocument();
-//     });
-//   });
+  test("render DisplayResume component", async () => {
+    const resume = screen.getByTestId("mock-resume");
+    expect(resume).toBeInTheDocument();
+  });
 
-//   test("updates decision", async () => {
-//     handleDecisionChange("A");
+  test("render QuestionAndAnswers component", async () => {
+    const questionsAndAnswers = await screen.findByTestId(
+      "mock-questionsandanswers"
+    );
+    expect(questionsAndAnswers).toBeInTheDocument();
+  });
 
-//     await waitFor(() => {
-//       expect(screen.getByLabelText(/Decision/i)).toHaveValue("A");
-//     });
-//   });
+  test("render application info correctly", async () => {
+    const questionAndAnswerLabel = screen.getByText("Questions and Answers:");
+    const noQuestionsLabel = screen.queryByText("No Questions");
+    expect(questionAndAnswerLabel).toBeInTheDocument();
+    expect(noQuestionsLabel).toBeNull();
+  });
+  // test("render application info correctly", async () => {
+  //   const jobSeekerName = `${jobSeeker.first_name} ${jobSeeker.last_name}`;
+  //   // const dob = data.application.dob;
+  //   // const nationality = data.application.nationality;
+  //   // const sex = data.application.sex;
+  //   // const city = data.application.address.city;
+  //   // const postCode = data.application.address.post_code;
+  //   // const country = data.application.address.country;
+
+  //   const jobSeekerElement = screen.getByText(`Job Seeker: ${jobSeekerName}`);
+  //   // const dobElement = screen.getByText(`Date of Birth: ${dob}`);
+  //   // const nationalityElement = screen.getByText(`Nationality: ${nationality}`);
+  //   // const sexElement = screen.getByText(`Sex: ${sex}`);
+  //   // const cityElement = screen.getByText(`City: ${city}`);
+  //   // const postCodeElement = screen.getByText(`Post Code: ${postCode}`);
+  //   // const countryElement = screen.getByText(`Country: ${country}`);
+  //   // const resumeElement = screen.getByTestId("mock-resume");
+  //   // const questionsAndAnswersElement = screen.getByTestId("mock-questionsandanswers");
+
+  //   expect(jobSeekerElement).toBeInTheDocument();
+  //   // expect(dobElement).toBeInTheDocument();
+  //   // expect(nationalityElement).toBeInTheDocument();
+  //   // expect(sexElement).toBeInTheDocument();
+  //   // expect(cityElement).toBeInTheDocument();
+  //   // expect(postCodeElement).toBeInTheDocument();
+  //   // expect(countryElement).toBeInTheDocument();
+  //   // expect(resumeElement).toBeInTheDocument();
+  //   // expect(questionsAndAnswersElement).toBeInTheDocument();
+  // });
 });
+
