@@ -11,7 +11,7 @@ import {
     QuestionCircleOutlined,
   } from '@ant-design/icons';
   import '@/components/styling/tag.css';
-
+  import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 function AppliedJobDetails() {
 
@@ -46,7 +46,7 @@ function AppliedJobDetails() {
                 setQuestions(questionsResponse.data);
                 setAnswers(answersResponse.data);
             } catch (error) {
-                console.error('Error retrieving info:', error);
+                handleErrorAndShowMessage("Error retrieving data:", error);
                 if (error.response && (error.response.status === 403 || error.response.status === 404)) {
                     window.location.href = "/job-seeker/dashboard";
                 }
