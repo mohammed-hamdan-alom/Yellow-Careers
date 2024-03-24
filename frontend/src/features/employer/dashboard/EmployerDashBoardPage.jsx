@@ -5,6 +5,8 @@ import { Switch, Space } from "antd";
 import { Label } from "@/components/ui/label";
 import "./switch.css";
 import JobFilter from "@/components/search/JobFilter";
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
+
 
 function EmployerDashBoardPage() {
   const { user } = useContext(AuthContext);
@@ -23,6 +25,7 @@ function EmployerDashBoardPage() {
         setCompanyJobs(companyJobsResponse.data);
         setShowCompanyJobs(companyJobsResponse.data.length > 0);
       } catch (error) {
+        checkUserIdAndReload(userId)
         console.error('Error fetching jobs:', error);
       }
     };
