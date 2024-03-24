@@ -11,7 +11,11 @@ class JobSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         address_data = validated_data.pop('address')
-        address = Address.objects.create(**address_data)
+        address_serializer = AddressSerializer(data=address_data)  
+        if address_serializer.is_valid():
+            address = address_serializer.save()
+        else:
+            raise serializers.ValidationError(address_serializer.errors)
 
         job = Job.objects.create(
             title=validated_data['title'],
