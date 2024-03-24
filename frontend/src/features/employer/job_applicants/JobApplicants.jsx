@@ -71,23 +71,23 @@ const JobApplicantsPage = () => {
       <div>
         <Label className="text-3xl font-bold">Matched applicants</Label>
       </div>
-      <div className="filter-container">
-        <div className="filter-item">
-        <Label className="text-xl"><Tag color="purple" className="tag-medium">Status Filter:</Tag></Label>
-        <Select data-testid='status' id="status" className="w-60 mt-2" defaultValue="all" onChange={value => setStatusFilter(value)}>
-          <Select.Option value="all">All</Select.Option>
-          <Select.Option value="U">Unread</Select.Option>
-          <Select.Option value="R">Read</Select.Option>
-        </Select>
+      <div className="flex justify-between items-center">
+        <div className="flex-1">
+          <Label className="text-xl"><Tag color="purple" className="tag-medium">Status Filter:</Tag></Label>
+          <Select data-testid='status' id="status" className="w-60 mt-2" defaultValue="all" onChange={value => setStatusFilter(value)}>
+            <Select.Option value="all">All</Select.Option>
+            <Select.Option value="U">Unread</Select.Option>
+            <Select.Option value="R">Read</Select.Option>
+          </Select>
         </div>
-        <div className="filter-item">
-        <Label className="text-xl"><Tag color="pink" className="tag-medium">Decision Filter:</Tag></Label>
-        <Select data-testid='decision' id="decision" className="w-60 mt-2" defaultValue="all" onChange={value => setDecisionFilter(value)}>
-          <Select.Option value="all">All</Select.Option>
-          <Select.Option value="U">Undecided</Select.Option>
-          <Select.Option value="R">Rejected</Select.Option>
-          <Select.Option value="A">Accepted</Select.Option>
-        </Select>
+        <div className="flex-1 text-center">
+          <Label className="text-xl"><Tag color="pink" className="tag-medium">Decision Filter:</Tag></Label>
+          <Select data-testid='decision' id="decision" className="w-60 mt-2" defaultValue="all" onChange={value => setDecisionFilter(value)}>
+            <Select.Option value="all">All</Select.Option>
+            <Select.Option value="U">Undecided</Select.Option>
+            <Select.Option value="R">Rejected</Select.Option>
+            <Select.Option value="A">Accepted</Select.Option>
+          </Select>
         </div>
       </div>
       {currentPageApplications.map(application => (
