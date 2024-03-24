@@ -35,20 +35,20 @@ def getMatchedJobsForJobSeeker(job_seeker):
     applied_jobs = [application.job for application in applications]
     return list(filter(lambda x: x not in applied_jobs, matched_jobs))
 
-def getMatchedApplicantsForJob(job, applicants):
+def getMatchedApplicantsForJob(job, applications):
     job_description = job.to_string()
-    applicant_scores = {}
-    for job_seeker in applicants:
-        resume = job_seeker.get_resume().to_string()
-        applicant_scores[job_seeker] = (
-            LOCATION_WEIGHTING * calculateLocationScore(job, job_seeker) +
+    application_scores = {}
+    for application in applications:
+        resume = application.job_seeker.get_resume().to_string()
+        application_scores[application] = (
+            LOCATION_WEIGHTING * calculateLocationScore(job, application.job_seeker) +
             LEVENSHTEIN_WEIGHTING * calculateLevenshteinScore(job_description, resume) +
             WORD2VEC_WEIGHTING * calculateWord2VecSimilarity(job_description, resume)
         )
         
-    matched_order = sorted(applicant_scores.items(), key=lambda x: x[1], reverse=True)
-    matched_applicants = [item[0] for item in matched_order]
-    return matched_applicants
+    matched_order = sorted(application_scores.items(), key=lambda x: x[1], reverse=True)
+    matched_applications = [item[0] for item in matched_order]
+    return matched_applications
 
 def calculateLocationScore(job, job_seeker):
     try:
