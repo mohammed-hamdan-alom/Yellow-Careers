@@ -8,7 +8,7 @@ import { Input, InputNumber } from "antd";
 import { Select } from "antd";
 import { Button } from "@/components/ui/button";
 const { TextArea } = Input;
-import { showJobCreatedError, showJobCreatedSuccess } from '@/components/Alert/Alert';
+import {  } from '@/components/Alert/BigAlert';
 
 function JobCreationForm() {
   const { user } = useContext(AuthContext);
@@ -44,10 +44,10 @@ function JobCreationForm() {
         employer: userId,
         job: jobResponse.data.id,
       });
-      showJobCreatedSuccess();
+      BigAlert('The job has been created successfully', '', 'success');
       navigate(`/employer/create-questions/${jobResponse.data.id}`);
     } catch (error) {
-      showJobCreatedError();
+      //ERROR MESSAGE GOES HERE MUHAMMAD
       console.log(error);
     }
   };

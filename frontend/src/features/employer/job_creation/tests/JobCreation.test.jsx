@@ -5,7 +5,6 @@ import { MemoryRouter } from 'react-router-dom';
 import JobCreationForm from '../JobCreation';
 import AuthContext from '@/context/AuthContext';
 import AxiosInstance from '@/utils/AxiosInstance';
-import { showJobCreatedError, showJobCreatedSuccess } from '@/components/Alert/Alert';
 
 const jobData = {
     "id": 1

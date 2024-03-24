@@ -74,12 +74,10 @@ function QuestionCreation() {
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                     />
                     <div className='form-actions mt-4'>
-                        <Button onClick={handleSubmit} className="blueButton">Submit Question</Button>
+                        <Button onClick={handleSubmit} className="blueButton">Add Question</Button>
                     </div>
                 </div>
             </form>
-            <br></br>
-            <Button onClick={handleSkip} className="yellowButton">Finish</Button>
             <p className="mt-4"></p>
             <h2 className="text-xl font-bold mt-4">Current Questions:</h2>
             {questions.length == 0 ? <h1 className="text-xl font-semibold" style={{ color: '#4A5568' }}>There are currently no questions</h1> : null}
@@ -91,6 +89,8 @@ function QuestionCreation() {
                     </li>
                 </ul>
             ))}
+            <br></br>
+            <Button onClick={handleSkip} className="yellowButton">Submit</Button>
         </div>
     );
 }
