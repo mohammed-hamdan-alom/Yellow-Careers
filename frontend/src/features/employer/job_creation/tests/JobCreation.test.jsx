@@ -56,6 +56,14 @@ vi.mock("@/components/ui/input", () => ({
     Input: vi.fn(() => <input data-testid="mock-input"></input>)
 }))
 
+vi.mock("@/features/employer/job_creation/QuestionCreation", () => ({
+    default: vi.fn(() => <div data-testid="mock-questioncreation"></div>)
+}))
+
+vi.mock("@/features/jobseeker/resume/Popup/Popup", () => ({
+    default: vi.fn(({ children }) => <div data-testid="mock-popup">{children}</div>)
+}))
+
 vi.mock('react-router-dom', async (importOriginal) => {
     const actual = await importOriginal()
     return {
@@ -111,6 +119,7 @@ describe('JobCreation component', () => {
         expect(labels[4]).toHaveTextContent("City")
         expect(labels[5]).toHaveTextContent("Country")
         expect(labels[6]).toHaveTextContent("Job Type")
+        expect(screen.getByTestId("mock-popup")).toBeInTheDocument()
     });
 
     test("renders all form fields correctly", async () => {
@@ -138,7 +147,7 @@ describe('JobCreation component', () => {
         })
         expect(AxiosInstance.post).toHaveBeenCalledWith("api/jobs/create-job", emptyJob)
         expect(AxiosInstance.post).toHaveBeenCalledWith("api/employer-job-relations/create/", ejrData)
-        expect(navigate).toBeCalledWith(`/employer/create-questions/1`)
+
     })
 
     test("form fields update and submit correctly", async () => {
@@ -166,7 +175,7 @@ describe('JobCreation component', () => {
         })
         expect(AxiosInstance.post).toHaveBeenCalledWith("api/jobs/create-job", updatedJob)
         expect(AxiosInstance.post).toHaveBeenCalledWith("api/employer-job-relations/create/", ejrData)
-        expect(navigate).toBeCalledWith('/employer/create-questions/1')
+        expect(screen.getByTestId("mock-questioncreation")).toBeInTheDocument()
     })
 
 });

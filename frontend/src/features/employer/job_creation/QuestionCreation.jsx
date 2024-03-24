@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 
-function QuestionCreation({jobId}) {
+function QuestionCreation({ jobId }) {
     const navigate = useNavigate();
     const [questions, setQuestions] = useState([]);
     const [questionsChanged, setQuestionsChanged] = useState(false);
@@ -17,7 +17,7 @@ function QuestionCreation({jobId}) {
     });
 
     useEffect(() => {
-        console.log(jobId);
+
         AxiosInstance.get(`api/jobs/${jobId}/questions/`)
             .then((res) => {
                 setQuestions(res.data);
