@@ -5,12 +5,11 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { Button, Space } from 'antd';
 import '@/components/styling/button.css';
 import JobDetailsDisplay from '@/components/job-details/JobDetails';
-import ReactDOM from 'react-dom';
 import { FloatButton } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser"
-
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 function JobDetails() {
     const { user } = useContext(AuthContext);
@@ -50,7 +49,7 @@ function JobDetails() {
             setIsJobApplied(responses[5].data.some(appliedJob => String(appliedJob.id) === String(jobId)));
           } catch (error) {
             checkUserIdAndReload(userId)
-            console.error('Error fetching data:', error);
+            handleErrorAndShowMessage("Error fetching data:", error);
           }
         };
       
@@ -65,7 +64,7 @@ function JobDetails() {
             setSavedJobs(res.data);
             setIsJobSaved(res.data.some(savedJob => String(savedJob.id) === String(jobId)));
           } catch (error) {
-            console.error('Error fetching data:', error);
+            handleErrorAndShowMessage("Error fetching data:", error);
           }
         };
       
@@ -94,7 +93,7 @@ function JobDetails() {
               await AxiosInstance.post('api/applications/create/', applicationData);
               window.location.reload(); // Reload the page after applying
             } catch (error) {
-              console.error('Error creating application:', error);
+              handleErrorAndShowMessage("Error creating an application:", error);
             }
           }
         } else {
@@ -108,7 +107,7 @@ function JobDetails() {
           const applicationId = res.data.id;
           navigate(`/job-seeker/application-details/${applicationId}`);
         } catch (error) {
-          console.error("Error:", error.response.data);
+          handleErrorAndShowMessage("Error seeing application:", error);
         }
       };
       
@@ -119,7 +118,7 @@ function JobDetails() {
             await AxiosInstance.delete(`api/saved-jobs/update/${userId}/${jobId}/`);
             setIsJobSaved(false);
           } catch (error) {
-            console.error('Error unsaving job:', error);
+            handleErrorAndShowMessage("Error unsaving a job:", error);
           }
         } else {
           try {
@@ -129,7 +128,7 @@ function JobDetails() {
             });
             setIsJobSaved(true);
           } catch (error) {
-            console.error('Error saving job:', error);
+            handleErrorAndShowMessage("Error saving a job:", error);
           }
         }
       };

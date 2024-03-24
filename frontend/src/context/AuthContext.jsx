@@ -3,6 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert2';
 import AxiosInstance from "@/utils/AxiosInstance";
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 const AuthContext = createContext();
 
@@ -92,16 +93,7 @@ export const AuthProvider = ({ children }) => {
                 });
             }
         } catch (error) {
-            const errorMessage = error.response.data;
-            swal.fire({
-                title: "An Error Occurred: " + errorMessage,
-                icon: "error",
-                toast: true,
-                timer: 6000,
-                position: 'top-right',
-                timerProgressBar: true,
-                showConfirmButton: false,
-            });
+            handleErrorAndShowMessage("Error registering job seeker:", error);
         }
     };
 
@@ -127,16 +119,7 @@ export const AuthProvider = ({ children }) => {
                 });
             }
         } catch (error) {
-            const errorMessage = error.response.data;
-            swal.fire({
-                title: "An Error Occurred: " + errorMessage,
-                icon: "error",
-                toast: true,
-                timer: 6000,
-                position: 'top-right',
-                timerProgressBar: true,
-                showConfirmButton: false,
-            });
+            handleErrorAndShowMessage("Error registering employer:", error);
         }
     }
 

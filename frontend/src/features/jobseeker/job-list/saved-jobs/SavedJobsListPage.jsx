@@ -4,7 +4,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from "@/components/ui/label";
 import JobFilter from "@/components/search/JobFilter";
 import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser"
-
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 function SavedJobListPage() {
   // get the user id from the context
@@ -21,7 +21,7 @@ function SavedJobListPage() {
         setJobs(res.data);
       } catch (error) {
         checkUserIdAndReload(userId)
-        console.error("Error:", error);
+        handleErrorAndShowMessage("Error retrieving data:", error);
       }
     };
   

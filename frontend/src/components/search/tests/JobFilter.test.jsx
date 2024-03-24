@@ -96,12 +96,9 @@ vi.mock("../../JobSummary/JobSummary", async (importOriginal) => {
     }
 });
 
-describe('JobFilterList component', () => {
-
-    afterEach(cleanup);
-
-    test('renders JobList component', async () => {
-        act(() => {
+describe('JobFilter component', () => {
+    beforeEach(async () => {
+        await act(async () => {
             render(
                 <MemoryRouter>
                     <AuthProvider>
@@ -110,62 +107,31 @@ describe('JobFilterList component', () => {
                 </MemoryRouter>
             );
         })
+    })
+    afterEach(cleanup);
+
+    test('renders JobList component', async () => {
+
         const searchList = await screen.findByTestId("jobsearchbar");
         expect(searchList).toBeInTheDocument();
     });
 
     test('renders Location filter', async () => {
-        act(() => {
-            render(
-                <MemoryRouter>
-                    <AuthProvider>
-                        <JobFilter data={data} />
-                    </AuthProvider>
-                </MemoryRouter>
-            );
-        })
         const location = await screen.findByTestId("location");
         expect(location).toBeInTheDocument();
     });
 
     test('renders Pay filter', async () => {
-        act(() => {
-            render(
-                <MemoryRouter>
-                    <AuthProvider>
-                        <JobFilter data={data} />
-                    </AuthProvider>
-                </MemoryRouter>
-            );
-        })
         const pay = await screen.findByTestId("pay");
         expect(pay).toBeInTheDocument();
     });
 
     test('renders Contract filter', async () => {
-        act(() => {
-            render(
-                <MemoryRouter>
-                    <AuthProvider>
-                        <JobFilter data={data} />
-                    </AuthProvider>
-                </MemoryRouter>
-            );
-        })
         const contract = await screen.findByTestId("jobType");
         expect(contract).toBeInTheDocument();
     });
 
     test('Pay filters correctly', async () => {
-        act(() => {
-            render(
-                <MemoryRouter>
-                    <AuthProvider>
-                        <JobFilter data={data} />
-                    </AuthProvider>
-                </MemoryRouter>
-            );
-        });
         const payFilter = await (await screen.findByTestId("pay")).querySelector('input')
         act(() => {
             fireEvent.change(payFilter, { target: { value: "45000" } });
@@ -180,15 +146,6 @@ describe('JobFilterList component', () => {
     })
 
     test('JobType filters correctly', async () => {
-        act(() => {
-            render(
-                <MemoryRouter>
-                    <AuthProvider>
-                        <JobFilter data={data} />
-                    </AuthProvider>
-                </MemoryRouter>
-            );
-        });
         const jobTypeFilter = await (await screen.findByTestId("jobType")).querySelector('input')
         act(() => {
             fireEvent.change(jobTypeFilter, { target: { value: "TM" } });
@@ -202,15 +159,6 @@ describe('JobFilterList component', () => {
     })
 
     test('Location filters correctly', async () => {
-        act(() => {
-            render(
-                <MemoryRouter>
-                    <AuthProvider>
-                        <JobFilter data={data} />
-                    </AuthProvider>
-                </MemoryRouter>
-            );
-        });
         const locationFilter = await (await screen.findByTestId("location")).querySelector('input')
         act(() => {
             fireEvent.change(locationFilter, { target: { value: "France" } });

@@ -39,13 +39,13 @@ function JobCreationForm() {
         address: addressData,
         job_type: formData.job_type,
       });
-
+  
       await AxiosInstance.post("api/employer-job-relations/create/", {
         employer: userId,
         job: jobResponse.data.id,
       });
       showJobCreatedSuccess();
-      navigate(`/employer/job-details/${jobResponse.data.id}`);
+      navigate(`/employer/create-questions/${jobResponse.data.id}`);
     } catch (error) {
       showJobCreatedError();
       console.log(error);
@@ -101,6 +101,7 @@ function JobCreationForm() {
               <Label className="text-2xl">Salary</Label>
               <InputNumber
                 className="w-full mt-2"
+                name="salary"
                 formatter={(value) =>
                   `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 }
@@ -146,7 +147,7 @@ function JobCreationForm() {
 
             <div className="flex flex-col mb-4">
               <Label className="text-2xl">Job Type</Label>
-              <Select
+              <Select data-testid="job_type"
                 className="w-full mt-2"
                 name="job_type"
                 value={formData.job_type}

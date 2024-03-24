@@ -2,13 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import { useParams, useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from '../../../../components/Alert/Alert';
-import { Input, Button, Space } from 'antd';
+import { Input, Button } from 'antd';
 import '@/components/styling/button.css';
 import StyledQuestion from "@/components/questions_and_answers/Question";
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser"
-
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 function JobQuestions() {
     const { user } = useContext(AuthContext);
@@ -33,7 +32,7 @@ function JobQuestions() {
             setResume(responses[1].data);
           } catch (error) {
             checkUserIdAndReload(userId);
-            console.error('Error fetching data:', error);
+            handleErrorAndShowMessage("Error fetching data:", error);
           }
         };
       
@@ -50,17 +49,7 @@ function JobQuestions() {
             });
           } 
           catch (error) {
-            if (error.response) {
-              const data = error.response.data;
-              let errorMessage = '';
-              for (let key in data) {
-                if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
-                  errorMessage += `${key}: ${data[key].join(', ')}\n`;
-                }
-              }
-              showError(errorMessage);
-              return; // Return early to prevent navigation
-            }
+            handleErrorAndShowMessage("Error creating answers:", error);
           }
         }
         navigate(`/job-seeker/job-details/${jobId}`);
@@ -88,16 +77,7 @@ function JobQuestions() {
             const application = response.data;
             createAnswers(application.id);
           } catch (error) {
-            if (error.response) {
-              const data = error.response.data;
-              let errorMessage = '';
-              for (let key in data) {
-                if (data.hasOwnProperty(key) && Array.isArray(data[key])) {
-                  errorMessage += `${key}: ${data[key].join(', ')}\n`;
-                }
-              }
-              showError(errorMessage);
-            }
+              handleErrorAndShowMessage("Error applying to job:", error);
           }
         }
       };

@@ -13,13 +13,14 @@ const EmployerProfile = () => {
   const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
-    email: '',
-    first_name: '',
-    last_name: '',
-    other_names: '',
-    phone_number: '',
-    company: '',
+    email: user?.email || "",
+    first_name: user?.first_name || "",
+    last_name: user?.last_name || "",
+    other_names: user?.other_names || "",
+    phone_number: user?.phone_number || "",
+    company: user?.company || "",
   });
+  //  React automatically subscribes to context changes, so any time the value provided by the context provider changes, the components using that context will update accordingly.
 
   useEffect(() => {
     const fetchEmployerData = async () => {
@@ -28,7 +29,7 @@ const EmployerProfile = () => {
           const response = await AxiosInstance.get(
             `/api/employers/${user?.user_id}/`
           );
-          console.log(response.data);
+
           if (response.status === 200) {
             const {
               email,
@@ -45,7 +46,7 @@ const EmployerProfile = () => {
               last_name,
               other_names,
               phone_number,
-              company: company || null, 
+              company: company || null,
             }));
           } else {
             swal.fire(
