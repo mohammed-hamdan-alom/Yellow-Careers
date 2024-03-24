@@ -10,6 +10,8 @@ import Education from "./education/Education";
 import ProfessionalExperience from "./professional-experience/ProfessionalExperience";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser"
+
 
 function UpdateResumePage() {
   const [resumeId, setResumeId] = useState(null);
@@ -23,6 +25,8 @@ function UpdateResumePage() {
       const data = await response.data;
       if (response.status === 404) {
         console.log("Jobseeker not found");
+        checkUserIdAndReload(userId)
+
       }
       if (data.resume === null) {
         //Havent tested if it works

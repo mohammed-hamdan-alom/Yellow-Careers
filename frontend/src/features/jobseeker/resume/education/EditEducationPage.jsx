@@ -9,6 +9,7 @@ import { Select } from "antd";
 const { RangePicker } = DatePicker;
 import BigAlert from "@/components/Alert/BigAlert";
 
+
 function EditEducationPage({
   put,
   post,

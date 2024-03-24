@@ -6,6 +6,7 @@ import { Input, Button } from 'antd';
 import '@/components/styling/button.css';
 import StyledQuestion from "@/components/questions_and_answers/Question";
 import Swal from 'sweetalert2'; // Import SweetAlert2
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser"
 import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 function JobQuestions() {
@@ -30,6 +31,7 @@ function JobQuestions() {
             setQuestions(responses[0].data);
             setResume(responses[1].data);
           } catch (error) {
+            checkUserIdAndReload(userId);
             handleErrorAndShowMessage("Error fetching data:", error);
           }
         };

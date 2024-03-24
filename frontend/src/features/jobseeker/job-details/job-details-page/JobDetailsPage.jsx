@@ -8,6 +8,7 @@ import JobDetailsDisplay from '@/components/job-details/JobDetails';
 import { FloatButton } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser"
 import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 function JobDetails() {
@@ -47,6 +48,7 @@ function JobDetails() {
             setAppliedJobs(responses[5].data);
             setIsJobApplied(responses[5].data.some(appliedJob => String(appliedJob.id) === String(jobId)));
           } catch (error) {
+            checkUserIdAndReload(userId)
             handleErrorAndShowMessage("Error fetching data:", error);
           }
         };

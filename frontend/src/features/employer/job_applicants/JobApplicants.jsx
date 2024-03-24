@@ -5,6 +5,7 @@ import ApplicantSummary from "@/features/employer/job_applicants/ApplicantSummar
 import { Label } from '@/components/ui/label';
 import { Button, Select, Tag, Pagination } from 'antd';
 import '@/components/styling/button.css';
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
 import '@/components/styling/filter.css';
 import '@/components/styling/tag.css';
 
@@ -31,6 +32,7 @@ const JobApplicantsPage = () => {
         if (error.response && (error.response.status === 403 || error.response.status === 404)) {
           window.location.href = "/employer/dashboard";
         }
+        checkUserIdAndReload(userId)
       }
     };
 

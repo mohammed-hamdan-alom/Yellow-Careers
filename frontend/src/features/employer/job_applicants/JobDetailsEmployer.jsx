@@ -5,6 +5,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from '@/components/job-details/JobDetails'
 import Question from "@/components/questions_and_answers/Question";
 import { Button } from "antd";
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
 import '@/components/styling/button.css';
 import Swal from 'sweetalert2';
 import { Label } from "@/components/ui/label";
@@ -55,11 +56,14 @@ const JobDetailsEmployer = () => {
                         setCurrentEmployer(employer)
                     }
                 })
-            } catch (error) {
+            }
+
+            catch (error) {
                 console.error('Error fetching data:', error);
                 if (error.response && (error.response.status === 403 || error.response.status === 404)) {
                     window.location.href = "/employer/dashboard";
                 }
+                checkUserIdAndReload(userId);
             }
         };
 
