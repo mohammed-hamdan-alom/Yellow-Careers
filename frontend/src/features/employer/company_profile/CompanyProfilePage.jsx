@@ -17,6 +17,8 @@ import { Label } from "@/components/ui/label";
 import { Input, Select, Button } from "antd";
 const { Option } = Select;
 import "./styling/styling.css";
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
+
 
 function CompanyProfilePage() {
   const [employer, setEmployer] = useState([]);
@@ -58,6 +60,7 @@ function CompanyProfilePage() {
         );
         setEmployers(employersResponse.data);
       } catch (error) {
+        checkUserIdAndReload(userId)
         console.error(error);
       }
     };

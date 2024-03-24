@@ -9,6 +9,8 @@ import ReactDOM from 'react-dom';
 import { FloatButton } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser"
+
 
 function JobDetails() {
     const { user } = useContext(AuthContext);
@@ -47,6 +49,7 @@ function JobDetails() {
             setAppliedJobs(responses[5].data);
             setIsJobApplied(responses[5].data.some(appliedJob => String(appliedJob.id) === String(jobId)));
           } catch (error) {
+            checkUserIdAndReload(userId)
             console.error('Error fetching data:', error);
           }
         };

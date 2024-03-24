@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import { Label } from '@/components/ui/label';
 import { Button, Space } from 'antd';
 import '@/components/styling/button.css';
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
+
 
 
 const JobApplicantsPage = () => {
@@ -25,6 +27,7 @@ const JobApplicantsPage = () => {
         const response = await AxiosInstance.get(`api/applications/job/${jobId}`);
         setApplications(response.data);
       } catch (error) {
+        checkUserIdAndReload(userId)
         console.error("Error:", error.response.data);
         if (error.response && (error.response.status === 403 || error.response.status === 404)) {
           window.location.href = "/employer/dashboard";

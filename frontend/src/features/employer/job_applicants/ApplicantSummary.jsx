@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Card, Button } from "antd";
+
 const ApplicantSummary = ({ id }) => {
     const navigate = useNavigate();
     const [jobSeeker, setJobSeeker] = useState({});
 
     useEffect(() => {
+        
         AxiosInstance.get(`api/job-seeker/application/${id}/`)
             .then((res) => setJobSeeker(res.data))
     }, []);

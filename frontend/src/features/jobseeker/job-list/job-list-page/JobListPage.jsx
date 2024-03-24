@@ -3,6 +3,8 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobFilter from "@/components/search/JobFilter";
 import { Label } from "@/components/ui/label";
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
+
 
 const JobListPage = () => {
   const { user } = useContext(AuthContext);
@@ -16,17 +18,15 @@ const JobListPage = () => {
     const fetchResumeAndJobs = async () => {
       try {
         const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
-        console.log(userId)
         setResume(response.data);
         if (response.data.id !== undefined) {
           const res = await AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`);
           setJobs(res.data);
           setIsJobRetrieved(true);
         }
-        if (response.data.id !== undefined){
-          windows.location.reload()
-        }
+
       } catch (error) {
+        checkUserIdAndReload(userId);
         console.error("Error fetching data:", error);
       }
     };

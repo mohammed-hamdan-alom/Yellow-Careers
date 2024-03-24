@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobFilter from "@/components/search/JobFilter";
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser"
+
 
 function AppliedJobListPage() {
   //
@@ -11,11 +13,13 @@ function AppliedJobListPage() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
+    
     const fetchAppliedJobs = async () => {
       try {
         const res = await AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`);
         setJobs(res.data);
       } catch (error) {
+        checkUserIdAndReload(userId)
         console.error("Error:", error);
       }
     };

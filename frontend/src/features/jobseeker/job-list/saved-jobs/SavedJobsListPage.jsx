@@ -3,6 +3,8 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from "@/components/ui/label";
 import JobFilter from "@/components/search/JobFilter";
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser"
+
 
 function SavedJobListPage() {
   // get the user id from the context
@@ -18,6 +20,7 @@ function SavedJobListPage() {
         const res = await AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`);
         setJobs(res.data);
       } catch (error) {
+        checkUserIdAndReload(userId)
         console.error("Error:", error);
       }
     };

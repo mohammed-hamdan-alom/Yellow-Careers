@@ -5,6 +5,8 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from '@/components/job-details/JobDetails';
 import StyledQuestion from "@/components/questions_and_answers/Question";
 import { Button } from "antd";
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
+
 
 const JobDetailsEmployer = () => {
     const { user } = useContext(AuthContext);
@@ -55,6 +57,7 @@ const JobDetailsEmployer = () => {
             }
 
             catch (error) {
+                checkUserIdAndReload(userId)
                 console.error('Error fetching data:', error);
                 if (error.response && (error.response.status === 403 || error.response.status === 404)) {
                     window.location.href = "/employer/dashboard";
