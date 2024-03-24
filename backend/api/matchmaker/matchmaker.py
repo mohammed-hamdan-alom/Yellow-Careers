@@ -51,15 +51,18 @@ def getMatchedApplicantsForJob(job, applicants):
     return matched_applicants
 
 def calculateLocationScore(job, job_seeker):
-    job_location = job.address
-    job_seeker_location = job_seeker.address
-    score = 0
-    if job_location.country.lower() == job_seeker_location.country.lower():
-        score = 1
+    try:
+        job_location = job.address
+        job_seeker_location = job_seeker.address
+        score = 0
+        if job_location.country.lower() == job_seeker_location.country.lower():
+            score = 1
 
-    if job_location.city.lower() != job_seeker_location.city.lower():
-        score = score * 0.7
-    return score
+        if job_location.city.lower() != job_seeker_location.city.lower():
+            score = score * 0.7
+        return score
+    except Exception:
+        return 0
 
 def calculateLevenshteinScore(job_description, resume):
     return ratio(job_description, resume)
