@@ -3,6 +3,10 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
+from rest_framework import generics, status
+from rest_framework.response import Response
+from django.contrib.auth.hashers import check_password
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -100,6 +104,12 @@ class ChangePasswordSerializer(serializers.Serializer):
         if attrs['new_password'] != attrs['confirm_password']:
             raise serializers.ValidationError("New password and confirm password must match")
         return attrs
+    
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not check_password(value, user.password):
+            raise serializers.ValidationError("Incorrect old password")
+        return value
     
     def validate_new_password(self, value):
         try:

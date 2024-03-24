@@ -51,9 +51,9 @@ const data = {
     date_applied: "2024-03-18",
     status: "U",
     decision: "U",
-    job_id: 1,
+    job: 1,
     resume_id: 1,
-    job_seeker_id: 1,
+    job_seeker: 1,
   },
   resume: {
     id: 1,
@@ -100,7 +100,7 @@ vi.mock("react-router-dom", async (importOriginal) => {
     ...actual,
     useNavigate: () => navigate,
     useParams: () => ({
-      jobId: 1,
+      applicationId: 1,
     }),
   };
 });
@@ -126,7 +126,7 @@ vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
   default: {
     get: vi.fn((url) => {
-      if (url == `api/applications/1`) {
+      if (url == `/api/applications/1`) {
         return Promise.resolve({ data: data.application });
       } else if (url == `/api/applications/1/resume`) {
         return Promise.resolve({ data: data.resume });
@@ -184,34 +184,35 @@ describe("ApplicationDetails component with questions", () => {
     expect(questionAndAnswerLabel).toBeInTheDocument();
     expect(noQuestionsLabel).toBeNull();
   });
-  // test("render application info correctly", async () => {
-  //   const jobSeekerName = `${jobSeeker.first_name} ${jobSeeker.last_name}`;
-  //   // const dob = data.application.dob;
-  //   // const nationality = data.application.nationality;
-  //   // const sex = data.application.sex;
-  //   // const city = data.application.address.city;
-  //   // const postCode = data.application.address.post_code;
-  //   // const country = data.application.address.country;
+  test("render application info correctly", async () => {
+    const jobSeekerName = `${jobSeeker.first_name} ${jobSeeker.last_name}`;
+    // const dob = data.application.dob;
+    // const nationality = data.application.nationality;
+    // const sex = data.application.sex;
+    // const city = data.application.address.city;
+    // const postCode = data.application.address.post_code;
+    // const country = data.application.address.country;
 
-  //   const jobSeekerElement = screen.getByText(`Job Seeker: ${jobSeekerName}`);
-  //   // const dobElement = screen.getByText(`Date of Birth: ${dob}`);
-  //   // const nationalityElement = screen.getByText(`Nationality: ${nationality}`);
-  //   // const sexElement = screen.getByText(`Sex: ${sex}`);
-  //   // const cityElement = screen.getByText(`City: ${city}`);
-  //   // const postCodeElement = screen.getByText(`Post Code: ${postCode}`);
-  //   // const countryElement = screen.getByText(`Country: ${country}`);
-  //   // const resumeElement = screen.getByTestId("mock-resume");
-  //   // const questionsAndAnswersElement = screen.getByTestId("mock-questionsandanswers");
+    const jobSeekerElement = screen.getByText(`Job Seeker: ${jobSeekerName}`);
+    // const dobElement = screen.getByText(`Date of Birth: ${dob}`);
+    // const nationalityElement = screen.getByText(`Nationality: ${nationality}`);
+    // const sexElement = screen.getByText(`Sex: ${sex}`);
+    // const cityElement = screen.getByText(`City: ${city}`);
+    // const postCodeElement = screen.getByText(`Post Code: ${postCode}`);
+    // const countryElement = screen.getByText(`Country: ${country}`);
+    // const resumeElement = screen.getByTestId("mock-resume");
+    // const questionsAndAnswersElement = screen.getByTestId("mock-questionsandanswers");
 
-  //   expect(jobSeekerElement).toBeInTheDocument();
-  //   // expect(dobElement).toBeInTheDocument();
-  //   // expect(nationalityElement).toBeInTheDocument();
-  //   // expect(sexElement).toBeInTheDocument();
-  //   // expect(cityElement).toBeInTheDocument();
-  //   // expect(postCodeElement).toBeInTheDocument();
-  //   // expect(countryElement).toBeInTheDocument();
-  //   // expect(resumeElement).toBeInTheDocument();
-  //   // expect(questionsAndAnswersElement).toBeInTheDocument();
-  // });
+    expect(jobSeekerElement).toBeInTheDocument();
+    // expect(dobElement).toBeInTheDocument();
+    // expect(nationalityElement).toBeInTheDocument();
+    // expect(sexElement).toBeInTheDocument();
+    // expect(cityElement).toBeInTheDocument();
+    // expect(postCodeElement).toBeInTheDocument();
+    // expect(countryElement).toBeInTheDocument();
+    // expect(resumeElement).toBeInTheDocument();
+    // expect(questionsAndAnswersElement).toBeInTheDocument();
+  });
 });
+
 

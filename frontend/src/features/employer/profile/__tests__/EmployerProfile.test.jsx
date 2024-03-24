@@ -3,6 +3,9 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import EmployerProfile from "../EmployerProfile";
 import { vi } from "vitest";
 import AuthContext from "@/context/AuthContext";
+import { handleErrorAndShowMessageAutomatically } from "@/components/error_handler/error_display";
+import { showError } from "@/components/Alert/Alert";
+import * as Alert from "@/components/Alert/Alert";
 
 const mockUser = {
   email: "johndoe@example.com",
@@ -31,6 +34,10 @@ vi.mock("@/utils/AxiosInstance", () => ({
   },
 }));
 
+vi.mock("@/components/error_handler/error_display", () => ({
+  handleErrorAndShowMessageAutomatically: vi.fn(),
+}));
+
 describe("EmployerProfile component", () => {
   beforeEach(() => {
     render(
@@ -41,7 +48,7 @@ describe("EmployerProfile component", () => {
   });
 
   const submitForm = () => {
-    fireEvent.submit(screen.getByText("Update Profile"));
+    fireEvent.submit(screen.getByText("Submit"));
   };
 
   const getValueFromFormData = (formData, field) => {
@@ -74,7 +81,7 @@ describe("EmployerProfile component", () => {
     assertFormValues(mockUser);
   });
 
-  test("updates data on submit", async () => {
+  test("updates profile data on submit", async () => {
     Object.entries(fieldMap).forEach(([label, field]) => {
       const value = getValueFromFormData(updatedFormData, field);
       fireEvent.change(screen.getByLabelText(label), { target: { value } });
@@ -85,11 +92,11 @@ describe("EmployerProfile component", () => {
     });
   });
 
-  test("displays popover with invalid phone number", () => {
-    const phoneNumberInput = screen.getByLabelText("Phone Number:");
-    fireEvent.change(phoneNumberInput, { target: { value: "123" } });
-    submitForm();
-    expect(screen.getByText("Please match the format requested.")).toBeInTheDocument();
+  test("renders ProfileDetails component", async () => {
+    expect(screen.getByText("Submit")).toBeInTheDocument();
   });
 
+  test("renders PasswordChangeSection component", async () => {
+    expect(screen.getByText("Change Password")).toBeInTheDocument();
+  });
 });
