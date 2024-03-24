@@ -9,27 +9,17 @@ import { Select } from "antd";
 import { Button } from "@/components/ui/button";
 const { TextArea } = Input;
 import Swal from 'sweetalert2';
-
-const showJobCreatedSuccess = () => {
-  Swal.fire(
-    'Job Created',
-    'Your job has been created successfully!',
-    'success'
-  );
-};
-
-const showJobCreatedError = () => {
-  Swal.fire(
-    'Error',
-    'There was an error creating the job.',
-    'error'
-  );
-};
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
+import Popup from "@/features/jobseeker/resume/Popup/Popup";
+import QuestionCreation from "./QuestionCreation";
 
 function JobCreationForm() {
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
-
+  const [createPopup, setCreatePopup] = useState(false);
+  const [editPopup, setEditPopup] = useState(null);
+  const [openPopupId, setOpenPopupId] = useState(null);
+  
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
@@ -45,6 +35,22 @@ function JobCreationForm() {
     country: "",
   });
 
+  const showJobCreatedSuccess = () => {
+    Swal.fire(
+      'Job Created',
+      'Your job has been created successfully!',
+      'success'
+    );
+  };
+  
+  const showJobCreatedError = () => {
+    Swal.fire(
+      'Error',
+      'There was an error creating the job.',
+      'error'
+    );
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -55,13 +61,16 @@ function JobCreationForm() {
         address: addressData,
         job_type: formData.job_type,
       });
-  
+    
+
       await AxiosInstance.post("api/employer-job-relations/create/", {
         employer: userId,
         job: jobResponse.data.id,
       });
-      showJobCreatedSuccess();
-      navigate(`/employer/create-questions/${jobResponse.data.id}`);
+
+      setOpenPopupId(jobResponse.data.id);
+      setEditPopup(true);
+      
     } catch (error) {
       showJobCreatedError();
       console.log(error);
@@ -83,6 +92,8 @@ function JobCreationForm() {
       [name]: value,
     });
   };
+
+  
 
   return (
     <div className="w-full flex justify-center items-center">
@@ -181,6 +192,9 @@ function JobCreationForm() {
               </Button>
             </div>
           </form>
+          <Popup trigger={editPopup} setTrigger={setEditPopup}>
+              <QuestionCreation jobId={openPopupId} />
+            </Popup>
         </CardContent>
       </Card>
     </div>

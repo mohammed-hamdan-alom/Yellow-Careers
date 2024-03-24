@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 
-function QuestionCreation() {
-    const { jobId } = useParams();
+function QuestionCreation({jobId}) {
     const navigate = useNavigate();
     const [questions, setQuestions] = useState([]);
     const [questionsChanged, setQuestionsChanged] = useState(false);
@@ -18,6 +17,7 @@ function QuestionCreation() {
     });
 
     useEffect(() => {
+        console.log(jobId);
         AxiosInstance.get(`api/jobs/${jobId}/questions/`)
             .then((res) => {
                 setQuestions(res.data);
@@ -56,7 +56,7 @@ function QuestionCreation() {
 
     const handleRemove = (id) => {
         AxiosInstance.delete(`api/questions/${id}/update/`)
-            .then((res) => window.location.reload())
+            .then((res) => setQuestionsChanged(true))
             .catch((error) => console.log(error));
     };
 
