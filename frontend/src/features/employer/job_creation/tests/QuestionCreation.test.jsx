@@ -46,9 +46,6 @@ vi.mock('react-router-dom', async (importOriginal) => {
     return {
         ...actual,
         useNavigate: () => navigate,
-        useParams: () => ({
-            jobId: 1,
-        })
     }
 })
 
@@ -66,7 +63,7 @@ vi.mock("@/utils/AxiosInstance", () => ({
                 return Promise.resolve({ data: {} })
             }
         }),
-        delete: vi.fn((url) => { return Promise.resolve({}) })
+        delete: vi.fn(() => { return Promise.resolve({}) })
     },
 }));
 
@@ -82,7 +79,7 @@ describe('QuestionCreation component with no predefined questions', () => {
             render(
                 <MemoryRouter>
                     <AuthContext.Provider value={employer}>
-                        <QuestionCreation />
+                        <QuestionCreation jobId={1} />
                     </AuthContext.Provider>
                 </MemoryRouter>
             );
@@ -95,21 +92,21 @@ describe('QuestionCreation component with no predefined questions', () => {
     });
 
     test("renders all components correctly with no questions", async () => {
-        const addAQuestion = await screen.getByText("Add a question");
+        const addAQuestionLabel = await screen.getByText("Add a question");
         const questionLabel = await screen.getByTestId("mock-label");
         const questionInput = await document.querySelector("input");
-        const submitButton = await screen.getByRole("button", { name: "Submit Question" });
-        const finishButton = await screen.getByRole("button", { name: "Finish" });
+        const addQuestionButton = await screen.getByRole("button", { name: "Add Question" });
+        const submitButton = await screen.getByRole("button", { name: "Submit" });
         const currentQuestions = await screen.getByText("Current Questions:");
         const noQuestions = await screen.getByText("There are currently no questions");
 
 
-        expect(addAQuestion).toBeInTheDocument();
+        expect(addAQuestionLabel).toBeInTheDocument();
         expect(questionLabel).toBeInTheDocument();
         expect(questionLabel).toHaveTextContent("Question");
         expect(questionInput).toBeInTheDocument();
+        expect(addQuestionButton).toBeInTheDocument();
         expect(submitButton).toBeInTheDocument();
-        expect(finishButton).toBeInTheDocument();
         expect(currentQuestions).toBeInTheDocument();
         expect(noQuestions).toBeInTheDocument();
     });
@@ -125,7 +122,7 @@ describe('QuestionCreation component with no predefined questions', () => {
     })
 
     test("question submits correctly", async () => {
-        const submitButton = await screen.getByRole("button", { name: "Submit Question" });
+        const submitButton = await screen.getByRole("button", { name: "Add Question" });
         const questionInput = await document.querySelector("input");
 
         await act(async () => {
@@ -139,11 +136,11 @@ describe('QuestionCreation component with no predefined questions', () => {
         expect(AxiosInstance.post).toHaveBeenCalledWith("api/questions/create/", questionSubmitData)
     })
 
-    test("finish button redirects correctly", async () => {
-        const finishButton = await screen.getByRole("button", { name: "Finish" });
+    test("submit button redirects correctly", async () => {
+        const submitButton = await screen.getByRole("button", { name: "Submit" });
 
         await act(async () => {
-            fireEvent.click(finishButton)
+            fireEvent.click(submitButton)
         })
 
         expect(navigate).toBeCalledWith(`/employer/job-details/1`)
