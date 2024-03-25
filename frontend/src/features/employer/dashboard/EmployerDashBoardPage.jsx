@@ -28,20 +28,8 @@ function EmployerDashBoardPage() {
     };
 
     fetchData();
-
-    localStorage.setItem("hasRefreshedEmployerDashboard", true);
+    
   }, [userId]);
-
-  // useEffect(() => {
-  //   const hasRefreshed = localStorage.getItem("hasRefreshedEmployerDashboard");
-  //   if (!hasRefreshed) {
-  //     const timer = setTimeout(() => {
-  //       window.location.reload();
-  //     }, 500);
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, []); 
 
   const handleSwitchChange = (checked) => {
     setShowCompanyJobs(checked);

@@ -143,8 +143,7 @@ export const AuthProvider = ({ children }) => {
         setAuthTokens(null);
         setUser(null);
         localStorage.removeItem("authTokens");
-        localStorage.removeItem("hasRefreshed");
-        localStorage.removeItem("hasRefreshedEmployerDashboard");
+        localStorage.removeItem("hasRefreshedDashboardLayout");
         navigate("/");
     };
 
