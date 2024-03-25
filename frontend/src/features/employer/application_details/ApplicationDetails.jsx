@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { useParams } from "react-router-dom";
-import { Label } from '@/components/ui/label';
+import { Label } from "@/components/ui/label";
 import { Button, Select } from "antd";
-import '@/components/styling/button.css';
-import Swal from 'sweetalert2';
+import "@/components/styling/button.css";
+import Swal from "sweetalert2";
 import DisplayResume from "@/components/resume/DisplayResume";
 import QuestionsAndAnswers from "@/components/questions_and_answers/QuestionsAndAnswers";
 
@@ -30,8 +30,12 @@ const ApplicationDetails = () => {
           resumeResponse,
           answersResponse,
         ] = await Promise.all([
-          AxiosInstance.get(`/api/job-seekers/${applicationResponse.data.job_seeker}`),
-          AxiosInstance.get(`/api/jobs/${applicationResponse.data.job}/questions`),
+          AxiosInstance.get(
+            `/api/job-seekers/${applicationResponse.data.job_seeker}`
+          ),
+          AxiosInstance.get(
+            `/api/jobs/${applicationResponse.data.job}/questions`
+          ),
           AxiosInstance.get(`/api/applications/${applicationId}/resume`),
           AxiosInstance.get(`/api/applications/${applicationId}/answers`),
         ]);
@@ -42,9 +46,12 @@ const ApplicationDetails = () => {
         setAnswers(answersResponse.data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
-        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
+        if (
+          error.response &&
+          (error.response.status === 403 || error.response.status === 404)
+        ) {
           window.location.href = "/employer/dashboard";
-      }
+        }
       }
     };
 
@@ -69,22 +76,23 @@ const ApplicationDetails = () => {
   };
 
   const handleDecisionChange = async (value) => {
-    let confirmationText = '';
-    if (value === 'A') {
-      confirmationText = 'Are you sure you want to accept this application?';
-    } else if (value === 'R') {
-      confirmationText = 'Are you sure you want to reject this application?';
+    let confirmationText = "";
+    if (value === "A") {
+      confirmationText = "Are you sure you want to accept this application?";
+    } else if (value === "R") {
+      confirmationText = "Are you sure you want to reject this application?";
     } else {
-      confirmationText = 'Are you sure you want to set this application to undecided?';
+      confirmationText =
+        "Are you sure you want to set this application to undecided?";
     }
 
     const confirmed = await Swal.fire({
-      title: 'Confirmation',
+      title: "Confirmation",
       text: confirmationText,
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
     });
 
     if (confirmed.isConfirmed) {
@@ -106,7 +114,14 @@ const ApplicationDetails = () => {
 
   return (
     <div>
-      <div className="mb-3" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div
+        className="mb-3"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <Label className="text-3xl font-bold">Application Details</Label>
         <Button className="blueButton" onClick={markAsRead}>
           {application.status === "R"
@@ -116,7 +131,9 @@ const ApplicationDetails = () => {
       </div>
 
       <div className="mb-3">
-        <Label className="text-xl font-semibold">Full name: {jobSeeker.first_name} {jobSeeker.last_name}</Label>
+        <Label className="text-xl font-semibold">
+          Full name: {jobSeeker.first_name} {jobSeeker.last_name}
+        </Label>
         <Label className="text-lg">
           <p>Other names: {jobSeeker.other_names}</p>
           <p>Email: {jobSeeker.email}</p>
@@ -137,7 +154,9 @@ const ApplicationDetails = () => {
 
       {questions.length > 0 && (
         <div className="mb-3">
-          <Label className="text-xl font-semibold">Questions and Answers:</Label>
+          <Label className="text-xl font-semibold">
+            Questions and Answers:
+          </Label>
           <QuestionsAndAnswers questions={questions} answers={answers} />
         </div>
       )}
@@ -145,7 +164,12 @@ const ApplicationDetails = () => {
       <div className="mb-3">
         <Label className="text-xl font-semibold">Decision:</Label>
         <br />
-        <Select id="decision" className="w-60 mt-2" value={application.decision} onChange={value => handleDecisionChange(value)}>
+        <Select
+          id="decision"
+          className="w-60 mt-2"
+          value={application.decision}
+          onChange={(value) => handleDecisionChange(value)}
+        >
           <Select.Option value="U">Undecided</Select.Option>
           <Select.Option value="R">Rejected</Select.Option>
           <Select.Option value="A">Accepted</Select.Option>

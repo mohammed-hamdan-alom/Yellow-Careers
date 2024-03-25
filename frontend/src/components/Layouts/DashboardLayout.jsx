@@ -15,7 +15,7 @@ function classNames(...classes) {
 const StyledNavLink = styled(NavLink)`
   &.active {
     font-weight: bold;
-    color: #FFD700; /* Yellow color */
+    color: #ffd700; /* Yellow color */
   }
 `;
 
@@ -28,7 +28,8 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
     console.log("logoutUser is not defined");
   }
 
-  const activeNavItem = navigation.find(item => location.pathname.includes(item.to)) || {};
+  const activeNavItem =
+    navigation.find((item) => location.pathname.includes(item.to)) || {};
 
   return (
     <>
@@ -43,7 +44,10 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <NavLink to={`${baseUrl}/dashboard`} className="flex items-center">
+                      <NavLink
+                        to={`${baseUrl}/dashboard`}
+                        className="flex items-center"
+                      >
                         <img
                           className="h-8 w-8"
                           src={logo}

@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from "@/components/Alert/Alert";
-import { Mail, Phone, Calendar, Earth, MapPin, Building2, BookOpenText, Computer } from 'lucide-react';
-import { UserOutlined } from '@ant-design/icons';
+import { Building2, BookOpenText, Computer } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Input, Select, Button } from "antd";
-const { Option } = Select;
+import { Input, Button } from "antd";
 import './styling/styling.css'
+import "@/components/styling/button.css";
+import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
 
 function CompanyProfilePage() {
   const [employer, setEmployer] = useState([]);
@@ -23,16 +23,22 @@ function CompanyProfilePage() {
   });
   const [showEdit, setShowEdit] = useState(null);
   const [employers, setEmployers] = useState([]);
+  const [inviteEmail, setInviteEmail] = useState("");
+  
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const employerResponse = await AxiosInstance.get(`api/employers/${userId}`);
+        const employerResponse = await AxiosInstance.get(
+          `api/employers/${userId}`
+        );
         setEmployer(employerResponse.data);
 
-        const companyResponse = await AxiosInstance.get(`api/companies/${employerResponse.data.company}`);
+        const companyResponse = await AxiosInstance.get(
+          `api/companies/${employerResponse.data.company}`
+        );
         setCompanyData({
           company_name: companyResponse.data.company_name,
           about: companyResponse.data.about,
@@ -40,7 +46,9 @@ function CompanyProfilePage() {
           id: companyResponse.data.id,
         });
 
-        const employersResponse = await AxiosInstance.get(`api/companies/${companyResponse.data.id}/employers`);
+        const employersResponse = await AxiosInstance.get(
+          `api/companies/${companyResponse.data.id}/employers`
+        );
         setEmployers(employersResponse.data);
       } catch (error) {
         console.error(error);
@@ -66,7 +74,10 @@ function CompanyProfilePage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await AxiosInstance.put(`api/companies/${companyData.id}/update/`, editedCompanyData);
+      const response = await AxiosInstance.put(
+        `api/companies/${companyData.id}/update/`,
+        editedCompanyData
+      );
       showSuccess("Company Profile Updated");
       setShowEdit(false);
       setCompanyData(editedCompanyData);
@@ -74,6 +85,25 @@ function CompanyProfilePage() {
       console.error(error);
       setErrors(error.response.data);
       showError("Company Profile Update Failed");
+    }
+  };
+
+  const handleInviteSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await AxiosInstance.post(
+        "/api/invited-employer/create/",
+        {
+          email: inviteEmail,
+          company: companyData.id,
+        }
+      );
+      if (response.status === 200 || response.status === 201) {
+        showSuccess("Invitation sent successfully.");
+        setInviteEmail("");
+      }
+    } catch (error) {
+      handleErrorAndShowMessage("Failed to send invite:", error);
     }
   };
 
@@ -88,26 +118,51 @@ function CompanyProfilePage() {
             </Label>
           </div>
           <div className="mb-3">
-            <Label htmlFor="about" >About: </Label>
-            <Input type="text" prefix={<BookOpenText size={15} />} id="about" name="about" disabled value={companyData.about} />
+            <Label htmlFor="about">About: </Label>
+            <Input
+              type="text"
+              prefix={<BookOpenText size={15} />}
+              id="about"
+              name="about"
+              disabled
+              value={companyData.about}
+            />
           </div>
           <div className="mb-3">
-            <Label htmlFor="website" >Website: </Label>
-            <Input type="text" prefix={<Computer size={15} />} id="website" name="website" disabled value={companyData.website} />
+            <Label htmlFor="website">Website: </Label>
+            <Input
+              type="text"
+              prefix={<Computer size={15} />}
+              id="website"
+              name="website"
+              disabled
+              value={companyData.website}
+            />
           </div>
           {employer.is_company_admin && (
-            <div style={{ marginTop: '25px' }}>
-              <Button className="editButton" type="submit" onClick={() => { setEditedCompanyData(companyData); setShowEdit(true) }}>Edit</Button>
+            <div className="mt-5">
+              <Button
+                className="editButton"
+                type="submit"
+                onClick={() => {
+                  setEditedCompanyData(companyData);
+                  setShowEdit(true);
+                }}
+              >
+                Edit
+              </Button>
             </div>
           )}
           <br />
         </div>
       )}
-      {showEdit && (
 
+      {showEdit && (
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <Label htmlFor="company_name"> Company Name:
+            <Label htmlFor="company_name">
+              {" "}
+              Company Name:
               <Input
                 prefix={<Building2 size={16} className="mr-3" />}
                 type="text"
@@ -120,7 +175,7 @@ function CompanyProfilePage() {
             {errors.company_name && <p>{errors.company_name}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="about">About</label>
+            <Label htmlFor="about">About:</Label>
             <Input.TextArea
               id="about"
               name="about"
@@ -130,7 +185,7 @@ function CompanyProfilePage() {
             {errors.about && <p>{errors.about}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="website">Website</label>
+            <Label htmlFor="website">Website:</Label>
             <Input
               type="text"
               id="website"
@@ -140,26 +195,67 @@ function CompanyProfilePage() {
             />
             {errors.website && <p>{errors.website}</p>}
           </div>
-          <Button type="submit" className="updateButton" onClick={handleSubmit}>Update</Button>
-          <Button type="button" className="cancelButton" onClick={() => setShowEdit(false)}>Cancel</Button>
+          <Button
+            type="submit"
+            className="updateButton mr-3"
+            onClick={handleSubmit}
+          >
+            Update
+          </Button>
+          <Button
+            type="button"
+            className="cancelButton"
+            onClick={() => setShowEdit(false)}
+          >
+            Cancel
+          </Button>
         </form>
       )}
-      <div>
-        <h1>Employers:</h1>
+
+      <div className="mt-3">
+        <Label className="text-lg font-semibold">Employers:</Label>
         <br />
         <ul>
           {employers.map((employer) => (
             <li key={employer.id} className="employer-item">
               <div className="employer-info">
-                <Label htmlFor={`employer-${employer.id}`} className="flex items-center">
+                <Label
+                  htmlFor={`employer-${employer.id}`}
+                  className="flex items-center"
+                >
                   {employer.first_name} {employer.last_name}:
                 </Label>
-                <Label htmlFor={`employer-email-${employer.id}`} className="flex items-center">Email: {employer.email}</Label>
+                <Label
+                  htmlFor={`employer-email-${employer.id}`}
+                  className="flex items-center"
+                >
+                  Email: {employer.email}
+                </Label>
               </div>
             </li>
           ))}
         </ul>
       </div>
+
+      {employer.is_company_admin && (
+        <div>
+          <Label className="text-lg font-semibold">Invite Employers:</Label>
+          <form onSubmit={handleInviteSubmit}>
+            <div className="mb-3">
+              <Input
+                type="email"
+                placeholder="Enter employer's email"
+                value={inviteEmail}
+                onChange={(e) => setInviteEmail(e.target.value)}
+                required
+              />
+            </div>
+            <Button htmlType="submit" className="blueButton">
+              Send Invite
+            </Button>
+          </form>
+        </div>
+      )}
 
     </div>
   );
