@@ -7,7 +7,6 @@ import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
 import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 import "@/components/styling/button.css";
-import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser";
 
 const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
@@ -73,7 +72,6 @@ const JobSeekerProfile = () => {
               "error"
             );
           }
-          checkUserIdAndReload(user.user_id);
         } catch (error) {
           handleErrorAndShowMessage("Error retrieving data:", error);
         }
