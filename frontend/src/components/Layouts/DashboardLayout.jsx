@@ -112,6 +112,9 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                           <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-white text-sm ">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
+                            <span className="text-gray-500 mr-2">
+                              {user.email}
+                            </span>
                             <img
                               className="h-8 w-8 rounded-full"
                               src={user.imageUrl}
@@ -197,9 +200,6 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                       />
                     </div>
                     <div className="ml-3">
-                      <div className="text-base font-medium leading-none text-white">
-                        {user.name}
-                      </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
                         {user.email}
                       </div>
