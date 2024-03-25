@@ -7,7 +7,7 @@ import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
 import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 const JobListPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, updateToken } = useContext(AuthContext);
   const userId = user.user_id;
 
   const [jobs, setJobs] = useState(undefined);
@@ -16,6 +16,7 @@ const JobListPage = () => {
 
   useEffect(() => {
     const fetchResumeAndJobs = async () => {
+      updateToken();
       try {
         const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
         setResume(response.data);

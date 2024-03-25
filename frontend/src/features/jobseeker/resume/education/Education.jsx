@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Link } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/Alert";
-import Popup from "../Popup/Popup";
+import { Modal } from "antd";
 import EditEducationPage from "./EditEducationPage";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { SquarePen, MinusCircle } from "lucide-react";
 
 function Education({ resumeId }) {
   const [educations, setEducations] = useState([]);
-  const [createPopup, setCreatePopup] = useState(false);
-  const [editPopup, setEditPopup] = useState(null);
-  const [openPopupId, setOpenPopupId] = useState(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const showAddModal = () => {
+    setIsAddModalOpen(true);
+  };
+
+  const showEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchEducations = async () => {
@@ -21,20 +34,24 @@ function Education({ resumeId }) {
         return;
       }
       try {
-        const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
+        const response = await AxiosInstance.get(
+          `api/resumes/${resumeId}/educations/`
+        );
         setEducations(response.data);
       } catch (error) {
         console.error("Error:", error);
       }
     };
-  
+
     fetchEducations();
   }, [resumeId]);
 
   //Delete education
-  const handleDeleteEducation = async (educationObj) => {
+  const handleDeleteEducation = (educationObj) => {
     try {
-      await AxiosInstance.delete(`http://localhost:8000/api/resumes/${resumeId}/educations/update/${educationObj.id}`);
+      AxiosInstance.delete(
+        `api/resumes/${resumeId}/educations/update/${educationObj.id}`
+      );
       showSuccess("Education Deleted");
       setEducations((prevEducations) =>
         prevEducations.filter((item) => item !== educationObj)
@@ -52,39 +69,55 @@ function Education({ resumeId }) {
         {educations.map((education) => (
           <div
             key={education.id}
-            className="flex flex-row items-center justify-between mb-4"
-          >
-            <div>
-              <Label className="text-1xl">{education.school}</Label>
+            className="flex flex-col items-center justify-between mb-4"
+          > 
+            {console.log(education.id)}
+            <div className="flex flex-col w-full outline rounded m-3 p-2">
+              <Label className="text-1xl">
+                Course: {education.course_name}
+              </Label>
+              <Label className="text-1xl">
+                Institution: {education.institution}
+              </Label>
+              <Label className="text-1xl">Level: {education.level}</Label>
+              <Label className="text-1xl">Grade: {education.grade}</Label>
             </div>
-            <div className="flex flex-row items-center">
+
+            <div className="flex flex-row w-full items-center">
               <Button
-                size="icon"
+                data-testid="edit-button"
                 variant="secondary"
                 className="mr-4"
-                onClick={() => {
-                  setEditPopup(true);
-                  setOpenPopupId(education.id);
-                }}
+                onClick={showEditModal}
               >
-                <SquarePen className="w-5 h-5" />
+                <SquarePen className="w-5 h-5 mr-2" />
+                Edit
               </Button>
-              <Popup trigger={editPopup} setTrigger={setEditPopup}>
+              <Modal
+                title="Edit Education"
+                footer={null}
+                open={isEditModalOpen}
+                onOk={() => setIsEditModalOpen(false)}
+                onCancel={() => setIsEditModalOpen(false)}
+              >
                 <EditEducationPage
-                  education={education}
+                  post={false}
+                  put={true}
                   resumeId={resumeId}
+                  educationId={education.id}
                   setEducations={setEducations}
-                  setButtonPopup={setEditPopup}
+                  closeEditModal={closeEditModal}
                 />
-              </Popup>
+              </Modal>
               <Button
-                size="icon"
+                data-testid="delete-button"
                 variant="destructive"
                 onClick={() => {
                   handleDeleteEducation(education);
                 }}
               >
-                <MinusCircle className="w-5 h-5" />
+                <MinusCircle className="w-5 h-5 mr-2" />
+                Delete
               </Button>
             </div>
           </div>
@@ -92,20 +125,24 @@ function Education({ resumeId }) {
       </div>
 
       <div>
-        <Button
-          variant="outline"
-          onClick={() => setCreatePopup(true)}
-        >
+        <Button variant="outline" onClick={showAddModal}>
           Add Education
         </Button>
-        <Popup trigger={createPopup} setTrigger={setCreatePopup}>
+        <Modal
+          title="Add Education"
+          open={isAddModalOpen}
+          footer={null}
+          onOk={() => setIsAddModalOpen(false)}
+          onCancel={() => setIsAddModalOpen(false)}
+        >
           <EditEducationPage
             post={true}
+            put={false}
             resumeId={resumeId}
             setEducations={setEducations}
-            setButtonPopup={setCreatePopup}
+            closeAddModal={closeAddModal}
           />
-        </Popup>
+        </Modal>
       </div>
     </div>
   );

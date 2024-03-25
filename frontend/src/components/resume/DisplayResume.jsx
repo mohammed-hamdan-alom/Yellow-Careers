@@ -30,7 +30,7 @@ function DisplayResume({ resumeId }) {
         console.error("Error:", error);
       }
     };
-  
+
     fetchResume();
   }, [resumeId]);
 
@@ -83,5 +83,4 @@ function DisplayResume({ resumeId }) {
     </div>
   );
 }
-
 export default DisplayResume;
