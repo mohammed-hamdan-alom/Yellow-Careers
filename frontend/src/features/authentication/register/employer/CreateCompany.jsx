@@ -83,7 +83,7 @@ const CreateCompany = () => {
                     setCompany({ ...company, about: e.target.value })
                   }
                 />
-                <div>
+                <div className="mt-4">
                   <Label htmlFor="admin_email">Admin Email</Label>
                   <Input
                     type="email"

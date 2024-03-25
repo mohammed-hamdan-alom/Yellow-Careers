@@ -28,7 +28,8 @@ class EmployerRegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         employer = Employer.objects.create(
                         email=validated_data['email'],
-                        company=validated_data.get('company')
+                        company=validated_data.get('company'),
+                        is_company_admin=validated_data['is_company_admin']
                 )
         employer.set_password(validated_data['password'])
         employer.save()

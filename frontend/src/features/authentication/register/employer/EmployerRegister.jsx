@@ -33,6 +33,7 @@ const EmployerRegister = () => {
             registerEmployer(registerEmail, password, password2, companyId, false);
           }
         } else {
+          console.log()
           registerEmployer(registerEmail, password, password2, companyId, true);
         }
       } catch (error) {

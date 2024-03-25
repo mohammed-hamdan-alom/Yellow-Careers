@@ -76,14 +76,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const registerEmployer = async (email, password, password2, company, isAdmin) => {
+  const registerEmployer = async (
+    email,
+    password,
+    password2,
+    company,
+    isAdmin
+  ) => {
     try {
       const response = await AxiosInstance.post("/api/employer-register/", {
-        email,
-        password,
-        password2,
-        company,
-        isAdmin
+        email: email,
+        password: password,
+        password2: password2,
+        company: company,
+        is_company_admin: isAdmin,
       });
 
       if (response.status === 201) {
