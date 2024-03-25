@@ -3,7 +3,7 @@ import { vi } from 'vitest';
 import { render, screen, fireEvent, act, cleanup, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import AxiosInstance from '@/utils/AxiosInstance';
-import JobDetails from '../job-datails/JobDetails';
+import JobDetails from '@/components/job-details/JobDetails';
 import AuthContext from '@/context/AuthContext';
 
 Object.defineProperty(window, 'location', {

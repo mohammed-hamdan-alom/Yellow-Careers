@@ -16,7 +16,7 @@ import DashBoardPage from "./features/jobseeker/dashboard/Dashboard";
 import JobSeekerProfile from "./features/jobseeker/profile/JobSeekerProfile";
 
 import ResumePage from "./features/jobseeker/resume/ResumePage";
-import JobDetails from "./features/jobseeker/job-details/job-datails/JobDetails";
+import JobDetails from "./features/jobseeker/job-details/job-details-page/JobDetailsPage";
 import JobQuestions from "./features/jobseeker/job-details/job-questions/JobQuestions";
 
 import AppliedJobListPage from "./features/jobseeker/job-list/applied-jobs/AppliedJobsListPage";
@@ -31,8 +31,8 @@ import EmployerDashBoardPage from "./features/employer/dashboard/EmployerDashBoa
 import ApplicationDetails from "./features/employer/application_details/ApplicationDetails";
 import CompanyProfilePage from "./features/employer/company_profile/CompanyProfilePage";
 import EmployerProfile from "./features/employer/profile/EmployerProfile";
-
 import JobDetailsEmployer from "./features/employer/job_applicants/JobDetailsEmployer";
+
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 function App() {
