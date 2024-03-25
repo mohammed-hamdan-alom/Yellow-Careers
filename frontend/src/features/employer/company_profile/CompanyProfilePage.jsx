@@ -2,23 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from "@/components/Alert/Alert";
-import {
-  Mail,
-  Phone,
-  Calendar,
-  Earth,
-  MapPin,
-  Building2,
-  BookOpenText,
-  Computer,
-} from "lucide-react";
-import { UserOutlined } from "@ant-design/icons";
+import { Building2, BookOpenText, Computer } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Input, Select, Button } from "antd";
-const { Option } = Select;
+import { Input, Button } from "antd";
 import "./styling/styling.css";
-import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
-
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser";
 
 function CompanyProfilePage() {
   const [employer, setEmployer] = useState([]);
@@ -60,7 +48,7 @@ function CompanyProfilePage() {
         );
         setEmployers(employersResponse.data);
       } catch (error) {
-        checkUserIdAndReload(userId)
+        checkUserIdAndReload(userId);
         console.error(error);
       }
     };
@@ -211,7 +199,8 @@ function CompanyProfilePage() {
                   htmlFor={`employer-${employer.id}`}
                   className="flex items-center"
                 >
-                  {employer.first_name} {employer.last_name}:
+                  {employer.first_name} {employer.last_name}
+                  {employer.is_company_admin && <span style={{ marginLeft: "5px" }}> (Admin)</span>}
                 </Label>
                 <Label
                   htmlFor={`employer-email-${employer.id}`}
