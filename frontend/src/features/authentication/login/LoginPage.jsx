@@ -42,7 +42,7 @@ const LoginPage = () => {
               <Input type="password" id="password" name="password" onChange={e => setUser({...user, password: e.target.value})} />
             </div>
             <div className="mt-8">
-              <Button type="submit" className="w-full">Login</Button>
+              <Button type="submit" className="w-full" data-testid='login-button'>Login</Button>
             </div>
           </form>
         </CardContent>

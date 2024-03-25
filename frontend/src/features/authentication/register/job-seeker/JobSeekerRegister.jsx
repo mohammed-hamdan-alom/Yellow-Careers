@@ -112,7 +112,7 @@ const JobSeekerRegister = () => {
               <div className='mt-4'>
                 <Label htmlFor='dob'>Date of Birth</Label>
                 <div className='mt-2'>
-                  <DatePicker className='w-full' onChange={handleDateChange} />
+                  <DatePicker id='dob' className='w-full' onChange={handleDateChange} />
                 </div>
               </div>
               <div className='mt-4'>
@@ -124,6 +124,7 @@ const JobSeekerRegister = () => {
                 <div className='mt-2'>
                   <Select
                     showSearch
+                    id='nationality'
                     className='w-full bg-background'
                     placeholder="Select a Nationality"
                     optionFilterProp="children"
@@ -134,8 +135,8 @@ const JobSeekerRegister = () => {
                 </div>
               </div>
               <div className='mt-4'>
-                <Label htmlFor='sex'>Gender</Label>
-                <RadioGroup onChange={e => { setUser({ ...user, sex: e.target.value }) }}>
+                <Label htmlFor='sex' >Gender</Label>
+                <RadioGroup onChange={e => { setUser({ ...user, sex: e.target.value })}} id='sex' data-testid='gender-input'>
                   <div className="flex space-x-4 mt-2">
                     <div className="flex flex-row space-x-2">
                       <RadioGroupItem value="M" id="male" name="sex" />
@@ -149,7 +150,7 @@ const JobSeekerRegister = () => {
                 </RadioGroup>
               </div>
               <div className='mt-4'>
-                <Button type='submit' className='w-full mt-4'>Register</Button>
+                <Button type='submit' className='w-full mt-4' data-testid='register-button'>Register</Button>
               </div>
             </form>
           </CardContent>
