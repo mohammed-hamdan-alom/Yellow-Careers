@@ -26,9 +26,10 @@ function EmployerDashBoardPage() {
         if (employerResponse.data.is_company_admin) {
           const companyJobsResponse = await AxiosInstance.get(`api/employer/${userId}/company-jobs/`);
           setCompanyJobs(companyJobsResponse.data);
+          setShowCompanyJobs(companyJobsResponse.data.length > 0);
         }
 
-        setShowCompanyJobs(companyJobsResponse.data.length > 0);
+
       } catch (error) {
         checkUserIdAndReload(userId)
         console.error('Error fetching jobs:', error);

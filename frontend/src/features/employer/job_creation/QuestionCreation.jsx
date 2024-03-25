@@ -90,7 +90,7 @@ function QuestionCreation({ jobId }) {
                 </ul>
             ))}
             <br></br>
-            <Button onClick={handleSkip} className="yellowButton">Submit</Button>
+            <Button onClick={handleSkip} className="yellowButton mt-1">Submit</Button>
         </div>
     );
 }
