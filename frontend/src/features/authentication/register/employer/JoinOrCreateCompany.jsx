@@ -29,7 +29,7 @@ const JoinOrCreateCompany = () => {
     <div className="h-screen flex justify-center items-center">
       <Card>
         <CardHeader>
-          <h1>Join or Create a Company</h1>
+          <CardTitle>Join or Create a Company</CardTitle>
         </CardHeader>
         <CardContent>
           <RadioGroup className="w-full flex flex-col justify-center">
