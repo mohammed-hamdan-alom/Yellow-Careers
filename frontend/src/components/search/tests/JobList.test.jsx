@@ -11,7 +11,13 @@ const data = [{
     "description": "Labore provident corporis deserunt perferendis. Magni a modi autem earum dolor. Commodi iure consectetur doloribus minima aliquid minima. Quidem recusandae quisquam facilis repudiandae occaecati similique.",
     "address": 501,
     "job_type": "FT",
-    "salary": 44976
+    "salary": 44976,
+    "company": {
+        "id": 1,
+        "company_name": "Spencer",
+        "website": "WEBSITE.COM",
+        "about": "ABOUT SPENCER"
+    }
 },
 {
     "id": 2,
@@ -19,7 +25,13 @@ const data = [{
     "description": "Fugiat adipisci tempore. Consectetur veniam quaerat deleniti assumenda sapiente.",
     "address": 502,
     "job_type": "IN",
-    "salary": 74726
+    "salary": 74726,
+    "company": {
+        "id": 1,
+        "company_name": "Spencer",
+        "website": "WEBSITE.COM",
+        "about": "ABOUT SPENCER"
+    }
 },
 {
     "id": 3,
@@ -27,7 +39,13 @@ const data = [{
     "description": "Pariatur magnam quisquam distinctio. Repudiandae asperiores quidem dolor. Voluptatum omnis dolorem magnam et commodi magnam officiis.",
     "address": 503,
     "job_type": "TM",
-    "salary": 35685
+    "salary": 35685,
+    "company": {
+        "id": 1,
+        "company_name": "Spencer",
+        "website": "WEBSITE.COM",
+        "about": "ABOUT SPENCER"
+    }
 },
 {
     "id": 4,
@@ -35,7 +53,13 @@ const data = [{
     "description": "Aliquid mollitia vitae blanditiis dignissimos dignissimos. Maiores architecto voluptatum ex. Corrupti voluptatem esse eum nostrum adipisci explicabo.",
     "address": 504,
     "job_type": "PT",
-    "salary": 61939
+    "salary": 61939,
+    "company": {
+        "id": 1,
+        "company_name": "Spencer",
+        "website": "WEBSITE.COM",
+        "about": "ABOUT SPENCER"
+    }
 }]
 
 vi.mock("../../JobSummary/JobSummary", async (importOriginal) => {
