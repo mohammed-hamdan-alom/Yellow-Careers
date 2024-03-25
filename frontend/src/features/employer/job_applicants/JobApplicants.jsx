@@ -80,7 +80,7 @@ const JobApplicantsPage = () => {
             <Select.Option value="R">Read</Select.Option>
           </Select>
         </div>
-        <div className="flex-1 text-center">
+        <div className="flex-1">
           <Label className="text-xl"><Tag color="pink" className="tag-medium">Decision Filter:</Tag></Label>
           <Select data-testid='decision' id="decision" className="w-60 mt-2" defaultValue="all" onChange={value => setDecisionFilter(value)}>
             <Select.Option value="all">All</Select.Option>
