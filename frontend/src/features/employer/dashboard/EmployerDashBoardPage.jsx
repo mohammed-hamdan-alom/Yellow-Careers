@@ -28,7 +28,24 @@ function EmployerDashBoardPage() {
     };
 
     fetchData();
+
+    // Set a flag in localStorage to indicate whether the page has been refreshed
+    localStorage.setItem("hasRefreshedEmployerDashboard", true);
   }, [userId]);
+
+  useEffect(() => {
+    // Check if the page has been refreshed already
+    const hasRefreshed = localStorage.getItem("hasRefreshedEmployerDashboard");
+    if (!hasRefreshed) {
+      // If not, refresh the page after 3 seconds
+      const timer = setTimeout(() => {
+        window.location.reload();
+      }, 3000); // 3 seconds delay
+
+      // Clear the timeout when the component unmounts
+      return () => clearTimeout(timer);
+    }
+  }, []); // Empty dependency array ensures this effect runs only once
 
   const handleSwitchChange = (checked) => {
     setShowCompanyJobs(checked);
