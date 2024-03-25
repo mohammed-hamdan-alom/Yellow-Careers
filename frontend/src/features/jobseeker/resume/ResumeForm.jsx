@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button";
+import '@/components/styling/button.css';
+
 
 
 function ResumeForm({ resumeId }) {
@@ -61,23 +63,23 @@ function ResumeForm({ resumeId }) {
       <form onSubmit={handleSubmitResume}>
         <div className="flex space-x-4">
           <div className="w-1/2">
-            <Label className='text-1xl'>Github:</Label>
-            <Input type="text" name="github" value={resume.github} onChange={handleResumeChange} />
+            <Label className='text-1xl' htmlFor='github'>Github:</Label>
+            <Input type="text" name="github" id='github' value={resume.github} onChange={handleResumeChange} />
           </div>
           <div className="w-1/2">
-            <Label className='text-1xl'>LinkedIn:</Label>
-            <Input type="text" name="linkedin" value={resume.linkedin} onChange={handleResumeChange} />
+            <Label className='text-1xl' htmlFor='linkedin'>LinkedIn:</Label>
+            <Input type="text" name="linkedin" id='linkedin' value={resume.linkedin} onChange={handleResumeChange} />
           </div>
         </div>
         <div className="mt-4">
-          <Label className='text-1xl'>About:</Label>
-          <Textarea name="about" value={resume.about} onChange={handleResumeChange} />
+          <Label className='text-1xl' htmlFor='about'>About:</Label>
+          <Textarea name="about" id='about' value={resume.about} onChange={handleResumeChange} />
         </div>
         <div className="mt-4">
-          <Label className='text-1xl'>Experience:</Label>
-          <Textarea name="experience" value={resume.experience} onChange={handleResumeChange} />
+          <Label className='text-1xl' htmlFor='experience'>Experience:</Label>
+          <Textarea name="experience" id='experience' value={resume.experience} onChange={handleResumeChange} />
         </div>
-        <Button type="submit" className="mt-4">Update Resume</Button>
+        <Button type="submit" className="mt-4" data-testid='submit-button'>Update Resume</Button>
       </form>
     </div>
   );

@@ -8,11 +8,24 @@ import { Input, InputNumber } from "antd";
 import { Select } from "antd";
 import { Button } from "@/components/ui/button";
 const { TextArea } = Input;
-import { showJobCreatedError, showJobCreatedSuccess } from '@/components/Alert/Alert';
+import Swal from 'sweetalert2';
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
+import { Modal } from "antd";
+import QuestionCreation from "./QuestionCreation";
 
 function JobCreationForm() {
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [jobId, setJobId] = useState(null);
+
+  const showAddModal = () => {
+    setIsAddModalOpen(true);
+  };
+
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -29,6 +42,22 @@ function JobCreationForm() {
     country: "",
   });
 
+  const showJobCreatedSuccess = () => {
+    Swal.fire(
+      'Job Created',
+      'Your job has been created successfully!',
+      'success'
+    );
+  };
+
+  const showJobCreatedError = () => {
+    Swal.fire(
+      'Error',
+      'There was an error creating the job.',
+      'error'
+    );
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -40,12 +69,15 @@ function JobCreationForm() {
         job_type: formData.job_type,
       });
 
+
       await AxiosInstance.post("api/employer-job-relations/create/", {
         employer: userId,
         job: jobResponse.data.id,
       });
-      showJobCreatedSuccess();
-      navigate(`/employer/job-details/${jobResponse.data.id}`);
+
+      setJobId(jobResponse.data.id);
+      showAddModal();
+
     } catch (error) {
       showJobCreatedError();
       console.log(error);
@@ -67,6 +99,8 @@ function JobCreationForm() {
       [name]: value,
     });
   };
+
+
 
   return (
     <div className="w-full flex justify-center items-center">
@@ -101,6 +135,7 @@ function JobCreationForm() {
               <Label className="text-2xl">Salary</Label>
               <InputNumber
                 className="w-full mt-2"
+                name="salary"
                 formatter={(value) =>
                   `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 }
@@ -146,7 +181,7 @@ function JobCreationForm() {
 
             <div className="flex flex-col mb-4">
               <Label className="text-2xl">Job Type</Label>
-              <Select
+              <Select data-testid="job_type"
                 className="w-full mt-2"
                 name="job_type"
                 value={formData.job_type}
@@ -159,11 +194,18 @@ function JobCreationForm() {
               </Select>
             </div>
             <div className="mt-12 w-full">
-              <Button type="submit" className="w-full" variant="outline" >
+              <Button type="submit" className="w-full" variant="outline">
                 Create Job
               </Button>
             </div>
           </form>
+          <Modal
+            title="Create Questions"
+            open={isAddModalOpen}
+            footer={null}
+          >
+            <QuestionCreation jobId={jobId}></QuestionCreation>
+          </Modal>
         </CardContent>
       </Card>
     </div>

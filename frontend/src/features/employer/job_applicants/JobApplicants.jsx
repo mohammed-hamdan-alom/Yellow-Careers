@@ -5,6 +5,7 @@ import ApplicantSummary from "@/features/employer/job_applicants/ApplicantSummar
 import { Label } from '@/components/ui/label';
 import { Button, Select, Tag, Pagination } from 'antd';
 import '@/components/styling/button.css';
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
 import '@/components/styling/filter.css';
 import '@/components/styling/tag.css';
 
@@ -31,6 +32,7 @@ const JobApplicantsPage = () => {
         if (error.response && (error.response.status === 403 || error.response.status === 404)) {
           window.location.href = "/employer/dashboard";
         }
+        checkUserIdAndReload(userId)
       }
     };
 
@@ -38,9 +40,9 @@ const JobApplicantsPage = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = applications.filter(application => 
-        (statusFilter === 'all' || application.status === statusFilter) &&
-        (decisionFilter === 'all' || application.decision === decisionFilter)
+    const filtered = applications.filter(application =>
+      (statusFilter === 'all' || application.status === statusFilter) &&
+      (decisionFilter === 'all' || application.decision === decisionFilter)
     );
 
     setFilteredApplications(filtered);
@@ -92,7 +94,7 @@ const JobApplicantsPage = () => {
       </div>
       {currentPageApplications.map(application => (
         <ul key={application.id}>
-          <ApplicantSummary application_id={application.id} status={application.status} decision={application.decision}/>
+          <ApplicantSummary application_id={application.id} status={application.status} decision={application.decision} />
         </ul>
       ))}
       <Pagination

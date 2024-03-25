@@ -6,8 +6,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 import string
 
 LOCATION_WEIGHTING = 0.05
-LEVENSHTEIN_WEIGHTING = 0.3
-WORD2VEC_WEIGHTING = 0.65
+LEVENSHTEIN_WEIGHTING = 0.25
+WORD2VEC_WEIGHTING = 0.7
 
 model = Word2Vec.load("api/matchmaker/word2vec_model_all.bin")
 
@@ -35,31 +35,34 @@ def getMatchedJobsForJobSeeker(job_seeker):
     applied_jobs = [application.job for application in applications]
     return list(filter(lambda x: x not in applied_jobs, matched_jobs))
 
-def getMatchedApplicantsForJob(job, applicants):
+def getMatchedApplicantsForJob(job, applications):
     job_description = job.to_string()
-    applicant_scores = {}
-    for job_seeker in applicants:
-        resume = job_seeker.get_resume().to_string()
-        applicant_scores[job_seeker] = (
-            LOCATION_WEIGHTING * calculateLocationScore(job, job_seeker) +
+    application_scores = {}
+    for application in applications:
+        resume = application.job_seeker.get_resume().to_string()
+        application_scores[application] = (
+            LOCATION_WEIGHTING * calculateLocationScore(job, application.job_seeker) +
             LEVENSHTEIN_WEIGHTING * calculateLevenshteinScore(job_description, resume) +
             WORD2VEC_WEIGHTING * calculateWord2VecSimilarity(job_description, resume)
         )
         
-    matched_order = sorted(applicant_scores.items(), key=lambda x: x[1], reverse=True)
-    matched_applicants = [item[0] for item in matched_order]
-    return matched_applicants
+    matched_order = sorted(application_scores.items(), key=lambda x: x[1], reverse=True)
+    matched_applications = [item[0] for item in matched_order]
+    return matched_applications
 
 def calculateLocationScore(job, job_seeker):
-    job_location = job.address
-    job_seeker_location = job_seeker.address
-    score = 0
-    if job_location.country.lower() == job_seeker_location.country.lower():
-        score = 1
+    try:
+        job_location = job.address
+        job_seeker_location = job_seeker.address
+        score = 0
+        if job_location.country.lower() == job_seeker_location.country.lower():
+            score = 1
 
-    if job_location.city.lower() != job_seeker_location.city.lower():
-        score = score * 0.7
-    return score
+        if job_location.city.lower() != job_seeker_location.city.lower():
+            score = score * 0.7
+        return score
+    except Exception:
+        return 0
 
 def calculateLevenshteinScore(job_description, resume):
     return ratio(job_description, resume)

@@ -2,40 +2,35 @@ import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import swal from "sweetalert2";
-import { nationalityOptions } from "@/components/Nationalities/nationalityOptions";
-import { UserOutlined } from "@ant-design/icons";
-import { Label } from "@/components/ui/label";
-import { Input, Select, Button } from "antd";
-const { Option } = Select;
-import { Mail, Phone, Calendar, MapPin } from "lucide-react";
 import "@/components/styling/button.css";
 import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
-import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
+import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
+import "@/components/styling/button.css";
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser";
 
 const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
-    email: user?.email || "",
-    first_name: user?.first_name || "",
-    last_name: user?.last_name || "",
-    other_names: user?.other_names || "",
-    phone_number: user?.phone_number || "",
-    dob: user?.dob || "",
-    nationality: user?.nationality || "",
-    sex: user?.sex || "",
+    email: "",
+    first_name: "",
+    last_name: "",
+    other_names: "",
+    phone_number: "",
+    dob: "",
+    nationality: "",
+    sex: "",
     address: {
-      city: user?.address?.city || "",
-      post_code: user?.address?.post_code || "",
-      country: user?.address?.country || "",
+      city: "",
+      post_code: "",
+      country: "",
     },
   });
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-
 
   useEffect(() => {
     const fetchJobSeekerData = async () => {
@@ -78,6 +73,7 @@ const JobSeekerProfile = () => {
               "error"
             );
           }
+          checkUserIdAndReload(user.user_id);
         } catch (error) {
           handleErrorAndShowMessage("Error retrieving data:", error);
         }

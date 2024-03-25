@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Link } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/Alert";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import { Select } from "antd";
 import BigAlert from "@/components/Alert/BigAlert";
 
@@ -14,10 +12,10 @@ function EditLanguagePage({
   post,
   resumeId,
   setLanguages,
-  setButtonPopup,
-  languageId,
+  lanugageId,
+  closeAddModal,
+  closeEditModal,
 }) {
-  const { toast } = useToast();
 
   const SkillLevelOptions = [
     { value: "B", label: "Basic" },
@@ -96,8 +94,7 @@ function EditLanguagePage({
   
       const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
       setLanguages(response.data);
-  
-      setButtonPopup(false);
+      closeEditModal();
     } catch (error) {
       console.error(error);
       let errorMessages = "";
@@ -119,8 +116,8 @@ function EditLanguagePage({
   
       const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
       setLanguages(response.data);
+      closeAddModal();
   
-      setButtonPopup(false);
     } catch (error) {
       console.error("Error:", error);
       let errorMessages = "";

@@ -99,6 +99,7 @@ function TechnicalSkill({ resumeId }) {
       <div className="flex flex-row items-center w-full mb-4">
         <Label className="text-1xl w-[180px]">Add technical skill:</Label>
         <Input
+          name="technicalSkill"
           className="w-[280px]"
           value={technicalSkill}
           onChange={handleTechnicalSkillChange}

@@ -86,11 +86,13 @@ function SoftSkill({ resumeId }) {
           >
             <Label className="">{skill.skill}</Label>
             <Button
+              data-testid="delete-soft-skill"
               variant="destructive"
               size="icon"
               onClick={() => handleDeleteSoftSkill(skill)}
             >
-              <MinusCircle className="w-5 h-5" />
+              <MinusCircle className="mr-2" />
+              Delete
             </Button>
           </div>
         ))}

@@ -3,6 +3,7 @@ from api.models import Application, EmployerJobRelation,Employer
 from api.serializers.application_serializer import ApplicationSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import PermissionDenied
+from api.matchmaker.matchmaker import *
 
 class BaseApplicationView:
     queryset = Application.objects.all()
@@ -52,5 +53,25 @@ class ApplicationUpdateView(BaseApplicationView, generics.RetrieveUpdateDestroyA
 class ApplicationsFromJobListView(BaseApplicationView, generics.ListAPIView):
     '''Return applications with the same job'''
     def get_queryset(self):
+        user = self.request.user
         job_id = self.kwargs.get('job_id')
-        return Application.objects.filter(job_id = job_id)
+
+        if hasattr(user, 'jobseeker'):
+            raise PermissionDenied("You do not have permission to view applications.")
+        else:
+            try:
+                employer = Employer.objects.get(user_ptr_id = user.id)
+                employer_ids = EmployerJobRelation.objects.filter(job_id=job_id).values_list('employer', flat=True)
+                job_company = Employer.objects.get(id=employer_ids[0]).company
+            except:
+                raise PermissionDenied("You do not have permission to view applications.")
+
+        if not employer.company == job_company:
+            raise PermissionDenied("You do not have permission to view this application.")
+        
+        if employer.is_company_admin or employer.id in employer_ids:
+            applications = Application.objects.filter(job_id = job_id)
+            return getMatchedApplicantsForJob(Job.objects.get(id=job_id), applications)
+        else:
+            raise PermissionDenied("You do not have permission to view this application.")
+        

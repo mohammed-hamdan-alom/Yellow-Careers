@@ -3,10 +3,11 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobFilter from "@/components/search/JobFilter";
 import { Label } from "@/components/ui/label";
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
 import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 const JobListPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, updateToken } = useContext(AuthContext);
   const userId = user.user_id;
 
   const [jobs, setJobs] = useState(undefined);
@@ -15,6 +16,7 @@ const JobListPage = () => {
 
   useEffect(() => {
     const fetchResumeAndJobs = async () => {
+      updateToken();
       try {
         const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
         setResume(response.data);
@@ -23,7 +25,9 @@ const JobListPage = () => {
           setJobs(res.data);
           setIsJobRetrieved(true);
         }
+
       } catch (error) {
+        checkUserIdAndReload(userId);
         handleErrorAndShowMessage("Error retrieving data:", error);
       }
     };

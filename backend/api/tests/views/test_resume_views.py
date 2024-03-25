@@ -4,6 +4,8 @@ from api.models.company import *
 from api.models.address import *
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.test import APIRequestFactory
+from api.views.resume_views import EducationCreateView
 
 #test application views fails
 class ResumeViewTestCase(TestCase):
@@ -199,21 +201,65 @@ class EducationViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Education.objects.count(), before_count - 1)
 
-    # def test_education_created_correctly(self):
-    #     request = self.factory.post(reverse('resume-educations-post'), self.job_data, format="json")
-    #     response = self.view(request)
+    def test_create_education(self):
+        new_education_data = {
+            "course_name": "COMPSCI",
+            "start_date": "2022-01-01",
+            "end_date": "2022-12-31",
+            "address": {
+                "city": "london",
+                "post_code": "ew222",
+                "country":"UK"
+            },
+            "level": "BA",
+            "institution": "Test University",
+            "grade": "A",
+            "resume": self.resume.id
+        }
+        factory = APIRequestFactory()
+        request = factory.post(reverse('resume-educations-post', args=[self.resume.id]), new_education_data, format='json')
 
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    #     self.assertEqual(response.data["title"], self.job_data["title"])
-    #     self.assertEqual(response.data["description"], self.job_data["description"])
-    #     self.assertEqual(response.data["salary"], self.job_data["salary"])
-    #     self.assertEqual(response.data["job_type"], self.job_data["job_type"])
+        view = EducationCreateView.as_view()
+        response = view(request, resume_id=self.resume.id)
 
-    #     response_address = response.data["address"]
-    #     expected_address = self.job_data["address"]
-    #     self.assertEqual(response_address["city"], expected_address["city"])
-    #     self.assertEqual(response_address["post_code"], expected_address["post_code"])
-    #     self.assertEqual(response_address["country"], expected_address["country"])
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["course_name"], new_education_data["course_name"])
+        self.assertEqual(response.data["start_date"], new_education_data["start_date"])
+        self.assertEqual(response.data["end_date"], new_education_data["end_date"])
+        self.assertEqual(response.data["level"], new_education_data["level"])
+        self.assertEqual(response.data["institution"], new_education_data["institution"])
+        self.assertEqual(response.data["grade"], new_education_data["grade"])
+
+        response_address = response.data["address"]
+        expected_address = new_education_data["address"]
+        self.assertEqual(response_address["city"], expected_address["city"])
+        self.assertEqual(response_address["post_code"], expected_address["post_code"])
+        self.assertEqual(response_address["country"], expected_address["country"])
+
+    def test_create_invalid_address_education(self):
+        before_count = Education.objects.count()
+        invalid_education_data = {
+            "course_name": "COMPSCI",
+            "start_date": "2022-01-01",
+            "end_date": "2022-12-31",
+            "address": {
+                "city": "12345",
+                "post_code": "12345",
+                "country":"12345"
+            },
+            "level": "BA",
+            "institution": "Test University",
+            "grade": "A",
+            "resume": self.resume.id
+        }
+        
+        factory = APIRequestFactory()
+        request = factory.post(reverse('resume-educations-post', args=[self.resume.id]), invalid_education_data, format='json')
+        view = EducationCreateView.as_view()
+        response = view(request, resume_id=self.resume.id)
+        
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Education.objects.count(), before_count)
 
     
 class ProfessionalExperienceViewTestCase(TestCase):

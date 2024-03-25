@@ -11,10 +11,10 @@ function classNames(...classes) {
 }
 
 // Styled NavLink component
-const StyledNavLink = styled(NavLink)`
+const CustomNavLink = styled(NavLink)`
   &.active {
     font-weight: bold;
-    color: #FFD700; /* Yellow color */
+    color: #ffd700; /* Yellow color */
   }
 `;
 
@@ -56,7 +56,10 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <NavLink to={`${baseUrl}/dashboard`} className="flex items-center">
+                      <NavLink
+                        to={`${baseUrl}/dashboard`}
+                        className="flex items-center"
+                      >
                         <img
                           className="h-8 w-8"
                           src={logo}
@@ -67,13 +70,13 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <StyledNavLink
+                          <CustomNavLink
                             key={item.name}
                             to={`${baseUrl}${item.to}`}
                             className="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-black"
                           >
                             {item.name}
-                          </StyledNavLink>
+                          </CustomNavLink>
                         ))}
                       </div>
                     </div>
@@ -152,20 +155,13 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
               <Disclosure.Panel className="md:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                   {navigation.map((item) => (
-                    <Disclosure.Button
+                    <CustomNavLink
                       key={item.name}
-                      as="a"
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-white text-black"
-                          : "text-gray-300 hover:text-black",
-                        "block rounded-md px-3 py-2 text-base font-medium"
-                      )}
-                      aria-current={item.current ? "page" : undefined}
+                      to={`${baseUrl}${item.to}`}
+                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:text-black"
                     >
                       {item.name}
-                    </Disclosure.Button>
+                    </CustomNavLink>
                   ))}
                 </div>
                 <div className="border-t border-gray-700 pb-3 pt-4">

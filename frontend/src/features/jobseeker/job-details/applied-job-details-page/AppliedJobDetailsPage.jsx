@@ -10,8 +10,9 @@ import {
     CloseCircleOutlined,
     QuestionCircleOutlined,
   } from '@ant-design/icons';
-  import '@/components/styling/tag.css';
-  import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
+import '@/components/styling/tag.css';
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 function AppliedJobDetails() {
 
@@ -50,6 +51,7 @@ function AppliedJobDetails() {
                 if (error.response && (error.response.status === 403 || error.response.status === 404)) {
                     window.location.href = "/job-seeker/dashboard";
                 }
+                checkUserIdAndReload(userId);
             }
         }
 

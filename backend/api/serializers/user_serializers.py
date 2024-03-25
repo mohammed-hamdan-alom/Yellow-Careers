@@ -20,10 +20,11 @@ class EmployerRegisterSerializer(serializers.ModelSerializer):
         queryset=Company.objects.all(),
         write_only=True,
     )
+    is_company_admin = serializers.BooleanField(default=False)
 
     class Meta:
         model = Employer
-        fields = ['email', 'password', 'password2', 'company']
+        fields = ['email', 'password', 'password2', 'first_name', 'last_name', 'other_names', 'phone_number', 'company', 'is_company_admin']
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields do not match"})
@@ -32,7 +33,12 @@ class EmployerRegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         employer = Employer.objects.create(
                         email=validated_data['email'],
-                        company=validated_data.get('company')
+                        first_name=validated_data['first_name'],
+                        last_name=validated_data['last_name'],
+                        other_names=validated_data['other_names'],
+                        phone_number=validated_data['phone_number'],
+                        company=validated_data.get('company'),
+                        is_company_admin=validated_data['is_company_admin']
                 )
         employer.set_password(validated_data['password'])
         employer.save()
