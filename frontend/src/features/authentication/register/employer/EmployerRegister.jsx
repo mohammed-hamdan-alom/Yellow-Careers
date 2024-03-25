@@ -14,6 +14,11 @@ const EmployerRegister = () => {
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [otherNames, setOtherNames] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const { registerEmployer } = useContext(AuthContext);
 
   useEffect(() => {
@@ -30,11 +35,11 @@ const EmployerRegister = () => {
             `api/invited-employer/delete/?email=${registerEmail}`
           );
           if (response.status === 200) {
-            registerEmployer(registerEmail, password, password2, companyId, false);
+            registerEmployer(registerEmail, password, password2, firstName, lastName, otherNames, phoneNumber, companyId, false);
           }
         } else {
           console.log()
-          registerEmployer(registerEmail, password, password2, companyId, true);
+          registerEmployer(registerEmail, password, password2, firstName, lastName, otherNames, phoneNumber, companyId, true);
         }
       } catch (error) {
         console.error("Error registering employer:", error);
@@ -72,6 +77,38 @@ const EmployerRegister = () => {
               name="password2"
               value={password2}
               onChange={(e) => setPassword2(e.target.value)}
+            />
+            <Label className="mb-2">First Name</Label>
+            <Input
+              className="mb-4"
+              type="text"
+              name="first_name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <Label className="mb-2">Last Name</Label>
+            <Input
+              className="mb-4"
+              type="text"
+              name="last_name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+            <Label className="mb-2">Other Names</Label>
+            <Input
+              className="mb-4"
+              type="text"
+              name="other_names"
+              value={otherNames}
+              onChange={(e) => setOtherNames(e.target.value)}
+            />
+            <Label className="mb-2">Phone Number</Label>
+            <Input
+              className="mb-4"
+              type="text"
+              name="phone_number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
             <br />
             <Button type="submit">Register</Button>

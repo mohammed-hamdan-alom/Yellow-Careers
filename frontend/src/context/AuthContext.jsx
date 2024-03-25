@@ -80,14 +80,22 @@ export const AuthProvider = ({ children }) => {
     email,
     password,
     password2,
+    firstName,
+    lastName,
+    otherNames,
+    phoneNumber,
     company,
-    isAdmin
+    isAdmin,
   ) => {
     try {
       const response = await AxiosInstance.post("/api/employer-register/", {
         email: email,
         password: password,
         password2: password2,
+        first_name: firstName,
+        last_name: lastName,
+        other_names: otherNames,
+        phone_number: phoneNumber,
         company: company,
         is_company_admin: isAdmin,
       });
