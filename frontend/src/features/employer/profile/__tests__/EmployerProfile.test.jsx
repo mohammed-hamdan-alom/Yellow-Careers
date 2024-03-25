@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import EmployerProfile from "../EmployerProfile";
 import { vi } from "vitest";
 import AuthContext from "@/context/AuthContext";
-import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
+import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
 import { showError } from "@/components/Alert/Alert";
 import * as Alert from "@/components/Alert/Alert";
 
