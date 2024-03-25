@@ -9,6 +9,8 @@ import Language from "./language/Language";
 import Education from "./education/Education";
 import ProfessionalExperience from "./professional-experience/ProfessionalExperience";
 
+
+
 function UpdateResumePage() {
   const [resumeId, setResumeId] = useState(null);
   const { user } = useContext(AuthContext);
