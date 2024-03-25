@@ -5,10 +5,11 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from '@/components/job-details/JobDetails'
 import Question from "@/components/questions_and_answers/Question";
 import { Button } from "antd";
-import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser";
 import '@/components/styling/button.css';
 import Swal from 'sweetalert2';
 import { Label } from "@/components/ui/label";
+import { showError } from "@/components/Alert/Alert";
 
 const JobDetailsEmployer = () => {
     const { user } = useContext(AuthContext);
@@ -84,17 +85,22 @@ const JobDetailsEmployer = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!employers.some(employer => employer.id == formData.employer)) {
+            try {
+                await AxiosInstance.post('api/employer-job-relations/create/', {
+                    employer: formData.employer,
+                    job: formData.job
+                });
 
-        try {
-            await AxiosInstance.post('api/employer-job-relations/create/', {
-                employer: formData.employer,
-                job: formData.job
-            });
-
-            window.location.reload();
-        } catch (error) {
-            console.log(error);
+                window.location.reload();
+            } catch (error) {
+                console.log(error);
+            }
         }
+        else {
+            showError("This employer has already been added.")
+        }
+
     };
 
     const handleRemoveEmployer = async (id) => {

@@ -5,7 +5,7 @@ import { Switch, Space } from "antd";
 import { Label } from "@/components/ui/label";
 import "./switch.css";
 import JobFilter from "@/components/search/JobFilter";
-import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser";
 
 
 function EmployerDashBoardPage() {
@@ -21,8 +21,13 @@ function EmployerDashBoardPage() {
         const employerJobsResponse = await AxiosInstance.get(`api/employer/${userId}/jobs/`);
         setEmployerJobs(employerJobsResponse.data);
 
-        const companyJobsResponse = await AxiosInstance.get(`api/employer/${userId}/company-jobs/`);
-        setCompanyJobs(companyJobsResponse.data);
+        const employerResponse = await AxiosInstance.get(`api/employers/${userId}/`);
+
+        if (employerResponse.data.is_company_admin) {
+          const companyJobsResponse = await AxiosInstance.get(`api/employer/${userId}/company-jobs/`);
+          setCompanyJobs(companyJobsResponse.data);
+        }
+
         setShowCompanyJobs(companyJobsResponse.data.length > 0);
       } catch (error) {
         checkUserIdAndReload(userId)
