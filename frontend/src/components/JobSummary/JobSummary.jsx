@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useNavigate } from "react-router-dom";
-import AxiosInstance from "@/utils/AxiosInstance";
 import JobCard from "../job-card/JobCard";
 import AuthContext from "@/context/AuthContext";
 
