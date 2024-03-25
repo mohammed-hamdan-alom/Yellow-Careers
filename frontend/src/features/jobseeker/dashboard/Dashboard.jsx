@@ -7,7 +7,7 @@ const DashBoardPage = () => {
 
     if (!hasRefreshed) {
       const timer = setTimeout(() => {
-        location.reload();
+        window.location.reload();
         localStorage.setItem("hasRefreshed", true);
       }, 500); 
 

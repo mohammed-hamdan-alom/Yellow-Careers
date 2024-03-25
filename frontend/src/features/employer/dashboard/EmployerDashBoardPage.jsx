@@ -36,7 +36,7 @@ function EmployerDashBoardPage() {
     const hasRefreshed = localStorage.getItem("hasRefreshedEmployerDashboard");
     if (!hasRefreshed) {
       const timer = setTimeout(() => {
-        location.reload();
+        window.location.reload();
       }, 500);
 
       return () => clearTimeout(timer);
