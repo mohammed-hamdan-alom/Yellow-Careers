@@ -8,7 +8,9 @@ import TechnicalSkill from "./skills/TechnicalSkill";
 import Language from "./language/Language";
 import Education from "./education/Education";
 import ProfessionalExperience from "./professional-experience/ProfessionalExperience";
-
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser";
 
 function UpdateResumePage() {
   const [resumeId, setResumeId] = useState(null);
@@ -21,6 +23,7 @@ function UpdateResumePage() {
       const data = await response.data;
       if (response.status === 404) {
         console.log("Jobseeker not found");
+        checkUserIdAndReload(userId);
       }
       if (data.resume === null) {
         console.log("Resume not found");
@@ -43,21 +46,20 @@ function UpdateResumePage() {
   }, [userId]);
 
   return (
-    <div className='pb-96'>
+    <div className="pb-96">
       <div className="flex flex-row justify-left mt-4 ">
-          <Education resumeId={resumeId} />
-          <ProfessionalExperience resumeId={resumeId} />
+        <Education resumeId={resumeId} />
+        <ProfessionalExperience resumeId={resumeId} />
       </div>
       <div className="flex flex-row justify-left sm:flex-wrap">
-          <ResumeForm resumeId={resumeId} />
-          <SoftSkill resumeId={resumeId} />
+        <ResumeForm resumeId={resumeId} />
+        <SoftSkill resumeId={resumeId} />
       </div>
       <div className="flex flex-row justify-left mt-4 sm:flex-col">
-          <Language resumeId={resumeId} />
-          <TechnicalSkill resumeId={resumeId} />
+        <Language resumeId={resumeId} />
+        <TechnicalSkill resumeId={resumeId} />
       </div>
     </div>
-
   );
 }
 

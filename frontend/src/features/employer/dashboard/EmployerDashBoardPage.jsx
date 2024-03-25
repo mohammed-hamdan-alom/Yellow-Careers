@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space } from "antd";
-import JobList from "../../../components/search/JobList";
 import { Label } from "@/components/ui/label";
 import "./switch.css";
+import JobFilter from "@/components/search/JobFilter";
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
+
 
 function EmployerDashBoardPage() {
   const { user } = useContext(AuthContext);
@@ -23,6 +25,7 @@ function EmployerDashBoardPage() {
         setCompanyJobs(companyJobsResponse.data);
         setShowCompanyJobs(companyJobsResponse.data.length > 0);
       } catch (error) {
+        checkUserIdAndReload(userId)
         console.error('Error fetching jobs:', error);
       }
     };
@@ -50,7 +53,7 @@ function EmployerDashBoardPage() {
               />
             )}
           </div>
-          <JobList data={companyJobs} />
+          <JobFilter data={companyJobs} />
         </div>
       ) : (
         <div>
@@ -66,7 +69,7 @@ function EmployerDashBoardPage() {
               />
             )}
           </div>
-          <JobList data={employerJobs} />
+          <JobFilter data={employerJobs} />
         </div>
       )}
     </div>

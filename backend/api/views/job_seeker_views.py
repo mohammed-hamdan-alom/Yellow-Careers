@@ -39,7 +39,6 @@ class ApplicantListView(BaseJobSeekerView, generics.ListAPIView):
             raise PermissionDenied("You do not have permission to view this application.")
 
 class JobSeekerFromApplicationRetrieveView(BaseJobSeekerView, generics.RetrieveAPIView):
-
     def get_object(self):
         application_id = self.kwargs["application_id"]
         application = get_object_or_404(Application, id=application_id)

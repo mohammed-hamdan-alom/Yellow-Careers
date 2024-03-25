@@ -9,6 +9,8 @@ import { Input, Select, Button } from "antd";
 const { Option } = Select;
 import { Mail, Phone, Calendar, MapPin   } from 'lucide-react';
 import '@/components/styling/button.css';
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser"
+
 
 
 const JobSeekerProfile = () => {
@@ -71,6 +73,7 @@ const JobSeekerProfile = () => {
               "error"
             );
           }
+          checkUserIdAndReload(user.user_id)
         } catch (error) {
           swal.fire(
             "Error",

@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobFilter from "../../../../components/search/JobFilter";
+import JobFilter from "@/components/search/JobFilter";
 import { Label } from "@/components/ui/label";
+import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
 
 const JobListPage = () => {
   const { user, updateToken } = useContext(AuthContext);
@@ -23,8 +25,10 @@ const JobListPage = () => {
           setJobs(res.data);
           setIsJobRetrieved(true);
         }
+
       } catch (error) {
-        console.error("Error fetching data:", error);
+        checkUserIdAndReload(userId);
+        handleErrorAndShowMessage("Error retrieving data:", error);
       }
     };
 

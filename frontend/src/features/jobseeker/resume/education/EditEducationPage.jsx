@@ -9,6 +9,7 @@ import { Select } from "antd";
 import BigAlert from "@/components/Alert/BigAlert";
 import dayjs from "dayjs";
 
+
 function EditEducationPage({
   put,
   post,

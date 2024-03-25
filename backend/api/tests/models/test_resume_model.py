@@ -11,7 +11,7 @@ from api.models import User
 from api.models import JobSeeker
 from api.models import Employer
 
-class UserModelTestCase(TestCase):
+class ResumeModelTestCase(TestCase):
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
@@ -351,12 +351,11 @@ class UserModelTestCase(TestCase):
         self.assertIn(self.professional_experience2,retrieved_professional_experience2)
     
     def test_resume_to_string(self):
-        #education_strings = [education.to_string() for education in self.get_education()]
-        education_strings = []
+        education_strings = [education.to_string() for education in self.resume.get_education()]
         skills_strings = [skills.to_string() for skills in self.resume.get_technical_skills()] + [skills.to_string() for skills in self.resume.get_soft_skills()]
         language_strings = [language.to_string() for language in self.resume.get_languages()]
         experience_strings = [experience.to_string() for experience in self.resume.get_professional_experience()]
-        self.assertEqual(self.resume.to_string(),' '.join(education_strings + skills_strings + language_strings + experience_strings))
+        self.assertEqual(self.resume.to_string(),' '.join(education_strings + skills_strings + language_strings + experience_strings + [self.resume.about,self.resume.experience]))
 
 
     def _assert_is_valid(self,input):
