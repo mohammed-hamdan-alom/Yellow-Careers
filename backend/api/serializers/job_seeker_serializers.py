@@ -1,6 +1,8 @@
 from api.models import JobSeeker, Address
 from . import AddressSerializer
 from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
+# from django.core.exceptions import ValidationError
 
 class JobSeekerSerializer(serializers.ModelSerializer):
     address = AddressSerializer(required=False)
@@ -45,3 +47,4 @@ class JobSeekerSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+    

@@ -5,34 +5,44 @@ import { MemoryRouter } from "react-router-dom";
 import DashboardLayout from "../DashboardLayout";
 
 const user = {
-  name: 'John Doe',
-  email: 'john@example.com',
-  imageUrl: '/path/to/image.jpg',
+  name: "John Doe",
+  email: "john@example.com",
+  imageUrl: "/path/to/image.jpg",
 };
 const navigation = [
-  { name: 'Dashboard', to: '/dashboard' },
-  { name: 'Profile', to: '/profile' },
-  { name: 'Settings', to: '/settings' },
+  { name: "Dashboard", to: "/dashboard" },
+  { name: "Profile", to: "/profile" },
+  { name: "Settings", to: "/settings" },
 ];
 const userNavigation = [
-  { name: 'Profile', href: '/profile' },
-  { name: 'Settings', href: '/settings' },
-  { name: 'Sign out', href: '#' },
+  { name: "Profile", href: "/profile" },
+  { name: "Settings", href: "/settings" },
+  { name: "Sign out", href: "#" },
 ];
 
 describe("DashboardLayout component", () => {
   test("renders without crashing", () => {
     render(
       <MemoryRouter>
-        <DashboardLayout user={user} navigation={navigation} userNavigation={userNavigation} baseUrl="/dashboard"/>
+        <DashboardLayout
+          user={user}
+          navigation={navigation}
+          userNavigation={userNavigation}
+          baseUrl="/dashboard"
+        />
       </MemoryRouter>
     );
-    expect(screen.getByText('Dashboard')).toBeInTheDocument();
+    expect(screen.getByText("Dashboard")).toBeInTheDocument();
   });
-  test('renders navigation links correctly', () => {
+  test("renders navigation links correctly", () => {
     render(
       <MemoryRouter>
-        <DashboardLayout user={user} navigation={navigation} userNavigation={userNavigation} baseUrl="/dashboard" />
+        <DashboardLayout
+          user={user}
+          navigation={navigation}
+          userNavigation={userNavigation}
+          baseUrl="/dashboard"
+        />
       </MemoryRouter>
     );
     navigation.forEach((item) => {
@@ -40,10 +50,15 @@ describe("DashboardLayout component", () => {
     });
   });
 
-  test('renders user information and user navigation menu correctly', () => {
+  test("renders user information and user navigation menu correctly", () => {
     render(
       <MemoryRouter>
-        <DashboardLayout user={user} navigation={navigation} userNavigation={userNavigation} baseUrl="/dashboard" />
+        <DashboardLayout
+          user={user}
+          navigation={navigation}
+          userNavigation={userNavigation}
+          baseUrl="/dashboard"
+        />
       </MemoryRouter>
     );
     expect(screen.getByText(user.name)).toBeInTheDocument();
@@ -54,25 +69,36 @@ describe("DashboardLayout component", () => {
     });
   });
 
-  test('clicking on logout button triggers logout function', () => {
+  test("clicking on logout button triggers logout function", () => {
     const logoutUser = vi.fn();
     render(
       <MemoryRouter>
-        <DashboardLayout user={user} navigation={navigation} userNavigation={userNavigation} baseUrl="/dashboard" logoutUser={logoutUser} />
+        <DashboardLayout
+          user={user}
+          navigation={navigation}
+          userNavigation={userNavigation}
+          baseUrl="/dashboard"
+          logoutUser={logoutUser}
+        />
       </MemoryRouter>
     );
-    fireEvent.click(screen.getByText('Sign out'));
+    fireEvent.click(screen.getByText("Sign out"));
     expect(logoutUser).toHaveBeenCalled();
   });
 
-  test('mobile menu toggle works as expected', () => {
+  test("mobile menu toggle works as expected", () => {
     render(
       <MemoryRouter>
-        <DashboardLayout user={user} navigation={navigation} userNavigation={userNavigation} baseUrl="/dashboard" />
+        <DashboardLayout
+          user={user}
+          navigation={navigation}
+          userNavigation={userNavigation}
+          baseUrl="/dashboard"
+        />
       </MemoryRouter>
     );
-    const menuToggle = screen.getByRole('button', { name: 'Open main menu' });
+    const menuToggle = screen.getByRole("button", { name: "Open main menu" });
     fireEvent.click(menuToggle);
-    expect(screen.getByText('Dashboard')).toBeInTheDocument();
+    expect(screen.getByText("Dashboard")).toBeInTheDocument();
   });
 });

@@ -3,11 +3,13 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import swal from "sweetalert2";
 import { Label } from "@/components/ui/label";
-import { Input, Tooltip,Select, Button } from "antd";
-import { Mail, Phone, Calendar,Globe, User, Earth, MapPin   } from 'lucide-react';
-import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-import '@/components/styling/button.css';
-
+import { Input, Button } from "antd";
+import { Mail, Phone } from "lucide-react";
+import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
+import "@/components/styling/button.css";
+import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
+import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
+import ProfileDetails from "@/components/Profile/ProfileDetails";
 
 const EmployerProfile = () => {
   const { user } = useContext(AuthContext);
@@ -20,7 +22,10 @@ const EmployerProfile = () => {
     phone_number: user?.phone_number || "",
     company: user?.company || "",
   });
-  //  React automatically subscribes to context changes, so any time the value provided by the context provider changes, the components using that context will update accordingly.
+
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   useEffect(() => {
     const fetchEmployerData = async () => {
@@ -56,13 +61,8 @@ const EmployerProfile = () => {
             );
           }
         } catch (error) {
-          console.log(error);
-          swal.fire(
-            "Error",
-            "An error occurred while fetching the employer profile.",
-            "error"
-          );
-        }
+          handleErrorAndShowMessage("Error fetching employer profile:", error);
+      }
       }
     };
 
@@ -92,44 +92,59 @@ const EmployerProfile = () => {
             "Your profile has been updated successfully.",
             "success"
           );
-        } else {
-          swal.fire("Update Failed", `Error: ${response.status}`, "error");
-        }
+        } 
       } catch (error) {
-        swal.fire("Update Failed", error.message, "error");
+        handleErrorAndShowMessage("Error updating profile:", error);
       }
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit} className="container mt-5">
-      <div className="mb-3">
-        <Label htmlFor="email" className="text-lg mr-2">
-          Email:
-        </Label>
-        <Input prefix={<Mail size={16} />} disabled  value={user?.email} />
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="first_name" >First Name: </Label>
-        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon" /> } id="first_name" name="first_name" value={formData.first_name} onChange={(e) => handleChange(e, 'first_name')} />
-      </div> 
-      <div className="mb-3">
-        <Label htmlFor="last_name">Last Name: </Label>
-        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon"  /> } id="last_name" name="last_name" value={formData.last_name} onChange={(e) => handleChange(e, 'last_name')} />
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="other_names">Other Names: </Label>
-        <Input type="text" prefix = {<UserOutlined className="site-form-item-icon" /> } id="other_names" name="other_names" value={formData.other_names} onChange={(e) => handleChange(e, 'other_names')} />
-      </div>
-      <div className="mb-3">
-        <Label htmlFor="phone_number">Phone Number: </Label>
-        <Input type="text" prefix = {<Phone size={15}/>} id="phone_number" name="phone_number" value={formData.phone_number} onChange={(e) => handleChange(e, 'phone_number')} />
-      </div>
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await AxiosInstance.put(
+        "/api/employer/change-password/",
+        {
+          old_password: oldPassword,
+          new_password: newPassword,
+          confirm_password: confirmNewPassword,
+        }
+      );
 
-      <div style={{ marginTop: '25px' }}>
-          <Button className="yellowButton" type="submit" onClick={handleSubmit} >Update Profile</Button>
-      </div>
-    </form>
+      if (response.status === 200) {
+        swal.fire({
+          title: "Password Changed Successfully",
+          icon: "success",
+          toast: true,
+          timer: 6000,
+          position: "top-right",
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      }
+    } catch (error) {
+      handleErrorAndShowMessage("Error updating password:", error);
+    }
+  };
+
+  return (
+    <div>   
+      <ProfileDetails
+        formData={formData}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        userType="employer"
+      />
+      <PasswordChangeSection
+        oldPassword={oldPassword}
+        setOldPassword={setOldPassword}
+        newPassword={newPassword}
+        setNewPassword={setNewPassword}
+        confirmNewPassword={confirmNewPassword}
+        setConfirmNewPassword={setConfirmNewPassword}
+        onSubmit={handlePasswordSubmit}
+      />
+    </div>
   );
 };
 

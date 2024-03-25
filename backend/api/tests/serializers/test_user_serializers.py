@@ -2,7 +2,8 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 from api.models import User
-from api.serializers import UserSerializer, MyTokenObtainPairSerializer, EmployerRegisterSerializer, JobSeekerRegisterSerializer
+from api.serializers import UserSerializer, MyTokenObtainPairSerializer, EmployerRegisterSerializer, JobSeekerRegisterSerializer, ChangePasswordSerializer
+from rest_framework.exceptions import ValidationError
 
 class UserSerializerTest(TestCase):
 
@@ -83,3 +84,38 @@ class RegisterSerializerTest(TestCase):
         serializer = JobSeekerRegisterSerializer(data=self.valid_payload)
         self.assertFalse(serializer.is_valid())
         ##self.assertEqual(serializer.errors['password'][0], 'Password fields do not match')
+
+
+class ChangePasswordSerializerTestCase(TestCase):
+    def test_valid_data(self):
+        data = {
+            'old_password': 'oldPassword123!',
+            'new_password': 'NewPassword123!',
+            'confirm_password': 'NewPassword123!'
+        }
+        serializer = ChangePasswordSerializer(data=data)
+        self.assertTrue(serializer.is_valid())
+        self.assertEqual(serializer.validated_data, data)
+
+    def test_password_mismatch(self):
+        data = {
+            'old_password': 'oldPassword123!',
+            'new_password': 'NewPassword123!',
+            'confirm_password': 'DifferentPassword123!'
+        }
+        serializer = ChangePasswordSerializer(data=data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn('non_field_errors', serializer.errors)
+        self.assertEqual(serializer.errors['non_field_errors'][0], "New password and confirm password must match")
+    
+    def test_weak_password_validation(self):
+        data = {
+            'old_password': 'oldPassword123!',
+            'new_password': 'password123',
+            'confirm_password': 'password123'
+        }
+        serializer = ChangePasswordSerializer(data=data)
+        with self.assertRaises(ValidationError) as context:
+            serializer.is_valid(raise_exception=True)
+
+        self.assertEqual(context.exception.detail['new_password'][0], "This password is too common.")

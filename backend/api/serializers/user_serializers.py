@@ -2,6 +2,11 @@ from api.models import User, Employer, JobSeeker, Company
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
+from django.core.exceptions import ValidationError
+from rest_framework import generics, status
+from rest_framework.response import Response
+from django.contrib.auth.hashers import check_password
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,6 +71,18 @@ class JobSeekerRegisterSerializer(serializers.ModelSerializer):
         jobseeker.set_password(validated_data['password'])
         jobseeker.save()
         return jobseeker
+    
+    def update(self, instance, validated_data):
+        print("UPDATE JOBSEEKER REGISTER SERIALIZER ")
+        if 'password' in validated_data:
+            password = validated_data.pop('password')
+            password2 = validated_data.pop('password2')
+            if password and password2 and password == password2:
+                instance.set_password(password)
+            else:
+                raise serializers.ValidationError({"password": "Password fields do not match"})
+        
+        return super().update(instance, validated_data)
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -83,3 +100,27 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             token['user_type'] = 'job_seeker'
 
         return token
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
+
+    def validate(self, attrs):
+        if attrs['new_password'] != attrs['confirm_password']:
+            raise serializers.ValidationError("New password and confirm password must match")
+        return attrs
+    
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not check_password(value, user.password):
+            raise serializers.ValidationError("Incorrect old password")
+        return value
+    
+    def validate_new_password(self, value):
+        try:
+            validate_password(value)
+        except ValidationError as e:
+            raise serializers.ValidationError(e.messages)
+
+        return value
