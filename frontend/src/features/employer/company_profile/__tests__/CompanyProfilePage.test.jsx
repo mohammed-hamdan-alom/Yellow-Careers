@@ -317,4 +317,20 @@ describe("CompanyProfilePage component", () => {
       expect(screen.getByText("New Company Name")).toBeInTheDocument();
     });
   });
+
+  test("Shows employers are admin", async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <AuthContext.Provider value={mockAdminUser}>
+            <CompanyProfilePage />
+          </AuthContext.Provider>
+        </MemoryRouter>
+      );
+    });
+
+    const admins = await screen.findAllByText(/Admin/);
+
+    expect(admins.length).toBe(2);
+  })
 });
