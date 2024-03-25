@@ -12,19 +12,31 @@ function classNames(...classes) {
 
 // Styled NavLink component
 const CustomNavLink = styled(NavLink)`
+  position: relative; /* Position relative for absolute positioning of the underline */
+
+  &:hover {
+    &::after {
+      content: ""; /* Create pseudo-element for the underline */
+      position: absolute; /* Position the underline */
+      left: 0; /* Start from the left edge of the link */
+      bottom: -5px; /* Adjust the distance of the underline from the text */
+      width: 100%; /* Full width of the link */
+      border-bottom: 2px solid #ffd700; /* Underline style */
+    }
+  }
+
   &.active {
     font-weight: bold;
     color: #ffd700; /* Yellow color */
-    position: relative; /* Position relative for absolute positioning of the underline */
-  }
 
-  &.active::after {
-    content: ""; /* Create pseudo-element for the underline */
-    position: absolute; /* Position the underline */
-    left: 0; /* Start from the left edge of the link */
-    bottom: -5px; /* Adjust the distance of the underline from the text */
-    width: 100%; /* Full width of the link */
-    border-bottom: 2px solid #ffd700; /* Underline style */
+    &::after {
+      content: ""; /* Create pseudo-element for the underline */
+      position: absolute; /* Position the underline */
+      left: 0; /* Start from the left edge of the link */
+      bottom: -5px; /* Adjust the distance of the underline from the text */
+      width: 100%; /* Full width of the link */
+      border-bottom: 2px solid #ffd700; /* Underline style */
+    }
   }
 `;
 
