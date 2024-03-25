@@ -373,7 +373,7 @@ class Command(BaseCommand):
 
         EmployerJobRelation.objects.create(employer=main_employer, job=new_jobs[0])
         EmployerJobRelation.objects.create(employer=employers[2], job=new_jobs[0])
-        EmployerJobRelation.objects.create(employer=employers[3], job=new_jobs[0])
+        EmployerJobRelation.objects.create(employer=employers[1], job=new_jobs[0])
         EmployerJobRelation.objects.create(employer=employers[0], job=new_jobs[1])
         EmployerJobRelation.objects.create(employer=employers[1], job=new_jobs[1])
         EmployerJobRelation.objects.create(employer=employers[1], job=new_jobs[2])
