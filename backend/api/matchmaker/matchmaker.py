@@ -6,8 +6,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 import string
 
 LOCATION_WEIGHTING = 0.05
-LEVENSHTEIN_WEIGHTING = 0.3
-WORD2VEC_WEIGHTING = 0.65
+LEVENSHTEIN_WEIGHTING = 0.25
+WORD2VEC_WEIGHTING = 0.7
 
 model = Word2Vec.load("api/matchmaker/word2vec_model_all.bin")
 
