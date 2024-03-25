@@ -60,15 +60,19 @@ vi.mock("@/features/employer/job_creation/QuestionCreation", () => ({
     default: vi.fn(() => <div data-testid="mock-questioncreation"></div>)
 }))
 
-vi.mock("@/features/jobseeker/resume/Popup/Popup", () => ({
-    default: vi.fn(({ children }) => <div data-testid="mock-popup">{children}</div>)
-}))
-
 vi.mock('react-router-dom', async (importOriginal) => {
     const actual = await importOriginal()
     return {
         ...actual,
         useNavigate: () => navigate
+    }
+})
+
+vi.mock('antd', async (importOriginal) => {
+    const actual = await importOriginal()
+    return {
+        ...actual,
+        Modal : ({children}) => <div data-testid="mock-modal">{children}</div>,
     }
 })
 
@@ -119,7 +123,7 @@ describe('JobCreation component', () => {
         expect(labels[4]).toHaveTextContent("City")
         expect(labels[5]).toHaveTextContent("Country")
         expect(labels[6]).toHaveTextContent("Job Type")
-        expect(screen.getByTestId("mock-popup")).toBeInTheDocument()
+        expect(screen.getByTestId("mock-modal")).toBeInTheDocument()
     });
 
     test("renders all form fields correctly", async () => {

@@ -6,6 +6,8 @@ import JobListPage from '../job-list-page/JobListPage';
 import AuthContext from '@/context/AuthContext';
 import AxiosInstance from '@/utils/AxiosInstance';
 
+const updateToken = vi.fn();
+
 const noResumeData = {
     "detail": "Not found."
 }
@@ -16,14 +18,18 @@ const resumeData = {
 const noResumeJobSeeker = {
     "user": {
         "user_id": 1,
-    }
+    },
+    updateToken
 }
 
 const resumeJobSeeker = {
     "user": {
         "user_id": 2,
-    }
+    },
+    updateToken
 }
+
+
 
 const jobsData = [{
     "id": 1,
@@ -59,6 +65,7 @@ const jobsData = [{
 }]
 
 const navigate = vi.fn();
+
 
 vi.mock("@/components/ui/label", () => ({
     Label: vi.fn(({ children }) => <label data-testid="mock-label">{children}</label>)
@@ -98,7 +105,7 @@ describe('JobListPage component with no resume', () => {
 
     beforeEach(async () => {
         await act(async () => {
-            render(
+            render( 
                 <MemoryRouter>
                     <AuthContext.Provider value={noResumeJobSeeker}>
                         <JobListPage />
