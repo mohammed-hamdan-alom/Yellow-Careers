@@ -3,10 +3,10 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobFilter from "@/components/search/JobFilter";
 import { Label } from "@/components/ui/label";
-import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
+import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
 
 const JobListPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, updateToken } = useContext(AuthContext);
   const userId = user.user_id;
 
   const [jobs, setJobs] = useState(undefined);
@@ -16,10 +16,14 @@ const JobListPage = () => {
   useEffect(() => {
     const fetchResumeAndJobs = async () => {
       try {
-        const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
+        const response = await AxiosInstance.get(
+          `api/job-seeker/${userId}/resume/`
+        );
         setResume(response.data);
         if (response.data.id !== undefined) {
-          const res = await AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`);
+          const res = await AxiosInstance.get(
+            `api/job-seeker/${userId}/matched-jobs/`
+          );
           setJobs(res.data);
           setIsJobRetrieved(true);
         }
@@ -37,7 +41,7 @@ const JobListPage = () => {
       {resume.id && jobs ? (
         <JobFilter data={jobs} />
       ) : (
-        <h1>Error loading the jobs, please create a resume. If you have already done so, reload the page</h1>
+        <h1>Loading... Please create a resume</h1>
       )}
     </div>
   );

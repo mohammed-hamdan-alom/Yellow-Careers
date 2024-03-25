@@ -1,6 +1,5 @@
-import React from "react";
-import { Fragment, useContext } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import React, { Fragment, useContext, useEffect } from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import AuthContext from "@/context/AuthContext";
@@ -12,7 +11,7 @@ function classNames(...classes) {
 }
 
 // Styled NavLink component
-const StyledNavLink = styled(NavLink)`
+const CustomNavLink = styled(NavLink)`
   &.active {
     font-weight: bold;
     color: #ffd700; /* Yellow color */
@@ -21,12 +20,26 @@ const StyledNavLink = styled(NavLink)`
 
 const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
   const authContext = useContext(AuthContext);
+  const location = useLocation();
 
   const { logoutUser } = authContext || {};
 
-  if (!logoutUser) {
-    console.log("logoutUser is not defined");
-  }
+  useEffect(() => {
+    const hasRefreshed = localStorage.getItem("hasRefreshedDashboardLayout");
+
+    if (!hasRefreshed) {
+      // If hasRefreshed is false, set it to true and reload the page
+      localStorage.setItem("hasRefreshedDashboardLayout", true);
+      window.location.reload();
+    }
+
+    // Schedule a reload every 15 minutes, regardless of whether the page has been refreshed before
+    const timer = setInterval(() => {
+      window.location.reload();
+    }, 15 * 60 * 1000); // 15 minutes in milliseconds
+
+    return () => clearInterval(timer);
+  }, []);
 
   const activeNavItem =
     navigation.find((item) => location.pathname.includes(item.to)) || {};
@@ -58,13 +71,13 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <StyledNavLink
+                          <CustomNavLink
                             key={item.name}
                             to={`${baseUrl}${item.to}`}
                             className="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-black"
                           >
                             {item.name}
-                          </StyledNavLink>
+                          </CustomNavLink>
                         ))}
                       </div>
                     </div>
@@ -143,20 +156,13 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
               <Disclosure.Panel className="md:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                   {navigation.map((item) => (
-                    <Disclosure.Button
+                    <CustomNavLink
                       key={item.name}
-                      as="a"
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-white text-black"
-                          : "text-gray-300 hover:text-black",
-                        "block rounded-md px-3 py-2 text-base font-medium"
-                      )}
-                      aria-current={item.current ? "page" : undefined}
+                      to={`${baseUrl}${item.to}`}
+                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:text-black"
                     >
                       {item.name}
-                    </Disclosure.Button>
+                    </CustomNavLink>
                   ))}
                 </div>
                 <div className="border-t border-gray-700 pb-3 pt-4">

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import "./switch.css";
 import JobFilter from "@/components/search/JobFilter";
 
+
 function EmployerDashBoardPage() {
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
@@ -19,15 +20,22 @@ function EmployerDashBoardPage() {
         const employerJobsResponse = await AxiosInstance.get(`api/employer/${userId}/jobs/`);
         setEmployerJobs(employerJobsResponse.data);
 
-        const companyJobsResponse = await AxiosInstance.get(`api/employer/${userId}/company-jobs/`);
-        setCompanyJobs(companyJobsResponse.data);
-        setShowCompanyJobs(companyJobsResponse.data.length > 0);
+        const employerResponse = await AxiosInstance.get(`api/employers/${userId}/`);
+
+        if (employerResponse.data.is_company_admin) {
+          const companyJobsResponse = await AxiosInstance.get(`api/employer/${userId}/company-jobs/`);
+          setCompanyJobs(companyJobsResponse.data);
+          setShowCompanyJobs(companyJobsResponse.data.length > 0);
+        }
+
+
       } catch (error) {
         console.error('Error fetching jobs:', error);
       }
     };
 
     fetchData();
+
   }, [userId]);
 
   const handleSwitchChange = (checked) => {

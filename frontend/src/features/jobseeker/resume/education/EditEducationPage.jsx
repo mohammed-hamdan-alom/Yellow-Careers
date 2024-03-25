@@ -6,18 +6,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "antd";
 import { DatePicker } from "antd";
 import { Select } from "antd";
-const { RangePicker } = DatePicker;
 import BigAlert from "@/components/Alert/BigAlert";
+import dayjs from "dayjs";
+
 
 function EditEducationPage({
   put,
   post,
   resumeId,
   setEducations,
-  setButtonPopup,
   educationId,
+  closeAddModal,
+  closeEditModal,
 }) {
   const defaultEducationState = {
+    course_name: "",
     start_date: "",
     end_date: "",
     level: "",
@@ -37,16 +40,29 @@ function EditEducationPage({
     const fetchEducation = async () => {
       if (put) {
         try {
-          const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/update/${educationId}`);
+          const response = await AxiosInstance.get(
+            `api/resumes/${resumeId}/educations/update/${educationId}`
+          );
           setEducation(response.data);
         } catch (error) {
           console.error("Error:", error);
         }
       }
     };
-  
     fetchEducation();
   }, []);
+
+  const handleStartDateChange = (date) => {
+    if (date) {
+      setEducation({ ...education, start_date: dayjs(date).format("YYYY-MM-DD") });
+    }
+  };
+
+  const handleEndDateChange = (date) => {
+    if (date) {
+      setEducation({ ...education, end_date: dayjs(date).format("YYYY-MM-DD") });
+    }
+  };
 
   const handleEducationChange = (event) => {
     const { name, value } = event.target;
@@ -64,14 +80,6 @@ function EditEducationPage({
     }
   };
 
-  const handleDateChange = (dateStrings) => {
-    setEducation({
-      ...education,
-      start_date: dateStrings[0],
-      end_date: dateStrings[1],
-    });
-  };
-
   const handleSubmit = (event) => {
     if (post) {
       handleCreateEducation(event);
@@ -87,15 +95,19 @@ function EditEducationPage({
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      await AxiosInstance.put(`api/resumes/${resumeId}/educations/update/${educationId}`, education);
+      await AxiosInstance.put(
+        `api/resumes/${resumeId}/educations/update/${educationId}`,
+        education
+      );
       showSuccess("Education Updated");
       setErrors(defaultEducationState);
       setEducation(defaultEducationState);
-  
-      const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
+
+      const response = await AxiosInstance.get(
+        `api/resumes/${resumeId}/educations/`
+      );
       setEducations(response.data);
-  
-      setButtonPopup(false);
+      closeEditModal();
     } catch (error) {
       console.error(error);
       let errorMessages = "";
@@ -110,14 +122,18 @@ function EditEducationPage({
   const handleCreateEducation = async (event) => {
     event.preventDefault();
     try {
-      await AxiosInstance.post(`api/resumes/${resumeId}/educations/create/`, education);
+      await AxiosInstance.post(
+        `api/resumes/${resumeId}/educations/create/`,
+        education
+      );
       showSuccess("Education Added");
       setEducation(defaultEducationState);
       setErrors(defaultEducationState);
-      setButtonPopup(false);
-  
-      const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
+      const response = await AxiosInstance.get(
+        `api/resumes/${resumeId}/educations/`
+      );
       setEducations(response.data);
+      closeAddModal();
     } catch (error) {
       console.error("Error:", error);
       let errorMessages = "";
@@ -130,36 +146,73 @@ function EditEducationPage({
   };
 
   return (
-    <div className="p-12">
+    <div className="p-4">
       <form onSubmit={handleSubmit}>
         <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">Start - End Dates</Label>
-          <RangePicker
+          <Label className="mr-4 w-[400px] text-1xl">Course Name</Label>
+          <Input
             className="w-[400px]"
-            id={{ start: education.start_date, end: education.end_date }}
-            onChange={(dateStrings) => {
-              handleDateChange(dateStrings);
-            }}
+            type="text"
+            name="course_name"
+            value={education.course_name}
+            onChange={handleEducationChange}
           />
         </div>
         <div className="mb-4">
-          {errors.start_date ||
-            (errors.end_date && (
-              <BigAlert
-                className="ml-4"
-                message={"Enter valid date"}
-                description={""}
-                type="error"
-              />
-            ))}
+          {errors.course_name && (
+            <BigAlert
+              className="ml-4"
+              message={"Enter valid course name"}
+              description={""}
+              type="error"
+            />
+          )}
         </div>
-
         <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">Level</Label>
+          <Label className="mr-4 w-[400px] text-1xl">Start Date</Label>
+          <DatePicker
+            className="w-[400px]"
+            name="start_date"
+            value={education.start_date ? dayjs(education.start_date) : null}
+            onChange={handleStartDateChange}
+          />
+        </div>
+        <div className="mb-4">
+          {errors.start_date && (
+            <BigAlert
+              className="ml-4"
+              message={"Enter valid start date"}
+              description={""}
+              type="error"
+            />
+          )}
+        </div>
+        <div className="flex flex-row justify-between items-center mb-4">
+          <Label className="mr-4 w-[400px] text-1xl">End Date</Label>
+          <DatePicker
+            className="w-[400px]"
+            name="end_date"
+            value={education.end_date ? dayjs(education.end_date) : null}
+            onChange={handleEndDateChange}
+          />
+        </div>
+        <div className="mb-4">
+          {errors.end_date && (
+            <BigAlert
+              className="ml-4"
+              message={"Enter valid end date"}
+              description={""}
+              type="error"
+            />
+          )}
+        </div>
+        <div className="flex flex-row justify-between items-center mb-4">
+          <Label className="mr-4 w-[400px] text-1xl">Level</Label>
           <Select
             className="w-[420px]"
             name="level"
             placeholder="Select a level"
+            value={education.level}
             onChange={(value) => {
               setEducation({ ...education, level: value });
             }}
@@ -181,7 +234,7 @@ function EditEducationPage({
           )}
         </div>
         <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">Institution</Label>
+          <Label className="mr-4 w-[400px] text-1xl">Institution</Label>
           <Input
             className="w-[400px]"
             type="text"
@@ -201,7 +254,7 @@ function EditEducationPage({
           )}
         </div>
         <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">Grade</Label>
+          <Label className="mr-4 w-[400px] text-1xl">Grade</Label>
           <Input
             className="w-[400px]"
             type="text"
@@ -221,11 +274,11 @@ function EditEducationPage({
           )}
         </div>
         {education.address && (
-          <>
-            <div className="flex flex-row justify-between items-center mb-4">
-              <Label className="mr-4 w-[400px] text-2xl">City</Label>
+          <div className="flex flex-row w-full mt-8 justify-between items-center space-x-2">
+            <div className="flex flex-col justify-between items-center mb-4 ">
+              <Label className="w-full text-1xl">City</Label>
               <Input
-                className="w-[400px]"
+                className="w-full"
                 type="text"
                 name="address.city"
                 value={education.address.city}
@@ -242,10 +295,10 @@ function EditEducationPage({
                 />
               )}
             </div>
-            <div className="flex flex-row justify-between items-center mb-4">
-              <Label className="mr-4 w-[400px] text-2xl">Post Code</Label>
+            <div className="flex flex-col justify-between items-center mb-4">
+              <Label className="w-full text-1xl">Post Code</Label>
               <Input
-                className="w-[400px]"
+                className="w-full"
                 type="text"
                 name="address.post_code"
                 value={education.address.post_code}
@@ -262,10 +315,10 @@ function EditEducationPage({
                 />
               )}
             </div>
-            <div className="flex flex-row justify-between items-center mb-4">
-              <Label className="mr-4 w-[400px] text-2xl">Country</Label>
+            <div className="flex flex-col justify-between items-center mb-4">
+              <Label className="w-full text-1xl">Country</Label>
               <Input
-                className="w-[400px]"
+                className="w-full"
                 type="text"
                 name="address.country"
                 value={education.address.country}
@@ -282,15 +335,10 @@ function EditEducationPage({
                 />
               )}
             </div>
-          </>
+          </div>
         )}
         <br />
-        <Button
-          variant="outline"
-          className="w-full"
-          type="submit"
-          onClick={handleSubmit}
-        >
+        <Button variant="outline" className="w-full" type="submit">
           Submit
         </Button>
       </form>

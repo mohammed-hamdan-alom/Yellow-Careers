@@ -1,5 +1,4 @@
 import swal from "sweetalert2";
-import Swal from "sweetalert2";
 
 export const showError = (message) => {
   swal.fire({
@@ -23,16 +22,4 @@ export const showSuccess = (message) => {
     timerProgressBar: true,
     showConfirmButton: false,
   });
-};
-
-export const showJobCreatedSuccess = () => {
-  Swal.fire(
-    "Job Created",
-    "Your job has been created successfully!",
-    "success"
-  );
-};
-
-export const showJobCreatedError = () => {
-  Swal.fire("Error", "There was an error creating the job.", "error");
 };

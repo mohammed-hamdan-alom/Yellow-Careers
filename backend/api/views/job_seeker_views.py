@@ -5,6 +5,8 @@ from api.serializers import JobSeekerSerializer
 from api.matchmaker.matchmaker import *
 from rest_framework.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
+from rest_framework import generics
+
 
 class BaseJobSeekerView:
     queryset = JobSeeker.objects.all()

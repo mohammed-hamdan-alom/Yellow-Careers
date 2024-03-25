@@ -5,6 +5,8 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import LoginPage from "./features/authentication/login/LoginPage";
 import AuthLayout from "./features/authentication/AuthLayout";
 import GetStarted from "./features/authentication/get-started/GetStarted";
+import JoinOrCreateCompany from "./features/authentication/register/employer/JoinOrCreateCompany";
+import CreateCompany from "./features/authentication/register/employer/CreateCompany";
 import InvitedEmployerVerification from "./features/authentication/register/employer/InvitedEmployerVerification";
 import EmployerRegister from "./features/authentication/register/employer/EmployerRegister";
 import JobSeekerRegister from "./features/authentication/register/job-seeker/JobSeekerRegister";
@@ -22,7 +24,7 @@ import SavedJobListPage from "./features/jobseeker/job-list/saved-jobs/SavedJobs
 import AppliedJobDetails from "./features/jobseeker/job-details/applied-job-details/AppliedJobDetails";
 
 import JobApplicantsPage from "./features/employer/job_applicants/JobApplicants";
-import JobCreation from "@/features/employer/job_creation/JobCreation";;
+import JobCreation from "@/features/employer/job_creation/JobCreation";
 import QuestionCreation from "./features/employer/job_creation/QuestionCreation";
 import EmployerLayout from "./features/employer/layout/EmployerLayout";
 import EmployerDashBoardPage from "./features/employer/dashboard/EmployerDashBoardPage";
@@ -36,43 +38,65 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 function App() {
   return (
     <Routes>
-      
       <Route path="/" element={<LandingPage />} />
 
       <Route path="/auth/*" element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="get-started" element={<GetStarted />} />
-        <Route path="verify-invited-employer" element={<InvitedEmployerVerification />} />
+        <Route
+          path="join-or-create-company"
+          element={<JoinOrCreateCompany />}
+        />
+        <Route
+          path="verify-invited-employer"
+          element={<InvitedEmployerVerification />}
+        />
+        <Route path="create-company" element={<CreateCompany />} />
         <Route path="register-employer" element={<EmployerRegister />} />
+        <Route
+          path="register-employer/:companyId"
+          element={<EmployerRegister />}
+        />
         <Route path="register-jobseeker" element={<JobSeekerRegister />} />
       </Route>
 
-      <Route element={<PrivateRoute role={['job_seeker']} />}>
+      <Route element={<PrivateRoute role={["job_seeker"]} />}>
         <Route path="/job-seeker/*" element={<JobSeekerLayout />}>
           <Route path="dashboard" element={<DashBoardPage />} />
           <Route path="resume" element={<ResumePage />} />
           <Route path="saved-jobs" element={<SavedJobListPage />} />
           <Route path="profile" element={<JobSeekerProfile />} />
           <Route path="job-details/:jobId" element={<JobDetails />} />
-          <Route path="job-details/:jobId/questions" element={<JobQuestions />} />
-          <Route path="application-details/:applicationId" element={<AppliedJobDetails />} />
+          <Route
+            path="job-details/:jobId/questions"
+            element={<JobQuestions />}
+          />
+          <Route
+            path="application-details/:applicationId"
+            element={<AppliedJobDetails />}
+          />
           <Route path="applied-jobs" element={<AppliedJobListPage />} />
         </Route>
       </Route>
 
-      <Route element={<PrivateRoute role={['employer']}/>}>
+      <Route element={<PrivateRoute role={["employer"]} />}>
         <Route path="/employer/*" element={<EmployerLayout />}>
           <Route path="dashboard" element={<EmployerDashBoardPage />} />
           <Route path="create-job" element={<JobCreation />} />
-          <Route path="create-questions/:jobId" element={<QuestionCreation />} />
+          <Route
+            path="create-questions/:jobId"
+            element={<QuestionCreation />}
+          />
           <Route path="job-applicants/:jobId" element={<JobApplicantsPage />} />
           <Route path="job-details/:jobId" element={<JobDetailsEmployer />} />
-          <Route path="application-details/:applicationId" element={<ApplicationDetails />} />
+          <Route
+            path="application-details/:applicationId"
+            element={<ApplicationDetails />}
+          />
           <Route path="company" element={<CompanyProfilePage />} />
           <Route path="profile" element={<EmployerProfile />} />
         </Route>
       </Route>
-
     </Routes>
   );
 }

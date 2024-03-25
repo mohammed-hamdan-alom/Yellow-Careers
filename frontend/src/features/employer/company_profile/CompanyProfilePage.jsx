@@ -5,9 +5,8 @@ import { showError, showSuccess } from "@/components/Alert/Alert";
 import { Building2, BookOpenText, Computer } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input, Button } from "antd";
-import './styling/styling.css'
-import "@/components/styling/button.css";
 import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
+import "@/components/styling/button.css";
 
 function CompanyProfilePage() {
   const [employer, setEmployer] = useState([]);
@@ -142,7 +141,7 @@ function CompanyProfilePage() {
           {employer.is_company_admin && (
             <div className="mt-5">
               <Button
-                className="editButton"
+                className="yellowButton"
                 type="submit"
                 onClick={() => {
                   setEditedCompanyData(companyData);
@@ -161,7 +160,6 @@ function CompanyProfilePage() {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <Label htmlFor="company_name">
-              {" "}
               Company Name:
               <Input
                 prefix={<Building2 size={16} className="mr-3" />}
@@ -175,59 +173,61 @@ function CompanyProfilePage() {
             {errors.company_name && <p>{errors.company_name}</p>}
           </div>
           <div className="mb-3">
-            <Label htmlFor="about">About:</Label>
-            <Input.TextArea
-              id="about"
-              name="about"
-              value={editedCompanyData.about}
-              onChange={handleChange}
-            />
+            <Label htmlFor="about">
+              About:
+              <Input.TextArea
+                id="about"
+                name="about"
+                value={editedCompanyData.about}
+                onChange={handleChange}
+              />
+            </Label>
             {errors.about && <p>{errors.about}</p>}
           </div>
           <div className="mb-3">
-            <Label htmlFor="website">Website:</Label>
-            <Input
-              type="text"
-              id="website"
-              name="website"
-              value={editedCompanyData.website}
-              onChange={handleChange}
-            />
+            <Label htmlFor="website">
+              Website:
+              <Input
+                type="text"
+                id="website"
+                name="website"
+                value={editedCompanyData.website}
+                onChange={handleChange}
+              />
+            </Label>
             {errors.website && <p>{errors.website}</p>}
           </div>
           <Button
             type="submit"
-            className="updateButton mr-3"
+            className="blueButton mr-2"
             onClick={handleSubmit}
           >
             Update
           </Button>
           <Button
             type="button"
-            className="cancelButton"
+            className="redButton"
             onClick={() => setShowEdit(false)}
           >
             Cancel
           </Button>
         </form>
       )}
-
-      <div className="mt-3">
-        <Label className="text-lg font-semibold">Employers:</Label>
-        <br />
-        <ul>
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold mb-4">Employers:</h1>
+        <ul className="space-y-4">
           {employers.map((employer) => (
-            <li key={employer.id} className="employer-item">
-              <div className="employer-info">
+            <li key={employer.id} className="border p-4 rounded-md">
+              <div className="flex justify-between items-center">
                 <Label
                   htmlFor={`employer-${employer.id}`}
-                  className="flex items-center"
+                  className="text-lg font-semibold"
                 >
-                  {employer.first_name} {employer.last_name}:
+                  {employer.first_name} {employer.last_name}
                 </Label>
                 <Label
                   htmlFor={`employer-email-${employer.id}`}
-                  className="flex items-center"
+                  className="text-gray-600"
                 >
                   Email: {employer.email}
                 </Label>

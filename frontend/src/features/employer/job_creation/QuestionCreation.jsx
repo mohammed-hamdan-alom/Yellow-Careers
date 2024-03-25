@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 
-function QuestionCreation() {
-    const { jobId } = useParams();
+function QuestionCreation({ jobId }) {
     const navigate = useNavigate();
     const [questions, setQuestions] = useState([]);
     const [questionsChanged, setQuestionsChanged] = useState(false);
@@ -18,6 +17,7 @@ function QuestionCreation() {
     });
 
     useEffect(() => {
+
         AxiosInstance.get(`api/jobs/${jobId}/questions/`)
             .then((res) => {
                 setQuestions(res.data);
@@ -56,7 +56,7 @@ function QuestionCreation() {
 
     const handleRemove = (id) => {
         AxiosInstance.delete(`api/questions/${id}/update/`)
-            .then((res) => window.location.reload())
+            .then((res) => setQuestionsChanged(true))
             .catch((error) => console.log(error));
     };
 
@@ -74,12 +74,10 @@ function QuestionCreation() {
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                     />
                     <div className='form-actions mt-4'>
-                        <Button onClick={handleSubmit} className="blueButton">Submit Question</Button>
+                        <Button onClick={handleSubmit} className="blueButton">Add Question</Button>
                     </div>
                 </div>
             </form>
-            <br></br>
-            <Button onClick={handleSkip} className="yellowButton">Finish</Button>
             <p className="mt-4"></p>
             <h2 className="text-xl font-bold mt-4">Current Questions:</h2>
             {questions.length == 0 ? <h1 className="text-xl font-semibold" style={{ color: '#4A5568' }}>There are currently no questions</h1> : null}
@@ -91,6 +89,8 @@ function QuestionCreation() {
                     </li>
                 </ul>
             ))}
+            <br></br>
+            <Button onClick={handleSkip} className="yellowButton mt-1">Submit</Button>
         </div>
     );
 }

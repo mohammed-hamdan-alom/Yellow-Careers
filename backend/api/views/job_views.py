@@ -92,14 +92,15 @@ class EmployerJobListingView(generics.ListAPIView):
 		return [relation.job for relation in relations]
 
 class AdminJobListingView(generics.ListAPIView):
-	'''Retrieve the jobs of an admin. The employer id is passed as a parameter in the URL.'''
-	permission_classes = [AllowAny]
-	serializer_class = JobSerializer
+    '''Retrieve the jobs of an admin. The employer id is passed as a parameter in the URL.'''
+    permission_classes = [AllowAny]
+    serializer_class = JobSerializer
 
-	def get_queryset(self):
-		employer_id = self.kwargs.get('pk')
-		employer = get_object_or_404(Employer, id=employer_id)
-		relations = []
-		if employer.is_company_admin:
-			relations = EmployerJobRelation.objects.filter(employer__company=employer.company)
-		return [relation.job for relation in relations]
+    def get_queryset(self):
+        employer_id = self.kwargs.get('pk')
+        employer = get_object_or_404(Employer, id=employer_id)
+        relations = []
+        if employer.is_company_admin:
+            relations = EmployerJobRelation.objects.filter(employer__company=employer.company)
+        # Convert the list of jobs to a set to remove duplicates
+        return list(set(relation.job for relation in relations))
