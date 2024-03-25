@@ -3,7 +3,7 @@ import { vi } from 'vitest';
 import { render, screen, fireEvent, act, cleanup, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import AxiosInstance from '@/utils/AxiosInstance';
-import JobDetails from '../job-datails-page/JobDetailsPage';
+import JobDetails from '../job-details/JobDetails';
 import AuthContext from '@/context/AuthContext';
 
 const data = {

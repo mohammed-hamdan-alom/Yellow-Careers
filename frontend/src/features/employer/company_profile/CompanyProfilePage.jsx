@@ -4,8 +4,8 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from "@/components/Alert/Alert";
 import { Building2, BookOpenText, Computer } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Input, Select, Button } from "antd";
-const { Option } = Select;
+import { Input, Button } from "antd";
+import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
 import "@/components/styling/button.css";
 
 function CompanyProfilePage() {
@@ -22,6 +22,8 @@ function CompanyProfilePage() {
   });
   const [showEdit, setShowEdit] = useState(null);
   const [employers, setEmployers] = useState([]);
+  const [inviteEmail, setInviteEmail] = useState("");
+  
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
 
@@ -85,6 +87,25 @@ function CompanyProfilePage() {
     }
   };
 
+  const handleInviteSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await AxiosInstance.post(
+        "/api/invited-employer/create/",
+        {
+          email: inviteEmail,
+          company: companyData.id,
+        }
+      );
+      if (response.status === 200 || response.status === 201) {
+        showSuccess("Invitation sent successfully.");
+        setInviteEmail("");
+      }
+    } catch (error) {
+      handleErrorAndShowMessage("Failed to send invite:", error);
+    }
+  };
+
   return (
     <div>
       {!showEdit && (
@@ -118,7 +139,7 @@ function CompanyProfilePage() {
             />
           </div>
           {employer.is_company_admin && (
-            <div style={{ marginTop: "25px" }}>
+            <div className="mt-5">
               <Button
                 className="yellowButton"
                 type="submit"
@@ -134,6 +155,7 @@ function CompanyProfilePage() {
           <br />
         </div>
       )}
+
       {showEdit && (
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -214,6 +236,27 @@ function CompanyProfilePage() {
           ))}
         </ul>
       </div>
+
+      {employer.is_company_admin && (
+        <div>
+          <Label className="text-lg font-semibold">Invite Employers:</Label>
+          <form onSubmit={handleInviteSubmit}>
+            <div className="mb-3">
+              <Input
+                type="email"
+                placeholder="Enter employer's email"
+                value={inviteEmail}
+                onChange={(e) => setInviteEmail(e.target.value)}
+                required
+              />
+            </div>
+            <Button htmlType="submit" className="blueButton">
+              Send Invite
+            </Button>
+          </form>
+        </div>
+      )}
+
     </div>
   );
 }
