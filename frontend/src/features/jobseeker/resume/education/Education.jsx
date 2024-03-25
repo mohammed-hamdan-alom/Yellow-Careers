@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import EditEducationPage from "./EditEducationPage";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from "@/components/Alert/Alert";
-import { Modal } from "antd";
-import EditEducationPage from "./EditEducationPage";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { SquarePen, MinusCircle } from "lucide-react";
+import { Modal } from "antd";
 
 function Education({ resumeId }) {
   const [educations, setEducations] = useState([]);
@@ -70,8 +70,7 @@ function Education({ resumeId }) {
           <div
             key={education.id}
             className="flex flex-col items-center justify-between mb-4"
-          > 
-            {console.log(education.id)}
+          >
             <div className="flex flex-col w-full outline rounded m-3 p-2">
               <Label className="text-1xl">
                 Course: {education.course_name}
@@ -83,7 +82,7 @@ function Education({ resumeId }) {
               <Label className="text-1xl">Grade: {education.grade}</Label>
             </div>
 
-            <div className="flex flex-row w-full items-center">
+            <div className="flex flex-row w-full items-center justify-end">
               <Button
                 data-testid="edit-button"
                 variant="secondary"
@@ -125,8 +124,8 @@ function Education({ resumeId }) {
       </div>
 
       <div>
-        <Button variant="outline" onClick={showAddModal}>
-          Add Education
+        <Button variant="outline" className='w-full' onClick={showAddModal}>
+          + Add Education
         </Button>
         <Modal
           title="Add Education"

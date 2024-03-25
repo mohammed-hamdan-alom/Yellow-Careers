@@ -107,6 +107,7 @@ function EditEducationPage({
         `api/resumes/${resumeId}/educations/`
       );
       setEducations(response.data);
+      location.reload();
       closeEditModal();
     } catch (error) {
       console.error(error);

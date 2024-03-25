@@ -3,7 +3,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from "@/components/Alert/Alert";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "antd";
 import { Select } from "antd";
 import BigAlert from "@/components/Alert/BigAlert";
 
@@ -12,11 +12,10 @@ function EditLanguagePage({
   post,
   resumeId,
   setLanguages,
-  lanugageId,
+  languageId,
   closeAddModal,
   closeEditModal,
 }) {
-
   const SkillLevelOptions = [
     { value: "B", label: "Basic" },
     { value: "I", label: "Intermediate" },
@@ -36,14 +35,16 @@ function EditLanguagePage({
     const fetchLanguage = async () => {
       if (put) {
         try {
-          const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/update/${languageId}`);
+          const response = await AxiosInstance.get(
+            `api/resumes/${resumeId}/languages/update/${languageId}`
+          );
           setLanguage(response.data);
         } catch (error) {
           console.error("Error:", error);
         }
       }
     };
-  
+
     fetchLanguage();
   }, []);
 
@@ -86,14 +87,21 @@ function EditLanguagePage({
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    console.log(language)
     try {
-      await AxiosInstance.put(`api/resumes/${resumeId}/languages/update/${languageId}`, language);
+      await AxiosInstance.put(
+        `api/resumes/${resumeId}/languages/update/${languageId}`,
+        language
+      );
       showSuccess("Language Updated");
       setErrors(defaultLanguageState);
       setLanguage(defaultLanguageState);
-  
-      const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
+
+      const response = await AxiosInstance.get(
+        `api/resumes/${resumeId}/languages/`
+      );
       setLanguages(response.data);
+      location.reload();
       closeEditModal();
     } catch (error) {
       console.error(error);
@@ -103,21 +111,26 @@ function EditLanguagePage({
         setErrors(error.response.data);
       }
       showError("Updating Language Failed");
+      closeEditModal();
     }
   };
 
   const handleCreateLanguage = async (event) => {
     event.preventDefault();
     try {
-      await AxiosInstance.post(`api/resumes/${resumeId}/languages/create/`, language);
+      await AxiosInstance.post(
+        `api/resumes/${resumeId}/languages/create/`,
+        language
+      );
       showSuccess("Language Added");
       setLanguage(defaultLanguageState);
       setErrors(defaultLanguageState);
-  
-      const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
+
+      const response = await AxiosInstance.get(
+        `api/resumes/${resumeId}/languages/`
+      );
       setLanguages(response.data);
       closeAddModal();
-  
     } catch (error) {
       console.error("Error:", error);
       let errorMessages = "";
@@ -126,16 +139,17 @@ function EditLanguagePage({
         setErrors(error.response.data);
       }
       showError("Creating Language Failed");
+      closeAddModal();
     }
   };
 
   return (
-    <div className="p-12">
+    <div className="p-6">
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">Enter Language:</Label>
+        <div className="flex flex-col justify-between items-left mb-4">
+          <Label className="text-1xl">Enter Language:</Label>
           <Input
-            className="w-[400px]"
+            className="w-full"
             placeholder="Enter Language"
             type="text"
             name="language"
@@ -153,10 +167,10 @@ function EditLanguagePage({
             />
           )}
         </div>
-        <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">Spoken Proficiency:</Label>
+        <div className="flex flex-col justify-between items-left mb-4">
+          <Label className="text-1xl">Spoken Proficiency:</Label>
           <Select
-            className="w-[420px]"
+            className="w-full"
             name="spoken_proficiency"
             placeholder="Select Spoken Proficiency"
             value={language.spoken_proficiency}
@@ -174,12 +188,12 @@ function EditLanguagePage({
             />
           )}
         </div>
-        <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">
+        <div className="flex flex-col justify-between items-left mb-4">
+          <Label className="text-1xl">
             Written Proficiency:
           </Label>
           <Select
-            className="w-[420px]"
+            className="w-full"
             name="written_proficiency"
             placeholder="Select Written Proficiency"
             value={language.written_proficiency}
@@ -197,7 +211,7 @@ function EditLanguagePage({
             />
           )}
         </div>
-        <Button type="submit" variant="outline" className='w-full mt-8'>
+        <Button type="submit" variant="outline" className="w-full mt-8">
           Submit
         </Button>
       </form>

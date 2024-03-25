@@ -8,8 +8,6 @@ import TechnicalSkill from "./skills/TechnicalSkill";
 import Language from "./language/Language";
 import Education from "./education/Education";
 import ProfessionalExperience from "./professional-experience/ProfessionalExperience";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser";
 
 function UpdateResumePage() {
@@ -47,17 +45,33 @@ function UpdateResumePage() {
 
   return (
     <div className="pb-96">
-      <div className="flex flex-row justify-left mt-4 ">
+      {/* <div className="flex flex-row justify-left mt-4 ">
         <Education resumeId={resumeId} />
+      </div>
+      <div className="flex flex-row justify-left mt-4 ">
         <ProfessionalExperience resumeId={resumeId} />
       </div>
-      <div className="flex flex-row justify-left sm:flex-wrap">
+      <div className="flex flex-row justify-left ">
         <ResumeForm resumeId={resumeId} />
+      </div>
+      <div className="flex flex-row justify-left mt-4">
         <SoftSkill resumeId={resumeId} />
       </div>
-      <div className="flex flex-row justify-left mt-4 sm:flex-col">
+      <div className="flex flex-row justify-left mt-4">
         <Language resumeId={resumeId} />
+      </div>
+      <div className="flex flex-row justify-left mt-4">
         <TechnicalSkill resumeId={resumeId} />
+      </div> */}
+      <div className="flex flex-col justify-between mt-4 ">
+        <Education resumeId={resumeId} />
+        <ProfessionalExperience resumeId={resumeId} />
+        <ResumeForm resumeId={resumeId} />
+        <Language resumeId={resumeId} />
+        <div className="flex flex-row justify-between mt-4 space-x-6">
+          <SoftSkill resumeId={resumeId} />
+          <TechnicalSkill resumeId={resumeId} />
+        </div>
       </div>
     </div>
   );

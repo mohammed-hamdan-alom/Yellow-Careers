@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import EditLanguagePage from "./EditLanguagePage";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from "@/components/Alert/Alert";
-import EditLanguagePage from "./EditLanguagePage";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { SquarePen, MinusCircle } from "lucide-react";
@@ -11,6 +11,14 @@ function Language({ resumeId }) {
   const [languages, setLanguages] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingLanguageId, setEditingLanguageId] = useState(null);
+
+  const SkillLevelOptions = [
+    { value: "B", label: "Basic" },
+    { value: "I", label: "Intermediate" },
+    { value: "A", label: "Advanced" },
+    { value: "F", label: "Fluent" },
+  ];
 
   const showAddModal = () => {
     setIsAddModalOpen(true);
@@ -34,20 +42,23 @@ function Language({ resumeId }) {
         return;
       }
       try {
-        const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
+        const response = await AxiosInstance.get(
+          `api/resumes/${resumeId}/languages/`
+        );
         setLanguages(response.data);
       } catch (error) {
         console.error("Error:", error);
       }
     };
-  
     fetchLanguages();
   }, [resumeId]);
 
   //Delete language
   const handleDeleteLanguage = async (languageObj) => {
     try {
-      await AxiosInstance.delete(`api/resumes/${resumeId}/languages/update/${languageObj.id}`);
+      await AxiosInstance.delete(
+        `api/resumes/${resumeId}/languages/update/${languageObj.id}`
+      );
       showSuccess("Language Deleted");
       setLanguages((prevLanguages) =>
         prevLanguages.filter((item) => item !== languageObj)
@@ -67,55 +78,75 @@ function Language({ resumeId }) {
             key={language.id}
             className="flex flex-row items-center justify-between mb-4"
           >
-            <div>
+            <div className="flex flex-col outline-slate-400 w-full mr-5 rounded p-2">
               <Label className="text-1xl">{language.language}</Label>
+              <Label className="text-1xl">
+                Spoken:{" "}
+                {
+                  SkillLevelOptions.find(
+                    (option) => option.value === language.spoken_proficiency
+                  )?.label
+                }
+              </Label>
+              <Label className="text-1xl">
+                Written:{" "}
+                {
+                  SkillLevelOptions.find(
+                    (option) => option.value === language.written_proficiency
+                  )?.label
+                }
+              </Label>
             </div>
             <div className="flex flex-row items-center">
               <Button
                 className="mr-4"
                 variant="secondary"
                 size="icon"
-                onClick={showEditModal}
+                onClick={() => {
+                  setEditingLanguageId(language.id);
+                  showEditModal();
+                }}
               >
                 <SquarePen className="w-5 h-5" />
               </Button>
+              <Modal
+                title="Edit Language"
+                footer={null}
+                open={isEditModalOpen}
+                onOk={closeEditModal}
+                onCancel={closeEditModal}
+              >
+                <EditLanguagePage
+                  post={false}
+                  put={true}
+                  resumeId={resumeId}
+                  languageId={editingLanguageId}
+                  setLanguages={setLanguages}
+                  closeEditModal={closeEditModal}
+                />
+              </Modal>
               <Button
                 data-testid="delete-button"
-                className=""
                 variant="destructive"
                 size="icon"
                 onClick={() => handleDeleteLanguage(language)}
               >
                 <MinusCircle />
               </Button>
-              <Modal
-                title="Edit Language"
-                footer={null}
-                open={isEditModalOpen}
-                onOk={() => setIsEditModalOpen(false)}
-                onClose={() => setIsEditModalOpen(false)}
-              >
-                <EditLanguagePage
-                  post={false}
-                  put={true}
-                  resumeId={resumeId}
-                  languageId={language.id}
-                  setLanguages={setLanguages}
-                  closeEditModal={closeEditModal}
-                />
-              </Modal>
             </div>
           </div>
         ))}
       </div>
       <div>
-        <Button variant='outline' onClick={showAddModal}>Add Language</Button>
+        <Button variant="outline" onClick={showAddModal}>
+          Add Language
+        </Button>
         <Modal
           title="Add Language"
           open={isAddModalOpen}
           footer={null}
-          onOk={() => setIsAddModalOpen(false)}
-          onClose={() => setIsAddModalOpen(false)}
+          onOk={closeAddModal}
+          onCancel={closeAddModal}
         >
           <EditLanguagePage
             post={true}

@@ -84,11 +84,10 @@ function SoftSkill({ resumeId }) {
             key={skill.id}
             className="flex justify-between items-center w-full mb-4"
           >
-            <Label className="">{skill.skill}</Label>
+            <Label className="text-1xl">{skill.skill}</Label>
             <Button
               data-testid="delete-soft-skill"
               variant="destructive"
-              size="icon"
               onClick={() => handleDeleteSoftSkill(skill)}
             >
               <MinusCircle className="mr-2" />
@@ -97,7 +96,7 @@ function SoftSkill({ resumeId }) {
           </div>
         ))}
       </div>
-      <div className="flex flex-row items-center w-full mb-4">
+      <div className="flex flex-row items-center justify-between w-full mb-4">
         <Label className="text-1xl w-[200px]">Add soft skill:</Label>
         <Input
           className="w-full"
@@ -108,10 +107,11 @@ function SoftSkill({ resumeId }) {
         />
         <Button
           variant="secondary"
-          className="w-10 h-10 ml-10"
+          className="ml-10"
           onClick={handleSubmitSoftSkills}
         >
-          <PlusCircle />
+          <PlusCircle className="mr-2"/>
+          Add
         </Button>
       </div>
     </div>
