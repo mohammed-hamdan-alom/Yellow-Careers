@@ -9,12 +9,9 @@ import AuthContext from "@/context/AuthContext";
 const JobSummary = ({ job }) => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const [company, setCompany] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
-      const companyResponse = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
-      setCompany(companyResponse.data);
     };
 
     fetchData();
@@ -39,7 +36,7 @@ const JobSummary = ({ job }) => {
 
   return (
     <div className="w-full justify-center" onClick={handleClick}>
-      <JobCard title={job.title} companyName={company.company_name} city={job.address.city} country={job.address.country} description={formattedDescription} salary={job.salary} jobType={job.job_type} />
+      <JobCard title={job.title} companyName={job.company.company_name} city={job.address.city} country={job.address.country} description={formattedDescription} salary={job.salary} jobType={job.job_type} />
     </div>
   );
 };

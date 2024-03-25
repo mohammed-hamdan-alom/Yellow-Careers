@@ -19,14 +19,23 @@ function EmployerDashBoardPage() {
     const fetchData = async () => {
       try {
         const employerJobsResponse = await AxiosInstance.get(`api/employer/${userId}/jobs/`);
-        setEmployerJobs(employerJobsResponse.data);
+
+        const jobsWithCompany = await Promise.all(employerJobsResponse.data.map(async job => {
+          const companyRes = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
+          return { ...job, company: companyRes.data };
+        }));     
+        setEmployerJobs(jobsWithCompany);
 
         const employerResponse = await AxiosInstance.get(`api/employers/${userId}/`);
 
         if (employerResponse.data.is_company_admin) {
           const companyJobsResponse = await AxiosInstance.get(`api/employer/${userId}/company-jobs/`);
-          setCompanyJobs(companyJobsResponse.data);
-          setShowCompanyJobs(companyJobsResponse.data.length > 0);
+          const jobsWithCompany = await Promise.all(companyJobsResponse.data.map(async job => {
+            const companyRes = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
+            return { ...job, company: companyRes.data };
+          }));     
+          setCompanyJobs(jobsWithCompany);
+          setShowCompanyJobs(jobsWithCompany.length > 0);
         }
 
 

@@ -17,7 +17,11 @@ function AppliedJobListPage() {
     const fetchAppliedJobs = async () => {
       try {
         const res = await AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`);
-        setJobs(res.data);
+        const jobsWithCompany = await Promise.all(res.data.map(async job => {
+          const companyRes = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
+          return { ...job, company: companyRes.data };
+        }));     
+        setJobs(jobsWithCompany);
       } catch (error) {
         checkUserIdAndReload(userId);
         handleErrorAndShowMessage("Error retrieving data:", error);

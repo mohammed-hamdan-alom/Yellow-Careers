@@ -3,8 +3,8 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobFilter from "@/components/search/JobFilter";
 import { Label } from "@/components/ui/label";
-import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
-import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
+import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser";
+import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
 
 const JobListPage = () => {
   const { user, updateToken } = useContext(AuthContext);
@@ -16,16 +16,18 @@ const JobListPage = () => {
 
   useEffect(() => {
     const fetchResumeAndJobs = async () => {
-      updateToken();
       try {
         const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
         setResume(response.data);
         if (response.data.id !== undefined) {
           const res = await AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`);
-          setJobs(res.data);
+          const jobsWithCompany = await Promise.all(res.data.map(async job => {
+            const companyRes = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
+            return { ...job, company: companyRes.data };
+          }));          
+          setJobs(jobsWithCompany);
           setIsJobRetrieved(true);
         }
-
       } catch (error) {
         checkUserIdAndReload(userId);
         handleErrorAndShowMessage("Error retrieving data:", error);
