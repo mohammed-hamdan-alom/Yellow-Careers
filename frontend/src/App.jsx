@@ -21,7 +21,7 @@ import JobQuestions from "./features/jobseeker/job-details/job-questions/JobQues
 
 import AppliedJobListPage from "./features/jobseeker/job-list/applied-jobs/AppliedJobsListPage";
 import SavedJobListPage from "./features/jobseeker/job-list/saved-jobs/SavedJobsListPage";
-import AppliedJobDetails from "./features/jobseeker/job-details/applied-job-details-page/AppliedJobDetailsPage";
+import AppliedJobDetails from "./features/jobseeker/job-details/applied-job-details/AppliedJobDetails";
 
 import JobApplicantsPage from "./features/employer/job_applicants/JobApplicants";
 import JobCreation from "@/features/employer/job_creation/JobCreation";
@@ -31,8 +31,8 @@ import EmployerDashBoardPage from "./features/employer/dashboard/EmployerDashBoa
 import ApplicationDetails from "./features/employer/application_details/ApplicationDetails";
 import CompanyProfilePage from "./features/employer/company_profile/CompanyProfilePage";
 import EmployerProfile from "./features/employer/profile/EmployerProfile";
-
 import JobDetailsEmployer from "./features/employer/job_applicants/JobDetailsEmployer";
+
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 function App() {

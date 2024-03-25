@@ -18,7 +18,7 @@ const ApplicantCard = ({ application_id, firstName, lastName, status, decision }
 
     const decisionColor = decision === 'A' ? 'green' :
                                                 decision === 'R' ? 'red' :
-                                                'blue';
+                                                'purple';
 
     return (
         <div>
@@ -26,7 +26,7 @@ const ApplicantCard = ({ application_id, firstName, lastName, status, decision }
                 <CardHeader className="justify-center items-left mt-4">
                     <div className="flex items-center">
                         <CardTitle className="text-2xl font-bold">{firstName} {lastName}</CardTitle>
-                        {status === 'U' && <Tag color="purple" className="ml-2 tag-medium pulsate">New</Tag>}
+                        {status === 'U' && <Tag color="blue" className="ml-2 tag-medium">Unread</Tag>}
                         {status === 'R' && <Tag color={decisionColor} className="ml-2 tag-medium">{decisionText}</Tag>}
                     </div>
                 </CardHeader>

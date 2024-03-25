@@ -11,12 +11,11 @@ import {
 } from "@/components/ui/card";
 import { Check, Linkedin } from "lucide-react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import shazaib from "../assets/shazaib.png"
+import shazaib from "../assets/shazaib.png";
 
 export const HeroCards = () => {
   return (
     <div className="hidden lg:flex flex-row flex-wrap gap-8 relative w-[700px] h-[500px]">
-
       {/* Testimonial */}
       <Card className="absolute w-[340px] -top-[15px] drop-shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
@@ -34,7 +33,9 @@ export const HeroCards = () => {
           </div>
         </CardHeader>
 
-        <CardContent>If you're looking for a job, Yellow Careers is the way to go</CardContent>
+        <CardContent>
+          If you're looking for a job, Yellow Careers is the way to go
+        </CardContent>
       </Card>
 
       {/* Team */}
@@ -71,7 +72,7 @@ export const HeroCards = () => {
               <GitHubLogoIcon className="w-5 h-5" />
             </a>
             <a
-              href='#'
+              href="#"
               className={buttonVariants({
                 variant: "ghost",
                 size: "sm",
@@ -102,7 +103,6 @@ export const HeroCards = () => {
           </div>
         </CardFooter>
       </Card>
-
     </div>
   );
 };

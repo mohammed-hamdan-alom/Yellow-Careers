@@ -1,14 +1,14 @@
-/* button.css */
-
-.yellowButton, .blueButton, .redButton, .large-button {
+.yellowButton,
+.blueButton,
+.redButton,
+.large-button {
   line-height: 1; /* Adjust as needed */
   padding-top: 8px; /* Adjust as needed */
   padding-bottom: 8px; /* Adjust as needed */
 }
 
-
 .yellowButton {
-  background-color: #FFD700 !important; /* Set the background color to a nice yellow */
+  background-color: #ffd700 !important; /* Set the background color to a nice yellow */
   color: white; /* Set the text color */
   border: none; /* Remove the border */
   cursor: pointer; /* Add cursor style */
@@ -16,12 +16,12 @@
 }
 
 .yellowButton:hover {
-  background-color: #FFC107 !important; /* Change background color to a darker shade of yellow on hover */
+  background-color: #ffc107 !important; /* Change background color to a darker shade of yellow on hover */
   color: white !important; /* Set the text color on hover */
 }
 
 .blueButton {
-  background-color: #2196F3 !important; /* Set the background color to a nice blue */
+  background-color: #2196f3 !important; /* Set the background color to a nice blue */
   color: white; /* Set the text color to white */
   border: none; /* Remove the border */
   cursor: pointer; /* Add cursor style */
@@ -34,7 +34,7 @@
 }
 
 .redButton {
-  background-color: #F44336 !important; /* Set the background color to a nice red */
+  background-color: #f44336 !important; /* Set the background color to a nice red */
   color: white; /* Set the text color to white */
   border: none; /* Remove the border */
   cursor: pointer; /* Add cursor style */

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Label } from '@/components/ui/label';
+import React from "react";
+import { Label } from "@/components/ui/label";
 
 const Question = ({ question }) => {
   return (
