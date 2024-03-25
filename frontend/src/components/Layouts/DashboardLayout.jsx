@@ -1,8 +1,7 @@
-import React from "react";
-import { Fragment, useContext } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import React, { Fragment, useContext, useEffect, useState } from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import AuthContext from "@/context/AuthContext";
 import logo from "./assets/yellow-careers-logo.png";
 import styled from "styled-components";
@@ -21,12 +20,25 @@ const StyledNavLink = styled(NavLink)`
 
 const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
   const authContext = useContext(AuthContext);
+  const location = useLocation();
+  const [hasRefreshed, setHasRefreshed] = useState(false);
 
   const { logoutUser } = authContext || {};
 
-  if (!logoutUser) {
-    console.log("logoutUser is not defined");
-  }
+  useEffect(() => {
+    const hasRefreshed = localStorage.getItem("hasRefreshed");
+
+    if (!hasRefreshed) {
+      // Refresh the page after 1.5 seconds (adjust as needed)
+      const timer = setTimeout(() => {
+        window.location.reload();
+        localStorage.setItem("hasRefreshed", true);
+        setHasRefreshed(true);
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const activeNavItem = navigation.find(item => location.pathname.includes(item.to)) || {};
 

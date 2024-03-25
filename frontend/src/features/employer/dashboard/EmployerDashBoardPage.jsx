@@ -30,21 +30,21 @@ function EmployerDashBoardPage() {
     fetchData();
 
     // Set a flag in localStorage to indicate whether the page has been refreshed
-    localStorage.setItem("hasRefreshedEmployerDashboard", true);
+    // localStorage.setItem("hasRefreshedEmployerDashboard", true);
   }, [userId]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const hasRefreshed = localStorage.getItem("hasRefreshedEmployerDashboard");
-    if (!hasRefreshed) {
-      const timer = setTimeout(() => {
+  //   const hasRefreshed = localStorage.getItem("hasRefreshedEmployerDashboard");
+  //   if (!hasRefreshed) {
+  //     const timer = setTimeout(() => {
         
-        window.location.reload();
-      }, 1500); 
+  //       window.location.reload();
+  //     }, 1500); 
 
-      return () => clearTimeout(timer);
-    }
-  }, []); 
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, []); 
 
   const handleSwitchChange = (checked) => {
     setShowCompanyJobs(checked);
