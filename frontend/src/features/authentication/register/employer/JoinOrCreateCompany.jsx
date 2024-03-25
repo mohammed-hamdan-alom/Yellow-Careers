@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,7 @@ const JoinOrCreateCompany = () => {
     <div className="h-screen flex justify-center items-center">
       <Card>
         <CardHeader>
-          <h1>Join or Create a Company</h1>
+          <CardTitle>Join or Create a Company</CardTitle>
         </CardHeader>
         <CardContent>
           <RadioGroup className="w-full flex flex-col justify-center">
