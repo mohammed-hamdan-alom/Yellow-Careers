@@ -23,10 +23,6 @@ function JobCreationForm() {
     setIsAddModalOpen(true);
   };
 
-  const closeAddModal = () => {
-    setIsAddModalOpen(false);
-  };
-
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
@@ -203,7 +199,8 @@ function JobCreationForm() {
             title="Create Questions"
             open={isAddModalOpen}
             footer={null}
-          >
+            onCancel={() => navigate(`/employer/job-details/${jobId}`)}
+            >
             <QuestionCreation jobId={jobId}></QuestionCreation>
           </Modal>
         </CardContent>
