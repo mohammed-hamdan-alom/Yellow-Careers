@@ -268,15 +268,15 @@ class ResumeModelTestCase(TestCase):
 
     #the tests below are for resume
             
-    def test_resume_github_can_be_blank(self):
-        self.resume.github = ''
+    def test_resume_website_can_be_blank(self):
+        self.resume.website = ''
         self._assert_is_valid(self.resume)
     
 
-    def test_resume_github_must_be_URL_field(self):
-        self.resume.github = 'not_a_url'
+    def test_resume_website_must_be_URL_field(self):
+        self.resume.website = 'not_a_url'
         self._assert_is_invalid(self.resume)
-        self.resume.github ='https://myurlfield.com/test'
+        self.resume.website ='https://myurlfield.com/test'
         self._assert_is_valid(self.resume)
     
     def test_resume_linkedin_must_be_URL_field(self):

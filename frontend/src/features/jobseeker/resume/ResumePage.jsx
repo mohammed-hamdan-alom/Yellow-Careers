@@ -26,7 +26,7 @@ function UpdateResumePage() {
       if (data.resume === null) {
         console.log("Resume not found");
         const response = await AxiosInstance.post(`api/resumes/create/`, {
-          github: "",
+          website: "",
           linkedin: "",
           about: "",
           experience: "",

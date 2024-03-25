@@ -11,7 +11,7 @@ import '@/components/styling/button.css';
 
 function ResumeForm({ resumeId }) {
   const defaultResumeState = {
-    github: "",
+    website: "",
     linkedin: "",
     about: "",
     experience: "",
@@ -63,8 +63,8 @@ function ResumeForm({ resumeId }) {
       <form onSubmit={handleSubmitResume}>
         <div className="flex space-x-4">
           <div className="w-1/2">
-            <Label className='text-1xl' htmlFor='github'>Github:</Label>
-            <Input type="text" name="github" id='github' value={resume.github} onChange={handleResumeChange} />
+            <Label className='text-1xl' htmlFor='website'>Website:</Label>
+            <Input type="text" name="website" id='website' value={resume.website} onChange={handleResumeChange} />
           </div>
           <div className="w-1/2">
             <Label className='text-1xl' htmlFor='linkedin'>LinkedIn:</Label>

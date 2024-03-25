@@ -7,4 +7,9 @@ const BigAlert = ({message, description, type}) => (
     type={type}
   />
 );
+
+export const showError = (message) => {
+  BigAlert({message, description:"", type: 'error'});
+}
+
 export default BigAlert;

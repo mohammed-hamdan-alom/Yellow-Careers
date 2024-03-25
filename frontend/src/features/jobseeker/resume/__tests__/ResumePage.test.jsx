@@ -62,7 +62,7 @@ describe('UpdateResumePage', () => {
       expect(AxiosInstance.get).toHaveBeenCalledWith(`api/job-seekers/${user.user_id}/`);
 
       expect(AxiosInstance.post).toHaveBeenCalledWith(`api/resumes/create/`, {
-        github: "",
+        website: "",
         linkedin: "",
         about: "",
         experience: "",

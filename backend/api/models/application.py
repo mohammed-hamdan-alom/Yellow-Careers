@@ -7,7 +7,7 @@ class ApplicationManager(models.Manager):
         if resume:
 
             new_resume = Resume.objects.create(
-                github = resume.github,
+                website = resume.website,
                 linkedin = resume.linkedin,
                 about = resume.about,
                 experience = resume.experience
