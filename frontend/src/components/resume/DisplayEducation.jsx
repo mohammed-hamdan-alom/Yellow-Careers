@@ -77,3 +77,5 @@ function DisplayEducation({ resumeId }) {
     </div>
   );
 }
+
+export default DisplayEducation;

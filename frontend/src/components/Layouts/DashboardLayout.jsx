@@ -12,7 +12,7 @@ function classNames(...classes) {
 }
 
 // Styled NavLink component
-const StyledNavLink = styled(NavLink)`
+const CustomNavLink = styled(NavLink)`
   &.active {
     font-weight: bold;
     color: #ffd700; /* Yellow color */
@@ -57,13 +57,13 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <StyledNavLink
+                          <CustomNavLink
                             key={item.name}
                             to={`${baseUrl}${item.to}`}
                             className="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-black"
                           >
                             {item.name}
-                          </StyledNavLink>
+                          </CustomNavLink>
                         ))}
                       </div>
                     </div>
@@ -142,13 +142,13 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
               <Disclosure.Panel className="md:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                   {navigation.map((item) => (
-                    <StyledNavLink
+                    <CustomNavLink
                       key={item.name}
                       to={`${baseUrl}${item.to}`}
                       className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:text-black"
                     >
                       {item.name}
-                    </StyledNavLink>
+                    </CustomNavLink>
                   ))}
                 </div>
                 <div className="border-t border-gray-700 pb-3 pt-4">

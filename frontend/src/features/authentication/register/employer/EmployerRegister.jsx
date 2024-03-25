@@ -24,18 +24,20 @@ const EmployerRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isAdmin) {
       try {
-        const response = await AxiosInstance.delete(
-          `api/invited-employer/delete/?email=${registerEmail}`
-        );
-        if (response.status === 200) {
-          registerEmployer(registerEmail, password, password2, companyId);
+        if (!isAdmin) {
+          const response = await AxiosInstance.delete(
+            `api/invited-employer/delete/?email=${registerEmail}`
+          );
+          if (response.status === 200) {
+            registerEmployer(registerEmail, password, password2, companyId, false);
+          }
+        } else {
+          registerEmployer(registerEmail, password, password2, companyId, true);
         }
       } catch (error) {
         console.error("Error registering employer:", error);
       }
-    }
   };
 
   return (
