@@ -5,7 +5,6 @@ import { Switch, Space } from "antd";
 import { Label } from "@/components/ui/label";
 import "./switch.css";
 import JobFilter from "@/components/search/JobFilter";
-import { checkUserIdAndReload } from "@/components/refreshUser/refreshUser";
 
 
 function EmployerDashBoardPage() {
@@ -31,12 +30,12 @@ function EmployerDashBoardPage() {
 
 
       } catch (error) {
-        checkUserIdAndReload(userId)
         console.error('Error fetching jobs:', error);
       }
     };
 
     fetchData();
+
   }, [userId]);
 
   const handleSwitchChange = (checked) => {

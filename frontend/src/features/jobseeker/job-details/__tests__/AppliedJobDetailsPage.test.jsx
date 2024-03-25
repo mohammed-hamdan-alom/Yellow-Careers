@@ -4,7 +4,7 @@ import { render, screen, fireEvent, act, cleanup, within } from '@testing-librar
 import { MemoryRouter } from 'react-router-dom';
 import AxiosInstance from '@/utils/AxiosInstance';
 import AuthContext from '@/context/AuthContext';
-import AppliedJobDetails from '../applied-job-details-page/AppliedJobDetailsPage';
+import AppliedJobDetails from '../applied-job-details/AppliedJobDetails';
 
 const job_seeker1 = {
     "user": {

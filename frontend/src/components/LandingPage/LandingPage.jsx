@@ -1,6 +1,6 @@
-import React from 'react'
-import { Hero } from './Hero/Hero'
-import { Navbar } from '../Navbar/Navbar'
+import React from "react";
+import { Hero } from "./Hero/Hero";
+import { Navbar } from "../Navbar/Navbar";
 
 const LandingPage = () => {
   return (
@@ -8,7 +8,7 @@ const LandingPage = () => {
       <Navbar />
       <Hero />
     </>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;
