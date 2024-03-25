@@ -138,8 +138,8 @@ function Language({ resumeId }) {
         ))}
       </div>
       <div>
-        <Button variant="outline" onClick={showAddModal}>
-          Add Language
+        <Button variant="outline" className='w-full' onClick={showAddModal}>
+          + Add Language
         </Button>
         <Modal
           title="Add Language"
