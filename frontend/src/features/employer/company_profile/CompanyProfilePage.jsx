@@ -2,23 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from "@/components/Alert/Alert";
-import {
-  Mail,
-  Phone,
-  Calendar,
-  Earth,
-  MapPin,
-  Building2,
-  BookOpenText,
-  Computer,
-} from "lucide-react";
-import { UserOutlined } from "@ant-design/icons";
+import { Building2, BookOpenText, Computer } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input, Select, Button } from "antd";
 const { Option } = Select;
-import "./styling/styling.css";
-import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
-
+import "@/components/styling/button.css";
 
 function CompanyProfilePage() {
   const [employer, setEmployer] = useState([]);
@@ -60,7 +48,6 @@ function CompanyProfilePage() {
         );
         setEmployers(employersResponse.data);
       } catch (error) {
-        checkUserIdAndReload(userId)
         console.error(error);
       }
     };
@@ -133,7 +120,7 @@ function CompanyProfilePage() {
           {employer.is_company_admin && (
             <div style={{ marginTop: "25px" }}>
               <Button
-                className="editButton"
+                className="yellowButton"
                 type="submit"
                 onClick={() => {
                   setEditedCompanyData(companyData);
@@ -188,34 +175,37 @@ function CompanyProfilePage() {
             </Label>
             {errors.website && <p>{errors.website}</p>}
           </div>
-          <Button type="submit" className="updateButton mr-2" onClick={handleSubmit}>
+          <Button
+            type="submit"
+            className="blueButton mr-2"
+            onClick={handleSubmit}
+          >
             Update
           </Button>
           <Button
             type="button"
-            className="cancelButton"
+            className="redButton"
             onClick={() => setShowEdit(false)}
           >
             Cancel
           </Button>
         </form>
       )}
-      <div>
-        <h1>Employers:</h1>
-        <br />
-        <ul>
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold mb-4">Employers:</h1>
+        <ul className="space-y-4">
           {employers.map((employer) => (
-            <li key={employer.id} className="employer-item">
-              <div className="employer-info">
+            <li key={employer.id} className="border p-4 rounded-md">
+              <div className="flex justify-between items-center">
                 <Label
                   htmlFor={`employer-${employer.id}`}
-                  className="flex items-center"
+                  className="text-lg font-semibold"
                 >
-                  {employer.first_name} {employer.last_name}:
+                  {employer.first_name} {employer.last_name}
                 </Label>
                 <Label
                   htmlFor={`employer-email-${employer.id}`}
-                  className="flex items-center"
+                  className="text-gray-600"
                 >
                   Email: {employer.email}
                 </Label>

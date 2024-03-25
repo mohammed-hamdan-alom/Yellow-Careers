@@ -98,7 +98,7 @@ const JobFilter = ({ data }) => {
   
         <div className="filter-item">
           <Label className="text-xl"><Tag color="blue" className="tag-medium">Salary:</Tag></Label>
-          <Select data-testid='pay' className="w-40 mt-2" id="pay" defaultValue="all" onChange={onPayChangeFilter} title="PayFilter">
+          <Select data-testid='pay' className="w-60 mt-2" id="pay" defaultValue="all" onChange={onPayChangeFilter} title="PayFilter">
             <Select.Option value="all">All</Select.Option>
             <Select.Option value="20000">£20,000+</Select.Option>
             <Select.Option value="25000">£25,000+</Select.Option>
@@ -111,7 +111,7 @@ const JobFilter = ({ data }) => {
   
         <div className="filter-item">
           <Label className="text-xl"><Tag color="purple" className="tag-medium">Job Type:</Tag></Label>
-          <Select data-testid='jobType' id="jobType" className="w-40 mt-2" defaultValue="all" onChange={onCTChangeFilter} title="ContractFilter">
+          <Select data-testid='jobType' id="jobType" className="w-60 mt-2" defaultValue="all" onChange={onCTChangeFilter} title="ContractFilter">
             <Select.Option value="all">All</Select.Option>
             <Select.Option value="FT">Full-Time</Select.Option>
             <Select.Option value="PT">Part-Time</Select.Option>

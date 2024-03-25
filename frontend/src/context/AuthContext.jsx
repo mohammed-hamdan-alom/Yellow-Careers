@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }) => {
             ? "/job-seeker/dashboard"
             : "/employer/dashboard"
         );
-        showSuccess("Login Successful");
       }
     } catch (error) {
       showError("Username or Password does not exist");
@@ -85,7 +84,7 @@ export const AuthProvider = ({ children }) => {
     otherNames,
     phoneNumber,
     company,
-    isAdmin,
+    isAdmin
   ) => {
     try {
       const response = await AxiosInstance.post("/api/employer-register/", {
@@ -137,8 +136,8 @@ export const AuthProvider = ({ children }) => {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
+    localStorage.removeItem("hasRefreshedDashboardLayout");
     navigate("/");
-    showSuccess("Logout Successful");
   };
 
   const contextData = {

@@ -5,7 +5,6 @@ import ApplicantSummary from "@/features/employer/job_applicants/ApplicantSummar
 import { Label } from '@/components/ui/label';
 import { Button, Select, Tag, Pagination } from 'antd';
 import '@/components/styling/button.css';
-import { checkUserIdAndReload } from  "@/components/refreshUser/refreshUser";
 import '@/components/styling/filter.css';
 import '@/components/styling/tag.css';
 
@@ -32,7 +31,6 @@ const JobApplicantsPage = () => {
         if (error.response && (error.response.status === 403 || error.response.status === 404)) {
           window.location.href = "/employer/dashboard";
         }
-        checkUserIdAndReload(userId)
       }
     };
 
@@ -73,8 +71,8 @@ const JobApplicantsPage = () => {
       <div>
         <Label className="text-3xl font-bold">Matched applicants</Label>
       </div>
-      <div className="filter-container">
-        <div className="filter-item">
+      <div className="flex justify-between items-center">
+        <div className="flex-1">
           <Label className="text-xl"><Tag color="purple" className="tag-medium">Status Filter:</Tag></Label>
           <Select data-testid='status' id="status" className="w-60 mt-2" defaultValue="all" onChange={value => setStatusFilter(value)}>
             <Select.Option value="all">All</Select.Option>
@@ -82,7 +80,7 @@ const JobApplicantsPage = () => {
             <Select.Option value="R">Read</Select.Option>
           </Select>
         </div>
-        <div className="filter-item">
+        <div className="flex-1">
           <Label className="text-xl"><Tag color="pink" className="tag-medium">Decision Filter:</Tag></Label>
           <Select data-testid='decision' id="decision" className="w-60 mt-2" defaultValue="all" onChange={value => setDecisionFilter(value)}>
             <Select.Option value="all">All</Select.Option>
