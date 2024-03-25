@@ -1,6 +1,5 @@
-import React from "react";
-import { Fragment, useContext } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import React, { Fragment, useContext, useEffect } from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import AuthContext from "@/context/AuthContext";
@@ -21,12 +20,26 @@ const StyledNavLink = styled(NavLink)`
 
 const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
   const authContext = useContext(AuthContext);
+  const location = useLocation();
 
   const { logoutUser } = authContext || {};
 
-  if (!logoutUser) {
-    console.log("logoutUser is not defined");
-  }
+  useEffect(() => {
+    const hasRefreshed = localStorage.getItem("hasRefreshedDashboardLayout");
+
+    if (!hasRefreshed) {
+      // If hasRefreshed is false, set it to true and reload the page
+      localStorage.setItem("hasRefreshedDashboardLayout", true);
+      window.location.reload();
+    }
+
+    // Schedule a reload every 15 minutes, regardless of whether the page has been refreshed before
+    const timer = setInterval(() => {
+      window.location.reload();
+    }, 15 * 60 * 1000); // 15 minutes in milliseconds
+
+    return () => clearInterval(timer);
+  }, []);
 
   const activeNavItem = navigation.find(item => location.pathname.includes(item.to)) || {};
 
