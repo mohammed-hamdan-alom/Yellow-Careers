@@ -1,31 +1,34 @@
 import React from 'react';
 import { vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import LandingPage from '../LandingPage';
+
+
+vi.mock('../../Navbar/Navbar', async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    Navbar: vi.fn(() => <div data-testid="mock-navbar"></div>),
+  }
+});
+
+vi.mock('../Hero/Hero', async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    Hero: vi.fn(() => <div data-testid="mock-hero"></div>),
+  }
+});
+
 
 describe('LandingPage component', () => {
 
-  beforeAll(() => {
-
-    vi.mock('../../Navbar/Navbar', async (importOriginal) => {
-      const actual = await importOriginal()
-      return {
-        ...actual,
-        Navbar: vi.fn(() => <div data-testid="mock-navbar"></div>),
-      }
-    });
-    
-    vi.mock('../Hero/Hero', async (importOriginal) => {
-      const actual = await importOriginal()
-      return {
-        ...actual,
-        Hero: vi.fn(() => <div data-testid="mock-hero"></div>),
-      }
-    });
-
-    render(
-      <LandingPage />
-    );
+  beforeEach(async () => {
+    await act(async () => {
+      render(
+        <LandingPage></LandingPage>
+      )
+    })
   });
 
   test('renders Navbar component', () => {
