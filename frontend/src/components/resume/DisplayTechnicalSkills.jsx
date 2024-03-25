@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Tag } from "antd";
-import '../styling/tag.css'; // Import custom tag styling
+import '../styling/tag.css';
 import '../styling/shadow.css'; 
 
 function DisplayTechnicalSkills({ resumeId }) {
