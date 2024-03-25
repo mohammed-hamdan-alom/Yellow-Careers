@@ -14,7 +14,7 @@ const data = [{
     "salary": 44976,
     "company": {
         "id": 1,
-        "company_name": "Spencer",
+        "company_name": "D",
         "website": "WEBSITE.COM",
         "about": "ABOUT SPENCER"
     }
@@ -27,8 +27,8 @@ const data = [{
     "job_type": "IN",
     "salary": 74726,
     "company": {
-        "id": 1,
-        "company_name": "Spencer",
+        "id": 2,
+        "company_name": "C",
         "website": "WEBSITE.COM",
         "about": "ABOUT SPENCER"
     }
@@ -41,8 +41,8 @@ const data = [{
     "job_type": "TM",
     "salary": 35685,
     "company": {
-        "id": 1,
-        "company_name": "Spencer",
+        "id": 3,
+        "company_name": "B",
         "website": "WEBSITE.COM",
         "about": "ABOUT SPENCER"
     }
@@ -50,13 +50,13 @@ const data = [{
 {
     "id": 4,
     "title": "Chief Executive Officer",
-    "description": "Aliquid mollitia vitae blanditiis dignissimos dignissimos. Maiores architecto voluptatum ex. Corrupti voluptatem esse eum nostrum adipisci explicabo.",
+    "description": "Aliquid mollitia vitae blanditiis dignissimos Adignissimos. Maiores architecto voluptatum ex. Corrupti voluptatem esse eum nostrum adipisci explicabo.",
     "address": 504,
     "job_type": "PT",
     "salary": 61939,
     "company": {
-        "id": 1,
-        "company_name": "Spencer",
+        "id": 4,
+        "company_name": "lasdhflashjfdalsfdsjflkj",
         "website": "WEBSITE.COM",
         "about": "ABOUT SPENCER"
     }
@@ -111,7 +111,7 @@ describe('JobList component', () => {
         expect(input.value).toBe('test')
     });
 
-    test('searched jobs appear correctly', async () => {
+    test('searched jobs appear correctly based on title', async () => {
 
         const input = await screen.findByPlaceholderText("Search Jobs")
         act(() => {
@@ -120,5 +120,27 @@ describe('JobList component', () => {
         const jobs = await screen.findAllByRole("list")
         expect(jobs).toHaveLength(2);
         expect(screen.getByText("Administrator, local government")).toBeInTheDocument()
+    });
+
+    test('searched jobs appear correctly based on description', async () => {
+
+        const input = await screen.findByPlaceholderText("Search Jobs")
+        act(() => {
+            fireEvent.change(input, { target: { value: 'Adignissimos. Maiores' } })
+        })
+        const jobs = await screen.findAllByRole("list")
+        expect(jobs).toHaveLength(2);
+        expect(screen.getByText("Aliquid mollitia vitae blanditiis dignissimos Adignissimos. Maiores architecto voluptatum ex. Corrupti voluptatem esse eum nostrum adipisci explicabo.")).toBeInTheDocument()
+    });
+
+    test('searched jobs appear correctly based on company', async () => {
+
+        const input = await screen.findByPlaceholderText("Search Jobs")
+        act(() => {
+            fireEvent.change(input, { target: { value: 'lasdhflashjfdalsfdsjflkj' } })
+        })
+        const jobs = await screen.findAllByRole("list")
+        expect(jobs).toHaveLength(2);
+        expect(screen.getByText("Aliquid mollitia vitae blanditiis dignissimos Adignissimos. Maiores architecto voluptatum ex. Corrupti voluptatem esse eum nostrum adipisci explicabo.")).toBeInTheDocument()
     });
 });
