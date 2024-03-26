@@ -93,7 +93,7 @@ describe("JobApplicants component", () => {
   });
 
   test("Status filter renders and filters correctly", async () => {
-    const statusLabel = await screen.getByText("Status Filter:");
+    const statusLabel = await screen.getByText("Status:");
     const statusFilter = await screen.getByTestId("status").querySelector("input");
     expect(statusLabel).toBeInTheDocument();
     expect(statusFilter).toBeInTheDocument();
@@ -110,7 +110,7 @@ describe("JobApplicants component", () => {
   });
 
   test("Decision filter renders and filters correctly", async () => {
-    const decisionLabel = await screen.getByText("Decision Filter:");
+    const decisionLabel = await screen.getByText("Decision:");
     const decisionFilter = await screen.getByTestId("decision").querySelector("input");
     expect(decisionLabel).toBeInTheDocument();
     expect(decisionFilter).toBeInTheDocument();
