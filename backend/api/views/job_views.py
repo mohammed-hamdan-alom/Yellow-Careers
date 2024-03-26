@@ -78,10 +78,7 @@ class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 				return job
 			if employer.id in employer_ids:
 				return job
-			raise PermissionDenied("You do not have permission to view this job.")
-
-		else:
-			raise PermissionDenied("You do not have permission to view this job.")
+		raise PermissionDenied("You do not have permission to view this job.")
 	
 class EmployerActiveJobListingView(generics.ListAPIView):
 	'''Retrieve the active jobs of an employer. The employer id is passed as a parameter in the URL.'''
