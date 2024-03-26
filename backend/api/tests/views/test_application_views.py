@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 from api.serializers import MyTokenObtainPairSerializer
+from rest_framework.test import APIRequestFactory, force_authenticate
+from api.views import ApplicationRetrieveView
 
 
 class ApplicationViewTestCase(TestCase):
@@ -33,6 +35,7 @@ class ApplicationViewTestCase(TestCase):
             is_active=True,
             password="Password123"
         )
+        self.token = Token.objects.create(user=self.user)
 
         self.address = Address.objects.create(city='London', post_code='12345', country='UK')
         self.resume = Resume.objects.create(
@@ -47,18 +50,24 @@ class ApplicationViewTestCase(TestCase):
             nationality="British",
             sex="M",
             resume=self.resume)
+        
+        self.request_factory = APIRequestFactory()
     
     def test_list_applications(self):
         response = self.client.get(reverse('application-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), len(self.applications))
     
-    # def test_retrieve_application(self):
-    #     application = self.applications[0]
-    #     response = self.client.get(reverse('application-get', args=[application.id]))
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(response.data['job'], application.job.id)
-    #     self.assertEqual(response.data['job_seeker'], application.job_seeker.id)
+    def test_retrieve_application(self):
+        application = self.applications[0]
+        request = self.request_factory.get(reverse('application-get', args=[application.id]), format='json')
+        request.user = self.user
+        request.META['HTTP_AUTHORIZATION'] = f'Token {self.token.key}'        
+        view = ApplicationRetrieveView.as_view()
+        response = view(request, pk=application.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['job'], application.job.id)
+        self.assertEqual(response.data['job_seeker'], application.job_seeker.id)
     
     def test_create_application(self):
         token = self._authenticate_user(user_email=self.job_seeker.email)
