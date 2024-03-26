@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import JobFilterAndList from "@/components/Search/JobFilterAndList";
 import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 
-function SavedJobPage() {
+function SavedJobsPage() {
   // get the user id from the context
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
@@ -38,4 +38,4 @@ function SavedJobPage() {
   );
 }
 
-export default SavedJobPage;
+export default SavedJobsPage;

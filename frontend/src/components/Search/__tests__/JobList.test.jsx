@@ -5,7 +5,7 @@ import JobList from "../JobList";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 
-const data = [
+const jobs = [
   {
     id: 1,
     title: "Administrator, local government",
@@ -65,7 +65,7 @@ describe("JobList component", () => {
       render(
         <MemoryRouter>
           <AuthProvider>
-            <JobList data={data} />
+            <JobList jobs={jobs} />
           </AuthProvider>
         </MemoryRouter>,
       );
