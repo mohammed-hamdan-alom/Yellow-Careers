@@ -160,7 +160,7 @@ describe("JobDetailsEmployer component", () => {
           <AuthContext.Provider value={employer}>
             <EmployerJobDetailsPage />
           </AuthContext.Provider>
-        </MemoryRouter>,
+        </MemoryRouter>
       );
     });
   });
@@ -195,19 +195,19 @@ describe("JobDetailsEmployer component", () => {
 
   test("lists all employers on the job", async () => {
     const employer1 = await screen.findAllByText(
-      data.company_employers[0].first_name + " " + data.company_employers[0].last_name,
+      data.company_employers[0].first_name + " " + data.company_employers[0].last_name
     );
     const employer2 = await screen.findAllByText(
-      data.company_employers[1].first_name + " " + data.company_employers[1].last_name,
+      data.company_employers[1].first_name + " " + data.company_employers[1].last_name
     );
     const employer3 = (
       await screen.findByText(
-        data.company_employers[2].first_name + " " + data.company_employers[2].last_name,
+        data.company_employers[2].first_name + " " + data.company_employers[2].last_name
       )
     ).querySelector("h5");
     const employer4 = await (
       await screen.findByText(
-        data.company_employers[3].first_name + " " + data.company_employers[3].last_name,
+        data.company_employers[3].first_name + " " + data.company_employers[3].last_name
       )
     ).querySelector("h5");
     expect(employer1).toHaveLength(1);
