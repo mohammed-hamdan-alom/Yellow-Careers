@@ -4,32 +4,32 @@ import LandingPage from "./components/LandingPage/LandingPage";
 
 import LoginPage from "./features/authentication/Login/LoginPage";
 import AuthLayout from "./features/authentication/AuthLayout";
-import GetStarted from "./features/authentication/get-started/GetStarted";
+import GetStarted from "./features/authentication/GetStarted/GetStarted";
 import JoinOrCreateCompany from "./features/authentication/Register/employer/JoinOrCreateCompany";
 import CreateCompany from "./features/authentication/Register/employer/CreateCompany";
 import InvitedEmployerVerification from "./features/authentication/Register/employer/InvitedEmployerVerification";
 import EmployerRegister from "./features/authentication/Register/employer/EmployerRegister";
 import JobSeekerRegister from "./features/authentication/Register/job-seeker/JobSeekerRegister";
 
-import JobSeekerLayout from "./features/jobseeker/layouts/JobSeekerLayout";
-import DashBoardPage from "./features/jobseeker/dashboard/Dashboard";
-import JobSeekerProfile from "./features/jobseeker/profile/JobSeekerProfile";
-import ResumePage from "./features/jobseeker/resume/ResumePage";
-import JobDetails from "./features/jobseeker/job-details/job-details-page/JobDetailsPage";
-import JobQuestions from "./features/jobseeker/job-details/job-questions/JobQuestions";
-import AppliedJobListPage from "./features/jobseeker/job-list/applied-jobs/AppliedJobsListPage";
-import SavedJobListPage from "./features/jobseeker/job-list/saved-jobs/SavedJobsListPage";
-import AppliedJobDetails from "./features/jobseeker/job-details/applied-job-details/AppliedJobDetails";
+import JobSeekerLayout from "./features/job-seeker/Layout/JobSeekerLayout";
+import DashBoardPage from "./features/job-seeker/Dashboard/Dashboard";
+import JobSeekerProfile from "./features/job-seeker/Profile/JobSeekerProfile";
+import ResumePage from "./features/job-seeker/Resume/ResumePage";
+import JobDetails from "./features/job-seeker/JobDetails/JobDetailsPage/JobDetailsPage";
+import JobQuestions from "./features/job-seeker/JobDetails/JobQuestions/JobQuestions";
+import AppliedJobListPage from "./features/job-seeker/JobList/AppliedJobs/AppliedJobsListPage";
+import SavedJobListPage from "./features/job-seeker/JobList/SavedJobs/SavedJobsListPage";
+import AppliedJobDetails from "./features/job-seeker/JobDetails/AppliedJobDetails/AppliedJobDetails";
 
 import EmployerLayout from "./features/employer/Layout/EmployerLayout";
-import JobApplicantsPage from "./features/employer/job_applicants/JobApplicants";
-import JobCreation from "@/features/employer/job_creation/JobCreation";
-import QuestionCreation from "./features/employer/job_creation/QuestionCreation";
+import JobApplicantsPage from "./features/employer/JobApplicants/JobApplicants";
+import JobCreation from "./features/employer/JobCreation/JobCreation";
+import QuestionCreation from "./features/employer/JobCreation/QuestionCreation";
 import EmployerDashBoardPage from "./features/employer/Dashboard/EmployerDashBoardPage";
-import ApplicationDetails from "./features/employer/application_details/ApplicationDetails";
-import CompanyProfilePage from "./features/employer/company_profile/CompanyProfilePage";
+import ApplicationDetails from "./features/employer/ApplicationDetails/ApplicationDetails";
+import CompanyProfilePage from "./features/employer/CompanyProfile/CompanyProfilePage";
 import EmployerProfile from "./features/employer/Profile/EmployerProfile";
-import JobDetailsEmployer from "./features/employer/job_applicants/JobDetailsEmployer";
+import JobDetailsEmployer from "./features/employer/JobApplicants/JobDetailsEmployer";
 
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 

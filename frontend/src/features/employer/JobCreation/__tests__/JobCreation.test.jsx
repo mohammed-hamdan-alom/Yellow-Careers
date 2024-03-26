@@ -55,7 +55,7 @@ vi.mock("@/components/ui/input", () => ({
   Input: vi.fn(() => <input data-testid="mock-input"></input>),
 }));
 
-vi.mock("@/features/employer/job_creation/QuestionCreation", () => ({
+vi.mock("@/features/employer/JobCreation/QuestionCreation", () => ({
   default: vi.fn(() => <div data-testid="mock-questioncreation"></div>),
 }));
 
