@@ -38,7 +38,7 @@ const company = [
   },
 ];
 
-const data = [
+const jobs = [
   {
     id: 1,
     title: "Administrator, local government",
@@ -108,7 +108,7 @@ describe("JobFilter component", () => {
       render(
         <MemoryRouter>
           <AuthProvider>
-            <JobFilterAndList data={data} />
+            <JobFilterAndList jobs={jobs} />
           </AuthProvider>
         </MemoryRouter>,
       );

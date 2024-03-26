@@ -38,7 +38,7 @@ vi.mock("@/utils/AxiosInstance", () => ({
 }));
 
 describe("ApplicantSummary component", () => {
-  beforeEach(async () => {});
+  beforeEach(async () => { });
 
   afterEach(cleanup);
 
@@ -56,7 +56,7 @@ describe("ApplicantSummary component", () => {
     const name = await screen.findByText("John Doe");
     expect(name).toBeInTheDocument();
 
-    const status = await screen.findByText("New");
+    const status = await screen.findByText("Unread");
     expect(status).toBeInTheDocument();
   });
 

@@ -137,8 +137,6 @@ describe("CompanyProfilePage component", () => {
       );
     });
 
-    screen.debug();
-
     expect(screen.getByText("About:")).toBeInTheDocument();
     expect(screen.getByText("Website:")).toBeInTheDocument();
     expect(screen.getByText("Employers:")).toBeInTheDocument();
@@ -248,10 +246,10 @@ describe("CompanyProfilePage component", () => {
       expect(aboutLabel).toBeInTheDocument();
       expect(websiteLabel).toBeInTheDocument();
     });
-    
+
     //TEST EMPLOYERS ARE STILL THERE
     await waitFor(() => {
-      expect(screen.getByText(/Employers/i)).toBeInTheDocument();
+      expect(screen.getByText("Employers:")).toBeInTheDocument();
       mockEmployersResponse.data.forEach((employer) => {
         expect(
           screen.getByText((content, element) => {

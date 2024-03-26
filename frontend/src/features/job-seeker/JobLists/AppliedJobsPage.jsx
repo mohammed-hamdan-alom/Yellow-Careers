@@ -4,7 +4,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import JobFilterAndList from "@/components/Search/JobFilterAndList";
 import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 
-function AppliedJobPage() {
+function AppliedJobsPage() {
 
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
@@ -31,4 +31,4 @@ function AppliedJobPage() {
   );
 }
 
-export default AppliedJobPage;
+export default AppliedJobsPage;

@@ -6,6 +6,7 @@ const baseUrl = "/employer";
 
 const navigation = [
   { name: "Dashboard", to: "/dashboard" },
+  { name: "Archived Jobs", to: "/archived-jobs" },
   { name: "Create Job Listing", to: "/create-job" },
   { name: "My Company", to: "/company" },
 ];
@@ -14,7 +15,6 @@ const userNavigation = [{ name: "Your Profile", href: `${baseUrl}/profile` }, { 
 
 export default function EmployerLayout() {
   const { user } = useContext(AuthContext);
-  console.log(user);
 
   const userInfo = {
     email: user.email,
