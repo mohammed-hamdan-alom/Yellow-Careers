@@ -35,7 +35,8 @@ class JobSeekerMatchedJobsListingView(generics.ListAPIView):
 	def get_queryset(self):
 		job_seeker_id = self.kwargs['pk']
 		job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id)
-		return getMatchedJobsForJobSeeker(job_seeker)
+		jobs = Job.objects.filter(isArchived=False)
+		return getMatchedJobsForJobSeeker(job_seeker, jobs)
 	
 class JobSeekerSavedJobsListView(generics.ListAPIView):
 	'''Get the jobs saved by a job seeker. The job seeker id is passed as a parameter in the url.'''
@@ -46,7 +47,7 @@ class JobSeekerSavedJobsListView(generics.ListAPIView):
 		job_seeker_id = self.kwargs['pk']
 		job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id)
 		saved_jobs = SavedJobs.objects.filter(job_seeker_id=job_seeker_id)
-		return Job.objects.filter(savedjobs__in=saved_jobs)
+		return Job.objects.filter(savedjobs__in=saved_jobs, isArchived=False)
         
 
 class JobListingView(generics.ListAPIView):
@@ -64,6 +65,8 @@ class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 		user = self.request.user
 
 		if hasattr(user, 'jobseeker'):
+			if job.isArchived:
+				raise PermissionDenied("You do not have permission to view this job.")
 			return job
 		elif hasattr(user,'employer'):
 			employer = Employer.objects.get(user_ptr_id=user.id)
@@ -80,8 +83,8 @@ class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 		else:
 			raise PermissionDenied("You do not have permission to view this job.")
 	
-class EmployerJobListingView(generics.ListAPIView):
-	'''Retrieve the jobs of an employer. The employer id is passed as a parameter in the URL.'''
+class EmployerActiveJobListingView(generics.ListAPIView):
+	'''Retrieve the active jobs of an employer. The employer id is passed as a parameter in the URL.'''
 	permission_classes = [AllowAny]
 	serializer_class = JobSerializer
 
@@ -89,10 +92,10 @@ class EmployerJobListingView(generics.ListAPIView):
 		employer_id = self.kwargs.get('pk')
 		employer = get_object_or_404(Employer, id=employer_id)
 		relations = EmployerJobRelation.objects.filter(employer=employer)
-		return [relation.job for relation in relations]
+		return [relation.job for relation in relations if not relation.job.isArchived]
 
-class AdminJobListingView(generics.ListAPIView):
-    '''Retrieve the jobs of an admin. The employer id is passed as a parameter in the URL.'''
+class AdminActiveJobListingView(generics.ListAPIView):
+    '''Retrieve the active jobs of an admin. The employer id is passed as a parameter in the URL.'''
     permission_classes = [AllowAny]
     serializer_class = JobSerializer
 
@@ -102,5 +105,28 @@ class AdminJobListingView(generics.ListAPIView):
         relations = []
         if employer.is_company_admin:
             relations = EmployerJobRelation.objects.filter(employer__company=employer.company)
-        # Convert the list of jobs to a set to remove duplicates
-        return list(set(relation.job for relation in relations))
+        return list(set(relation.job for relation in relations if not relation.job.isArchived))
+	
+class EmployerArchivedJobListingView(generics.ListAPIView):
+	'''Retrieve the archived jobs of an employer. The employer id is passed as a parameter in the URL.'''
+	permission_classes = [AllowAny]
+	serializer_class = JobSerializer
+
+	def get_queryset(self):
+		employer_id = self.kwargs.get('pk')
+		employer = get_object_or_404(Employer, id=employer_id)
+		relations = EmployerJobRelation.objects.filter(employer=employer)
+		return [relation.job for relation in relations if relation.job.isArchived]
+
+class AdminArchivedJobListingView(generics.ListAPIView):
+    '''Retrieve the archived jobs of an admin. The employer id is passed as a parameter in the URL.'''
+    permission_classes = [AllowAny]
+    serializer_class = JobSerializer
+
+    def get_queryset(self):
+        employer_id = self.kwargs.get('pk')
+        employer = get_object_or_404(Employer, id=employer_id)
+        relations = []
+        if employer.is_company_admin:
+            relations = EmployerJobRelation.objects.filter(employer__company=employer.company)
+        return list(set(relation.job for relation in relations if relation.job.isArchived))
