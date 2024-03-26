@@ -22,7 +22,7 @@ function JobCreationPage() {
     setIsAddModalOpen(true);
   };
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();    
 
   const [formData, setFormData] = useState({
     title: "",
@@ -38,15 +38,12 @@ function JobCreationPage() {
     country: "",
   });
 
-  const showJobCreatedSuccess = () => {
-    Swal.fire("Job Created", "Your job has been created successfully!", "success");
-  };
-
   const showJobCreatedError = () => {
     Swal.fire("Error", "There was an error creating the job.", "error");
   };
 
-  const handleSubmit = async (event) => {
+
+  const handleJobCreation = async (event) => {
     event.preventDefault();
     try {
       const jobResponse = await AxiosInstance.post("api/jobs/create-job", {
@@ -86,6 +83,8 @@ function JobCreationPage() {
     });
   };
 
+
+
   return (
     <div className="w-full flex justify-center items-center">
       <Card className="w-1/2 px-12 py-6">
@@ -93,7 +92,7 @@ function JobCreationPage() {
           <CardTitle>Create a Job Listing</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleJobCreation}>
             <div className="flex flex-col mb-4">
               <Label className="text-2xl">Job Title</Label>
               <Input
