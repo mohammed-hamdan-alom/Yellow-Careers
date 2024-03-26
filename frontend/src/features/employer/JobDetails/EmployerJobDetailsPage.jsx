@@ -110,7 +110,7 @@ const EmployerJobDetailsPage = () => {
             Swal.fire("Removed", "The employer has been removed successfully!", "success").then(
               () => {
                 window.location.reload();
-              },
+              }
             );
           })
           .catch((error) => {
@@ -186,14 +186,13 @@ const EmployerJobDetailsPage = () => {
               <option disabled value="">
                 Select Employer:
               </option>
-              {companyEmployers.map(
-                (employer) =>
-                  employer.id !== userId && (
-                    <option value={employer.id} key={employer.id}>
-                      {employer.first_name} {employer.last_name}
-                    </option>
-                  ),
-              )}
+              {companyEmployers
+                .filter((employer) => !employers.some((e) => e.id === employer.id))
+                .map((employer) => (
+                  <option value={employer.id} key={employer.id}>
+                    {employer.first_name} {employer.last_name}
+                  </option>
+                ))}
             </select>
             <Button
               className="yellowButton bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4"

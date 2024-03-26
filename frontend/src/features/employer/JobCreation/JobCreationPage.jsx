@@ -4,13 +4,12 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Input, InputNumber } from "antd";
-import { Select } from "antd";
+import { Input, InputNumber, Select, Modal } from "antd";
 import { Button } from "@/components/ui/button";
-const { TextArea } = Input;
 import Swal from "sweetalert2";
-import { Modal } from "antd";
 import QuestionCreationPage from "./QuestionCreationPage";
+
+const { TextArea } = Input;
 
 function JobCreationPage() {
   const { user } = useContext(AuthContext);
@@ -82,8 +81,6 @@ function JobCreationPage() {
       [name]: value,
     });
   };
-
-
 
   return (
     <div className="w-full flex justify-center items-center">
@@ -179,7 +176,7 @@ function JobCreationPage() {
               </Button>
             </div>
           </form>
-          <Modal title="Create Questions" open={isAddModalOpen} footer={null}>
+          <Modal title="Create Questions" open={isAddModalOpen} footer={null} onCancel={() => navigate(`/employer/job-details/${jobId}`)}>
             <QuestionCreationPage jobId={jobId}></QuestionCreationPage>
           </Modal>
         </CardContent>
