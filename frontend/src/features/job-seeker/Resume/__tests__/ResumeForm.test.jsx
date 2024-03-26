@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor, getByTestId } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { vi, describe, it, expect } from "vitest";
 import ResumeForm from "../ResumeForm";
 import AxiosInstance from "@/utils/AxiosInstance";
@@ -38,7 +38,7 @@ describe("ResumeForm", () => {
   });
 
   it("submits the form", async () => {
-    const { getByLabelText, getByText } = render(<ResumeForm />);
+    const { getByLabelText, getByText } = render(<ResumeForm resumeId={resumeId} />);
 
     const githubInput = screen.getByLabelText("Github:");
     const linkedinInput = screen.getByLabelText("LinkedIn:");
@@ -50,11 +50,13 @@ describe("ResumeForm", () => {
     fireEvent.change(linkedinInput, { target: { value: "test-linkedin" } });
     fireEvent.change(aboutInput, { target: { value: "test-about" } });
     fireEvent.change(experienceInput, { target: { value: "test-experience" } });
+    await act(async () => {
+      fireEvent.click(submitButton);
+    })
 
-    fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(AxiosInstance.put).toHaveBeenCalledWith(`/api/resumes/${resumeId}/update/`, {
+      expect(AxiosInstance.put).toHaveBeenCalledWith(`api/resumes/${resumeId}/update/`, {
         github: "test-github",
         linkedin: "test-linkedin",
         about: "test-about",
