@@ -77,7 +77,7 @@ function AppliedJobDetails() {
     <div>
       <Label className="text-xl font-semibold">
         Date Applied: {application.date_applied} | Status:{" "}
-        <Tag className="pulsate tag-medium" icon={decisionIcon} color={decisionColor}>
+        <Tag className="tag-medium" icon={decisionIcon} color={decisionColor}>
           {decisionText}
         </Tag>
       </Label>
@@ -85,13 +85,11 @@ function AppliedJobDetails() {
       <DisplayResume resumeId={resume.id} />
 
       <div className="mb-4"></div>
-      {questions.length > 0 ? (
+      {questions.length > 0 && (
         <div>
           <Label className="text-xl font-semibold mb-4">Questions and Answers:</Label>
           <QuestionsAndAnswers questions={questions} answers={answers} />
         </div>
-      ) : (
-        <Label className="text-xl font-semibold">No Questions</Label>
       )}
     </div>
   );

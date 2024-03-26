@@ -163,10 +163,9 @@ describe("ApplicationDetails component with questions", () => {
 
   test("render application info correctly", async () => {
     const questionAndAnswerLabel = screen.getByText("Questions and Answers:");
-    const noQuestionsLabel = screen.queryByText("No Questions");
     expect(questionAndAnswerLabel).toBeInTheDocument();
-    expect(noQuestionsLabel).toBeNull();
   });
+
   test("render application info correctly", async () => {
     const jobSeekerName = `${jobSeeker.first_name} ${jobSeeker.last_name}`;
     // const dob = data.application.dob;

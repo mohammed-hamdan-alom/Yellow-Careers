@@ -56,7 +56,6 @@ function JobDetails() {
     fetchData();
   }, [jobId, userId]);
 
-  // check if the job is saved
   useEffect(() => {
     const fetchSavedJobs = async () => {
       try {
@@ -75,7 +74,7 @@ function JobDetails() {
     if (questions.length === 0) {
       const result = await Swal.fire({
         title: "Are you sure?",
-        text: "There are no job specific questions. Are you sure you want to apply for this job?",
+        text: "Are you sure you want to apply for this job?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#FFD700",

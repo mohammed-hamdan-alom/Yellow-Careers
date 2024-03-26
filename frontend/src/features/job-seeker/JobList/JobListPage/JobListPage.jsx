@@ -34,7 +34,7 @@ const JobListPage = () => {
   return (
     <div className="flex flex-col justify-center">
       <Label className="text-3xl">Job List</Label>
-      {resume.id && jobs ? <JobFilter data={jobs} /> : <h1>Loading... Please create a resume</h1>}
+      {resume.id && jobs ? <JobFilter data={jobs} /> : <h1 className="mt-3">Loading... Please ensure you have created a resume</h1>}
     </div>
   );
 };

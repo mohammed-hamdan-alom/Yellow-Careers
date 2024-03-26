@@ -142,11 +142,9 @@ describe("AppliedJobDetailsPage component with questions", () => {
   test("render application info correctly", async () => {
     const dateAndStatusLabel = screen.getAllByTestId("mock-label")[0];
     const questionAndAnswerLabel = screen.getByText("Questions and Answers:");
-    const noQuestionsLabel = screen.queryByText("No Questions");
 
     expect(dateAndStatusLabel).toHaveTextContent("Date Applied: 2024-03-18 | Status: Undecided");
     expect(questionAndAnswerLabel).toBeInTheDocument();
-    expect(noQuestionsLabel).toBeNull();
   });
 });
 
@@ -178,9 +176,7 @@ describe("AppliedJobDetailsPage component without questions", () => {
 
   test("render application info correctly for no questions", async () => {
     const questionAndAnswerLabel = screen.queryByText("Questions and Answers:");
-    const noQuestionsLabel = screen.getByText("No Questions");
 
     expect(questionAndAnswerLabel).toBeNull();
-    expect(noQuestionsLabel).toBeInTheDocument();
   });
 });

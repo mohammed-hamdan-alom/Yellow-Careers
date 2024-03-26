@@ -248,6 +248,7 @@ describe("CompanyProfilePage component", () => {
       expect(aboutLabel).toBeInTheDocument();
       expect(websiteLabel).toBeInTheDocument();
     });
+    
     //TEST EMPLOYERS ARE STILL THERE
     await waitFor(() => {
       expect(screen.getByText(/Employers/i)).toBeInTheDocument();

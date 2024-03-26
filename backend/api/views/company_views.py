@@ -18,8 +18,7 @@ class JobCompanyRetrieveView(BaseCompanyView, generics.RetrieveAPIView):
     def get_object(self):
         job_id = self.kwargs['pk']
         relation = EmployerJobRelation.objects.filter(job_id=job_id).first()
-        employer = relation.employer
-        return employer.company
+        return relation.employer.company
 
 class CompanyCreateView(BaseCompanyView, generics.CreateAPIView):
     pass
