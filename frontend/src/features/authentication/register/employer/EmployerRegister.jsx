@@ -6,11 +6,14 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import BigAlert from "@/components/Alert/BigAlert";
 
 const EmployerRegister = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { companyId, registerEmail, isAdmin } = location.state || {};
+
+  const [errors, setErrors] = useState("");
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -29,87 +32,130 @@ const EmployerRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      try {
-        if (!isAdmin) {
-          const response = await AxiosInstance.delete(
-            `api/invited-employer/delete/?email=${registerEmail}`
-          );
-          if (response.status === 200) {
-            registerEmployer(registerEmail, password, password2, firstName, lastName, otherNames, phoneNumber, companyId, false);
+    try {
+      if (!isAdmin) {
+        const response = await AxiosInstance.delete(
+          `api/invited-employer/delete/?email=${registerEmail}`
+        );
+        if (response.status === 200) {
+          try {
+            await registerEmployer(
+              registerEmail,
+              password,
+              password2,
+              firstName,
+              lastName,
+              otherNames,
+              phoneNumber,
+              companyId,
+              false
+            );
+          } catch (error) {
+            console.error(error);
+            setErrors(error.response.data);
           }
-        } else {
-          console.log()
-          registerEmployer(registerEmail, password, password2, firstName, lastName, otherNames, phoneNumber, companyId, true);
         }
-      } catch (error) {
-        console.error("Error registering employer:", error);
+      } else {
+        try {
+          await registerEmployer(
+            registerEmail,
+            password,
+            password2,
+            firstName,
+            lastName,
+            otherNames,
+            phoneNumber,
+            companyId,
+            true
+          );
+        } catch (error) {
+          console.error(error);
+          setErrors(error.response.data);
+        }
       }
+    } catch (error) {
+      console.error(error);
+      setErrors(error.response.data);
+    }
   };
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <Card className="w-[600px]">
+      <Card className="w-[600px] max-h-screen overflow-y-auto">
         <CardHeader>
           <CardTitle>Employer Register</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="flex flex-col">
-            <Label className="mb-2">Email</Label>
-            <Input
-              className="mb-4"
-              type="email"
-              name="email"
-              value={registerEmail}
-              disabled
-            />
-            <Label className="mb-2">Password</Label>
-            <Input
-              className="mb-4"
-              type="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Label className="mb-2">Confirm Password</Label>
-            <Input
-              className="mb-4"
-              type="password"
-              name="password2"
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
-            />
-            <Label className="mb-2">First Name</Label>
-            <Input
-              className="mb-4"
-              type="text"
-              name="first_name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-            <Label className="mb-2">Last Name</Label>
-            <Input
-              className="mb-4"
-              type="text"
-              name="last_name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-            <Label className="mb-2">Other Names</Label>
-            <Input
-              className="mb-4"
-              type="text"
-              name="other_names"
-              value={otherNames}
-              onChange={(e) => setOtherNames(e.target.value)}
-            />
-            <Label className="mb-2">Phone Number</Label>
-            <Input
-              className="mb-4"
-              type="text"
-              name="phone_number"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
+            <div className="space-y-2 mb-4">
+              <Label>Email</Label>
+              <Input
+                type="email"
+                name="email"
+                value={registerEmail}
+                disabled
+              />
+            </div>
+            <div className="space-y-2 mb-4">
+              <Label>Password</Label>
+              <Input
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                />
+              {errors.password && <BigAlert message={errors.password} type="error" />}
+            </div>
+            <div className="space-y-2 mb-4">
+              <Label>Confirm Password</Label>
+              <Input
+                type="password"
+                name="password2"
+                value={password2}
+                onChange={(e) => setPassword2(e.target.value)}
+                />
+              {errors.password2 && <BigAlert message={errors.password2} type="error" />}
+            </div>
+            <div className="space-y-2 mb-4">
+              <Label>First Name</Label>
+              <Input
+                type="text"
+                name="first_name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                />
+              {errors.first_name && <BigAlert message={errors.first_name} type="error" />}
+            </div>  
+            <div className="space-y-2 mb-4">
+              <Label>Last Name</Label>
+              <Input
+                type="text"
+                name="last_name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                />
+              {errors.last_name && <BigAlert message={errors.last_name} type="error" />}
+            </div>
+            <div className="space-y-2 mb-4">
+              <Label>Other Names</Label>
+              <Input
+                type="text"
+                name="other_names"
+                value={otherNames}
+                onChange={(e) => setOtherNames(e.target.value)}
+                />
+                {errors.other_names && <BigAlert message={errors.other_names} type="error" />}
+            </div>
+            <div className="space-y-2 mb-4">
+              <Label>Phone Number</Label>
+              <Input
+                type="text"
+                name="phone_number"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+              {errors.phone_number && <BigAlert message={errors.phone_number} type="error" />}
+            </div>
             <br />
             <Button type="submit">Register</Button>
           </form>

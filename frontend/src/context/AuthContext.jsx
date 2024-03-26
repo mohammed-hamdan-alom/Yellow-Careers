@@ -45,9 +45,12 @@ export const AuthProvider = ({ children }) => {
             ? "/job-seeker/dashboard"
             : "/employer/dashboard"
         );
+      } else {
+        throw new Error("Username or password does not exist");
       }
     } catch (error) {
-      showError("Username or Password does not exist");
+      console.error(error);
+      throw error;
     }
   };
 
@@ -69,9 +72,10 @@ export const AuthProvider = ({ children }) => {
       if (response.status === 201) {
         navigate("/auth/login");
         showSuccess("Registration Successful, Login Now");
-      }
+      } 
     } catch (error) {
-      handleErrorAndShowMessage("Error registering job seeker:", error);
+      console.error(error);
+      throw error
     }
   };
 
@@ -98,13 +102,14 @@ export const AuthProvider = ({ children }) => {
         company: company,
         is_company_admin: isAdmin,
       });
-
       if (response.status === 201) {
         navigate("/auth/login");
         showSuccess("Registration Successful, Login Now");
+      } else {
+        throw new Error("Error registering employer");
       }
     } catch (error) {
-      handleErrorAndShowMessage("Error registering employer:", error);
+      throw error
     }
   };
 

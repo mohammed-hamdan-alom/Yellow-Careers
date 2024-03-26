@@ -11,6 +11,8 @@ import "@/components/styling/button.css";
 const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
 
+  const [errors, setErrors] = useState("");
+
   const [formData, setFormData] = useState({
     email: "",
     first_name: "",
@@ -116,7 +118,7 @@ const JobSeekerProfile = () => {
           );
         }
       } catch (error) {
-        handleErrorAndShowMessage("Error updating profile:", error);
+        setErrors(error.response.data);
       }
     }
   };
@@ -155,6 +157,7 @@ const JobSeekerProfile = () => {
         formData={formData}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        errors={errors}
         userType="job-seeker"
       />
       <PasswordChangeSection

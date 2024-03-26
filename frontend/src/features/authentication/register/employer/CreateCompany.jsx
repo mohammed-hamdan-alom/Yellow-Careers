@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/Alert";
+import BigAlert from "@/components/Alert/BigAlert";
+import { set } from "date-fns";
 
 const CreateCompany = () => {
   const [company, setCompany] = useState({
@@ -15,11 +17,15 @@ const CreateCompany = () => {
     about: "",
   });
   const [adminEmail, setAdminEmail] = useState("");
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!adminEmail) {
+      setErrors({...errors, admin_email: "Admin email is required" });
+      throw new Error("Admin email is required");
+    }
     try {
       const response = await AxiosInstance.post(
         "api/companies/create/",
@@ -33,9 +39,8 @@ const CreateCompany = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setErrors(error.response.data);
-      showError("Creating Company Failed");
     }
   };
 
@@ -48,7 +53,7 @@ const CreateCompany = () => {
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col space-y-4">
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="company_name">Company Name</Label>
                 <Input
                   type="text"
@@ -59,8 +64,9 @@ const CreateCompany = () => {
                     setCompany({ ...company, company_name: e.target.value })
                   }
                 />
+                {errors.company_name && <BigAlert message={errors.company_name} type="error" />}
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="website">Website</Label>
                 <Input
                   type="text"
@@ -83,7 +89,7 @@ const CreateCompany = () => {
                     setCompany({ ...company, about: e.target.value })
                   }
                 />
-                <div className="mt-4">
+                <div className="mt-4 space-y-2">
                   <Label htmlFor="admin_email">Admin Email</Label>
                   <Input
                     type="email"
@@ -92,6 +98,7 @@ const CreateCompany = () => {
                     value={adminEmail}
                     onChange={(e) => setAdminEmail(e.target.value)}
                   />
+                  {errors.admin_email && <BigAlert message={errors.admin_email} type="error" />}
                 </div>
               </div>
               <Button type="submit" data-testid="submit-button">

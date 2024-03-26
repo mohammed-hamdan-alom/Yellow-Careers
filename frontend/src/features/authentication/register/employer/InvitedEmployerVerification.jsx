@@ -5,10 +5,12 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import BigAlert from "@/components/Alert/BigAlert";
 
 const InvitedEmployerVerification = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const [errors, setErrors] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,13 +21,18 @@ const InvitedEmployerVerification = () => {
       );
       if (response.data.email === email && response.data.code === code) {
         navigate(`/auth/register-employer`, {
-          state: { companyId: response.data.company, registerEmail: email, isAdmin: false},
+          state: {
+            companyId: response.data.company,
+            registerEmail: email,
+            isAdmin: false,
+          },
         });
       } else {
         alert("Invalid email or code");
       }
     } catch (error) {
       console.error("Error verifying email and code:", error);
+      setErrors(error.response.data);
     }
   };
 
@@ -37,7 +44,7 @@ const InvitedEmployerVerification = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="flex flex-col">
-            <div className="mb-4">
+            <div className="mb-4 space-y-2">
               <Label>Email</Label>
               <Input
                 type="email"
@@ -45,7 +52,7 @@ const InvitedEmployerVerification = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-4 space-y-2">
               <Label>Code</Label>
               <Input
                 type="text"
@@ -53,7 +60,10 @@ const InvitedEmployerVerification = () => {
                 onChange={(e) => setCode(e.target.value)}
               />
             </div>
-            <Button type="submit">Verify</Button>
+            {errors && <BigAlert message={errors.error} type="error" />}
+            <Button className="mt-4" type="submit">
+              Verify
+            </Button>
           </form>
         </CardContent>
       </Card>
