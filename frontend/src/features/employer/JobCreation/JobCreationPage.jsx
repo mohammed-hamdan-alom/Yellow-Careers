@@ -176,7 +176,7 @@ function JobCreationPage() {
               </Button>
             </div>
           </form>
-          <Modal title="Create Questions" open={isAddModalOpen} footer={null} onCancel={() => navigate(`/employer/job-details/${jobId}`)}>
+          <Modal title="Create Questions" open={isAddModalOpen} footer={null} closeIcon={null}>
             <QuestionCreationPage jobId={jobId}></QuestionCreationPage>
           </Modal>
         </CardContent>
