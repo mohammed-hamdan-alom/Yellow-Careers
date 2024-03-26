@@ -3,7 +3,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import EditProfessionalExperience from "./EditProfessionalExperiencePage";
 
 import { Modal } from "antd";
-import { showError, showSuccess } from "@/components/Alert/Alert";
+import { showError, showSuccess } from "@/components/Alert/alert";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { SquarePen, MinusCircle } from "lucide-react";

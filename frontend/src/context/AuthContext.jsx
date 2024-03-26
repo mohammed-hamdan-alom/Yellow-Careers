@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { showError, showSuccess } from "@/components/Alert/Alert";
+import { showError, showSuccess } from "@/components/Alert/alert";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 

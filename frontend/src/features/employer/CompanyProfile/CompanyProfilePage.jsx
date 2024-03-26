@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/components/Alert/Alert";
+import { showError, showSuccess } from "@/components/Alert/alert";
 import { Building2, BookOpenText, Computer } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input, Button } from "antd";

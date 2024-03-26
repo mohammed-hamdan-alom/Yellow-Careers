@@ -4,8 +4,8 @@ import EmployerProfilePage from "../EmployerProfilePage";
 import { vi } from "vitest";
 import AuthContext from "@/context/AuthContext";
 import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
-import { showError } from "@/components/Alert/Alert";
-import * as Alert from "@/components/Alert/Alert";
+import { showError } from "@/components/Alert/alert";
+import * as Alert from "@/components/Alert/alert";
 
 const mockUser = {
   email: "johndoe@example.com",

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import AuthContext, { AuthProvider } from "../AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/components/Alert/Alert";
+import { showError, showSuccess } from "@/components/Alert/alert";
 import { describe, it, expect, vi } from "vitest";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 

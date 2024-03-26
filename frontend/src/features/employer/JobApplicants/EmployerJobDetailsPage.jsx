@@ -8,7 +8,7 @@ import { Button } from "antd";
 import "@/components/styling/button.css";
 import Swal from "sweetalert2";
 import { Label } from "@/components/ui/label";
-import { showError } from "@/components/Alert/Alert";
+import { showError } from "@/components/Alert/alert";
 
 const EmployerJobDetailsPage = () => {
   const { user } = useContext(AuthContext);

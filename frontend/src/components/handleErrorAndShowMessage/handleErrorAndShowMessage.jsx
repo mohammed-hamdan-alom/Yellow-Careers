@@ -1,4 +1,4 @@
-import { showError } from "@/components/Alert/Alert";
+import { showError } from "@/components/Alert/alert";
 
 export function formatErrorMessage(error) {
   if (error.response) {

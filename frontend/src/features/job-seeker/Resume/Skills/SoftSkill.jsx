@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/components/Alert/Alert";
+import { showError, showSuccess } from "@/components/Alert/alert";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

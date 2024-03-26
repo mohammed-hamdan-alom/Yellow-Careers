@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { showError, showSuccess } from "@/components/Alert/Alert";
+import { showError, showSuccess } from "@/components/Alert/alert";
 import EditLanguage from "@/features/job-seeker/Resume/Language/EditLanguage";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
