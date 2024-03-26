@@ -31,7 +31,7 @@ import ArchivedJobsListPage from "./features/employer/ArchivedJobs/ArchivedJobsL
 import ApplicationDetailsPage from "./features/employer/ApplicationDetails/ApplicationDetailsPage";
 import CompanyProfilePage from "./features/employer/CompanyProfile/CompanyProfilePage";
 import EmployerProfilePage from "./features/employer/Profile/EmployerProfilePage";
-import EmployerJobDetailsPage from "./features/employer/JobApplicants/EmployerJobDetailsPage";
+import EmployerJobDetailsPage from "./features/employer/JobDetails/EmployerJobDetailsPage";
 
 function App() {
   return (
