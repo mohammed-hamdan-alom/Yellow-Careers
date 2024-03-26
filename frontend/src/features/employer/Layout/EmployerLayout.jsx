@@ -14,7 +14,6 @@ const userNavigation = [{ name: "Your Profile", href: `${baseUrl}/profile` }, { 
 
 export default function EmployerLayout() {
   const { user } = useContext(AuthContext);
-  console.log(user);
 
   const userInfo = {
     email: user.email,
