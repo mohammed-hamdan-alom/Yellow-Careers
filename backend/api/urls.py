@@ -104,8 +104,10 @@ urlpatterns = [
     path('job/<int:pk>/employers/', LinkedEmployersView.as_view(), name='get-job-employers'),
     path('employers/company/<int:user_id>/', CompanyEmployersView.as_view(), name='employers-from-company'),
     
-    path('employer/<int:pk>/company-jobs/', AdminJobListingView.as_view(), name='view-admin-jobs'),
-    path('employer/<int:pk>/jobs/', EmployerJobListingView.as_view(), name='view-employer-jobs'),
+    path('employer/<int:pk>/company-jobs/active', AdminActiveJobListingView.as_view(), name='view-admin-active-jobs'),
+    path('employer/<int:pk>/jobs/active', EmployerActiveJobListingView.as_view(), name='view-employer-active-jobs'),
+    path('employer/<int:pk>/jobs/archived', EmployerArchivedJobListingView.as_view(), name='view-employer-archived-jobs'),
+    path('employer/<int:pk>/company-jobs/archived', AdminArchivedJobListingView.as_view(), name='view-admin-archived-jobs'),
     path('employer/change-password/', ChangePasswordView.as_view(), name='employer-change-password'),
 
     path('invited-employer/create/', InvitedEmployerCreateView.as_view(), name='invited-employer-create'),

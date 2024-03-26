@@ -16,6 +16,7 @@ class Job(models.Model):
     salary = models.PositiveIntegerField(blank=True, null=True)
     address = models.OneToOneField('Address',blank=True,null=True, on_delete=models.CASCADE)
     job_type = models.CharField(max_length=20,choices=JobType.choices)
+    isArchived = models.BooleanField(default=False)
 
     def get_applications(self):
         return Application.objects.filter(job=self)

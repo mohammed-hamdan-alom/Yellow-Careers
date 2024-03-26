@@ -18,10 +18,10 @@ def custom_tokenize(text):
     tokens = text.lower().split()
     return tokens
 
-def getMatchedJobsForJobSeeker(job_seeker):
+def getMatchedJobsForJobSeeker(job_seeker, jobs):
     resume = job_seeker.get_resume().to_string()
     job_scores = {}
-    for job in Job.objects.all():
+    for job in jobs:
         job_description = job.to_string()
         job_scores[job] = (
             LOCATION_WEIGHTING * calculateLocationScore(job, job_seeker) +
@@ -39,7 +39,7 @@ def getMatchedApplicantsForJob(job, applications):
     job_description = job.to_string()
     application_scores = {}
     for application in applications:
-        resume = application.job_seeker.get_resume().to_string()
+        resume = application.resume.to_string()
         application_scores[application] = (
             LOCATION_WEIGHTING * calculateLocationScore(job, application.job_seeker) +
             LEVENSHTEIN_WEIGHTING * calculateLevenshteinScore(job_description, resume) +
