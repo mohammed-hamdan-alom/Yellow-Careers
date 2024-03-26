@@ -22,11 +22,8 @@ function JobCreationPage() {
     setIsAddModalOpen(true);
   };
 
-  const closeAddModal = () => {
-    setIsAddModalOpen(false);
-  };
-
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
