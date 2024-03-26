@@ -115,9 +115,7 @@ describe("JobSeekerDashboardPage component with no resume", () => {
 
   test("renders no jobs when no resume found", async () => {
     const label = await screen.getByTestId("mock-label");
-    const noResumeText = await screen.getByText(
-      "Error loading the jobs, please create a resume. If you have already done so, reload the page",
-    );
+    const noResumeText = await screen.getByText("Loading... Please ensure you have created a resume");
 
     expect(label).toBeInTheDocument();
     expect(label).toHaveTextContent("Job List");
