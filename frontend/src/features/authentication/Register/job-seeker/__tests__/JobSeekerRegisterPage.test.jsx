@@ -1,7 +1,8 @@
 import { vi, describe, it } from "vitest";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, act, cleanup } from "@testing-library/react";
 import JobSeekerRegister from "../JobSeekerRegisterPage";
 import AuthContext from "@/context/AuthContext";
+import { MemoryRouter } from "react-router-dom";
 
 global.ResizeObserver = vi.fn(() => ({
   observe: vi.fn(),
@@ -14,11 +15,15 @@ describe("JobSeekerRegister", () => {
 
   beforeEach(() => {
     render(
-      <AuthContext.Provider value={{ registerJobSeeker: mockRegisterJobSeeker }}>
-        <JobSeekerRegister />
-      </AuthContext.Provider>,
+      <MemoryRouter>
+        <AuthContext.Provider value={{ registerJobSeeker: mockRegisterJobSeeker }}>
+          <JobSeekerRegister />
+        </AuthContext.Provider>
+      </MemoryRouter>
     );
   });
+
+  afterEach(cleanup);
 
   it("should render register form", () => {
     const emailInput = screen.getByLabelText("Email");
@@ -69,7 +74,6 @@ describe("JobSeekerRegister", () => {
     fireEvent.change(nationalityInput, { target: { value: "British" } });
     fireEvent.change(phoneNumberInput, { target: { value: "1234567890" } });
     fireEvent.click(maleChoice);
-    fireEvent.click(registerButton);
 
     expect(emailInput.value).toBe("test@example.com");
     expect(passwordInput.value).toBe("password");
@@ -83,7 +87,7 @@ describe("JobSeekerRegister", () => {
     expect(maleChoice.checked).toBeTruthy;
   });
 
-  it("should call registerJobSeeker when form is submitted", () => {
+  it("should call registerJobSeeker when form is submitted", async () => {
     const emailInput = screen.getByLabelText("Email");
     const passwordInput = screen.getByLabelText("Password");
     const confirmPasswordInput = screen.getByLabelText("Confirm Password");
@@ -91,7 +95,7 @@ describe("JobSeekerRegister", () => {
     const lastNameInput = screen.getByLabelText("Last Name");
     const otherNamesInput = screen.getByLabelText("Other Names");
     const dobInput = screen.getByLabelText("Date of Birth");
-    const nationalityInput = screen.getByLabelText("Nationality");
+    const nationalityInput = screen.getByTestId("nationality").querySelector("input");
     const phoneNumberInput = screen.getByLabelText("Phone Number");
     const maleChoice = screen.getByLabelText("Male");
     const registerButton = screen.getByTestId("register-button");
@@ -103,10 +107,14 @@ describe("JobSeekerRegister", () => {
     fireEvent.change(lastNameInput, { target: { value: "Last" } });
     fireEvent.change(otherNamesInput, { target: { value: "Other" } });
     fireEvent.change(dobInput, { target: { value: "2000-01-01" } });
+    fireEvent.keyDown(dobInput, { key: "Enter", keyCode: 13 });
     fireEvent.change(nationalityInput, { target: { value: "British" } });
+    fireEvent.keyDown(nationalityInput, { key: "Enter", keyCode: 13 });
     fireEvent.change(phoneNumberInput, { target: { value: "1234567890" } });
     fireEvent.click(maleChoice);
-    fireEvent.click(registerButton);
+    await act(async () => {
+      fireEvent.click(registerButton);
+    })
 
     expect(mockRegisterJobSeeker).toHaveBeenCalledWith({
       email: "test@example.com",
@@ -117,7 +125,7 @@ describe("JobSeekerRegister", () => {
       otherNames: "Other",
       dob: "2000-01-01",
       phoneNumber: "1234567890",
-      nationality: "British",
+      nationality: "british",
       sex: "M",
     });
   });

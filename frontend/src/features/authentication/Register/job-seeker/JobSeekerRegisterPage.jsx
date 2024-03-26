@@ -118,6 +118,7 @@ const JobSeekerRegisterPage = () => {
                   <Select
                     showSearch
                     id="nationality"
+                    data-testid="nationality"
                     className="w-full bg-background"
                     placeholder="Select a Nationality"
                     optionFilterProp="children"
