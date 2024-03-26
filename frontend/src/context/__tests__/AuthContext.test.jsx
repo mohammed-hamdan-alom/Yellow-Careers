@@ -1,10 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import AuthContext, { AuthProvider } from "../AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import jwtDecode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/Alert";
-
 import { describe, it, expect, vi } from "vitest";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 
@@ -53,9 +50,7 @@ describe("AuthProvider", () => {
         <>
           <button
             data-testid="login-button"
-            onClick={() =>
-              loginUser({ email: "test@example.com", password: "password" })
-            }
+            onClick={() => loginUser({ email: "test@example.com", password: "password" })}
           />
           <div data-testid="auth-tokens">{JSON.stringify(authTokens)}</div>
         </>
@@ -65,14 +60,14 @@ describe("AuthProvider", () => {
     const { getByTestId } = render(
       <AuthProvider>
         <TestComponent />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     fireEvent.click(getByTestId("login-button"));
 
     await waitFor(() => {
       expect(getByTestId("auth-tokens").textContent).to.equal(
-        '{"access":"access-token","refresh":"refresh-token"}'
+        '{"access":"access-token","refresh":"refresh-token"}',
       );
     });
   });
@@ -86,9 +81,7 @@ describe("AuthProvider", () => {
         <>
           <button
             data-testid="login-button"
-            onClick={() =>
-              loginUser({ email: "test@example.com", password: "password" })
-            }
+            onClick={() => loginUser({ email: "test@example.com", password: "password" })}
           />
           <div data-testid="auth-tokens">{JSON.stringify(authTokens)}</div>
         </>
@@ -98,15 +91,13 @@ describe("AuthProvider", () => {
     const { getByTestId } = render(
       <AuthProvider>
         <TestComponent />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     fireEvent.click(getByTestId("login-button"));
 
     await waitFor(() => {
-      expect(showError).toHaveBeenCalledWith(
-        "Username or Password does not exist"
-      );
+      expect(showError).toHaveBeenCalledWith("Username or Password does not exist");
       expect(getByTestId("auth-tokens").textContent).to.equal("null");
     });
   });
@@ -140,15 +131,13 @@ describe("AuthProvider", () => {
     const { getByTestId } = render(
       <AuthProvider>
         <TestComponent />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     fireEvent.click(getByTestId("register-button"));
 
     await waitFor(() => {
-      expect(showSuccess).toHaveBeenCalledWith(
-        "Registration Successful, Login Now"
-      );
+      expect(showSuccess).toHaveBeenCalledWith("Registration Successful, Login Now");
       expect(navigate).toHaveBeenCalledWith("/auth/login");
     });
   });
@@ -161,9 +150,7 @@ describe("AuthProvider", () => {
       return (
         <button
           data-testid="register-employer-button"
-          onClick={() =>
-            registerEmployer("test@test.com", "password", "password", "Company")
-          }
+          onClick={() => registerEmployer("test@test.com", "password", "password", "Company")}
         />
       );
     };
@@ -171,15 +158,13 @@ describe("AuthProvider", () => {
     const { getByTestId } = render(
       <AuthProvider>
         <TestComponent />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     fireEvent.click(getByTestId("register-employer-button"));
 
     await waitFor(() => {
-      expect(showSuccess).toHaveBeenCalledWith(
-        "Registration Successful, Login Now"
-      );
+      expect(showSuccess).toHaveBeenCalledWith("Registration Successful, Login Now");
       expect(navigate).toHaveBeenCalledWith("/auth/login");
     });
   });
@@ -200,7 +185,7 @@ describe("AuthProvider", () => {
     const { getByTestId } = render(
       <AuthProvider>
         <TestComponent />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     fireEvent.click(getByTestId("logout-button"));

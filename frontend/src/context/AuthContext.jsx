@@ -1,10 +1,9 @@
 import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import swal from "sweetalert2";
 import { showError, showSuccess } from "@/components/Alert/Alert";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
+import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 
 const AuthContext = createContext();
 
@@ -41,9 +40,7 @@ export const AuthProvider = ({ children }) => {
         setUser(userObj);
         localStorage.setItem("authTokens", JSON.stringify(data));
         navigate(
-          userObj.userType === "job_seeker"
-            ? "/job-seeker/dashboard"
-            : "/employer/dashboard"
+          userObj.userType === "job_seeker" ? "/job-seeker/dashboard" : "/employer/dashboard",
         );
       }
     } catch (error) {
@@ -84,7 +81,7 @@ export const AuthProvider = ({ children }) => {
     otherNames,
     phoneNumber,
     company,
-    isAdmin
+    isAdmin,
   ) => {
     try {
       const response = await AxiosInstance.post("/api/employer-register/", {
@@ -170,9 +167,12 @@ export const AuthProvider = ({ children }) => {
       updateToken();
     }
     if (tokens) {
-      const intervalId = setInterval(() => {
-        updateToken();
-      }, 59 * 60 * 1000);
+      const intervalId = setInterval(
+        () => {
+          updateToken();
+        },
+        59 * 60 * 1000,
+      );
       return () => clearInterval(intervalId);
     } else {
       logoutUser();
@@ -181,8 +181,6 @@ export const AuthProvider = ({ children }) => {
   }, [authTokens]);
 
   return (
-    <AuthContext.Provider value={contextData}>
-      {loading ? null : children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextData}>{loading ? null : children}</AuthContext.Provider>
   );
 };

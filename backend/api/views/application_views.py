@@ -4,6 +4,7 @@ from api.serializers.application_serializer import ApplicationSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import PermissionDenied
 from api.matchmaker.matchmaker import *
+from api.utils.send_email import send_job_application_confirmation, send_job_application_result
 
 class BaseApplicationView:
     queryset = Application.objects.all()
@@ -45,10 +46,23 @@ class JobSeekerApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPI
         return get_object_or_404(Application, job_seeker_id=job_seeker_id, job_id=job_id)
 
 class ApplicationCreateView(BaseApplicationView, generics.CreateAPIView):
-    pass
+    def perform_create(self, serializer):
+        instance = serializer.save()
+
+        relation = EmployerJobRelation.objects.filter(job_id=instance.job.id).first()
+        send_job_application_confirmation(instance.job_seeker.email, instance.job.title, relation.employer.company.company_name)
 
 class ApplicationUpdateView(BaseApplicationView, generics.RetrieveUpdateDestroyAPIView):
-    pass
+    def perform_update(self, serializer):
+        before_decision = self.get_object().status
+        instance = serializer.save()
+
+        if before_decision != instance.decision and instance.decision == 'A':
+            relation = EmployerJobRelation.objects.filter(job_id=instance.job.id).first()
+            send_job_application_result(instance.job_seeker.email, instance.job.title, relation.employer.company.company_name, True)
+        elif before_decision != instance.decision and instance.decision == 'R':
+            relation = EmployerJobRelation.objects.filter(job_id=instance.job.id).first()
+            send_job_application_result(instance.job_seeker.email, instance.job.title, relation.employer.company.company_name, False)
 
 class ApplicationsFromJobListView(BaseApplicationView, generics.ListAPIView):
     '''Return applications with the same job'''

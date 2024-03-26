@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { nationalityOptions } from "@/components/Nationalities/nationalityOptions";
 import moment from "moment";
 
-
 const { Option } = Select;
 
 const ProfileDetails = ({ formData, handleChange, handleSubmit, userType }) => {
@@ -16,12 +15,7 @@ const ProfileDetails = ({ formData, handleChange, handleSubmit, userType }) => {
         <Label htmlFor="email" className="text-lg mr-2">
           Email:
         </Label>
-        <Input
-          id="email"
-          prefix={<Mail size={16} />}
-          disabled
-          value={formData.email}
-        />
+        <Input id="email" prefix={<Mail size={16} />} disabled value={formData.email} />
       </div>
       <div className="mb-3">
         <Label htmlFor="first_name">First Name: </Label>
@@ -89,9 +83,7 @@ const ProfileDetails = ({ formData, handleChange, handleSubmit, userType }) => {
               name="nationality"
               id="nationality"
               value={formData.nationality}
-              onChange={(value) =>
-                handleChange({ target: { name: "nationality", value } })
-              }
+              onChange={(value) => handleChange({ target: { name: "nationality", value } })}
             >
               {nationalityOptions.map((option, index) => (
                 <Option key={index} value={option}>
@@ -107,9 +99,7 @@ const ProfileDetails = ({ formData, handleChange, handleSubmit, userType }) => {
               id="sex"
               name="sex"
               value={formData.sex}
-              onChange={(value) =>
-                handleChange({ target: { name: "sex", value } })
-              }
+              onChange={(value) => handleChange({ target: { name: "sex", value } })}
             >
               <Option value="Male">Male</Option>
               <Option value="Female">Female</Option>

@@ -1,6 +1,6 @@
 from django.db import models
 from .application import Application
-from .employerJobRelation import EmployerJobRelation
+from .employer_job_relation import EmployerJobRelation
 from django.utils.translation import gettext as _
 
 class Job(models.Model):

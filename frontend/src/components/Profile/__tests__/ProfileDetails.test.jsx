@@ -1,4 +1,3 @@
-
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import ProfileDetails from "../ProfileDetails";
@@ -27,8 +26,8 @@ describe("ProfileDetails component", () => {
         formData={formData}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        userType="employer" 
-      />
+        userType="employer"
+      />,
     );
     expect(screen.getByLabelText("Email:")).toBeInTheDocument();
     expect(screen.getByLabelText("First Name:")).toBeInTheDocument();
@@ -45,9 +44,7 @@ describe("ProfileDetails component", () => {
     expect(screen.getByLabelText("Sex:")).toBeInTheDocument();
 
     // Assert that non-job seeker specific fields are not rendered
-    expect(
-      screen.queryByLabelText("Some Other Field:")
-    ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Some Other Field:")).not.toBeInTheDocument();
   });
   test("renders employer specific fields when userType is 'employer'", () => {
     const mockUser = {
@@ -65,7 +62,7 @@ describe("ProfileDetails component", () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         userType="employer"
-      />
+      />,
     );
     expect(screen.queryByLabelText("Date of Birth:")).not.toBeInTheDocument();
     expect(screen.queryByLabelText("Nationality:")).not.toBeInTheDocument();

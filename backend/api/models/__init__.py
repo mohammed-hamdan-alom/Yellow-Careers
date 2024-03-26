@@ -2,11 +2,11 @@ from .address import *
 from .answer import *
 from .application import *
 from .company import *
-from .employerJobRelation import *
+from .employer_job_relation import *
 from .job import *
 from .managers import *
 from .question import *
 from .resume import *
 from .user import *
-from .savedJobs import *
+from .saved_jobs import *
 from .invited_employer import *

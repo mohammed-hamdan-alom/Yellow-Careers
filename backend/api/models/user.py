@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext as _
-from .employerJobRelation import EmployerJobRelation
+from .employer_job_relation import EmployerJobRelation
 from .managers import CustomUserManager
 
 from django.core.validators import RegexValidator
