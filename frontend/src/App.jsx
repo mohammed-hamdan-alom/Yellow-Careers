@@ -5,10 +5,10 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import LoginPage from "./features/authentication/login/LoginPage";
 import AuthLayout from "./features/authentication/AuthLayout";
 import GetStarted from "./features/authentication/get-started/GetStarted";
-import JoinOrCreateCompany from "./features/authentication/register/employer/JoinOrCreateCompany";
-import CreateCompany from "./features/authentication/register/employer/CreateCompany";
-import InvitedEmployerVerification from "./features/authentication/register/employer/InvitedEmployerVerification";
-import EmployerRegister from "./features/authentication/register/employer/EmployerRegister";
+import JoinOrCreateCompany from "./features/authentication/Register/employer/JoinOrCreateCompany";
+import CreateCompany from "./features/authentication/Register/employer/CreateCompany";
+import InvitedEmployerVerification from "./features/authentication/Register/employer/InvitedEmployerVerification";
+import EmployerRegister from "./features/authentication/Register/employer/EmployerRegister";
 import JobSeekerRegister from "./features/authentication/register/job-seeker/JobSeekerRegister";
 
 import JobSeekerLayout from "./features/jobseeker/layouts/JobSeekerLayout";
