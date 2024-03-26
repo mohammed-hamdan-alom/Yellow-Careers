@@ -63,20 +63,29 @@ function ProfessionalExperience({ resumeId }) {
   };
 
   return (
-    <div className="mt-4 w-full flex flex-col justify-left">
+    <div className="mt-12 w-full flex flex-col justify-left mr-10">
       <Label className="text-3xl mb-4">Professional Experience</Label>
       <div>
         {professionalExperiences.map((professionalExperience) => (
           <div
             key={professionalExperience.id}
-            className="flex flex-row items-center justify-between mb-4"
+            className="flex flex-col items-center justify-between mb-4"
           >
             <div className="flex flex-col w-full outline rounded m-3 p-2">
-              <Label className="text-1xl">Job Title: {professionalExperience.position}</Label>
-              <Label className="text-1xl">Company: {professionalExperience.company}</Label>
+              <Label className="text-1xl">
+                Job Title: {professionalExperience.position}
+              </Label>
+              <Label className="text-1xl">
+                Company: {professionalExperience.company}
+              </Label>
             </div>
-            <div className="flex flex-row items-center">
-              <Button className="mr-4" variant="secondary" onClick={showEditModal}>
+
+            <div className="flex flex-row w-full items-center justify-end">
+              <Button
+                className="mr-4"
+                variant="secondary"
+                onClick={showEditModal}
+              >
                 <SquarePen size={20} className="mr-2" />
                 Edit
               </Button>
@@ -110,9 +119,9 @@ function ProfessionalExperience({ resumeId }) {
         ))}
       </div>
 
-      <div>
-        <Button variant="outline" onClick={showAddModal}>
-          Add Professional Experience
+      <div className="mb-8">
+        <Button variant="outline" className="w-full" onClick={showAddModal}>
+          + Add Professional Experience
         </Button>
         <Modal
           title="Add Professional Experience"
