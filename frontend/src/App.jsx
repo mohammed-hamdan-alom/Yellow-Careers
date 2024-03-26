@@ -27,6 +27,7 @@ import JobApplicantsPage from "./features/employer/JobApplicants/JobApplicants";
 import JobCreationPage from "./features/employer/JobCreation/JobCreationPage";
 import QuestionCreationPage from "./features/employer/JobCreation/QuestionCreationPage";
 import EmployerDashboardPage from "./features/employer/Dashboard/EmployerDashboardPage";
+import ArchivedJobsListPage from "./features/employer/ArchivedJobs/ArchivedJobsListPage";
 import ApplicationDetailsPage from "./features/employer/ApplicationDetails/ApplicationDetailsPage";
 import CompanyProfilePage from "./features/employer/CompanyProfile/CompanyProfilePage";
 import EmployerProfilePage from "./features/employer/Profile/EmployerProfilePage";
@@ -64,6 +65,7 @@ function App() {
       <Route element={<PrivateRoute role={["employer"]} />}>
         <Route path="/employer/*" element={<EmployerLayout />}>
           <Route path="dashboard" element={<EmployerDashboardPage />} />
+          <Route path="archived-jobs" element={<ArchivedJobsListPage />} />
           <Route path="create-job" element={<JobCreationPage />} />
           <Route path="create-questions/:jobId" element={<QuestionCreationPage />} />
           <Route path="job-applicants/:jobId" element={<JobApplicantsPage />} />

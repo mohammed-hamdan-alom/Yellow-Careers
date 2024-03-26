@@ -6,6 +6,7 @@ const baseUrl = "/employer";
 
 const navigation = [
   { name: "Dashboard", to: "/dashboard" },
+  { name: "Archived Jobs", to: "/archived-jobs" },
   { name: "Create Job Listing", to: "/create-job" },
   { name: "My Company", to: "/company" },
 ];
