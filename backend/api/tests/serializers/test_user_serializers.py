@@ -106,16 +106,15 @@ class ChangePasswordSerializerTestCase(TestCase):
         serializer = ChangePasswordSerializer(data=data)
         self.assertFalse(serializer.is_valid())
         self.assertIn('non_field_errors', serializer.errors)
-        self.assertEqual(serializer.errors['non_field_errors'][0], "New password and confirm password must match")
-    
+        self.assertEqual(serializer.errors['non_field_errors'][0], "New password and confirm password do not match.")
+
     def test_weak_password_validation(self):
         data = {
             'old_password': 'oldPassword123!',
-            'new_password': 'password123',
+            'new_password': 'password123', 
             'confirm_password': 'password123'
         }
         serializer = ChangePasswordSerializer(data=data)
-        with self.assertRaises(ValidationError) as context:
-            serializer.is_valid(raise_exception=True)
-
-        self.assertEqual(context.exception.detail['new_password'][0], "This password is too common.")
+        self.assertFalse(serializer.is_valid())
+        self.assertIn('new_password', serializer.errors)
+        self.assertEqual(serializer.errors['new_password'][0], "This password is too common.")

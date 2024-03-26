@@ -38,18 +38,13 @@ class ChangePasswordView(generics.UpdateAPIView):
             old_password = serializer.validated_data.get("old_password")
             new_password = serializer.validated_data.get("new_password")
             confirm_password = serializer.validated_data.get("confirm_password")
-
-
+            
             if not check_password(old_password, instance.password):
                 return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
-            
             if new_password != confirm_password:
                 return Response({"error": "New password and confirm password do not match."}, status=status.HTTP_400_BAD_REQUEST)
-
-
             instance.set_password(new_password)
             instance.save()
             return Response({"message": "Password changed successfully."})
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
