@@ -38,7 +38,7 @@ function TechnicalSkill({ resumeId }) {
     event.preventDefault();
     try {
       const response = await AxiosInstance.post(
-        `http://localhost:8000/api/resumes/${resumeId}/technical-skills/create/`,
+        `api/resumes/${resumeId}/technical-skills/create/`,
         {
           skill: technicalSkill,
         },
@@ -83,6 +83,7 @@ function TechnicalSkill({ resumeId }) {
               <Button
                 size="icon"
                 variant="destructive"
+                data-testid="delete-technical-skill"
                 onClick={() => handleDeleteTechnicalSkill(skill)}
               >
                 <MinusCircle />
@@ -100,6 +101,7 @@ function TechnicalSkill({ resumeId }) {
           onChange={handleTechnicalSkillChange}
         />
         <Button
+          data-testid="add-technical-skill-button"
           size="icon"
           className="w-10 h-10 ml-4"
           variant="secondary"

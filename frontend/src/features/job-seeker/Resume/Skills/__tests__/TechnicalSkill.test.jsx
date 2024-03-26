@@ -32,15 +32,34 @@ describe("TechnicalSkill Component", () => {
 
   it("adds a technical skill", async () => {
     render(<TechnicalSkill resumeId={resumeId} />);
-    const inputField = screen.findByRole("textbox", { name: /Add technical skill:/ });
+    const inputField = document.querySelector("input[name='technicalSkill']");
     fireEvent.change(inputField, { target: { value: "React" } });
 
-    const addButton = screen.getByRole("button", { name: /Add/ });
+    const addButton = screen.getByTestId("add-technical-skill-button");
     fireEvent.click(addButton);
     await waitFor(() =>
       expect(AxiosInstance.post).toHaveBeenCalledWith(
         `api/resumes/${resumeId}/technical-skills/create/`,
         { skill: "React" },
+      ),
+    );
+  });
+
+  it("deletes a technical skill", async () => {
+    const resumeId = "sampleResumeId";
+    const mockTechnicalSkill = { id: "123", skill: "Expert" };
+    AxiosInstance.get.mockResolvedValueOnce({ data: [mockTechnicalSkill] });
+
+    render(<TechnicalSkill resumeId={resumeId} />);
+
+
+
+    const deleteButton = await screen.findByTestId("delete-technical-skill");
+    await act(async () => fireEvent.click(deleteButton));
+
+    await waitFor(() =>
+      expect(AxiosInstance.delete).toHaveBeenCalledWith(
+        `api/resumes/${resumeId}/technical-skills/update/${mockTechnicalSkill.id}`,
       ),
     );
   });
