@@ -14,9 +14,7 @@ function AppliedJobListPage() {
   useEffect(() => {
     const fetchAppliedJobs = async () => {
       try {
-        const res = await AxiosInstance.get(
-          `api/job-seeker/${userId}/applied-jobs/`
-        );
+        const res = await AxiosInstance.get(`api/job-seeker/${userId}/applied-jobs/`);
         setJobs(res.data);
       } catch (error) {
         handleErrorAndShowMessage("Error retrieving data:", error);

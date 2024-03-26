@@ -58,7 +58,6 @@ function EmployerSideBar({ isOpen, toggleSidebar }) {
           <Icon name="building outline" />
           Company
         </Menu.Item>
-
       </Sidebar>
     </>
   );

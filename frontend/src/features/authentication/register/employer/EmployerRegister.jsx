@@ -29,21 +29,41 @@ const EmployerRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      try {
-        if (!isAdmin) {
-          const response = await AxiosInstance.delete(
-            `api/invited-employer/delete/?email=${registerEmail}`
+    try {
+      if (!isAdmin) {
+        const response = await AxiosInstance.delete(
+          `api/invited-employer/delete/?email=${registerEmail}`,
+        );
+        if (response.status === 200) {
+          registerEmployer(
+            registerEmail,
+            password,
+            password2,
+            firstName,
+            lastName,
+            otherNames,
+            phoneNumber,
+            companyId,
+            false,
           );
-          if (response.status === 200) {
-            registerEmployer(registerEmail, password, password2, firstName, lastName, otherNames, phoneNumber, companyId, false);
-          }
-        } else {
-          console.log()
-          registerEmployer(registerEmail, password, password2, firstName, lastName, otherNames, phoneNumber, companyId, true);
         }
-      } catch (error) {
-        console.error("Error registering employer:", error);
+      } else {
+        console.log();
+        registerEmployer(
+          registerEmail,
+          password,
+          password2,
+          firstName,
+          lastName,
+          otherNames,
+          phoneNumber,
+          companyId,
+          true,
+        );
       }
+    } catch (error) {
+      console.error("Error registering employer:", error);
+    }
   };
 
   return (
@@ -55,13 +75,7 @@ const EmployerRegister = () => {
         <CardContent>
           <form onSubmit={handleSubmit} className="flex flex-col">
             <Label className="mb-2">Email</Label>
-            <Input
-              className="mb-4"
-              type="email"
-              name="email"
-              value={registerEmail}
-              disabled
-            />
+            <Input className="mb-4" type="email" name="email" value={registerEmail} disabled />
             <Label className="mb-2">Password</Label>
             <Input
               className="mb-4"

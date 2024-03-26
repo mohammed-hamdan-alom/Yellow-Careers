@@ -1,20 +1,8 @@
 import React from "react";
-import {
-  render,
-  screen,
-  fireEvent,
-  act,
-  cleanup,
-  within,
-} from "@testing-library/react";
+import { render, screen, fireEvent, act, cleanup, within } from "@testing-library/react";
 import ApplicationDetails from "../ApplicationDetails";
 import { vi } from "vitest";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  MemoryRouter,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, MemoryRouter } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
 
 const job_seeker1 = {
@@ -24,18 +12,18 @@ const job_seeker1 = {
   },
 };
 
-const jobSeeker= {  
-      first_name: "John",
-      last_name: "Doe",
-      dob: "1990-01-01",
-      nationality: "British",
-      sex: "Male",
-      address: {
-        city: "New York",
-        post_code: "NY12345",
-        country: "USA",
-      }
-    }
+const jobSeeker = {
+  first_name: "John",
+  last_name: "Doe",
+  dob: "1990-01-01",
+  nationality: "British",
+  sex: "Male",
+  address: {
+    city: "New York",
+    post_code: "NY12345",
+    country: "USA",
+  },
+};
 const employer = {
   user_type: "employer",
   email: "johndoe@example.com",
@@ -89,9 +77,7 @@ const data = {
 const navigate = vi.fn();
 
 vi.mock("@/components/ui/label", () => ({
-  Label: vi.fn(({ children }) => (
-    <label data-testid="mock-label">{children}</label>
-  )),
+  Label: vi.fn(({ children }) => <label data-testid="mock-label">{children}</label>),
 }));
 
 vi.mock("react-router-dom", async (importOriginal) => {
@@ -132,10 +118,9 @@ vi.mock("@/utils/AxiosInstance", () => ({
         return Promise.resolve({ data: data.resume });
       } else if (url == `/api/jobs/1/questions`) {
         return Promise.resolve({ data: data.questions });
-      } else if(url ==`/api/job-seekers/1`){
-        return Promise.resolve({data: jobSeeker})
-      }
-      else {
+      } else if (url == `/api/job-seekers/1`) {
+        return Promise.resolve({ data: jobSeeker });
+      } else {
         return Promise.resolve({ data: data.answers });
       }
     }),
@@ -157,7 +142,7 @@ describe("ApplicationDetails component with questions", () => {
           <AuthContext.Provider value={employer}>
             <ApplicationDetails />
           </AuthContext.Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
   });
@@ -172,9 +157,7 @@ describe("ApplicationDetails component with questions", () => {
   });
 
   test("render QuestionAndAnswers component", async () => {
-    const questionsAndAnswers = await screen.findByTestId(
-      "mock-questionsandanswers"
-    );
+    const questionsAndAnswers = await screen.findByTestId("mock-questionsandanswers");
     expect(questionsAndAnswers).toBeInTheDocument();
   });
 
@@ -214,5 +197,3 @@ describe("ApplicationDetails component with questions", () => {
     // expect(questionsAndAnswersElement).toBeInTheDocument();
   });
 });
-
-

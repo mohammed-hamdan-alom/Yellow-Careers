@@ -81,7 +81,7 @@ describe("JobSeekerProfile component", () => {
     render(
       <AuthContext.Provider value={{ user: mockUser }}>
         <JobSeekerProfile />
-      </AuthContext.Provider>
+      </AuthContext.Provider>,
     );
   });
 

@@ -46,9 +46,7 @@ function JobDetails() {
         setResume(responses[4].data);
         setAppliedJobs(responses[5].data);
         setIsJobApplied(
-          responses[5].data.some(
-            (appliedJob) => String(appliedJob.id) === String(jobId)
-          )
+          responses[5].data.some((appliedJob) => String(appliedJob.id) === String(jobId)),
         );
       } catch (error) {
         handleErrorAndShowMessage("Error fetching data:", error);
@@ -62,13 +60,9 @@ function JobDetails() {
   useEffect(() => {
     const fetchSavedJobs = async () => {
       try {
-        const res = await AxiosInstance.get(
-          `api/job-seeker/${userId}/saved-jobs/`
-        );
+        const res = await AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`);
         setSavedJobs(res.data);
-        setIsJobSaved(
-          res.data.some((savedJob) => String(savedJob.id) === String(jobId))
-        );
+        setIsJobSaved(res.data.some((savedJob) => String(savedJob.id) === String(jobId)));
       } catch (error) {
         handleErrorAndShowMessage("Error fetching data:", error);
       }
@@ -109,9 +103,7 @@ function JobDetails() {
 
   const handleSeeApplication = async () => {
     try {
-      const res = await AxiosInstance.get(
-        `api/applications/${userId}/${jobId}`
-      );
+      const res = await AxiosInstance.get(`api/applications/${userId}/${jobId}`);
       const applicationId = res.data.id;
       navigate(`/job-seeker/application-details/${applicationId}`);
     } catch (error) {
@@ -120,9 +112,7 @@ function JobDetails() {
   };
 
   const handleSave = async () => {
-    const savedJob = savedJobs.find(
-      (savedJob) => String(savedJob.id) === String(jobId)
-    );
+    const savedJob = savedJobs.find((savedJob) => String(savedJob.id) === String(jobId));
     if (savedJob) {
       try {
         await AxiosInstance.delete(`api/saved-jobs/update/${userId}/${jobId}/`);
@@ -161,10 +151,7 @@ function JobDetails() {
       </div>
       <Space>
         {isJobApplied ? (
-          <Button
-            className="yellowButton large-button"
-            onClick={handleSeeApplication}
-          >
+          <Button className="yellowButton large-button" onClick={handleSeeApplication}>
             See Application
           </Button>
         ) : (

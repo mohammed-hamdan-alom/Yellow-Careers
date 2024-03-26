@@ -1,12 +1,11 @@
 /* Styles for the toggle button when unchecked */
 .ant-switch:not(.ant-switch-checked) {
-    background-color: #FFD700 !important; /* Set background color when unchecked to a nice yellow */
-    border: 1px solid #FFD700 !important; /* Set border when unchecked to the same yellow */
-  }
-  
-  /* Styles for the toggle button when unchecked and hovered */
-  .ant-switch:not(.ant-switch-checked):hover {
-    background-color: #FFD700 !important; /* Change background color on hover when unchecked to the same yellow */
-    border-color: #FFD700 !important; /* Change border color on hover when unchecked to the same yellow */
-  }
-  
+  background-color: #ffd700 !important; /* Set background color when unchecked to a nice yellow */
+  border: 1px solid #ffd700 !important; /* Set border when unchecked to the same yellow */
+}
+
+/* Styles for the toggle button when unchecked and hovered */
+.ant-switch:not(.ant-switch-checked):hover {
+  background-color: #ffd700 !important; /* Change background color on hover when unchecked to the same yellow */
+  border-color: #ffd700 !important; /* Change border color on hover when unchecked to the same yellow */
+}

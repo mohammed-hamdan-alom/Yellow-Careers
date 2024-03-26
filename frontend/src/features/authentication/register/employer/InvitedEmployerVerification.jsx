@@ -14,12 +14,14 @@ const InvitedEmployerVerification = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AxiosInstance.get(
-        `api/invited-employer/get/?email=${email}`
-      );
+      const response = await AxiosInstance.get(`api/invited-employer/get/?email=${email}`);
       if (response.data.email === email && response.data.code === code) {
         navigate(`/auth/register-employer`, {
-          state: { companyId: response.data.company, registerEmail: email, isAdmin: false},
+          state: {
+            companyId: response.data.company,
+            registerEmail: email,
+            isAdmin: false,
+          },
         });
       } else {
         alert("Invalid email or code");
@@ -39,19 +41,11 @@ const InvitedEmployerVerification = () => {
           <form onSubmit={handleSubmit} className="flex flex-col">
             <div className="mb-4">
               <Label>Email</Label>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className="mb-4">
               <Label>Code</Label>
-              <Input
-                type="text"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
+              <Input type="text" value={code} onChange={(e) => setCode(e.target.value)} />
             </div>
             <Button type="submit">Verify</Button>
           </form>

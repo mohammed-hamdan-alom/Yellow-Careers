@@ -23,20 +23,18 @@ function CompanyProfilePage() {
   const [showEdit, setShowEdit] = useState(null);
   const [employers, setEmployers] = useState([]);
   const [inviteEmail, setInviteEmail] = useState("");
-  
+
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const employerResponse = await AxiosInstance.get(
-          `api/employers/${userId}`
-        );
+        const employerResponse = await AxiosInstance.get(`api/employers/${userId}`);
         setEmployer(employerResponse.data);
 
         const companyResponse = await AxiosInstance.get(
-          `api/companies/${employerResponse.data.company}`
+          `api/companies/${employerResponse.data.company}`,
         );
         setCompanyData({
           company_name: companyResponse.data.company_name,
@@ -46,7 +44,7 @@ function CompanyProfilePage() {
         });
 
         const employersResponse = await AxiosInstance.get(
-          `api/companies/${companyResponse.data.id}/employers`
+          `api/companies/${companyResponse.data.id}/employers`,
         );
         setEmployers(employersResponse.data);
       } catch (error) {
@@ -75,7 +73,7 @@ function CompanyProfilePage() {
     try {
       const response = await AxiosInstance.put(
         `api/companies/${companyData.id}/update/`,
-        editedCompanyData
+        editedCompanyData,
       );
       showSuccess("Company Profile Updated");
       setShowEdit(false);
@@ -90,13 +88,10 @@ function CompanyProfilePage() {
   const handleInviteSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await AxiosInstance.post(
-        "/api/invited-employer/create/",
-        {
-          email: inviteEmail,
-          company: companyData.id,
-        }
-      );
+      const response = await AxiosInstance.post("/api/invited-employer/create/", {
+        email: inviteEmail,
+        company: companyData.id,
+      });
       if (response.status === 200 || response.status === 201) {
         showSuccess("Invitation sent successfully.");
         setInviteEmail("");
@@ -197,18 +192,10 @@ function CompanyProfilePage() {
             </Label>
             {errors.website && <p>{errors.website}</p>}
           </div>
-          <Button
-            type="submit"
-            className="blueButton mr-2"
-            onClick={handleSubmit}
-          >
+          <Button type="submit" className="blueButton mr-2" onClick={handleSubmit}>
             Update
           </Button>
-          <Button
-            type="button"
-            className="redButton"
-            onClick={() => setShowEdit(false)}
-          >
+          <Button type="button" className="redButton" onClick={() => setShowEdit(false)}>
             Cancel
           </Button>
         </form>
@@ -219,16 +206,10 @@ function CompanyProfilePage() {
           {employers.map((employer) => (
             <li key={employer.id} className="border p-4 rounded-md">
               <div className="flex justify-between items-center">
-                <Label
-                  htmlFor={`employer-${employer.id}`}
-                  className="text-lg font-semibold"
-                >
+                <Label htmlFor={`employer-${employer.id}`} className="text-lg font-semibold">
                   {employer.first_name} {employer.last_name}
                 </Label>
-                <Label
-                  htmlFor={`employer-email-${employer.id}`}
-                  className="text-gray-600"
-                >
+                <Label htmlFor={`employer-email-${employer.id}`} className="text-gray-600">
                   Email: {employer.email}
                 </Label>
               </div>
@@ -256,7 +237,6 @@ function CompanyProfilePage() {
           </form>
         </div>
       )}
-
     </div>
   );
 }

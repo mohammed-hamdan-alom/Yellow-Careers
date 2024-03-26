@@ -22,17 +22,12 @@ const JobApplicantsPage = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await AxiosInstance.get(
-          `api/applications/job/${jobId}`
-        );
+        const response = await AxiosInstance.get(`api/applications/job/${jobId}`);
         setApplications(response.data);
         setFilteredApplications(response.data);
       } catch (error) {
         console.error("Error:", error.response.data);
-        if (
-          error.response &&
-          (error.response.status === 403 || error.response.status === 404)
-        ) {
+        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
           window.location.href = "/employer/dashboard";
         }
       }
@@ -45,7 +40,7 @@ const JobApplicantsPage = () => {
     const filtered = applications.filter(
       (application) =>
         (statusFilter === "all" || application.status === statusFilter) &&
-        (decisionFilter === "all" || application.decision === decisionFilter)
+        (decisionFilter === "all" || application.decision === decisionFilter),
     );
 
     setFilteredApplications(filtered);
@@ -66,10 +61,7 @@ const JobApplicantsPage = () => {
   // Logic to calculate the subset of results for the current page
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const currentPageApplications = filteredApplications.slice(
-    startIndex,
-    endIndex
-  );
+  const currentPageApplications = filteredApplications.slice(startIndex, endIndex);
 
   return (
     <div>

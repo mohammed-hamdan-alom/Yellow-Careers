@@ -16,7 +16,6 @@ function EditLanguagePage({
   closeAddModal,
   closeEditModal,
 }) {
-
   const SkillLevelOptions = [
     { value: "B", label: "Basic" },
     { value: "I", label: "Intermediate" },
@@ -36,14 +35,16 @@ function EditLanguagePage({
     const fetchLanguage = async () => {
       if (put) {
         try {
-          const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/update/${languageId}`);
+          const response = await AxiosInstance.get(
+            `api/resumes/${resumeId}/languages/update/${languageId}`,
+          );
           setLanguage(response.data);
         } catch (error) {
           console.error("Error:", error);
         }
       }
     };
-  
+
     fetchLanguage();
   }, []);
 
@@ -78,9 +79,7 @@ function EditLanguagePage({
     } else if (put) {
       handleEditSubmit(event);
     } else {
-      console.error(
-        "Pass in POST or PUT as a prop to the EditLanguagePage component."
-      );
+      console.error("Pass in POST or PUT as a prop to the EditLanguagePage component.");
     }
   };
 
@@ -91,7 +90,7 @@ function EditLanguagePage({
       showSuccess("Language Updated");
       setErrors(defaultLanguageState);
       setLanguage(defaultLanguageState);
-  
+
       const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
       setLanguages(response.data);
       closeEditModal();
@@ -113,11 +112,10 @@ function EditLanguagePage({
       showSuccess("Language Added");
       setLanguage(defaultLanguageState);
       setErrors(defaultLanguageState);
-  
+
       const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
       setLanguages(response.data);
       closeAddModal();
-  
     } catch (error) {
       console.error("Error:", error);
       let errorMessages = "";
@@ -175,9 +173,7 @@ function EditLanguagePage({
           )}
         </div>
         <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">
-            Written Proficiency:
-          </Label>
+          <Label className="mr-4 w-[400px] text-2xl">Written Proficiency:</Label>
           <Select
             className="w-[420px]"
             name="written_proficiency"
@@ -197,7 +193,7 @@ function EditLanguagePage({
             />
           )}
         </div>
-        <Button type="submit" variant="outline" className='w-full mt-8'>
+        <Button type="submit" variant="outline" className="w-full mt-8">
           Submit
         </Button>
       </form>

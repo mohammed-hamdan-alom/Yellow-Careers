@@ -43,20 +43,11 @@ function App() {
       <Route path="/auth/*" element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="get-started" element={<GetStarted />} />
-        <Route
-          path="join-or-create-company"
-          element={<JoinOrCreateCompany />}
-        />
-        <Route
-          path="verify-invited-employer"
-          element={<InvitedEmployerVerification />}
-        />
+        <Route path="join-or-create-company" element={<JoinOrCreateCompany />} />
+        <Route path="verify-invited-employer" element={<InvitedEmployerVerification />} />
         <Route path="create-company" element={<CreateCompany />} />
         <Route path="register-employer" element={<EmployerRegister />} />
-        <Route
-          path="register-employer/:companyId"
-          element={<EmployerRegister />}
-        />
+        <Route path="register-employer/:companyId" element={<EmployerRegister />} />
         <Route path="register-jobseeker" element={<JobSeekerRegister />} />
       </Route>
 
@@ -67,14 +58,8 @@ function App() {
           <Route path="saved-jobs" element={<SavedJobListPage />} />
           <Route path="profile" element={<JobSeekerProfile />} />
           <Route path="job-details/:jobId" element={<JobDetails />} />
-          <Route
-            path="job-details/:jobId/questions"
-            element={<JobQuestions />}
-          />
-          <Route
-            path="application-details/:applicationId"
-            element={<AppliedJobDetails />}
-          />
+          <Route path="job-details/:jobId/questions" element={<JobQuestions />} />
+          <Route path="application-details/:applicationId" element={<AppliedJobDetails />} />
           <Route path="applied-jobs" element={<AppliedJobListPage />} />
         </Route>
       </Route>
@@ -83,16 +68,10 @@ function App() {
         <Route path="/employer/*" element={<EmployerLayout />}>
           <Route path="dashboard" element={<EmployerDashBoardPage />} />
           <Route path="create-job" element={<JobCreation />} />
-          <Route
-            path="create-questions/:jobId"
-            element={<QuestionCreation />}
-          />
+          <Route path="create-questions/:jobId" element={<QuestionCreation />} />
           <Route path="job-applicants/:jobId" element={<JobApplicantsPage />} />
           <Route path="job-details/:jobId" element={<JobDetailsEmployer />} />
-          <Route
-            path="application-details/:applicationId"
-            element={<ApplicationDetails />}
-          />
+          <Route path="application-details/:applicationId" element={<ApplicationDetails />} />
           <Route path="company" element={<CompanyProfilePage />} />
           <Route path="profile" element={<EmployerProfile />} />
         </Route>

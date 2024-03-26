@@ -8,8 +8,8 @@ import { Input, InputNumber } from "antd";
 import { Select } from "antd";
 import { Button } from "@/components/ui/button";
 const { TextArea } = Input;
-import Swal from 'sweetalert2';
-import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
+import Swal from "sweetalert2";
+import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
 import { Modal } from "antd";
 import QuestionCreation from "./QuestionCreation";
 
@@ -43,19 +43,11 @@ function JobCreationForm() {
   });
 
   const showJobCreatedSuccess = () => {
-    Swal.fire(
-      'Job Created',
-      'Your job has been created successfully!',
-      'success'
-    );
+    Swal.fire("Job Created", "Your job has been created successfully!", "success");
   };
 
   const showJobCreatedError = () => {
-    Swal.fire(
-      'Error',
-      'There was an error creating the job.',
-      'error'
-    );
+    Swal.fire("Error", "There was an error creating the job.", "error");
   };
 
   const handleSubmit = async (event) => {
@@ -69,7 +61,6 @@ function JobCreationForm() {
         job_type: formData.job_type,
       });
 
-
       await AxiosInstance.post("api/employer-job-relations/create/", {
         employer: userId,
         job: jobResponse.data.id,
@@ -77,7 +68,6 @@ function JobCreationForm() {
 
       setJobId(jobResponse.data.id);
       showAddModal();
-
     } catch (error) {
       showJobCreatedError();
       console.log(error);
@@ -99,8 +89,6 @@ function JobCreationForm() {
       [name]: value,
     });
   };
-
-
 
   return (
     <div className="w-full flex justify-center items-center">
@@ -136,14 +124,10 @@ function JobCreationForm() {
               <InputNumber
                 className="w-full mt-2"
                 name="salary"
-                formatter={(value) =>
-                  `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
+                formatter={(value) => `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 parser={(value) => value.replace(/\£\s?|(,*)/g, "")}
                 defaultValue={formData.salary}
-                onChange={(value) =>
-                  setFormData({ ...formData, salary: value })
-                }
+                onChange={(value) => setFormData({ ...formData, salary: value })}
               />
             </div>
             <div className="flex flex-row justify-between mb-4 space-x-4">
@@ -181,7 +165,8 @@ function JobCreationForm() {
 
             <div className="flex flex-col mb-4">
               <Label className="text-2xl">Job Type</Label>
-              <Select data-testid="job_type"
+              <Select
+                data-testid="job_type"
                 className="w-full mt-2"
                 name="job_type"
                 value={formData.job_type}
@@ -199,11 +184,7 @@ function JobCreationForm() {
               </Button>
             </div>
           </form>
-          <Modal
-            title="Create Questions"
-            open={isAddModalOpen}
-            footer={null}
-          >
+          <Modal title="Create Questions" open={isAddModalOpen} footer={null}>
             <QuestionCreation jobId={jobId}></QuestionCreation>
           </Modal>
         </CardContent>

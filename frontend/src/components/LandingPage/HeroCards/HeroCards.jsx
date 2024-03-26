@@ -20,10 +20,7 @@ export const HeroCards = () => {
       <Card className="absolute w-[340px] -top-[15px] drop-shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
           <Avatar>
-            <AvatarImage
-              alt=""
-              src="https://github.com/mohammed-hamdan-alom.png"
-            />
+            <AvatarImage alt="" src="https://github.com/mohammed-hamdan-alom.png" />
             <AvatarFallback>SH</AvatarFallback>
           </Avatar>
 
@@ -33,9 +30,7 @@ export const HeroCards = () => {
           </div>
         </CardHeader>
 
-        <CardContent>
-          If you're looking for a job, Yellow Careers is the way to go
-        </CardContent>
+        <CardContent>If you're looking for a job, Yellow Careers is the way to go</CardContent>
       </Card>
 
       {/* Team */}
@@ -54,8 +49,7 @@ export const HeroCards = () => {
 
         <CardContent className="text-center pb-2">
           <p>
-            I really enjoy transforming ideas into functional software that
-            exceeds expectations
+            I really enjoy transforming ideas into functional software that exceeds expectations
           </p>
         </CardContent>
 

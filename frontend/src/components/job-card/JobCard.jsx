@@ -4,15 +4,7 @@ import { MapPin, HandCoins, Briefcase } from "lucide-react";
 import { Tag } from "antd";
 import "@/components/styling/tag.css";
 
-const JobCard = ({
-  title,
-  companyName,
-  city,
-  country,
-  description,
-  salary,
-  jobType,
-}) => {
+const JobCard = ({ title, companyName, city, country, description, salary, jobType }) => {
   return (
     <div>
       <Card
@@ -28,10 +20,7 @@ const JobCard = ({
           </div>{" "}
           {/* Set Company Name to grey and bold */}
           <div className="flex mt-4">
-            <Tag
-              style={{ display: "flex", alignItems: "center" }}
-              color="green"
-            >
+            <Tag style={{ display: "flex", alignItems: "center" }} color="green">
               <MapPin className="mr-2 text-gray-700" color="green" size={15} />
               <span>
                 Location: {city}, {country}

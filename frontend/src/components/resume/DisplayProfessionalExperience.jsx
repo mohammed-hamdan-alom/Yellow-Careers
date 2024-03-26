@@ -16,7 +16,7 @@ function DisplayProfessionalExperience({ resumeId }) {
       }
       try {
         const response = await AxiosInstance.get(
-          `api/resumes/${resumeId}/professional-experiences/`
+          `api/resumes/${resumeId}/professional-experiences/`,
         );
         setProfessionalExperiences(response.data);
       } catch (error) {
@@ -38,41 +38,31 @@ function DisplayProfessionalExperience({ resumeId }) {
         <div key={index} className="mb-6">
           <div className="flex items-center mb-2">
             <Briefcase className="mr-2 text-gray-700" size={20} />
-            <Label className="text-xl font-semibold">
-              {professionalExperience.position}
-            </Label>
+            <Label className="text-xl font-semibold">{professionalExperience.position}</Label>
           </div>
           <p className="mb-2">
-            <span className="font-semibold">Start Date:</span>{" "}
-            {professionalExperience.start_date}
+            <span className="font-semibold">Start Date:</span> {professionalExperience.start_date}
           </p>
           <p className="mb-2">
-            <span className="font-semibold">End Date:</span>{" "}
-            {professionalExperience.end_date}
+            <span className="font-semibold">End Date:</span> {professionalExperience.end_date}
           </p>
           <p className="mb-2">
-            <span className="font-semibold">Company:</span>{" "}
-            {professionalExperience.company}
+            <span className="font-semibold">Company:</span> {professionalExperience.company}
           </p>
           <p className="mb-2">
-            <span className="font-semibold">Position:</span>{" "}
-            {professionalExperience.position}
+            <span className="font-semibold">Position:</span> {professionalExperience.position}
           </p>
           {professionalExperience.address && (
             <div className="flex items-center">
               <MapPin className="mr-2 text-gray-700" size={20} />
               <Label>
-                <strong>Location:</strong>{" "}
-                {professionalExperience.address.post_code},{" "}
-                {professionalExperience.address.city},{" "}
-                {professionalExperience.address.country}
+                <strong>Location:</strong> {professionalExperience.address.post_code},{" "}
+                {professionalExperience.address.city}, {professionalExperience.address.country}
               </Label>
             </div>
           )}
           {/* Add divider if it's not the last experience item */}
-          {index < professionalExperiences.length - 1 && (
-            <hr className="my-4 border-gray-300" />
-          )}
+          {index < professionalExperiences.length - 1 && <hr className="my-4 border-gray-300" />}
         </div>
       ))}
     </div>

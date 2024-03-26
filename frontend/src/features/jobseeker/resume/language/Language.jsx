@@ -40,7 +40,7 @@ function Language({ resumeId }) {
         console.error("Error:", error);
       }
     };
-  
+
     fetchLanguages();
   }, [resumeId]);
 
@@ -49,9 +49,7 @@ function Language({ resumeId }) {
     try {
       await AxiosInstance.delete(`api/resumes/${resumeId}/languages/update/${languageObj.id}`);
       showSuccess("Language Deleted");
-      setLanguages((prevLanguages) =>
-        prevLanguages.filter((item) => item !== languageObj)
-      );
+      setLanguages((prevLanguages) => prevLanguages.filter((item) => item !== languageObj));
     } catch (error) {
       console.error("Error:", error);
       showError("Deleting Language Failed");
@@ -63,20 +61,12 @@ function Language({ resumeId }) {
       <Label className="text-3xl mb-4">Languages</Label>
       <div>
         {languages.map((language) => (
-          <div
-            key={language.id}
-            className="flex flex-row items-center justify-between mb-4"
-          >
+          <div key={language.id} className="flex flex-row items-center justify-between mb-4">
             <div>
               <Label className="text-1xl">{language.language}</Label>
             </div>
             <div className="flex flex-row items-center">
-              <Button
-                className="mr-4"
-                variant="secondary"
-                size="icon"
-                onClick={showEditModal}
-              >
+              <Button className="mr-4" variant="secondary" size="icon" onClick={showEditModal}>
                 <SquarePen className="w-5 h-5" />
               </Button>
               <Button
@@ -109,7 +99,9 @@ function Language({ resumeId }) {
         ))}
       </div>
       <div>
-        <Button variant='outline' onClick={showAddModal}>Add Language</Button>
+        <Button variant="outline" onClick={showAddModal}>
+          Add Language
+        </Button>
         <Modal
           title="Add Language"
           open={isAddModalOpen}

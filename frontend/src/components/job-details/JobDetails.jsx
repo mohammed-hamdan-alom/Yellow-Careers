@@ -4,14 +4,7 @@ import { MapPin, HandCoins, Briefcase } from "lucide-react";
 import { Tag } from "antd";
 import "@/components/styling/tag.css";
 
-const JobDetailsDisplay = ({
-  title,
-  description,
-  companyName,
-  salary,
-  jobType,
-  address,
-}) => {
+const JobDetailsDisplay = ({ title, description, companyName, salary, jobType, address }) => {
   const formattedDescription = description
     ? description.split("\n").map((line, index) => (
         <React.Fragment key={index}>

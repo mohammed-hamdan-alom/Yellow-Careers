@@ -9,7 +9,6 @@ import { Select } from "antd";
 import BigAlert from "@/components/Alert/BigAlert";
 import dayjs from "dayjs";
 
-
 function EditEducationPage({
   put,
   post,
@@ -41,7 +40,7 @@ function EditEducationPage({
       if (put) {
         try {
           const response = await AxiosInstance.get(
-            `api/resumes/${resumeId}/educations/update/${educationId}`
+            `api/resumes/${resumeId}/educations/update/${educationId}`,
           );
           setEducation(response.data);
         } catch (error) {
@@ -86,9 +85,7 @@ function EditEducationPage({
     } else if (put) {
       handleEditSubmit(event);
     } else {
-      console.error(
-        "Pass in POST or PUT as a prop to the EditEducationPage component."
-      );
+      console.error("Pass in POST or PUT as a prop to the EditEducationPage component.");
     }
   };
 
@@ -97,15 +94,13 @@ function EditEducationPage({
     try {
       await AxiosInstance.put(
         `api/resumes/${resumeId}/educations/update/${educationId}`,
-        education
+        education,
       );
       showSuccess("Education Updated");
       setErrors(defaultEducationState);
       setEducation(defaultEducationState);
 
-      const response = await AxiosInstance.get(
-        `api/resumes/${resumeId}/educations/`
-      );
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
       setEducations(response.data);
       closeEditModal();
     } catch (error) {
@@ -122,16 +117,11 @@ function EditEducationPage({
   const handleCreateEducation = async (event) => {
     event.preventDefault();
     try {
-      await AxiosInstance.post(
-        `api/resumes/${resumeId}/educations/create/`,
-        education
-      );
+      await AxiosInstance.post(`api/resumes/${resumeId}/educations/create/`, education);
       showSuccess("Education Added");
       setEducation(defaultEducationState);
       setErrors(defaultEducationState);
-      const response = await AxiosInstance.get(
-        `api/resumes/${resumeId}/educations/`
-      );
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
       setEducations(response.data);
       closeAddModal();
     } catch (error) {

@@ -1,11 +1,6 @@
 import React from "react";
 import { vi } from "vitest";
-import {
-  render,
-  screen,
-  act,
-  cleanup,
-} from "@testing-library/react";
+import { render, screen, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import Question from "@/components/questions_and_answers/Question";
@@ -18,9 +13,7 @@ const question = {
 };
 
 vi.mock("@/components/ui/label", () => ({
-  Label: vi.fn(({ children }) => (
-    <label data-testid="mock-label">{children}</label>
-  )),
+  Label: vi.fn(({ children }) => <label data-testid="mock-label">{children}</label>),
 }));
 
 describe("Question component", () => {
@@ -31,7 +24,7 @@ describe("Question component", () => {
           <AuthProvider>
             <Question question={question.question} />
           </AuthProvider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
   });

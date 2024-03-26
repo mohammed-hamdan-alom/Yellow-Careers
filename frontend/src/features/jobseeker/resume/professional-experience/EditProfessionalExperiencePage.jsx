@@ -39,7 +39,7 @@ function EditProfessionalExperience({
       if (put) {
         try {
           const response = await AxiosInstance.get(
-            `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`
+            `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`,
           );
           setProfessionalExperience(response.data);
         } catch (error) {
@@ -91,9 +91,7 @@ function EditProfessionalExperience({
     } else if (put) {
       handleEditSubmit(event);
     } else {
-      console.error(
-        "Pass in POST or PUT as a prop to the EditProfessionalExperience component."
-      );
+      console.error("Pass in POST or PUT as a prop to the EditProfessionalExperience component.");
     }
   };
 
@@ -102,15 +100,13 @@ function EditProfessionalExperience({
     try {
       await AxiosInstance.put(
         `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceId}`,
-        professionalExperience
+        professionalExperience,
       );
       showSuccess("Professional Experience Updated");
       setErrors(defaultExperienceState);
       setProfessionalExperience(defaultExperienceState);
 
-      const response = await AxiosInstance.get(
-        `api/resumes/${resumeId}/professional-experiences/`
-      );
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`);
       setProfessionalExperiences(response.data);
       closeEditModal();
     } catch (error) {
@@ -129,15 +125,13 @@ function EditProfessionalExperience({
     try {
       await AxiosInstance.post(
         `api/resumes/${resumeId}/professional-experiences/create/`,
-        professionalExperience
+        professionalExperience,
       );
       showSuccess("Professional Experience Added");
       setProfessionalExperience(defaultExperienceState);
       setErrors(defaultExperienceState);
-      
-      const response = await AxiosInstance.get(
-        `api/resumes/${resumeId}/professional-experiences/`
-      );
+
+      const response = await AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`);
       setProfessionalExperiences(response.data);
       closeAddModal();
     } catch (error) {
@@ -178,9 +172,7 @@ function EditProfessionalExperience({
             className="w-4/5"
             name="start_date"
             value={
-              professionalExperience.start_date
-                ? dayjs(professionalExperience.start_date)
-                : null
+              professionalExperience.start_date ? dayjs(professionalExperience.start_date) : null
             }
             onChange={handleStartDateChange}
           />
@@ -191,11 +183,7 @@ function EditProfessionalExperience({
           <DatePicker
             className="w-4/5"
             name="end_date"
-            value={
-              professionalExperience.end_date
-                ? dayjs(professionalExperience.end_date)
-                : null
-            }
+            value={professionalExperience.end_date ? dayjs(professionalExperience.end_date) : null}
             onChange={handleEndDateChange}
           />
           {errors.end_date && <BigAlert message={errors.end_date} />}

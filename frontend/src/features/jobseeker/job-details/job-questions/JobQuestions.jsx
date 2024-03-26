@@ -70,10 +70,7 @@ function JobQuestions() {
         resume: resume.id,
       };
       try {
-        const response = await AxiosInstance.post(
-          "api/applications/create/",
-          applicationData
-        );
+        const response = await AxiosInstance.post("api/applications/create/", applicationData);
         const application = response.data;
         createAnswers(application.id);
       } catch (error) {
@@ -104,17 +101,11 @@ function JobQuestions() {
               placeholder="Type your answer here..."
             />
           </div>
-          {index !== questions.length - 1 && (
-            <div style={{ marginBottom: "25px" }} />
-          )}
+          {index !== questions.length - 1 && <div style={{ marginBottom: "25px" }} />}
         </div>
       ))}
       <div style={{ marginTop: "25px" }}>
-        <Button
-          className="yellowButton large-button"
-          type="primary"
-          onClick={handleApply}
-        >
+        <Button className="yellowButton large-button" type="primary" onClick={handleApply}>
           Apply
         </Button>
       </div>

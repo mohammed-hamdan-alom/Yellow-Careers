@@ -34,23 +34,17 @@ describe("HeroCards component", () => {
 
   test("renders testimonial card with correct content", () => {
     const avatarImage = screen.getByAltText("");
-    expect(avatarImage).toHaveAttribute(
-      "src",
-      "https://github.com/mohammed-hamdan-alom.png"
-    );
+    expect(avatarImage).toHaveAttribute("src", "https://github.com/mohammed-hamdan-alom.png");
 
     const testimonialContent = screen.getByText(
-      /If you're looking for a job, Yellow Careers is the way to go/i
+      /If you're looking for a job, Yellow Careers is the way to go/i,
     );
     expect(testimonialContent).toBeInTheDocument();
   });
 
   test("renders team card with correct content", () => {
     const avatarImage = screen.getByAltText("user avatar");
-    expect(avatarImage).toHaveAttribute(
-      "src",
-      "/src/components/LandingPage/assets/shazaib.png"
-    );
+    expect(avatarImage).toHaveAttribute("src", "/src/components/LandingPage/assets/shazaib.png");
 
     const teamMemberName = screen.getByText("Malik Shahzaib Khan");
     expect(teamMemberName).toBeInTheDocument();
@@ -59,7 +53,7 @@ describe("HeroCards component", () => {
     expect(teamMemberRole).toBeInTheDocument();
 
     const teamMemberDescription = screen.getByText(
-      /I really enjoy transforming ideas into functional software that exceeds expectations/i
+      /I really enjoy transforming ideas into functional software that exceeds expectations/i,
     );
     expect(teamMemberDescription).toBeInTheDocument();
   });

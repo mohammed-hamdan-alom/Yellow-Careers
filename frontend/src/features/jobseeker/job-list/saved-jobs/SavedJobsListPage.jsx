@@ -16,9 +16,7 @@ function SavedJobListPage() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await AxiosInstance.get(
-          `api/job-seeker/${userId}/saved-jobs/`
-        );
+        const res = await AxiosInstance.get(`api/job-seeker/${userId}/saved-jobs/`);
         setJobs(res.data);
       } catch (error) {
         handleErrorAndShowMessage("Error retrieving data:", error);
@@ -34,9 +32,7 @@ function SavedJobListPage() {
       {jobs.length > 0 ? (
         <JobFilter data={jobs} />
       ) : (
-        <Label className="text-lg text-gray-500 font-semibold mt-4">
-          No Saved jobs
-        </Label>
+        <Label className="text-lg text-gray-500 font-semibold mt-4">No Saved jobs</Label>
       )}
     </div>
   );

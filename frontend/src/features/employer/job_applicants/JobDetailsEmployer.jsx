@@ -58,10 +58,7 @@ const JobDetailsEmployer = () => {
         });
       } catch (error) {
         console.error("Error fetching data:", error);
-        if (
-          error.response &&
-          (error.response.status === 403 || error.response.status === 404)
-        ) {
+        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
           window.location.href = "/employer/dashboard";
         }
       }
@@ -108,25 +105,17 @@ const JobDetailsEmployer = () => {
       denyButtonText: `No`,
     }).then((result) => {
       if (result.isConfirmed) {
-        AxiosInstance.delete(
-          `api/employer-job-relations/delete/${jobId}/${id}/`
-        )
+        AxiosInstance.delete(`api/employer-job-relations/delete/${jobId}/${id}/`)
           .then(() => {
-            Swal.fire(
-              "Removed",
-              "The employer has been removed successfully!",
-              "success"
-            ).then(() => {
-              window.location.reload();
-            });
+            Swal.fire("Removed", "The employer has been removed successfully!", "success").then(
+              () => {
+                window.location.reload();
+              },
+            );
           })
           .catch((error) => {
             console.error("Error removing employer:", error);
-            Swal.fire(
-              "Error",
-              "There was an error removing the employer.",
-              "error"
-            );
+            Swal.fire("Error", "There was an error removing the employer.", "error");
           });
       }
     });
@@ -149,9 +138,7 @@ const JobDetailsEmployer = () => {
           address={address}
         />
       </div>
-      {questions.length > 0 && (
-        <Label className="text-2xl font-bold">Questions:</Label>
-      )}
+      {questions.length > 0 && <Label className="text-2xl font-bold">Questions:</Label>}
       {questions.map((question) => (
         <ul key={question.id}>
           <Question question={question.question} />
@@ -160,10 +147,7 @@ const JobDetailsEmployer = () => {
       <br />
       <div>
         <div className="mb-6">
-          <h4
-            className="text-lg font-semibold mb-2 "
-            style={{ color: "#4A5568" }}
-          >
+          <h4 className="text-lg font-semibold mb-2 " style={{ color: "#4A5568" }}>
             Employers:
           </h4>
           <ul className="border-t border-b border-gray-300 py-4">
@@ -185,10 +169,7 @@ const JobDetailsEmployer = () => {
           </ul>
         </div>
         <div className="mb-6">
-          <h5
-            className="text-lg font-semibold mb-2 "
-            style={{ color: "#4A5568" }}
-          >
+          <h5 className="text-lg font-semibold mb-2 " style={{ color: "#4A5568" }}>
             Add employers:
           </h5>
           <form
@@ -211,7 +192,7 @@ const JobDetailsEmployer = () => {
                     <option value={employer.id} key={employer.id}>
                       {employer.first_name} {employer.last_name}
                     </option>
-                  )
+                  ),
               )}
             </select>
             <Button

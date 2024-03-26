@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  render,
-  screen,
-  act,
-  cleanup,
-} from "@testing-library/react";
+import { render, screen, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import JobCard from "@/components/job-card/JobCard";
@@ -39,7 +34,7 @@ describe("JobCard component", () => {
               jobType={data.job_type}
             />
           </AuthProvider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
   });
@@ -63,7 +58,7 @@ describe("JobCard component", () => {
 
   test("renders location", async () => {
     const city = await screen.findByText(
-      "Location: " + data.address.city + ", " + data.address.country
+      "Location: " + data.address.city + ", " + data.address.country,
     );
     expect(city).toBeInTheDocument();
   });

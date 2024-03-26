@@ -1,10 +1,4 @@
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  act,
-} from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import CompanyProfilePage from "../CompanyProfilePage";
 import { MemoryRouter } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
@@ -139,11 +133,11 @@ describe("CompanyProfilePage component", () => {
           <AuthContext.Provider value={mockUser}>
             <CompanyProfilePage />
           </AuthContext.Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
 
-    screen.debug()
+    screen.debug();
 
     expect(screen.getByText("About:")).toBeInTheDocument();
     expect(screen.getByText("Website:")).toBeInTheDocument();
@@ -157,13 +151,11 @@ describe("CompanyProfilePage component", () => {
           <AuthContext.Provider value={mockUser}>
             <CompanyProfilePage />
           </AuthContext.Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
 
-    expect(
-      await screen.findByText(mockCompanyResponse.data.company_name)
-    ).toBeInTheDocument();
+    expect(await screen.findByText(mockCompanyResponse.data.company_name)).toBeInTheDocument();
 
     const websiteInput = screen.getByLabelText("Website:");
     expect(websiteInput).toHaveValue(mockCompanyResponse.data.website);
@@ -173,18 +165,26 @@ describe("CompanyProfilePage component", () => {
 
     // Test employers show up
     await waitFor(() => {
-      expect(screen.getByText(/Employers/i)).toBeInTheDocument(); 
+      expect(screen.getByText(/Employers/i)).toBeInTheDocument();
       mockEmployersResponse.data.forEach((employer) => {
-        expect(screen.getByText((content, element) => {
-          return element.tagName.toLowerCase() === 'label' && 
-                 element.textContent.includes(employer.first_name);
-        })).toBeInTheDocument(); 
-        expect(screen.getByText((content, element) => {
-          return element.tagName.toLowerCase() === 'label' && 
-                 element.textContent.includes(`Email: ${employer.email}`);
-        })).toBeInTheDocument();
+        expect(
+          screen.getByText((content, element) => {
+            return (
+              element.tagName.toLowerCase() === "label" &&
+              element.textContent.includes(employer.first_name)
+            );
+          }),
+        ).toBeInTheDocument();
+        expect(
+          screen.getByText((content, element) => {
+            return (
+              element.tagName.toLowerCase() === "label" &&
+              element.textContent.includes(`Email: ${employer.email}`)
+            );
+          }),
+        ).toBeInTheDocument();
       });
-   });
+    });
   });
 
   test("Edit button shows as admin", async () => {
@@ -194,7 +194,7 @@ describe("CompanyProfilePage component", () => {
           <AuthContext.Provider value={mockAdminUser}>
             <CompanyProfilePage />
           </AuthContext.Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
 
@@ -209,7 +209,7 @@ describe("CompanyProfilePage component", () => {
         <AuthContext.Provider value={mockUser}>
           <CompanyProfilePage />
         </AuthContext.Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     await waitFor(() => {
@@ -224,7 +224,7 @@ describe("CompanyProfilePage component", () => {
           <AuthContext.Provider value={mockAdminUser}>
             <CompanyProfilePage />
           </AuthContext.Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
 
@@ -250,18 +250,26 @@ describe("CompanyProfilePage component", () => {
     });
     //TEST EMPLOYERS ARE STILL THERE
     await waitFor(() => {
-      expect(screen.getByText(/Employers/i)).toBeInTheDocument(); 
+      expect(screen.getByText(/Employers/i)).toBeInTheDocument();
       mockEmployersResponse.data.forEach((employer) => {
-        expect(screen.getByText((content, element) => {
-          return element.tagName.toLowerCase() === 'label' && 
-                 element.textContent.includes(employer.first_name);
-        })).toBeInTheDocument(); 
-        expect(screen.getByText((content, element) => {
-          return element.tagName.toLowerCase() === 'label' && 
-                 element.textContent.includes(`Email: ${employer.email}`);
-        })).toBeInTheDocument(); 
+        expect(
+          screen.getByText((content, element) => {
+            return (
+              element.tagName.toLowerCase() === "label" &&
+              element.textContent.includes(employer.first_name)
+            );
+          }),
+        ).toBeInTheDocument();
+        expect(
+          screen.getByText((content, element) => {
+            return (
+              element.tagName.toLowerCase() === "label" &&
+              element.textContent.includes(`Email: ${employer.email}`)
+            );
+          }),
+        ).toBeInTheDocument();
       });
-   });
+    });
   });
 
   test("Update and cancel buttons work", async () => {
@@ -271,7 +279,7 @@ describe("CompanyProfilePage component", () => {
           <AuthContext.Provider value={mockAdminUser}>
             <CompanyProfilePage />
           </AuthContext.Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
 

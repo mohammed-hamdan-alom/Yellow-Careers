@@ -13,9 +13,7 @@ function DisplaySoftSkills({ resumeId }) {
         return;
       }
       try {
-        const response = await AxiosInstance.get(
-          `api/resumes/${resumeId}/soft-skills/`
-        );
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/soft-skills/`);
         setSoftSkills(response.data);
       } catch (error) {
         console.error("Error:", error);

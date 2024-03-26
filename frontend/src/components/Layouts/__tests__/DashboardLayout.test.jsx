@@ -30,7 +30,7 @@ describe("DashboardLayout component", () => {
           userNavigation={userNavigation}
           baseUrl="/dashboard"
         />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
   });
@@ -43,7 +43,7 @@ describe("DashboardLayout component", () => {
           userNavigation={userNavigation}
           baseUrl="/dashboard"
         />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     navigation.forEach((item) => {
       expect(screen.getByText(item.name)).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe("DashboardLayout component", () => {
           userNavigation={userNavigation}
           baseUrl="/dashboard"
         />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(screen.getByText(user.name)).toBeInTheDocument();
     expect(screen.getByText(user.email)).toBeInTheDocument();
@@ -80,7 +80,7 @@ describe("DashboardLayout component", () => {
           baseUrl="/dashboard"
           logoutUser={logoutUser}
         />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     fireEvent.click(screen.getByText("Sign out"));
     expect(logoutUser).toHaveBeenCalled();
@@ -95,7 +95,7 @@ describe("DashboardLayout component", () => {
           userNavigation={userNavigation}
           baseUrl="/dashboard"
         />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const menuToggle = screen.getByRole("button", { name: "Open main menu" });
     fireEvent.click(menuToggle);

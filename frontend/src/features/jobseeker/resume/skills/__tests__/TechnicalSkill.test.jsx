@@ -26,22 +26,22 @@ describe("TechnicalSkill Component", () => {
   it("fetches technical skills on mount", async () => {
     render(<TechnicalSkill resumeId={resumeId} />);
     await waitFor(() =>
-      expect(AxiosInstance.get).toHaveBeenCalledWith(`api/resumes/${resumeId}/technical-skills/`)
+      expect(AxiosInstance.get).toHaveBeenCalledWith(`api/resumes/${resumeId}/technical-skills/`),
     );
   });
 
   it("adds a technical skill", async () => {
     render(<TechnicalSkill resumeId={resumeId} />);
     const inputField = screen.findByRole("textbox", { name: /Add technical skill:/ });
-    fireEvent.change(inputField, { target: { value: "React" }});
+    fireEvent.change(inputField, { target: { value: "React" } });
 
     const addButton = screen.getByRole("button", { name: /Add/ });
     fireEvent.click(addButton);
     await waitFor(() =>
       expect(AxiosInstance.post).toHaveBeenCalledWith(
         `api/resumes/${resumeId}/technical-skills/create/`,
-        { skill: "React" }
-      )
+        { skill: "React" },
+      ),
     );
   });
 });

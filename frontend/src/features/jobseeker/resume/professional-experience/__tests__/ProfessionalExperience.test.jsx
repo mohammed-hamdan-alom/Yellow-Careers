@@ -1,10 +1,10 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { vi, describe, test, expect } from 'vitest';
-import AxiosInstance from '@/utils/AxiosInstance';
-import ProfessionalExperience from '../ProfessionalExperience';
+import React from "react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { vi, describe, test, expect } from "vitest";
+import AxiosInstance from "@/utils/AxiosInstance";
+import ProfessionalExperience from "../ProfessionalExperience";
 
-vi.mock('@/utils/AxiosInstance', () => ({
+vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
   default: {
     get: vi.fn(),
@@ -12,7 +12,7 @@ vi.mock('@/utils/AxiosInstance', () => ({
   },
 }));
 
-describe('ProfessionalExperience Component', () => {
+describe("ProfessionalExperience Component", () => {
   beforeEach(() => {
     AxiosInstance.get.mockResolvedValue({ data: [] });
   });
@@ -21,23 +21,34 @@ describe('ProfessionalExperience Component', () => {
     vi.clearAllMocks();
   });
 
-  test('fetches professional experiences on mount', async () => {
-    const resumeId = 'sampleResumeId';
+  test("fetches professional experiences on mount", async () => {
+    const resumeId = "sampleResumeId";
     render(<ProfessionalExperience resumeId={resumeId} />);
-    await waitFor(() => expect(AxiosInstance.get).toHaveBeenCalledWith(`api/resumes/${resumeId}/professional-experiences/`));
+    await waitFor(() =>
+      expect(AxiosInstance.get).toHaveBeenCalledWith(
+        `api/resumes/${resumeId}/professional-experiences/`,
+      ),
+    );
   });
 
-  test('deletes professional experience when delete button is clicked', async () => {
-    const resumeId = 'sampleResumeId';
-    const professionalExperience = { id: 'sampleExperienceId', position: 'Software Engineer', company: 'XYZ Corp' };
+  test("deletes professional experience when delete button is clicked", async () => {
+    const resumeId = "sampleResumeId";
+    const professionalExperience = {
+      id: "sampleExperienceId",
+      position: "Software Engineer",
+      company: "XYZ Corp",
+    };
     AxiosInstance.get.mockResolvedValue({ data: [professionalExperience] });
 
     render(<ProfessionalExperience resumeId={resumeId} />);
-    const deleteButton = await screen.findByRole('button', { name: /Delete/ });
+    const deleteButton = await screen.findByRole("button", { name: /Delete/ });
 
     fireEvent.click(deleteButton);
 
-    await waitFor(() => expect(AxiosInstance.delete).toHaveBeenCalledWith(`api/resumes/${resumeId}/professional-experiences/update/sampleExperienceId`));
+    await waitFor(() =>
+      expect(AxiosInstance.delete).toHaveBeenCalledWith(
+        `api/resumes/${resumeId}/professional-experiences/update/sampleExperienceId`,
+      ),
+    );
   });
-
 });

@@ -13,7 +13,7 @@ const JobList = ({ data }) => {
     const query = e.target.value;
     setQuery(query);
     const filteredResults = data.filter((item) =>
-      item.title.toLowerCase().includes(query.toLowerCase())
+      item.title.toLowerCase().includes(query.toLowerCase()),
     );
     setResults(filteredResults);
     setCurrentPage(1); // Reset to the first page when performing a new search

@@ -1,10 +1,10 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { vi, describe, test, expect } from 'vitest';
-import AxiosInstance from '@/utils/AxiosInstance';
-import EditEducationPage from '../EditEducationPage';
+import React from "react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { vi, describe, test, expect } from "vitest";
+import AxiosInstance from "@/utils/AxiosInstance";
+import EditEducationPage from "../EditEducationPage";
 
-vi.mock('@/utils/AxiosInstance', () => ({
+vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
   default: {
     get: vi.fn(),
@@ -13,7 +13,7 @@ vi.mock('@/utils/AxiosInstance', () => ({
   },
 }));
 
-describe('EditEducationPage Component', () => {
+describe("EditEducationPage Component", () => {
   beforeEach(() => {
     AxiosInstance.get.mockResolvedValue({ data: {} });
   });
@@ -22,29 +22,42 @@ describe('EditEducationPage Component', () => {
     vi.clearAllMocks();
   });
 
-  test('fetches education details on mount', async () => {
-    const educationId = 'sampleEducationId';
+  test("fetches education details on mount", async () => {
+    const educationId = "sampleEducationId";
     render(<EditEducationPage put resumeId="sampleResumeId" educationId={educationId} />);
-    await waitFor(() => expect(AxiosInstance.get).toHaveBeenCalledWith(`api/resumes/sampleResumeId/educations/update/sampleEducationId`));
+    await waitFor(() =>
+      expect(AxiosInstance.get).toHaveBeenCalledWith(
+        `api/resumes/sampleResumeId/educations/update/sampleEducationId`,
+      ),
+    );
   });
 
-  test('updates education on submit', async () => {
-    const educationId = 'sampleEducationId';
+  test("updates education on submit", async () => {
+    const educationId = "sampleEducationId";
     render(<EditEducationPage put resumeId="sampleResumeId" educationId={educationId} />);
-    const submitButton = screen.getByText('Submit');
+    const submitButton = screen.getByText("Submit");
 
     fireEvent.click(submitButton);
 
-    await waitFor(() => expect(AxiosInstance.put).toHaveBeenCalledWith(`api/resumes/sampleResumeId/educations/update/sampleEducationId`, expect.any(Object)));
+    await waitFor(() =>
+      expect(AxiosInstance.put).toHaveBeenCalledWith(
+        `api/resumes/sampleResumeId/educations/update/sampleEducationId`,
+        expect.any(Object),
+      ),
+    );
   });
 
-  test('creates education on submit', async () => {
+  test("creates education on submit", async () => {
     render(<EditEducationPage post resumeId="sampleResumeId" />);
-    const submitButton = screen.getByText('Submit');
+    const submitButton = screen.getByText("Submit");
 
     fireEvent.click(submitButton);
 
-    await waitFor(() => expect(AxiosInstance.post).toHaveBeenCalledWith(`api/resumes/sampleResumeId/educations/create/`, expect.any(Object)));
+    await waitFor(() =>
+      expect(AxiosInstance.post).toHaveBeenCalledWith(
+        `api/resumes/sampleResumeId/educations/create/`,
+        expect.any(Object),
+      ),
+    );
   });
-
 });

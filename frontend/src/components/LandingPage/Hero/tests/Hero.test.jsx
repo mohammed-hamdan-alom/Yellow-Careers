@@ -18,7 +18,7 @@ describe("Hero component", () => {
     render(
       <Router>
         <Hero />
-      </Router>
+      </Router>,
     );
   });
 

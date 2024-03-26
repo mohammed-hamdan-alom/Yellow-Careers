@@ -16,14 +16,10 @@ const JobListPage = () => {
   useEffect(() => {
     const fetchResumeAndJobs = async () => {
       try {
-        const response = await AxiosInstance.get(
-          `api/job-seeker/${userId}/resume/`
-        );
+        const response = await AxiosInstance.get(`api/job-seeker/${userId}/resume/`);
         setResume(response.data);
         if (response.data.id !== undefined) {
-          const res = await AxiosInstance.get(
-            `api/job-seeker/${userId}/matched-jobs/`
-          );
+          const res = await AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`);
           setJobs(res.data);
           setIsJobRetrieved(true);
         }
@@ -38,11 +34,7 @@ const JobListPage = () => {
   return (
     <div className="flex flex-col justify-center">
       <Label className="text-3xl">Job List</Label>
-      {resume.id && jobs ? (
-        <JobFilter data={jobs} />
-      ) : (
-        <h1>Loading... Please create a resume</h1>
-      )}
+      {resume.id && jobs ? <JobFilter data={jobs} /> : <h1>Loading... Please create a resume</h1>}
     </div>
   );
 };

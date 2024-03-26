@@ -1,12 +1,6 @@
 import React from "react";
 import { vi } from "vitest";
-import {
-  render,
-  screen,
-  fireEvent,
-  act,
-  cleanup,
-} from "@testing-library/react";
+import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import JobSummary from "@/components/JobSummary/JobSummary";
 import AuthContext from "@/context/AuthContext";
@@ -38,9 +32,7 @@ vi.mock("@/components/job-card/JobCard", async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,
-    JobCard: vi.fn(({ children }) => (
-      <div data-testid="mock-jobcard">{children}</div>
-    )),
+    JobCard: vi.fn(({ children }) => <div data-testid="mock-jobcard">{children}</div>),
   };
 });
 
@@ -78,7 +70,7 @@ describe("JobSummary component", () => {
           <AuthContext.Provider value={employer}>
             <JobSummary job={data} />
           </AuthContext.Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
     const jobCard = await screen.findByText(data.title);
@@ -92,7 +84,7 @@ describe("JobSummary component", () => {
           <AuthContext.Provider value={employer}>
             <JobSummary job={data} />
           </AuthContext.Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
     await act(async () => {
@@ -108,7 +100,7 @@ describe("JobSummary component", () => {
           <AuthContext.Provider value={jobseeker}>
             <JobSummary job={data} />
           </AuthContext.Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
     await act(async () => {

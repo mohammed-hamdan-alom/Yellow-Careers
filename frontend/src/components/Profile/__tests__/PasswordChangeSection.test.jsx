@@ -18,14 +18,12 @@ describe("PasswordChangeSection component", () => {
         confirmNewPassword=""
         setConfirmNewPassword={mockSetConfirmNewPassword}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     expect(screen.getByPlaceholderText("Old Password")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("New Password")).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText("Confirm New Password")
-    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Confirm New Password")).toBeInTheDocument();
     expect(screen.getByText("Change Password")).toBeInTheDocument();
   });
 
@@ -39,7 +37,7 @@ describe("PasswordChangeSection component", () => {
         confirmNewPassword=""
         setConfirmNewPassword={mockSetConfirmNewPassword}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     fireEvent.change(screen.getByPlaceholderText("Old Password"), {
@@ -67,7 +65,7 @@ describe("PasswordChangeSection component", () => {
         confirmNewPassword=""
         setConfirmNewPassword={mockSetConfirmNewPassword}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText("Change Password"));

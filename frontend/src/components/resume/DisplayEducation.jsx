@@ -15,9 +15,7 @@ function DisplayEducation({ resumeId }) {
         return;
       }
       try {
-        const response = await AxiosInstance.get(
-          `api/resumes/${resumeId}/educations/`
-        );
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
         setEducations(response.data);
       } catch (error) {
         console.error("Error:", error);
@@ -37,24 +35,19 @@ function DisplayEducation({ resumeId }) {
         <div key={index} className="mb-6">
           <div className="flex items-center mb-2">
             <GraduationCap className="mr-2 text-gray-700" size={20} />
-            <Label className="text-xl font-semibold">
-              {education.course_name}
-            </Label>
+            <Label className="text-xl font-semibold">{education.course_name}</Label>
           </div>
           <p className="mb-2">
-            <span className="font-semibold">Start Date:</span>{" "}
-            {education.start_date}
+            <span className="font-semibold">Start Date:</span> {education.start_date}
           </p>
           <p className="mb-2">
-            <span className="font-semibold">End Date:</span>{" "}
-            {education.end_date}
+            <span className="font-semibold">End Date:</span> {education.end_date}
           </p>
           <p className="mb-2">
             <span className="font-semibold">Level:</span> {education.level}
           </p>
           <p className="mb-2">
-            <span className="font-semibold">Institution:</span>{" "}
-            {education.institution}
+            <span className="font-semibold">Institution:</span> {education.institution}
           </p>
           <p className="mb-2">
             <span className="font-semibold">Grade:</span> {education.grade}
@@ -63,15 +56,13 @@ function DisplayEducation({ resumeId }) {
             <div className="flex items-center">
               <MapPin className="mr-2 text-gray-700" size={20} />
               <Label>
-                <strong>Location:</strong> {education.address.post_code},{" "}
-                {education.address.city}, {education.address.country}
+                <strong>Location:</strong> {education.address.post_code}, {education.address.city},{" "}
+                {education.address.country}
               </Label>
             </div>
           )}
           {/* Add divider if it's not the last education item */}
-          {index < educations.length - 1 && (
-            <hr className="my-4 border-gray-300" />
-          )}
+          {index < educations.length - 1 && <hr className="my-4 border-gray-300" />}
         </div>
       ))}
     </div>

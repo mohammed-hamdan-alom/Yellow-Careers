@@ -41,9 +41,7 @@ export const AuthProvider = ({ children }) => {
         setUser(userObj);
         localStorage.setItem("authTokens", JSON.stringify(data));
         navigate(
-          userObj.userType === "job_seeker"
-            ? "/job-seeker/dashboard"
-            : "/employer/dashboard"
+          userObj.userType === "job_seeker" ? "/job-seeker/dashboard" : "/employer/dashboard",
         );
       }
     } catch (error) {
@@ -84,7 +82,7 @@ export const AuthProvider = ({ children }) => {
     otherNames,
     phoneNumber,
     company,
-    isAdmin
+    isAdmin,
   ) => {
     try {
       const response = await AxiosInstance.post("/api/employer-register/", {
@@ -170,9 +168,12 @@ export const AuthProvider = ({ children }) => {
       updateToken();
     }
     if (tokens) {
-      const intervalId = setInterval(() => {
-        updateToken();
-      }, 59 * 60 * 1000);
+      const intervalId = setInterval(
+        () => {
+          updateToken();
+        },
+        59 * 60 * 1000,
+      );
       return () => clearInterval(intervalId);
     } else {
       logoutUser();
@@ -181,8 +182,6 @@ export const AuthProvider = ({ children }) => {
   }, [authTokens]);
 
   return (
-    <AuthContext.Provider value={contextData}>
-      {loading ? null : children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextData}>{loading ? null : children}</AuthContext.Provider>
   );
 };

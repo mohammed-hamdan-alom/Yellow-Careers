@@ -13,9 +13,7 @@ function DisplayLanguages({ resumeId }) {
         return;
       }
       try {
-        const response = await AxiosInstance.get(
-          `api/resumes/${resumeId}/languages/`
-        );
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
         setLanguages(response.data);
       } catch (error) {
         console.error("Error:", error);
@@ -41,13 +39,10 @@ function DisplayLanguages({ resumeId }) {
               <strong>Spoken proficiency:</strong> {language.spoken_proficiency}
             </p>
             <p>
-              <strong>Written proficiency:</strong>{" "}
-              {language.written_proficiency}
+              <strong>Written proficiency:</strong> {language.written_proficiency}
             </p>
             {/* Add divider if it's not the last language item */}
-            {index < languages.length - 1 && (
-              <hr className="my-4 border-gray-300" />
-            )}
+            {index < languages.length - 1 && <hr className="my-4 border-gray-300" />}
           </li>
         ))}
       </ul>

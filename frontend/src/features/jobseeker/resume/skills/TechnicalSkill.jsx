@@ -25,7 +25,7 @@ function TechnicalSkill({ resumeId }) {
         console.error("Error:", error);
       }
     };
-  
+
     fetchTechnicalSkills();
   }, [resumeId]);
 
@@ -37,16 +37,16 @@ function TechnicalSkill({ resumeId }) {
   const handleSubmitTechnicalSkills = async (event) => {
     event.preventDefault();
     try {
-      const response = await AxiosInstance.post(`http://localhost:8000/api/resumes/${resumeId}/technical-skills/create/`, {
-        skill: technicalSkill,
-      });
+      const response = await AxiosInstance.post(
+        `http://localhost:8000/api/resumes/${resumeId}/technical-skills/create/`,
+        {
+          skill: technicalSkill,
+        },
+      );
       showSuccess("Technical Skill Added");
       setTechnicalSkill("");
       setErrors({ technicalSkill: "" });
-      setTechnicalSkills((prevTechnicalSkills) => [
-        ...prevTechnicalSkills,
-        response.data,
-      ]);
+      setTechnicalSkills((prevTechnicalSkills) => [...prevTechnicalSkills, response.data]);
     } catch (error) {
       console.error("Error:", error);
       let errorMessages = "";
@@ -57,15 +57,13 @@ function TechnicalSkill({ resumeId }) {
       showError("Creating Technical Skill Failed");
     }
   };
-  
+
   //Delete technical skill
   const handleDeleteTechnicalSkill = async (skillObj) => {
     try {
       await AxiosInstance.delete(`api/resumes/${resumeId}/technical-skills/update/${skillObj.id}`);
       showSuccess("Technical Skill Deleted");
-      setTechnicalSkills((prevSoftSkills) =>
-        prevSoftSkills.filter((item) => item !== skillObj)
-      );
+      setTechnicalSkills((prevSoftSkills) => prevSoftSkills.filter((item) => item !== skillObj));
     } catch (error) {
       console.error("Error:", error);
       showError("Deleting Technical Skill Failed");
@@ -77,10 +75,7 @@ function TechnicalSkill({ resumeId }) {
       <Label className="text-3xl mb-4">Technical Skills</Label>
       <div>
         {technicalSkills.map((skill) => (
-          <div
-            key={skill.id}
-            className="flex flex-row items-center justify-between mb-4"
-          >
+          <div key={skill.id} className="flex flex-row items-center justify-between mb-4">
             <div>
               <Label className="text-1xl">{skill.skill}</Label>
             </div>

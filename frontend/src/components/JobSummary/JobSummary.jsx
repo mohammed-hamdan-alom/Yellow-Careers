@@ -11,9 +11,7 @@ const JobSummary = ({ job }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const companyResponse = await AxiosInstance.get(
-        `api/jobs/${job.id}/company/`
-      );
+      const companyResponse = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
       setCompany(companyResponse.data);
     };
 
@@ -29,9 +27,7 @@ const JobSummary = ({ job }) => {
   };
 
   const formattedDescription = (
-    job.description.length > 200
-      ? job.description.substring(0, 200) + "..."
-      : job.description
+    job.description.length > 200 ? job.description.substring(0, 200) + "..." : job.description
   )
     .split("\n")
     .map((paragraph, index) => (

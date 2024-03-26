@@ -36,7 +36,7 @@ function ProfessionalExperience({ resumeId }) {
       }
       try {
         const response = await AxiosInstance.get(
-          `api/resumes/${resumeId}/professional-experiences/`
+          `api/resumes/${resumeId}/professional-experiences/`,
         );
         setProfessionalExperiences(response.data);
       } catch (error) {
@@ -47,18 +47,14 @@ function ProfessionalExperience({ resumeId }) {
     fetchProfessionalExperiences();
   }, [resumeId]);
 
-  const handleDeleteProfessionalExperience = async (
-    professionalExperienceObj
-  ) => {
+  const handleDeleteProfessionalExperience = async (professionalExperienceObj) => {
     try {
       await AxiosInstance.delete(
-        `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`
+        `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`,
       );
       showSuccess("Professional Experience Deleted");
       setProfessionalExperiences((prevprofessionalExperiences) =>
-        prevprofessionalExperiences.filter(
-          (item) => item !== professionalExperienceObj
-        )
+        prevprofessionalExperiences.filter((item) => item !== professionalExperienceObj),
       );
     } catch (error) {
       console.error("Error:", error);
@@ -76,20 +72,12 @@ function ProfessionalExperience({ resumeId }) {
             className="flex flex-row items-center justify-between mb-4"
           >
             <div className="flex flex-col w-full outline rounded m-3 p-2">
-              <Label className="text-1xl">
-                Job Title: {professionalExperience.position}
-              </Label>
-              <Label className="text-1xl">
-                Company: {professionalExperience.company}
-              </Label>
+              <Label className="text-1xl">Job Title: {professionalExperience.position}</Label>
+              <Label className="text-1xl">Company: {professionalExperience.company}</Label>
             </div>
             <div className="flex flex-row items-center">
-              <Button
-                className="mr-4"
-                variant="secondary"
-                onClick={showEditModal}
-              >
-                <SquarePen size={20} className="mr-2"/>
+              <Button className="mr-4" variant="secondary" onClick={showEditModal}>
+                <SquarePen size={20} className="mr-2" />
                 Edit
               </Button>
 

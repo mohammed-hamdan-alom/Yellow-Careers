@@ -43,7 +43,7 @@ describe("EmployerProfile component", () => {
     render(
       <AuthContext.Provider value={{ user: mockUser }}>
         <EmployerProfile />
-      </AuthContext.Provider>
+      </AuthContext.Provider>,
     );
   });
 

@@ -30,28 +30,18 @@ function AppliedJobDetails() {
 
         setApplication(applicationResponse.data);
 
-        const [resumeResponse, questionsResponse, answersResponse] =
-          await Promise.all([
-            AxiosInstance.get(
-              `/api/applications/${applicationResponse.data.id}/resume`
-            ),
-            AxiosInstance.get(
-              `/api/jobs/${applicationResponse.data.job}/questions`
-            ),
-            AxiosInstance.get(
-              `/api/applications/${applicationResponse.data.id}/answers`
-            ),
-          ]);
+        const [resumeResponse, questionsResponse, answersResponse] = await Promise.all([
+          AxiosInstance.get(`/api/applications/${applicationResponse.data.id}/resume`),
+          AxiosInstance.get(`/api/jobs/${applicationResponse.data.job}/questions`),
+          AxiosInstance.get(`/api/applications/${applicationResponse.data.id}/answers`),
+        ]);
 
         setResume(resumeResponse.data);
         setQuestions(questionsResponse.data);
         setAnswers(answersResponse.data);
       } catch (error) {
         handleErrorAndShowMessage("Error retrieving data:", error);
-        if (
-          error.response &&
-          (error.response.status === 403 || error.response.status === 404)
-        ) {
+        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
           window.location.href = "/job-seeker/dashboard";
         }
       }
@@ -64,15 +54,15 @@ function AppliedJobDetails() {
     application.decision === "A"
       ? "Accepted"
       : application.decision === "R"
-      ? "Rejected"
-      : "Undecided";
+        ? "Rejected"
+        : "Undecided";
 
   const decisionColor =
     application.decision === "A"
       ? "success"
       : application.decision === "R"
-      ? "error"
-      : "processing";
+        ? "error"
+        : "processing";
 
   const decisionIcon =
     application.decision === "A" ? (
@@ -87,11 +77,7 @@ function AppliedJobDetails() {
     <div>
       <Label className="text-xl font-semibold">
         Date Applied: {application.date_applied} | Status:{" "}
-        <Tag
-          className="pulsate tag-medium"
-          icon={decisionIcon}
-          color={decisionColor}
-        >
+        <Tag className="pulsate tag-medium" icon={decisionIcon} color={decisionColor}>
           {decisionText}
         </Tag>
       </Label>
@@ -101,9 +87,7 @@ function AppliedJobDetails() {
       <div className="mb-4"></div>
       {questions.length > 0 ? (
         <div>
-          <Label className="text-xl font-semibold mb-4">
-            Questions and Answers:
-          </Label>
+          <Label className="text-xl font-semibold mb-4">Questions and Answers:</Label>
           <QuestionsAndAnswers questions={questions} answers={answers} />
         </div>
       ) : (

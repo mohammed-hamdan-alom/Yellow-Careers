@@ -35,9 +35,7 @@ const JobSeekerProfile = () => {
     const fetchJobSeekerData = async () => {
       if (user?.user_id) {
         try {
-          const response = await AxiosInstance.get(
-            `/api/job-seekers/${user?.user_id}/`
-          );
+          const response = await AxiosInstance.get(`/api/job-seekers/${user?.user_id}/`);
           if (response.status === 200) {
             const {
               email,
@@ -66,11 +64,7 @@ const JobSeekerProfile = () => {
               },
             });
           } else {
-            swal.fire(
-              "Failed to fetch",
-              "Could not fetch job seeker profile.",
-              "error"
-            );
+            swal.fire("Failed to fetch", "Could not fetch job seeker profile.", "error");
           }
         } catch (error) {
           handleErrorAndShowMessage("Error retrieving data:", error);
@@ -105,15 +99,11 @@ const JobSeekerProfile = () => {
       try {
         const response = await AxiosInstance.put(
           `/api/job-seekers/${user?.user_id}/update/`,
-          formData
+          formData,
         );
 
         if (response.status === 200) {
-          swal.fire(
-            "Profile Updated",
-            "Your profile has been updated successfully.",
-            "success"
-          );
+          swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
         }
       } catch (error) {
         handleErrorAndShowMessage("Error updating profile:", error);
@@ -124,14 +114,11 @@ const JobSeekerProfile = () => {
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AxiosInstance.put(
-        "/api/job-seeker/change-password/",
-        {
-          old_password: oldPassword,
-          new_password: newPassword,
-          confirm_password: confirmNewPassword,
-        }
-      );
+      const response = await AxiosInstance.put("/api/job-seeker/change-password/", {
+        old_password: oldPassword,
+        new_password: newPassword,
+        confirm_password: confirmNewPassword,
+      });
 
       if (response.status === 200) {
         swal.fire({

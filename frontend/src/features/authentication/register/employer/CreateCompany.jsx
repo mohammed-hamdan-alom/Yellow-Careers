@@ -21,15 +21,16 @@ const CreateCompany = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AxiosInstance.post(
-        "api/companies/create/",
-        company
-      );
+      const response = await AxiosInstance.post("api/companies/create/", company);
       if (response.status === 201) {
         console.log(response);
         showSuccess("Company Created");
         navigate(`/auth/register-employer`, {
-          state: { companyId: response.data.id, registerEmail: adminEmail, isAdmin: true },
+          state: {
+            companyId: response.data.id,
+            registerEmail: adminEmail,
+            isAdmin: true,
+          },
         });
       }
     } catch (error) {
@@ -55,9 +56,7 @@ const CreateCompany = () => {
                   id="company_name"
                   name="company_name"
                   value={company.company_name}
-                  onChange={(e) =>
-                    setCompany({ ...company, company_name: e.target.value })
-                  }
+                  onChange={(e) => setCompany({ ...company, company_name: e.target.value })}
                 />
               </div>
               <div>
@@ -67,9 +66,7 @@ const CreateCompany = () => {
                   id="website"
                   name="website"
                   value={company.website}
-                  onChange={(e) =>
-                    setCompany({ ...company, website: e.target.value })
-                  }
+                  onChange={(e) => setCompany({ ...company, website: e.target.value })}
                 />
               </div>
               <div>
@@ -79,9 +76,7 @@ const CreateCompany = () => {
                   id="about"
                   name="about"
                   value={company.about}
-                  onChange={(e) =>
-                    setCompany({ ...company, about: e.target.value })
-                  }
+                  onChange={(e) => setCompany({ ...company, about: e.target.value })}
                 />
                 <div className="mt-4">
                   <Label htmlFor="admin_email">Admin Email</Label>

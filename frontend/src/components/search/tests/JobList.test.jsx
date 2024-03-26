@@ -1,12 +1,6 @@
 import React from "react";
 import { vi } from "vitest";
-import {
-  render,
-  screen,
-  fireEvent,
-  act,
-  cleanup,
-} from "@testing-library/react";
+import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import JobList from "../JobList";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
@@ -24,8 +18,7 @@ const data = [
   {
     id: 2,
     title: "Contracting civil engineer",
-    description:
-      "Fugiat adipisci tempore. Consectetur veniam quaerat deleniti assumenda sapiente.",
+    description: "Fugiat adipisci tempore. Consectetur veniam quaerat deleniti assumenda sapiente.",
     address: 502,
     job_type: "IN",
     salary: 74726,
@@ -74,7 +67,7 @@ describe("JobList component", () => {
           <AuthProvider>
             <JobList data={data} />
           </AuthProvider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
   });
@@ -105,8 +98,6 @@ describe("JobList component", () => {
     });
     const jobs = await screen.findAllByRole("list");
     expect(jobs).toHaveLength(2);
-    expect(
-      screen.getByText("Administrator, local government")
-    ).toBeInTheDocument();
+    expect(screen.getByText("Administrator, local government")).toBeInTheDocument();
   });
 });

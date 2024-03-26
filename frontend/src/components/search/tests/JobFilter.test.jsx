@@ -1,12 +1,6 @@
 import React from "react";
 import { vi } from "vitest";
-import {
-  fireEvent,
-  render,
-  screen,
-  cleanup,
-  act,
-} from "@testing-library/react";
+import { fireEvent, render, screen, cleanup, act } from "@testing-library/react";
 import JobFilter from "../JobFilter";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
@@ -57,8 +51,7 @@ const data = [
   {
     id: 2,
     title: "Contracting civil engineer",
-    description:
-      "Fugiat adipisci tempore. Consectetur veniam quaerat deleniti assumenda sapiente.",
+    description: "Fugiat adipisci tempore. Consectetur veniam quaerat deleniti assumenda sapiente.",
     address: { country: "France" },
     job_type: "IN",
     salary: 74726,
@@ -117,7 +110,7 @@ describe("JobFilter component", () => {
           <AuthProvider>
             <JobFilter data={data} />
           </AuthProvider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
   });
@@ -144,9 +137,7 @@ describe("JobFilter component", () => {
   });
 
   test("Pay filters correctly", async () => {
-    const payFilter = await (
-      await screen.findByTestId("pay")
-    ).querySelector("input");
+    const payFilter = await (await screen.findByTestId("pay")).querySelector("input");
     act(() => {
       fireEvent.change(payFilter, { target: { value: "45000" } });
       const fortyfivethousand = screen.getByText("£45,000+");
@@ -159,9 +150,7 @@ describe("JobFilter component", () => {
   });
 
   test("JobType filters correctly", async () => {
-    const jobTypeFilter = await (
-      await screen.findByTestId("jobType")
-    ).querySelector("input");
+    const jobTypeFilter = await (await screen.findByTestId("jobType")).querySelector("input");
     act(() => {
       fireEvent.change(jobTypeFilter, { target: { value: "TM" } });
       const temporary = screen.getByText("Temporary");
@@ -174,9 +163,7 @@ describe("JobFilter component", () => {
   });
 
   test("Location filters correctly", async () => {
-    const locationFilter = await (
-      await screen.findByTestId("location")
-    ).querySelector("input");
+    const locationFilter = await (await screen.findByTestId("location")).querySelector("input");
     act(() => {
       fireEvent.change(locationFilter, { target: { value: "France" } });
       fireEvent.keyDown(locationFilter, { key: "Enter", keyCode: 13 });
@@ -184,8 +171,6 @@ describe("JobFilter component", () => {
     const jobs = await screen.findAllByRole("list");
     expect(jobs).toHaveLength(3);
     expect(screen.getByText("Contracting civil engineer")).toBeInTheDocument();
-    expect(
-      screen.getByText("Administrator, local government")
-    ).toBeInTheDocument();
+    expect(screen.getByText("Administrator, local government")).toBeInTheDocument();
   });
 });

@@ -19,26 +19,16 @@ const ApplicationDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const applicationResponse = await AxiosInstance.get(
-          `/api/applications/${applicationId}`
-        );
+        const applicationResponse = await AxiosInstance.get(`/api/applications/${applicationId}`);
         setApplication(applicationResponse.data);
 
-        const [
-          jobSeekerResponse,
-          questionsResponse,
-          resumeResponse,
-          answersResponse,
-        ] = await Promise.all([
-          AxiosInstance.get(
-            `/api/job-seekers/${applicationResponse.data.job_seeker}`
-          ),
-          AxiosInstance.get(
-            `/api/jobs/${applicationResponse.data.job}/questions`
-          ),
-          AxiosInstance.get(`/api/applications/${applicationId}/resume`),
-          AxiosInstance.get(`/api/applications/${applicationId}/answers`),
-        ]);
+        const [jobSeekerResponse, questionsResponse, resumeResponse, answersResponse] =
+          await Promise.all([
+            AxiosInstance.get(`/api/job-seekers/${applicationResponse.data.job_seeker}`),
+            AxiosInstance.get(`/api/jobs/${applicationResponse.data.job}/questions`),
+            AxiosInstance.get(`/api/applications/${applicationId}/resume`),
+            AxiosInstance.get(`/api/applications/${applicationId}/answers`),
+          ]);
 
         setJobSeeker(jobSeekerResponse.data);
         setQuestions(questionsResponse.data);
@@ -46,10 +36,7 @@ const ApplicationDetails = () => {
         setAnswers(answersResponse.data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
-        if (
-          error.response &&
-          (error.response.status === 403 || error.response.status === 404)
-        ) {
+        if (error.response && (error.response.status === 403 || error.response.status === 404)) {
           window.location.href = "/employer/dashboard";
         }
       }
@@ -82,8 +69,7 @@ const ApplicationDetails = () => {
     } else if (value === "R") {
       confirmationText = "Are you sure you want to reject this application?";
     } else {
-      confirmationText =
-        "Are you sure you want to set this application to undecided?";
+      confirmationText = "Are you sure you want to set this application to undecided?";
     }
 
     const confirmed = await Swal.fire({
@@ -124,9 +110,7 @@ const ApplicationDetails = () => {
       >
         <Label className="text-3xl font-bold">Application Details</Label>
         <Button className="blueButton" onClick={markAsRead}>
-          {application.status === "R"
-            ? "Mark Application as Unread"
-            : "Mark Application as Read"}
+          {application.status === "R" ? "Mark Application as Unread" : "Mark Application as Read"}
         </Button>
       </div>
 
@@ -154,9 +138,7 @@ const ApplicationDetails = () => {
 
       {questions.length > 0 && (
         <div className="mb-3">
-          <Label className="text-xl font-semibold">
-            Questions and Answers:
-          </Label>
+          <Label className="text-xl font-semibold">Questions and Answers:</Label>
           <QuestionsAndAnswers questions={questions} answers={answers} />
         </div>
       )}

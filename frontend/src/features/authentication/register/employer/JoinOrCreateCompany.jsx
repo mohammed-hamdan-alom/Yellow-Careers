@@ -34,11 +34,7 @@ const JoinOrCreateCompany = () => {
         <CardContent>
           <RadioGroup className="w-full flex flex-col justify-center">
             <div className="flex flex-row items-center space-x-2">
-              <RadioGroupItem
-                value="join-company"
-                id="join-company"
-                onClick={handleOptionChange}
-              />
+              <RadioGroupItem value="join-company" id="join-company" onClick={handleOptionChange} />
               <Label htmlFor="join-company">Join a Company</Label>
             </div>
             <div className="flex flex-row items-center space-x-2">

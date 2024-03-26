@@ -34,15 +34,17 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
     }
 
     // Schedule a reload every 15 minutes, regardless of whether the page has been refreshed before
-    const timer = setInterval(() => {
-      window.location.reload();
-    }, 15 * 60 * 1000); // 15 minutes in milliseconds
+    const timer = setInterval(
+      () => {
+        window.location.reload();
+      },
+      15 * 60 * 1000,
+    ); // 15 minutes in milliseconds
 
     return () => clearInterval(timer);
   }, []);
 
-  const activeNavItem =
-    navigation.find((item) => location.pathname.includes(item.to)) || {};
+  const activeNavItem = navigation.find((item) => location.pathname.includes(item.to)) || {};
 
   return (
     <>
@@ -57,15 +59,8 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <NavLink
-                        to={`${baseUrl}/dashboard`}
-                        className="flex items-center"
-                      >
-                        <img
-                          className="h-8 w-8"
-                          src={logo}
-                          alt="Yellow Careers"
-                        />
+                      <NavLink to={`${baseUrl}/dashboard`} className="flex items-center">
+                        <img className="h-8 w-8" src={logo} alt="Yellow Careers" />
                       </NavLink>
                     </div>
                     <div className="hidden md:block">
@@ -90,11 +85,7 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                           <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-white text-sm ">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
-                              alt=""
-                            />
+                            <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
                           </Menu.Button>
                         </div>
                         <Transition
@@ -114,7 +105,7 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                                     href={item.href}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
+                                      "block px-4 py-2 text-sm text-gray-700",
                                     )}
                                     onClick={() => {
                                       if (item.name === "Sign out") {
@@ -138,15 +129,9 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                       <span className="absolute -inset-0.5" />
                       <span className="sr-only">Open main menu</span>
                       {open ? (
-                        <XMarkIcon
-                          className="block h-6 w-6"
-                          aria-hidden="true"
-                        />
+                        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                       ) : (
-                        <Bars3Icon
-                          className="block h-6 w-6"
-                          aria-hidden="true"
-                        />
+                        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                       )}
                     </Disclosure.Button>
                   </div>
@@ -168,11 +153,7 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                 <div className="border-t border-gray-700 pb-3 pt-4">
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
-                      <img
-                        className="h-10 w-10 rounded-full"
-                        src={user.imageUrl}
-                        alt=""
-                      />
+                      <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">

@@ -8,7 +8,7 @@ import { Mail, Phone } from "lucide-react";
 import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
 import "@/components/styling/button.css";
 import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
-import { handleErrorAndShowMessage } from '@/components/error_handler/error_display';
+import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 
 const EmployerProfile = () => {
@@ -31,19 +31,11 @@ const EmployerProfile = () => {
     const fetchEmployerData = async () => {
       if (user?.user_id) {
         try {
-          const response = await AxiosInstance.get(
-            `/api/employers/${user?.user_id}/`
-          );
+          const response = await AxiosInstance.get(`/api/employers/${user?.user_id}/`);
 
           if (response.status === 200) {
-            const {
-              email,
-              first_name,
-              last_name,
-              other_names,
-              phone_number,
-              company,
-            } = response.data;
+            const { email, first_name, last_name, other_names, phone_number, company } =
+              response.data;
             setFormData((prevFormData) => ({
               ...prevFormData,
               email,
@@ -54,15 +46,11 @@ const EmployerProfile = () => {
               company: company || null,
             }));
           } else {
-            swal.fire(
-              "Failed to fetch",
-              "Could not fetch employer profile.",
-              "error"
-            );
+            swal.fire("Failed to fetch", "Could not fetch employer profile.", "error");
           }
         } catch (error) {
           handleErrorAndShowMessage("Error fetching employer profile:", error);
-      }
+        }
       }
     };
 
@@ -83,16 +71,12 @@ const EmployerProfile = () => {
       try {
         const response = await AxiosInstance.put(
           `/api/employers/${user?.user_id}/update/`,
-          formData
+          formData,
         );
 
         if (response.status === 200) {
-          swal.fire(
-            "Profile Updated",
-            "Your profile has been updated successfully.",
-            "success"
-          );
-        } 
+          swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
+        }
       } catch (error) {
         handleErrorAndShowMessage("Error updating profile:", error);
       }
@@ -102,14 +86,11 @@ const EmployerProfile = () => {
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AxiosInstance.put(
-        "/api/employer/change-password/",
-        {
-          old_password: oldPassword,
-          new_password: newPassword,
-          confirm_password: confirmNewPassword,
-        }
-      );
+      const response = await AxiosInstance.put("/api/employer/change-password/", {
+        old_password: oldPassword,
+        new_password: newPassword,
+        confirm_password: confirmNewPassword,
+      });
 
       if (response.status === 200) {
         swal.fire({
@@ -128,7 +109,7 @@ const EmployerProfile = () => {
   };
 
   return (
-    <div>   
+    <div>
       <ProfileDetails
         formData={formData}
         handleChange={handleChange}

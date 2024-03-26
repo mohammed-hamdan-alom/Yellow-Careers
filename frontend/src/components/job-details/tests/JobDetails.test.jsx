@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  render,
-  screen,
-  act,
-  cleanup,
-} from "@testing-library/react";
+import { render, screen, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import JobDetailsDisplay from "@/components/job-details/JobDetails";
@@ -39,7 +34,7 @@ describe("JobDetails component", () => {
               address={data.address}
             />
           </AuthProvider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
     });
   });
@@ -78,7 +73,7 @@ describe("JobDetails component", () => {
         ", " +
         data.address.city +
         ", " +
-        data.address.country
+        data.address.country,
     );
     expect(address).toBeInTheDocument();
   });
