@@ -151,26 +151,40 @@ class JobViewTestCase(TestCase):
         response = self.client.get(reverse('get_job', args=[100]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_employee_list_jobs(self):
-        '''Test list of jobs of an employer.'''
-        response = self.client.get(reverse('view-employer-jobs', args=[self.employee.id]))
+    def test_employee_active_list_jobs(self):
+        '''Test list of active jobs of an employer.'''
+        response = self.client.get(reverse('view-employer-active-jobs', args=[self.employee.id]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        employer_jobs = [relation.job for relation in EmployerJobRelation.objects.filter(employer=self.employee)]
+        employer_jobs = [relation.job for relation in EmployerJobRelation.objects.filter(employer=self.employee) if not relation.job.isArchived]
         self.assertEqual(len(response.data), len(employer_jobs))
 
-    def test_invalid_employee_list_jobs(self):
+    def test_employee_archived_list_jobs(self):
+        '''Test list of archived jobs of an employer.'''
+        response = self.client.get(reverse('view-employer-archived-jobs', args=[self.employee.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        employer_jobs = [relation.job for relation in EmployerJobRelation.objects.filter(employer=self.employee) if relation.job.isArchived]
+        self.assertEqual(len(response.data), len(employer_jobs))
+
+    def test_invalid_employee_list_archived_jobs(self):
         '''Test list of jobs of an employer with invalid employer id.'''
-        response = self.client.get(reverse('view-employer-jobs', args=[100]))
+        response = self.client.get(reverse('view-employer-archived-jobs', args=[100]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_company_admin_list_jobs(self):
-        '''Test list of jobs of an admin.'''
-        response = self.client.get(reverse('view-admin-jobs', args=[self.company_admin.id]))
+        '''Test list of active jobs of an admin.'''
+        response = self.client.get(reverse('view-admin-active-jobs', args=[self.company_admin.id]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        employer_jobs = [relation.job for relation in EmployerJobRelation.objects.filter(employer__company=self.company_admin.company)]
+        employer_jobs = [relation.job for relation in EmployerJobRelation.objects.filter(employer__company=self.company_admin.company) if not relation.job.isArchived]
         self.assertEqual(len(response.data), len(employer_jobs))
 
-    def test_invalid_company_admin_list_jobs(self):
+    def test_company_admin_archived_list_jobs(self):
+        '''Test list of archived jobs of an admin.'''
+        response = self.client.get(reverse('view-employer-archived-jobs', args=[self.company_admin.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        employer_jobs = [relation.job for relation in EmployerJobRelation.objects.filter(employer__company=self.company_admin.company) if relation.job.isArchived]
+        self.assertEqual(len(response.data), len(employer_jobs))
+
+    def test_invalid_company_admin_list_archived_jobs(self):
         '''Test list of jobs of an admin with invalid admin id.'''
-        response = self.client.get(reverse('view-admin-jobs', args=[100]))
+        response = self.client.get(reverse('view-admin-archived-jobs', args=[100]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

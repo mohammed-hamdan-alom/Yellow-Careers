@@ -21,7 +21,7 @@ class JobSerializerTestCase(TestCase):
     
     def test_serializer_fields(self):
         serializer = JobSerializer()
-        expected_fields = {'id','title','description' ,'address', 'job_type', 'salary'}
+        expected_fields = {'id','title','description' ,'address', 'job_type', 'salary', 'isArchived'}
         self.assertEqual(set(serializer.fields.keys()), expected_fields)
 
 
@@ -38,6 +38,7 @@ class JobSerializerTestCase(TestCase):
             },
             'job_type': self.job.job_type,
             'salary' : self.job.salary,
+            'isArchived' : self.job.isArchived
         }
         self.assertEqual(self.serializer.data, expected_data)
 
