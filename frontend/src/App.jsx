@@ -9,7 +9,7 @@ import JoinOrCreateCompany from "./features/authentication/Register/employer/Joi
 import CreateCompany from "./features/authentication/Register/employer/CreateCompany";
 import InvitedEmployerVerification from "./features/authentication/Register/employer/InvitedEmployerVerification";
 import EmployerRegister from "./features/authentication/Register/employer/EmployerRegister";
-import JobSeekerRegister from "./features/authentication/register/job-seeker/JobSeekerRegister";
+import JobSeekerRegister from "./features/authentication/Register/job-seeker/JobSeekerRegister";
 
 import JobSeekerLayout from "./features/jobseeker/layouts/JobSeekerLayout";
 import DashBoardPage from "./features/jobseeker/dashboard/Dashboard";

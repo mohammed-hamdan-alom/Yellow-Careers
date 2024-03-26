@@ -4,7 +4,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import swal from "sweetalert2";
 import "@/components/styling/button.css";
 import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
-import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
+import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 
 const EmployerProfile = () => {

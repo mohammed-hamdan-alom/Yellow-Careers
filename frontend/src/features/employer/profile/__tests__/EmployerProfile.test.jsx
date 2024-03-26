@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import EmployerProfile from "../EmployerProfile";
 import { vi } from "vitest";
 import AuthContext from "@/context/AuthContext";
-import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
+import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 import { showError } from "@/components/Alert/Alert";
 import * as Alert from "@/components/Alert/Alert";
 
@@ -34,7 +34,7 @@ vi.mock("@/utils/AxiosInstance", () => ({
   },
 }));
 
-vi.mock("@/components/ErrorHandler/handleErrorAndShowMessage", () => ({
+vi.mock("@/components/handleErrorAndShowMessage/handleErrorAndShowMessage", () => ({
   handleErrorAndShowMessage: vi.fn(),
 }));
 

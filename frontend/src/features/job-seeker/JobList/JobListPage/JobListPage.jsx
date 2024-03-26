@@ -3,7 +3,7 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobFilter from "@/components/Search/JobFilter";
 import { Label } from "@/components/ui/label";
-import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
+import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 
 const JobListPage = () => {
   const { user, updateToken } = useContext(AuthContext);

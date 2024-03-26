@@ -3,7 +3,7 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from "@/components/ui/label";
 import JobFilter from "@/components/Search/JobFilter";
-import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
+import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 
 function SavedJobListPage() {
   // get the user id from the context

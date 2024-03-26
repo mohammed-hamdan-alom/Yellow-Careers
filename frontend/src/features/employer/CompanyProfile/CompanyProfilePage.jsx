@@ -5,7 +5,7 @@ import { showError, showSuccess } from "@/components/Alert/Alert";
 import { Building2, BookOpenText, Computer } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input, Button } from "antd";
-import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
+import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 import "@/components/styling/button.css";
 
 function CompanyProfilePage() {
