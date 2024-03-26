@@ -12,9 +12,31 @@ function classNames(...classes) {
 
 // Styled NavLink component
 const CustomNavLink = styled(NavLink)`
+  position: relative; /* Position relative for absolute positioning of the underline */
+
+  &:hover {
+    &::after {
+      content: ""; /* Create pseudo-element for the underline */
+      position: absolute; /* Position the underline */
+      left: 0; /* Start from the left edge of the link */
+      bottom: -5px; /* Adjust the distance of the underline from the text */
+      width: 100%; /* Full width of the link */
+      border-bottom: 2px solid #ffd700; /* Underline style */
+    }
+  }
+
   &.active {
     font-weight: bold;
     color: #ffd700; /* Yellow color */
+
+    &::after {
+      content: ""; /* Create pseudo-element for the underline */
+      position: absolute; /* Position the underline */
+      left: 0; /* Start from the left edge of the link */
+      bottom: -5px; /* Adjust the distance of the underline from the text */
+      width: 100%; /* Full width of the link */
+      border-bottom: 2px solid #ffd700; /* Underline style */
+    }
   }
 `;
 
@@ -34,12 +56,9 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
     }
 
     // Schedule a reload every 15 minutes, regardless of whether the page has been refreshed before
-    const timer = setInterval(
-      () => {
-        window.location.reload();
-      },
-      15 * 60 * 1000,
-    ); // 15 minutes in milliseconds
+    const timer = setInterval(() => {
+      window.location.reload();
+    }, 15 * 60 * 1000); // 15 minutes in milliseconds
 
     return () => clearInterval(timer);
   }, []);
@@ -85,6 +104,7 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                           <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-white text-sm ">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
+                            <span className="text-gray-500 mr-2">{user.email}</span>
                             <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
                           </Menu.Button>
                         </div>
@@ -105,7 +125,7 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                                     href={item.href}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700",
+                                      "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                     onClick={() => {
                                       if (item.name === "Sign out") {
@@ -156,9 +176,6 @@ const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
                       <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
                     </div>
                     <div className="ml-3">
-                      <div className="text-base font-medium leading-none text-white">
-                        {user.name}
-                      </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
                         {user.email}
                       </div>
