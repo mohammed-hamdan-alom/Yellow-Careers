@@ -16,14 +16,14 @@ function EmployerDashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const employerJobsResponse = await AxiosInstance.get(`api/employer/${userId}/jobs/`);
+        const employerJobsResponse = await AxiosInstance.get(`api/employer/${userId}/jobs/active`);
         setEmployerJobs(employerJobsResponse.data);
 
         const employerResponse = await AxiosInstance.get(`api/employers/${userId}/`);
 
         if (employerResponse.data.is_company_admin) {
           const companyJobsResponse = await AxiosInstance.get(
-            `api/employer/${userId}/company-jobs/`,
+            `api/employer/${userId}/company-jobs/active`
           );
           setCompanyJobs(companyJobsResponse.data);
           setShowCompanyJobs(companyJobsResponse.data.length > 0);
