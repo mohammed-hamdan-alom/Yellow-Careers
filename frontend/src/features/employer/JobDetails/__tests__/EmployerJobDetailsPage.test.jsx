@@ -2,7 +2,7 @@ import React from "react";
 import { vi } from "vitest";
 import { render, screen, fireEvent, act, cleanup, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import EmployerJobDetailsPage from "../../JobDetails/EmployerJobDetailsPage";
+import EmployerJobDetailsPage from "../EmployerJobDetailsPage";
 import AxiosInstance from "@/utils/AxiosInstance";
 import AuthContext from "@/context/AuthContext";
 const data = {
