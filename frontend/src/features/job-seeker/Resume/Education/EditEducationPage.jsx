@@ -40,7 +40,7 @@ function EditEducationPage({
       if (put) {
         try {
           const response = await AxiosInstance.get(
-            `api/resumes/${resumeId}/educations/update/${educationId}`,
+            `api/resumes/${resumeId}/educations/update/${educationId}`
           );
           setEducation(response.data);
         } catch (error) {
@@ -94,7 +94,7 @@ function EditEducationPage({
     try {
       await AxiosInstance.put(
         `api/resumes/${resumeId}/educations/update/${educationId}`,
-        education,
+        education
       );
       showSuccess("Education Updated");
       setErrors(defaultEducationState);
@@ -102,6 +102,7 @@ function EditEducationPage({
 
       const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
       setEducations(response.data);
+      location.reload();
       closeEditModal();
     } catch (error) {
       console.error(error);
