@@ -4,7 +4,7 @@ import { render, screen, fireEvent, act, cleanup } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import SavedJobListPage from "../saved-jobs/SavedJobsListPage";
+import SavedJobsPage from "@/features/job-seeker/JobLists/SavedJobsPage";
 
 const noSavedJobsData = [];
 
@@ -87,13 +87,13 @@ vi.mock("@/context/AuthContext", () => ({
   default: React.createContext(),
 }));
 
-describe("SavedJobsListPage component with no saved jobs", () => {
+describe("SavedJobsPage component with no saved jobs", () => {
   beforeEach(async () => {
     await act(async () => {
       render(
         <MemoryRouter>
           <AuthContext.Provider value={noSavedJobsJobSeeker}>
-            <SavedJobListPage />
+            <SavedJobsPage />
           </AuthContext.Provider>
         </MemoryRouter>,
       );
@@ -116,7 +116,7 @@ describe("SavedJobsListPage component with saved jobs", () => {
       render(
         <MemoryRouter>
           <AuthContext.Provider value={savedJobsJobSeeker}>
-            <SavedJobListPage />
+            <SavedJobsPage />
           </AuthContext.Provider>
         </MemoryRouter>,
       );

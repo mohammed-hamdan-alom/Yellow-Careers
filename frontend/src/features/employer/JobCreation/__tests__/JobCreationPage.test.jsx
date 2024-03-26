@@ -55,13 +55,17 @@ vi.mock("@/components/ui/input", () => ({
   Input: vi.fn(() => <input data-testid="mock-input"></input>),
 }));
 
-vi.mock("@/features/employer/JobCreation/QuestionCreation", () => ({
+vi.mock("@/features/employer/JobCreation/QuestionCreationPage", () => ({
   default: vi.fn(() => <div data-testid="mock-questioncreation"></div>),
 }));
 
-vi.mock("@/features/jobseeker/resume/Popup/Popup", () => ({
-  default: vi.fn(({ children }) => <div data-testid="mock-popup">{children}</div>),
-}));
+vi.mock("antd", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    Modal: ({ children }) => <div data-testid="mock-modal">{children}</div>,
+  };
+});
 
 vi.mock("react-router-dom", async (importOriginal) => {
   const actual = await importOriginal();
@@ -104,7 +108,7 @@ describe("JobCreation component", () => {
 
   afterEach(cleanup);
 
-  test("renders all Labels correctly", async () => {
+  test("renders all Labels and Modal correctly", async () => {
     const labels = await screen.getAllByTestId("mock-label");
     expect(labels).toHaveLength(7);
     expect(labels[0]).toHaveTextContent("Job Title");
@@ -114,7 +118,7 @@ describe("JobCreation component", () => {
     expect(labels[4]).toHaveTextContent("City");
     expect(labels[5]).toHaveTextContent("Country");
     expect(labels[6]).toHaveTextContent("Job Type");
-    expect(screen.getByTestId("mock-popup")).toBeInTheDocument();
+    expect(screen.getByTestId("mock-modal")).toBeInTheDocument();
   });
 
   test("renders all form fields correctly", async () => {
