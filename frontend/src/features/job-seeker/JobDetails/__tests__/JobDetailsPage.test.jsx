@@ -3,7 +3,7 @@ import { vi } from "vitest";
 import { render, screen, fireEvent, act, cleanup, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobDetails from "../JobDetails/JobDetails";
+import JobSeekerJobDetailsPage from "../JobSeekerJobDetailsPage";
 import AuthContext from "@/context/AuthContext";
 
 const data = {
@@ -169,7 +169,7 @@ describe("JobDetailsPage component with questions", () => {
       render(
         <MemoryRouter>
           <AuthContext.Provider value={job_seeker1}>
-            <JobDetails />
+            <JobSeekerJobDetailsPage />
           </AuthContext.Provider>
         </MemoryRouter>,
       );
@@ -221,7 +221,7 @@ describe("JobDetailsPage component has already applied job", async () => {
       render(
         <MemoryRouter>
           <AuthContext.Provider value={job_seeker2}>
-            <JobDetails />
+            <JobSeekerJobDetailsPage />
           </AuthContext.Provider>
         </MemoryRouter>,
       );

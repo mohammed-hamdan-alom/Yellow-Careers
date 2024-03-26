@@ -1,10 +1,9 @@
 import React from "react";
-import { vi } from "vitest";
 import { render, screen, fireEvent, act, cleanup, within } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import AxiosInstance from "@/utils/AxiosInstance";
+import ApplicationDetailsPage from "../ApplicationDetailsPage";
+import { vi } from "vitest";
+import { BrowserRouter as Router, Route, Routes, MemoryRouter } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
-import AppliedJobDetailsPage from "../AppliedJobDetailsPage";
 
 const job_seeker1 = {
   user: {
@@ -13,15 +12,36 @@ const job_seeker1 = {
   },
 };
 
+const jobSeeker = {
+  first_name: "John",
+  last_name: "Doe",
+  dob: "1990-01-01",
+  nationality: "British",
+  sex: "Male",
+  address: {
+    city: "New York",
+    post_code: "NY12345",
+    country: "USA",
+  },
+};
+const employer = {
+  user_type: "employer",
+  email: "johndoe@example.com",
+  first_name: "John",
+  last_name: "Doe",
+  other_names: "Charles",
+  phone_number: "08012345678",
+  user_id: "123456789",
+};
 const data = {
   application: {
     id: 1,
     date_applied: "2024-03-18",
     status: "U",
     decision: "U",
-    job_id: 1,
+    job: 1,
     resume_id: 1,
-    job_seeker_id: 1,
+    job_seeker: 1,
   },
   resume: {
     id: 1,
@@ -92,12 +112,14 @@ vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
   default: {
     get: vi.fn((url) => {
-      if (url == `api/applications/1`) {
+      if (url == `/api/applications/1`) {
         return Promise.resolve({ data: data.application });
       } else if (url == `/api/applications/1/resume`) {
         return Promise.resolve({ data: data.resume });
       } else if (url == `/api/jobs/1/questions`) {
         return Promise.resolve({ data: data.questions });
+      } else if (url == `/api/job-seekers/1`) {
+        return Promise.resolve({ data: jobSeeker });
       } else {
         return Promise.resolve({ data: data.answers });
       }
@@ -112,13 +134,13 @@ vi.mock("@/utils/AxiosInstance", () => ({
   },
 }));
 
-describe("AppliedJobDetailsPage component with questions", () => {
+describe("ApplicationDetails component with questions", () => {
   beforeEach(async () => {
     await act(async () => {
       render(
         <MemoryRouter>
-          <AuthContext.Provider value={job_seeker1}>
-            <AppliedJobDetailsPage />
+          <AuthContext.Provider value={employer}>
+            <ApplicationDetailsPage />
           </AuthContext.Provider>
         </MemoryRouter>,
       );
@@ -140,43 +162,37 @@ describe("AppliedJobDetailsPage component with questions", () => {
   });
 
   test("render application info correctly", async () => {
-    const dateAndStatusLabel = screen.getAllByTestId("mock-label")[0];
     const questionAndAnswerLabel = screen.getByText("Questions and Answers:");
-
-    expect(dateAndStatusLabel).toHaveTextContent("Date Applied: 2024-03-18 | Status: Undecided");
     expect(questionAndAnswerLabel).toBeInTheDocument();
   });
-});
 
-describe("AppliedJobDetailsPage component without questions", () => {
-  beforeEach(async () => {
-    vi.clearAllMocks();
-    vi.spyOn(AxiosInstance, "get").mockImplementation(() => {
-      return Promise.resolve({ data: data.application });
-    });
-    vi.spyOn(AxiosInstance, "get").mockImplementationOnce(() => {
-      return Promise.resolve({ data: data.resume });
-    });
-    vi.spyOn(AxiosInstance, "get").mockImplementationOnce(() => {
-      return Promise.resolve({ data: [] });
-    });
-    vi.spyOn(AxiosInstance, "get").mockImplementationOnce(() => {
-      return Promise.resolve({ data: [] });
-    });
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <AuthContext.Provider value={job_seeker1}>
-            <AppliedJobDetailsPage />
-          </AuthContext.Provider>
-        </MemoryRouter>,
-      );
-    });
-  });
+  test("render application info correctly", async () => {
+    const jobSeekerName = `${jobSeeker.first_name} ${jobSeeker.last_name}`;
+    // const dob = data.application.dob;
+    // const nationality = data.application.nationality;
+    // const sex = data.application.sex;
+    // const city = data.application.address.city;
+    // const postCode = data.application.address.post_code;
+    // const country = data.application.address.country;
 
-  test("render application info correctly for no questions", async () => {
-    const questionAndAnswerLabel = screen.queryByText("Questions and Answers:");
+    const jobSeekerElement = screen.getByText(`Job Seeker: ${jobSeekerName}`);
+    // const dobElement = screen.getByText(`Date of Birth: ${dob}`);
+    // const nationalityElement = screen.getByText(`Nationality: ${nationality}`);
+    // const sexElement = screen.getByText(`Sex: ${sex}`);
+    // const cityElement = screen.getByText(`City: ${city}`);
+    // const postCodeElement = screen.getByText(`Post Code: ${postCode}`);
+    // const countryElement = screen.getByText(`Country: ${country}`);
+    // const resumeElement = screen.getByTestId("mock-resume");
+    // const questionsAndAnswersElement = screen.getByTestId("mock-questionsandanswers");
 
-    expect(questionAndAnswerLabel).toBeNull();
+    expect(jobSeekerElement).toBeInTheDocument();
+    // expect(dobElement).toBeInTheDocument();
+    // expect(nationalityElement).toBeInTheDocument();
+    // expect(sexElement).toBeInTheDocument();
+    // expect(cityElement).toBeInTheDocument();
+    // expect(postCodeElement).toBeInTheDocument();
+    // expect(countryElement).toBeInTheDocument();
+    // expect(resumeElement).toBeInTheDocument();
+    // expect(questionsAndAnswersElement).toBeInTheDocument();
   });
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import { vi } from "vitest";
 import { fireEvent, render, screen, cleanup, act } from "@testing-library/react";
-import JobFilter from "../JobFilter";
+import JobFilterAndList from "../JobFilterAndList";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 
@@ -108,7 +108,7 @@ describe("JobFilter component", () => {
       render(
         <MemoryRouter>
           <AuthProvider>
-            <JobFilter data={data} />
+            <JobFilterAndList data={data} />
           </AuthProvider>
         </MemoryRouter>,
       );

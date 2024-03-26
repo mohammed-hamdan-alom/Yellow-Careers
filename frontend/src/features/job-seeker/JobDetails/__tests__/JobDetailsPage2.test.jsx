@@ -3,7 +3,7 @@ import { vi } from "vitest";
 import { render, screen, fireEvent, act, cleanup, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobDetails from "@/components/JobDetails/JobDetails";
+import JobSeekerJobDetailsPage from "../JobSeekerJobDetailsPage";
 import AuthContext from "@/context/AuthContext";
 
 Object.defineProperty(window, "location", {
@@ -123,7 +123,7 @@ describe("JobDetailsPage component without questions", async () => {
       render(
         <MemoryRouter>
           <AuthContext.Provider value={job_seeker2}>
-            <JobDetails />
+            <JobSeekerJobDetailsPage />
           </AuthContext.Provider>
         </MemoryRouter>,
       );

@@ -3,7 +3,7 @@ import JobSummary from "../JobSummary/JobSummary";
 import { Input } from "@/components/ui/input";
 import { Pagination } from "antd";
 
-const JobList = ({ data }) => {
+const JobList = ({ jobs }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +12,7 @@ const JobList = ({ data }) => {
   const handleSearch = (e) => {
     const query = e.target.value;
     setQuery(query);
-    const filteredResults = data.filter((item) =>
+    const filteredResults = jobs.filter((item) =>
       item.title.toLowerCase().includes(query.toLowerCase()),
     );
     setResults(filteredResults);
@@ -20,8 +20,8 @@ const JobList = ({ data }) => {
   };
 
   useEffect(() => {
-    setResults(data);
-  }, [data]);
+    setResults(jobs);
+  }, [jobs]);
 
   const handlePageChange = (page, pageSize) => {
     setCurrentPage(page);

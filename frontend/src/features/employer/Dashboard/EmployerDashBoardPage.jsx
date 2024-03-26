@@ -4,9 +4,9 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space } from "antd";
 import { Label } from "@/components/ui/label";
 import "./switch.css";
-import JobFilter from "@/components/Search/JobFilter";
+import JobFilterAndList from "@/components/Search/JobFilterAndList";
 
-function EmployerDashBoardPage() {
+function EmployerDashboardPage() {
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
   const [employerJobs, setEmployerJobs] = useState([]);
@@ -56,7 +56,7 @@ function EmployerDashBoardPage() {
               />
             )}
           </div>
-          <JobFilter data={companyJobs} />
+          <JobFilterAndList jobs={companyJobs} />
         </div>
       ) : (
         <div>
@@ -72,11 +72,11 @@ function EmployerDashBoardPage() {
               />
             )}
           </div>
-          <JobFilter data={employerJobs} />
+          <JobFilterAndList jobs={employerJobs} />
         </div>
       )}
     </div>
   );
 }
 
-export default EmployerDashBoardPage;
+export default EmployerDashboardPage;
