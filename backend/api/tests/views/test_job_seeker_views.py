@@ -5,6 +5,8 @@ from rest_framework import status
 from django.core.serializers import serialize
 from rest_framework.test import APIRequestFactory
 from api.views.job_seeker_views import *
+from rest_framework.test import APITestCase, force_authenticate, APIRequestFactory
+
 
 class JobSeekerViewTestCase(TestCase):
     
@@ -210,3 +212,15 @@ class JobSeekerViewTestCase(TestCase):
         response = self.client.delete(reverse('job-seeker-put', args=[100]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(JobSeeker.objects.count(), len(self.job_seekers))
+
+    def test_retrieve_job_seeker_from_application(self):
+        '''Test retrieving a job seeker from an application.'''
+        application = Application.objects.get(pk=1)  # Assuming an Application with id 1 exists
+        factory = APIRequestFactory()
+        request = factory.get(reverse('job-seeker-from-application-get', args=[application.id]))
+        force_authenticate(request, user=application.job_seeker
+                           )
+        view = JobSeekerFromApplicationRetrieveView.as_view()
+        response = view(request, application_id=application.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['id'], application.job_seeker.id)

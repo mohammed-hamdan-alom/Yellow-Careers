@@ -88,7 +88,7 @@ urlpatterns = [
     path('job-seeker/<int:pk>/applied-jobs/', JobsAppliedListView.as_view(), name='job-seeker-applications'),
     path('job-seeker/<int:pk>/saved-jobs/', JobSeekerSavedJobsListView.as_view(), name='job-seeker-saved-jobs'),
     path('job-seeker/<int:pk>/matched-jobs/', JobSeekerMatchedJobsListingView.as_view(), name='job-seeker-matched-jobs'),
-    path('job-seeker/application/<int:application_id>/', JobSeekerFromApplicationRetrieveView.as_view(), name='job=seeker-from-application-get'),
+    path('job-seeker/application/<int:application_id>/', JobSeekerFromApplicationRetrieveView.as_view(), name='job-seeker-from-application-get'),
     path('job-seeker/change-password/', ChangePasswordView.as_view(), name='job-seeker-change-password'),
 
 
