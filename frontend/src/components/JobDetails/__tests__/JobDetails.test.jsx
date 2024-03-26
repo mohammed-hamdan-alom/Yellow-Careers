@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
-import JobDetailsDisplay from "@/components/job-details/JobDetails";
+import JobDetailsDisplay from "@/components/JobDetails/JobDetails";
 
 const data = {
   id: 1,

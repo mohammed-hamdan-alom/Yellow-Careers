@@ -6,7 +6,7 @@ import { Button, Select } from "antd";
 import "@/components/styling/button.css";
 import Swal from "sweetalert2";
 import DisplayResume from "@/components/Resume/DisplayResume";
-import QuestionsAndAnswers from "@/components/questions_and_answers/QuestionsAndAnswers";
+import QuestionsAndAnswers from "@/components/QuestionsAndAnswers/QuestionsAndAnswers";
 
 const ApplicationDetails = () => {
   const [application, setApplication] = useState({});

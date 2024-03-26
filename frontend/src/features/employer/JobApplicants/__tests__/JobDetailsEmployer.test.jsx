@@ -95,7 +95,7 @@ const employer = {
 
 const navigate = vi.fn();
 
-vi.mock("@/components/job-details/JobDetails", () => ({
+vi.mock("@/components/JobDetails/JobDetails", () => ({
   default: vi.fn(() => <div data-testid="mock-jobdetails"></div>),
 }));
 

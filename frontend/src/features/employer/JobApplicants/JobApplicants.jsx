@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
-import ApplicantSummary from "@/features/employer/job_applicants/ApplicantSummary";
+import ApplicantSummary from "@/features/employer/JobApplicants/ApplicantSummary";
 import { Label } from "@/components/ui/label";
 import { Button, Select, Tag, Pagination } from "antd";
 import "@/components/styling/button.css";

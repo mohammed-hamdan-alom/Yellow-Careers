@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Button, Space } from "antd";
 import "@/components/styling/button.css";
-import JobDetailsDisplay from "@/components/job-details/JobDetails";
+import JobDetailsDisplay from "@/components/JobDetails/JobDetails";
 import { FloatButton } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";

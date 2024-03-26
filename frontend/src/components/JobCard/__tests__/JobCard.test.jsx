@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
-import JobCard from "@/components/job-card/JobCard";
+import JobCard from "@/components/JobCard/JobCard";
 
 const data = {
   id: 1,

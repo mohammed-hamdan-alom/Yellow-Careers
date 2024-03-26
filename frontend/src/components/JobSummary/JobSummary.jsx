@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobCard from "../job-card/JobCard";
+import JobCard from "../JobCard/JobCard";
 import AuthContext from "@/context/AuthContext";
 
 const JobSummary = ({ job }) => {

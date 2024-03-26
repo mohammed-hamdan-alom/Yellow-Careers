@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Input, Button } from "antd";
 import "@/components/styling/button.css";
-import StyledQuestion from "@/components/questions_and_answers/Question";
+import StyledQuestion from "@/components/QuestionsAndAnswers/Question";
 import Swal from "sweetalert2";
 import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 

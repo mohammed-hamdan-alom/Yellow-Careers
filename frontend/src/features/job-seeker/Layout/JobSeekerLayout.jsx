@@ -1,13 +1,8 @@
 import DashboardLayout from "@/components/Layout/DashboardLayout";
+import React, { useContext } from "react";
+import AuthContext from "@/context/AuthContext";
 
 const baseUrl = "/job-seeker";
-
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
 
 const navigation = [
   { name: "Matched Jobs", to: "/dashboard" },
@@ -18,10 +13,19 @@ const navigation = [
 
 const userNavigation = [{ name: "Your Profile", href: `${baseUrl}/profile` }, { name: "Sign out" }];
 
-export default function EmployerLayout() {
+export default function JobSeekerLayout() {
+  const { user } = useContext(AuthContext);
+  console.log(user);
+
+  const userInfo = {
+    email: user.email,
+    imageUrl:
+      "https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg",
+  };
+
   return (
     <DashboardLayout
-      user={user}
+      user={userInfo}
       navigation={navigation}
       userNavigation={userNavigation}
       baseUrl={baseUrl}

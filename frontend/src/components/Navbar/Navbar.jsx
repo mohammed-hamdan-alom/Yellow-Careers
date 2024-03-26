@@ -33,7 +33,7 @@ export const Navbar = () => {
                 </SheetHeader>
                 <nav className="flex flex-col justify-center items-center gap-2 mt-4">
                   <a
-                    href="https://github.com/mohammed-hamdan-alom/Job-Hiring-App-Team-Yellow-Card"
+                    href="https://github.com/mohammed-hamdan-alom/Yellow-Careers"
                     target="_blank"
                     className={`w-[110px] border ${buttonVariants({
                       variant: "secondary",
@@ -51,7 +51,7 @@ export const Navbar = () => {
           <div className="hidden md:flex gap-2">
             <a
               data-testid="github"
-              href="https://github.com/mohammed-hamdan-alom/Job-Hiring-App-Team-Yellow-Card"
+              href="https://github.com/mohammed-hamdan-alom/Yellow-Careers"
               target="_blank"
               className={`border ${buttonVariants({ variant: "secondary" })}`}
             >

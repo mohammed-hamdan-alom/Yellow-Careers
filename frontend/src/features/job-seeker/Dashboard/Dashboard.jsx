@@ -1,4 +1,4 @@
-import JobListPage from "../job-list/job-list-page/JobListPage";
+import JobListPage from "../JobList/JobListPage/JobListPage";
 
 const DashBoardPage = () => {
   return (

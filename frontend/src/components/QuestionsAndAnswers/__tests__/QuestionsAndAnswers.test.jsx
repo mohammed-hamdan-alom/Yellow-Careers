@@ -3,7 +3,7 @@ import { vi } from "vitest";
 import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
-import QuestionsAndAnswers from "@/components/questions_and_answers/QuestionsAndAnswers";
+import QuestionsAndAnswers from "@/components/QuestionsAndAnswers/QuestionsAndAnswers";
 
 const questions = [
   {

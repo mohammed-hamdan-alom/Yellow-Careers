@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from "@/components/ui/label";
 import DisplayResume from "@/components/Resume/DisplayResume";
-import QuestionsAndAnswers from "@/components/questions_and_answers/QuestionsAndAnswers";
+import QuestionsAndAnswers from "@/components/QuestionsAndAnswers/QuestionsAndAnswers";
 import { Tag } from "antd";
 import {
   CheckCircleOutlined,

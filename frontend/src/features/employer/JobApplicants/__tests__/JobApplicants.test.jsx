@@ -26,7 +26,7 @@ const data = [
   },
 ];
 
-vi.mock("@/features/employer/job_applicants/ApplicantSummary", () => ({
+vi.mock("@/features/employer/JobApplicants/ApplicantSummary", () => ({
   default: vi.fn(({ children }) => <div data-testid="mock-applicationsummary">{children}</div>),
 }));
 

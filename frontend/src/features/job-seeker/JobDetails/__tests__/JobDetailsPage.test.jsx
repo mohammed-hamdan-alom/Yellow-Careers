@@ -3,7 +3,7 @@ import { vi } from "vitest";
 import { render, screen, fireEvent, act, cleanup, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobDetails from "../job-details/JobDetails";
+import JobDetails from "../JobDetails/JobDetails";
 import AuthContext from "@/context/AuthContext";
 
 const data = {
@@ -90,7 +90,7 @@ const job_seeker2 = {
 
 const navigate = vi.fn();
 
-vi.mock("@/components/job-details/JobDetails", () => ({
+vi.mock("@/components/JobDetails/JobDetails", () => ({
   default: vi.fn(() => <div data-testid="mock-jobdetails"></div>),
 }));
 

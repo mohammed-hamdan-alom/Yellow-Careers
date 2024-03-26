@@ -38,7 +38,7 @@ describe("Navbar component", () => {
     const githubLink = screen.getByTestId("github");
     expect(githubLink).toHaveAttribute(
       "href",
-      "https://github.com/mohammed-hamdan-alom/Job-Hiring-App-Team-Yellow-Card",
+      "https://github.com/mohammed-hamdan-alom/Yellow-Careers",
     );
     expect(githubLink).toHaveAttribute("target", "_blank");
     expect(buttonVariants).toHaveBeenCalledWith({ variant: "secondary" });

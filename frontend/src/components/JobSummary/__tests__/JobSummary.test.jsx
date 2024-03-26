@@ -28,7 +28,7 @@ const jobseeker = {
   user: { user_type: "jobseeker" },
 };
 
-vi.mock("@/components/job-card/JobCard", async (importOriginal) => {
+vi.mock("@/components/JobCard/JobCard", async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,

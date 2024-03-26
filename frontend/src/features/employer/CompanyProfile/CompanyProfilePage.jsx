@@ -106,7 +106,7 @@ function CompanyProfilePage() {
       {!showEdit && (
         <div>
           <div className="mb-3">
-            <Label htmlFor="company_name" className="flex items-center">
+            <Label htmlFor="company_name" className="text-2xl font-bold flex items-center">
               <Building2 size={16} className="mr-3" />
               {companyData.company_name}
             </Label>
@@ -200,8 +200,9 @@ function CompanyProfilePage() {
           </Button>
         </form>
       )}
+
       <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-4">Employers:</h1>
+        <Label className="text-2xl font-bold mb-4">Employers:</Label>
         <ul className="space-y-4">
           {employers.map((employer) => (
             <li key={employer.id} className="border p-4 rounded-md">
@@ -219,10 +220,10 @@ function CompanyProfilePage() {
       </div>
 
       {employer.is_company_admin && (
-        <div>
-          <Label className="text-lg font-semibold">Invite Employers:</Label>
+        <div className="mt-3">
+          <Label className="text-2xl font-bold">Invite Employers:</Label>
           <form onSubmit={handleInviteSubmit}>
-            <div className="mb-3">
+            <div className="mt-2 mb-3">
               <Input
                 type="email"
                 placeholder="Enter employer's email"

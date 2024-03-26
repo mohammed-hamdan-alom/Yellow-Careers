@@ -91,7 +91,7 @@ vi.mock("react-router-dom", async (importOriginal) => {
   };
 });
 
-vi.mock("@/components/questions_and_answers/QuestionsAndAnswers", async () => {
+vi.mock("@/components/QuestionsAndAnswers/QuestionsAndAnswers", async () => {
   return {
     default: vi.fn(() => <div data-testid="mock-questionsandanswers"></div>),
   };
