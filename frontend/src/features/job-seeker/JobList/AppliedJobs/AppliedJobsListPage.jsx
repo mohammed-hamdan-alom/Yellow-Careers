@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import JobFilter from "@/components/search/JobFilter";
-import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
+import JobFilter from "@/components/Search/JobFilter";
+import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
 
 function AppliedJobListPage() {
   //

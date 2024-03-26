@@ -1,10 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import AuthContext, { AuthProvider } from "../AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import jwtDecode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/Alert";
-
 import { describe, it, expect, vi } from "vitest";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 

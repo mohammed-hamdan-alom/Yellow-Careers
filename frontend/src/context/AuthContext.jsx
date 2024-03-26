@@ -1,10 +1,9 @@
 import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import swal from "sweetalert2";
 import { showError, showSuccess } from "@/components/Alert/Alert";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
+import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
 
 const AuthContext = createContext();
 

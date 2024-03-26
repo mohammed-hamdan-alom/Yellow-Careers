@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
-import DisplaySoftSkills from "@/components/resume/DisplaySoftSkills";
-import DisplayTechnicalSkills from "@/components/resume/DisplayTechnicalSkills";
-import DisplayEducation from "@/components/resume/DisplayEducation";
-import DisplayLanguages from "@/components/resume/DisplayLanguages";
-import DisplayProfessionalExperience from "@/components/resume/DisplayProfessionalExperience";
+import DisplaySoftSkills from "@/components/Resume/DisplaySoftSkills";
+import DisplayTechnicalSkills from "@/components/Resume/DisplayTechnicalSkills";
+import DisplayEducation from "@/components/Resume/DisplayEducation";
+import DisplayLanguages from "@/components/Resume/DisplayLanguages";
+import DisplayProfessionalExperience from "@/components/Resume/DisplayProfessionalExperience";
 import { Label } from "@/components/ui/label";
 import "../styling/shadow.css";
 

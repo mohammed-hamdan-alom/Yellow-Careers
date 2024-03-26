@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from "@/components/ui/label";
-import DisplayResume from "@/components/resume/DisplayResume";
+import DisplayResume from "@/components/Resume/DisplayResume";
 import QuestionsAndAnswers from "@/components/questions_and_answers/QuestionsAndAnswers";
 import { Tag } from "antd";
 import {
@@ -11,7 +11,7 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import "@/components/styling/tag.css";
-import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
+import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
 
 function AppliedJobDetails() {
   const { applicationId } = useParams();

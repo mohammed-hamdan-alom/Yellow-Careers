@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import LandingPage from "./components/LandingPage/LandingPage";
 
-import LoginPage from "./features/authentication/login/LoginPage";
+import LoginPage from "./features/authentication/Login/LoginPage";
 import AuthLayout from "./features/authentication/AuthLayout";
 import GetStarted from "./features/authentication/get-started/GetStarted";
 import JoinOrCreateCompany from "./features/authentication/Register/employer/JoinOrCreateCompany";
@@ -14,23 +14,21 @@ import JobSeekerRegister from "./features/authentication/register/job-seeker/Job
 import JobSeekerLayout from "./features/jobseeker/layouts/JobSeekerLayout";
 import DashBoardPage from "./features/jobseeker/dashboard/Dashboard";
 import JobSeekerProfile from "./features/jobseeker/profile/JobSeekerProfile";
-
 import ResumePage from "./features/jobseeker/resume/ResumePage";
 import JobDetails from "./features/jobseeker/job-details/job-details-page/JobDetailsPage";
 import JobQuestions from "./features/jobseeker/job-details/job-questions/JobQuestions";
-
 import AppliedJobListPage from "./features/jobseeker/job-list/applied-jobs/AppliedJobsListPage";
 import SavedJobListPage from "./features/jobseeker/job-list/saved-jobs/SavedJobsListPage";
 import AppliedJobDetails from "./features/jobseeker/job-details/applied-job-details/AppliedJobDetails";
 
+import EmployerLayout from "./features/employer/Layout/EmployerLayout";
 import JobApplicantsPage from "./features/employer/job_applicants/JobApplicants";
 import JobCreation from "@/features/employer/job_creation/JobCreation";
 import QuestionCreation from "./features/employer/job_creation/QuestionCreation";
-import EmployerLayout from "./features/employer/layout/EmployerLayout";
-import EmployerDashBoardPage from "./features/employer/dashboard/EmployerDashBoardPage";
+import EmployerDashBoardPage from "./features/employer/Dashboard/EmployerDashBoardPage";
 import ApplicationDetails from "./features/employer/application_details/ApplicationDetails";
 import CompanyProfilePage from "./features/employer/company_profile/CompanyProfilePage";
-import EmployerProfile from "./features/employer/profile/EmployerProfile";
+import EmployerProfile from "./features/employer/Profile/EmployerProfile";
 import JobDetailsEmployer from "./features/employer/job_applicants/JobDetailsEmployer";
 
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";

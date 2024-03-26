@@ -4,7 +4,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { Switch, Space } from "antd";
 import { Label } from "@/components/ui/label";
 import "./switch.css";
-import JobFilter from "@/components/search/JobFilter";
+import JobFilter from "@/components/Search/JobFilter";
 
 function EmployerDashBoardPage() {
   const { user } = useContext(AuthContext);

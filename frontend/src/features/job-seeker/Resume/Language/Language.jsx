@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from "@/components/Alert/Alert";
-import EditLanguagePage from "./EditLanguagePage";
+import EditLanguage from "@/features/job-seeker/Resume/Language/EditLanguage";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { SquarePen, MinusCircle } from "lucide-react";
@@ -85,7 +85,7 @@ function Language({ resumeId }) {
                 onOk={() => setIsEditModalOpen(false)}
                 onClose={() => setIsEditModalOpen(false)}
               >
-                <EditLanguagePage
+                <EditLanguage
                   post={false}
                   put={true}
                   resumeId={resumeId}
@@ -109,7 +109,7 @@ function Language({ resumeId }) {
           onOk={() => setIsAddModalOpen(false)}
           onClose={() => setIsAddModalOpen(false)}
         >
-          <EditLanguagePage
+          <EditLanguage
             post={true}
             put={false}
             resumeId={resumeId}

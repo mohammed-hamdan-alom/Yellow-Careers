@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { vi, describe, test, expect } from "vitest";
 import AxiosInstance from "@/utils/AxiosInstance";
-import EditLanguagePage from "../EditLanguagePage";
+import EditLanguage from "../EditLanguage";
 
 vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
@@ -28,7 +28,7 @@ describe("EditLanguagePage Component", () => {
     const resumeId = "sampleResumeId";
     const languageId = "sampleLanguageId";
     render(
-      <EditLanguagePage
+      <EditLanguage
         put={true}
         post={false}
         resumeId={resumeId}
@@ -50,7 +50,7 @@ describe("EditLanguagePage Component", () => {
     const resumeId = "sampleResumeId";
     const languageId = "sampleLanguageId";
     render(
-      <EditLanguagePage
+      <EditLanguage
         put={true}
         post={false}
         resumeId={resumeId}
@@ -75,7 +75,7 @@ describe("EditLanguagePage Component", () => {
   test("submits language for creation", async () => {
     const resumeId = "sampleResumeId";
     render(
-      <EditLanguagePage
+      <EditLanguage
         put={false}
         post={true}
         resumeId={resumeId}

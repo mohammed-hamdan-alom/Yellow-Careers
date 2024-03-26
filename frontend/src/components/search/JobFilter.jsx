@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import JobList from "./JobList";
+import JobList from "@/components/Search/JobList";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Select } from "antd";
 import { Label } from "@/components/ui/label";

@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button, Select } from "antd";
 import "@/components/styling/button.css";
 import Swal from "sweetalert2";
-import DisplayResume from "@/components/resume/DisplayResume";
+import DisplayResume from "@/components/Resume/DisplayResume";
 import QuestionsAndAnswers from "@/components/questions_and_answers/QuestionsAndAnswers";
 
 const ApplicationDetails = () => {

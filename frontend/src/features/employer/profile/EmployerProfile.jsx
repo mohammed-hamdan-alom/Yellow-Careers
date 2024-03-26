@@ -2,13 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import swal from "sweetalert2";
-import { Label } from "@/components/ui/label";
-import { Input, Button } from "antd";
-import { Mail, Phone } from "lucide-react";
-import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
 import "@/components/styling/button.css";
 import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
-import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
+import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 
 const EmployerProfile = () => {

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "antd";
 import BigAlert from "@/components/Alert/BigAlert";
 
-function EditLanguagePage({
+function EditLanguage({
   put,
   post,
   resumeId,
@@ -200,4 +200,4 @@ function EditLanguagePage({
     </div>
   );
 }
-export default EditLanguagePage;
+export default EditLanguage;

@@ -9,7 +9,6 @@ import { Select } from "antd";
 import { Button } from "@/components/ui/button";
 const { TextArea } = Input;
 import Swal from "sweetalert2";
-import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
 import { Modal } from "antd";
 import QuestionCreation from "./QuestionCreation";
 

@@ -1,4 +1,4 @@
-import DashboardLayout from "@/components/Layouts/DashboardLayout";
+import DashboardLayout from "@/components/Layout/DashboardLayout";
 
 const baseUrl = "/job-seeker";
 

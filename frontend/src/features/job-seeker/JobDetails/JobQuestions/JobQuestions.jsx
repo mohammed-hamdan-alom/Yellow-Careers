@@ -6,7 +6,7 @@ import { Input, Button } from "antd";
 import "@/components/styling/button.css";
 import StyledQuestion from "@/components/questions_and_answers/Question";
 import Swal from "sweetalert2";
-import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
+import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
 
 function JobQuestions() {
   const { user } = useContext(AuthContext);

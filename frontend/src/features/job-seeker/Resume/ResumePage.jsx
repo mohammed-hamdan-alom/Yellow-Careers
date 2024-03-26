@@ -3,11 +3,11 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { useContext } from "react";
 import AuthContext from "@/context/AuthContext";
 import ResumeForm from "./ResumeForm";
-import SoftSkill from "./skills/SoftSkill";
-import TechnicalSkill from "./skills/TechnicalSkill";
-import Language from "./language/Language";
-import Education from "./education/Education";
-import ProfessionalExperience from "./professional-experience/ProfessionalExperience";
+import SoftSkill from "./Skills/SoftSkill";
+import TechnicalSkill from "./Skills/TechnicalSkill";
+import Language from "./Language/Language";
+import Education from "./Education/Education";
+import ProfessionalExperience from "./ProfessionalExperience/ProfessionalExperience";
 
 function UpdateResumePage() {
   const [resumeId, setResumeId] = useState(null);

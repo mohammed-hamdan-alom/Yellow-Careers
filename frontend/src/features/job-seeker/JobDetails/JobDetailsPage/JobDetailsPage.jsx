@@ -8,7 +8,7 @@ import JobDetailsDisplay from "@/components/job-details/JobDetails";
 import { FloatButton } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
-import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
+import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
 
 function JobDetails() {
   const { user } = useContext(AuthContext);

@@ -4,7 +4,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import swal from "sweetalert2";
 import "@/components/styling/button.css";
 import PasswordChangeSection from "@/components/Profile/PasswordChangeSection";
-import { handleErrorAndShowMessage } from "@/components/error_handler/error_display";
+import { handleErrorAndShowMessage } from "@/components/ErrorHandler/handleErrorAndShowMessage";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 import "@/components/styling/button.css";
 

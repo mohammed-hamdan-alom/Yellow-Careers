@@ -77,7 +77,7 @@ vi.mock("@/components/questions_and_answers/QuestionsAndAnswers", async () => {
   };
 });
 
-vi.mock("@/components/resume/DisplayResume", async () => {
+vi.mock("@/components/Resume/DisplayResume", async () => {
   return {
     default: vi.fn(() => <div data-testid="mock-resume"></div>),
   };
