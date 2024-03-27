@@ -27,6 +27,7 @@ describe("ProfileDetails component", () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         userType="employer"
+        errors={formData}
       />,
     );
     expect(screen.getByLabelText("Email:")).toBeInTheDocument();
@@ -36,7 +37,7 @@ describe("ProfileDetails component", () => {
     expect(screen.getByLabelText("Phone Number:")).toBeInTheDocument();
   });
   test("renders job seeker fields when userType is 'job-seeker'", () => {
-    render(<ProfileDetails formData={formData} userType="job-seeker" />);
+    render(<ProfileDetails formData={formData} userType="job-seeker" errors={formData} />);
     expect(screen.getByLabelText("Date of Birth:")).toBeInTheDocument();
     expect(screen.getByLabelText("Nationality:")).toBeInTheDocument();
     expect(screen.getByLabelText("Sex:")).toBeInTheDocument();
@@ -58,6 +59,7 @@ describe("ProfileDetails component", () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         userType="employer"
+        errors={formData}
       />,
     );
     expect(screen.queryByLabelText("Date of Birth:")).not.toBeInTheDocument();
