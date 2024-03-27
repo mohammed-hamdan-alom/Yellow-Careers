@@ -16,7 +16,13 @@ function ArchivedJobsListPage() {
         const archivedJobsResponse = await AxiosInstance.get(
           `api/employer/${userId}/jobs/archived/`
         );
-        setArchivedJobs(archivedJobsResponse.data);
+        const jobsWithCompany = await Promise.all(
+          archivedJobsResponse.data.map(async (job) => {
+            const companyRes = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
+            return { ...job, company: companyRes.data };
+          })
+        );
+        setArchivedJobs(jobsWithCompany);
 
         const employerResponse = await AxiosInstance.get(`api/employers/${userId}/`);
 
@@ -24,8 +30,14 @@ function ArchivedJobsListPage() {
           const companyArchivedJobsResponse = await AxiosInstance.get(
             `api/employer/${userId}/company-jobs/archived/`
           );
-          setCompanyArchivedJobs(companyArchivedJobsResponse.data);
-          setShowCompanyArchivedJobs(companyArchivedJobsResponse.data.length > 0);
+          const jobsWithCompany = await Promise.all(
+            companyArchivedJobsResponse.data.map(async (job) => {
+              const companyRes = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
+              return { ...job, company: companyRes.data };
+            })
+          );
+          setCompanyArchivedJobs(jobsWithCompany);
+          setShowCompanyArchivedJobs(jobsWithCompany.length > 0);
         }
       } catch (error) {
         console.error("Error fetching archived jobs:", error);

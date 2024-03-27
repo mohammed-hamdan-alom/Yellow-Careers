@@ -90,21 +90,27 @@ class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 				return job
 		raise PermissionDenied("You do not have permission to view this job.")
 	
-class EmployerActiveJobListingView(generics.ListAPIView):
-	'''Retrieve the active jobs of an employer. The employer id is passed as a parameter in the URL.'''
-	permission_classes = [AllowAny]
-	serializer_class = JobSerializer
-
-	def get_queryset(self):
-		employer_id = self.kwargs.get('pk')
-		employer = get_object_or_404(Employer, id=employer_id)
-		relations = EmployerJobRelation.objects.filter(employer=employer)
-		return [relation.job for relation in relations if not relation.job.isArchived]
-
-class AdminActiveJobListingView(generics.ListAPIView):
-    '''Retrieve the active jobs of an admin. The employer id is passed as a parameter in the URL.'''
+class EmployerBaseJobListingView(generics.ListAPIView):
+    '''Base view to retrieve the jobs of an employer. The employer id is passed as a parameter in the URL.'''
     permission_classes = [AllowAny]
     serializer_class = JobSerializer
+
+    def get_queryset(self):
+        employer_id = self.kwargs.get('pk')
+        employer = get_object_or_404(Employer, id=employer_id)
+        relations = EmployerJobRelation.objects.filter(employer=employer)
+        return [relation.job for relation in relations if relation.job.isArchived == self.is_archived]
+
+class EmployerActiveJobListingView(EmployerBaseJobListingView):
+    '''Retrieve the active jobs of an employer.'''
+    is_archived = False
+
+class EmployerArchivedJobListingView(EmployerBaseJobListingView):
+    '''Retrieve the archived jobs of an employer.'''
+    is_archived = True
+
+class AdminJobListingView(EmployerBaseJobListingView):
+    '''Base view to retrieve the jobs of an admin.'''
 
     def get_queryset(self):
         employer_id = self.kwargs.get('pk')
@@ -112,28 +118,12 @@ class AdminActiveJobListingView(generics.ListAPIView):
         relations = []
         if employer.is_company_admin:
             relations = EmployerJobRelation.objects.filter(employer__company=employer.company)
-        return list(set(relation.job for relation in relations if not relation.job.isArchived))
-	
-class EmployerArchivedJobListingView(generics.ListAPIView):
-	'''Retrieve the archived jobs of an employer. The employer id is passed as a parameter in the URL.'''
-	permission_classes = [AllowAny]
-	serializer_class = JobSerializer
+        return list(set(relation.job for relation in relations if relation.job.isArchived == self.is_archived))
 
-	def get_queryset(self):
-		employer_id = self.kwargs.get('pk')
-		employer = get_object_or_404(Employer, id=employer_id)
-		relations = EmployerJobRelation.objects.filter(employer=employer)
-		return [relation.job for relation in relations if relation.job.isArchived]
+class AdminActiveJobListingView(AdminJobListingView):
+    '''Retrieve the active jobs of an admin.'''
+    is_archived = False
 
-class AdminArchivedJobListingView(generics.ListAPIView):
-    '''Retrieve the archived jobs of an admin. The employer id is passed as a parameter in the URL.'''
-    permission_classes = [AllowAny]
-    serializer_class = JobSerializer
-
-    def get_queryset(self):
-        employer_id = self.kwargs.get('pk')
-        employer = get_object_or_404(Employer, id=employer_id)
-        relations = []
-        if employer.is_company_admin:
-            relations = EmployerJobRelation.objects.filter(employer__company=employer.company)
-        return list(set(relation.job for relation in relations if relation.job.isArchived))
+class AdminArchivedJobListingView(AdminJobListingView):
+    '''Retrieve the archived jobs of an admin.'''
+    is_archived = True
