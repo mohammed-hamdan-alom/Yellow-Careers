@@ -1,22 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import AxiosInstance from "@/utils/AxiosInstance";
 import JobCard from "../JobCard/JobCard";
 import AuthContext from "@/context/AuthContext";
 
 const JobSummary = ({ job }) => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const [company, setCompany] = useState({});
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const companyResponse = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
-      setCompany(companyResponse.data);
-    };
-
-    fetchData();
-  }, []);
 
   const handleClick = () => {
     if (user && user.user_type === "employer") {
@@ -41,7 +30,7 @@ const JobSummary = ({ job }) => {
     <div className="w-full justify-center" onClick={handleClick}>
       <JobCard
         title={job.title}
-        companyName={company.company_name}
+        companyName={job.company.company_name}
         city={job.address.city}
         country={job.address.country}
         description={formattedDescription}

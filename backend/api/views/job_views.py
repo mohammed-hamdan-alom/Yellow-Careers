@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import AllowAny
 from django.shortcuts import get_object_or_404
 
@@ -17,6 +17,16 @@ class JobCreationView(generics.CreateAPIView):
 	queryset = Job.objects.all()
 	permission_classes = ([AllowAny])
 	serializer_class = JobSerializer
+
+class JobUpdateArchiveView(generics.UpdateAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.isArchived = not instance.isArchived
+        instance.save()
+        return Response(self.get_serializer(instance).data)
 
 class JobsAppliedListView(generics.ListAPIView):
 	'''Retrieve the job of an application for a user. The job seekers id is passed as a parameter in the url.'''

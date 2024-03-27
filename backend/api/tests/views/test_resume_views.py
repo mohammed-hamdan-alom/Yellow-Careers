@@ -38,7 +38,7 @@ class ResumeViewTestCase(TestCase):
     def test_create_resume(self):
         resume_data = {
             "job_seeker" : 1,
-            "github" : "https://github.com/username",
+            "website" : "https://github.com/username",
             "linkedin" : "https://linkedin.com/username",
             "experience" : "3 years",
             "about" : "I am a software engineer with 3 years experience",
@@ -52,7 +52,7 @@ class ResumeViewTestCase(TestCase):
         resume = self.resumes[0]
         updated_resume_data = {
             "job_seeker" : 1,
-            "github" : "https://github.com/username",
+            "website" : "https://github.com/username",
             "linkedin" : "https://linkedin.com/username",
             "experience" : "5 years",
             "about" : "I am a software engineer with 5 years experience",
