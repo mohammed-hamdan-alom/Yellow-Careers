@@ -32,13 +32,13 @@ function DisplayLanguages({ resumeId }) {
       <ul>
         {languages.map((language, index) => (
           <li key={index} className="text-gray-600 mb-4">
-            <p>
+            <p data-testid="language">
               <strong>Language:</strong> {language.language}
             </p>
-            <p>
+            <p data-testid="spoken">
               <strong>Spoken proficiency:</strong> {language.spoken_proficiency}
             </p>
-            <p>
+            <p data-testid="written">
               <strong>Written proficiency:</strong> {language.written_proficiency}
             </p>
             {/* Add divider if it's not the last language item */}
