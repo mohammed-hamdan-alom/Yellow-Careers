@@ -29,7 +29,7 @@ const EmployerProfilePage = () => {
     const fetchEmployerData = async () => {
       if (user?.user_id) {
         try {
-          const response = await AxiosInstance.get(`/api/employers/${user?.user_id}/`);
+          const response = await AxiosInstance.get(`api/employers/${user?.user_id}/`);
 
           if (response.status === 200) {
             const { email, first_name, last_name, other_names, phone_number, company } =
@@ -68,7 +68,7 @@ const EmployerProfilePage = () => {
     if (user?.user_id) {
       try {
         const response = await AxiosInstance.put(
-          `/api/employers/${user?.user_id}/update/`,
+          `api/employers/${user?.user_id}/update/`,
           formData
         );
 

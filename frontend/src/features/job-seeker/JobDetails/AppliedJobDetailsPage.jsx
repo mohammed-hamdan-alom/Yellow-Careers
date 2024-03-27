@@ -31,9 +31,9 @@ function AppliedJobDetailsPage() {
         setApplication(applicationResponse.data);
 
         const [resumeResponse, questionsResponse, answersResponse] = await Promise.all([
-          AxiosInstance.get(`/api/applications/${applicationResponse.data.id}/resume`),
-          AxiosInstance.get(`/api/jobs/${applicationResponse.data.job}/questions`),
-          AxiosInstance.get(`/api/applications/${applicationResponse.data.id}/answers`),
+          AxiosInstance.get(`api/applications/${applicationResponse.data.id}/resume`),
+          AxiosInstance.get(`api/jobs/${applicationResponse.data.job}/questions`),
+          AxiosInstance.get(`api/applications/${applicationResponse.data.id}/answers`),
         ]);
 
         setResume(resumeResponse.data);

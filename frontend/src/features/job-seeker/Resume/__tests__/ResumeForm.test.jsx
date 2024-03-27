@@ -60,7 +60,7 @@ describe('ResumeForm', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(AxiosInstance.put).toHaveBeenCalledWith(`/api/resumes/${resumeId}/update/`, {
+      expect(AxiosInstance.put).toHaveBeenCalledWith(`api/resumes/${resumeId}/update/`, {
         website: 'test-website',
         linkedin: 'test-linkedin',
         about: 'test-about',

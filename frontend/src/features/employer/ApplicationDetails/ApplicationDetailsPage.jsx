@@ -19,15 +19,15 @@ const ApplicationDetailsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const applicationResponse = await AxiosInstance.get(`/api/applications/${applicationId}`);
+        const applicationResponse = await AxiosInstance.get(`api/applications/${applicationId}`);
         setApplication(applicationResponse.data);
 
         const [jobSeekerResponse, questionsResponse, resumeResponse, answersResponse] =
           await Promise.all([
-            AxiosInstance.get(`/api/job-seekers/${applicationResponse.data.job_seeker}`),
-            AxiosInstance.get(`/api/jobs/${applicationResponse.data.job}/questions`),
-            AxiosInstance.get(`/api/applications/${applicationId}/resume`),
-            AxiosInstance.get(`/api/applications/${applicationId}/answers`),
+            AxiosInstance.get(`api/job-seekers/${applicationResponse.data.job_seeker}`),
+            AxiosInstance.get(`api/jobs/${applicationResponse.data.job}/questions`),
+            AxiosInstance.get(`api/applications/${applicationId}/resume`),
+            AxiosInstance.get(`api/applications/${applicationId}/answers`),
           ]);
 
         setJobSeeker(jobSeekerResponse.data);
@@ -53,7 +53,7 @@ const ApplicationDetailsPage = () => {
         ...prevApplication,
         status: newStatus,
       }));
-      await AxiosInstance.put(`/api/applications/${applicationId}/update/`, {
+      await AxiosInstance.put(`api/applications/${applicationId}/update/`, {
         ...application,
         status: newStatus,
       });
@@ -88,7 +88,7 @@ const ApplicationDetailsPage = () => {
           decision: value,
         }));
 
-        await AxiosInstance.put(`/api/applications/${applicationId}/update/`, {
+        await AxiosInstance.put(`api/applications/${applicationId}/update/`, {
           ...application,
           decision: value,
         });

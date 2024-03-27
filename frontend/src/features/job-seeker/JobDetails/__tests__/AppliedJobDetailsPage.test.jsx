@@ -94,9 +94,9 @@ vi.mock("@/utils/AxiosInstance", () => ({
     get: vi.fn((url) => {
       if (url == `api/applications/1`) {
         return Promise.resolve({ data: data.application });
-      } else if (url == `/api/applications/1/resume`) {
+      } else if (url == `api/applications/1/resume`) {
         return Promise.resolve({ data: data.resume });
-      } else if (url == `/api/jobs/1/questions`) {
+      } else if (url == `api/jobs/1/questions`) {
         return Promise.resolve({ data: data.questions });
       } else {
         return Promise.resolve({ data: data.answers });
