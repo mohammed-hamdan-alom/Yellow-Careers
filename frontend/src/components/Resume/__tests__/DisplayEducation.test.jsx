@@ -57,18 +57,26 @@ describe('DisplayEducation', () => {
     await waitFor(() => expect(AxiosInstance.get).toHaveBeenCalledTimes(1));
     expect(AxiosInstance.get).toHaveBeenCalledWith('api/resumes/1/educations/');
 
-    //Check display for first course
+
     const courseNameString = `${mockData[0].course_name}`;
     expect(await screen.findByText(courseNameString)).toBeVisible();
-    const startDate = await screen.getAllByTestId("start-date")[0]
-    const endDate = await screen.getAllByTestId("end-date")[0]
-    const level = await screen.getAllByTestId("level")[0]
-    const institution = await screen.getAllByTestId("institution")[0]
-    const grade = await screen.getAllByTestId("grade")[0]
-    const location = await screen.getAllByTestId("location")[0]
+    const startDate = await screen.getAllByTestId("start-date")
+    const endDate = await screen.getAllByTestId("end-date")
+    const level = await screen.getAllByTestId("level")
+    const institution = await screen.getAllByTestId("institution")
+    const grade = await screen.getAllByTestId("grade")
+    const location = await screen.getAllByTestId("location")
 
-    expect(startDate).toHaveTextContent(`Start Date: ${mockData[0].start_date}`);
-    expect(endDate).toHaveTextContent(`End Date: ${mockData[0].end_date}`)
+
+    mockData.forEach(async (education, index) => {
+      expect(startDate[index]).toHaveTextContent(`Start Date: ${mockData[index].start_date}`);
+      expect(endDate[index]).toHaveTextContent(`End Date: ${mockData[index].end_date}`);
+      // expect(level[index]).toHaveTextContent(`Level: ${mockData[index].level}`);
+      expect(institution[index]).toHaveTextContent(`Institution: ${mockData[index].institution}`);
+      expect(grade[index]).toHaveTextContent(`Grade: ${mockData[index].grade}`);
+      expect(location[index]).toHaveTextContent(`Location: ${mockData[index].address.post_code}, ${mockData[index].address.city}, ${mockData[index].address.country}`);
+
+    });
 
   });
 
