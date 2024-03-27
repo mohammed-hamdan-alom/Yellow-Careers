@@ -41,7 +41,7 @@ class ApplicationViewTestCase(TestCase):
 
         self.address = Address.objects.create(city='London', post_code='12345', country='UK')
         self.resume = Resume.objects.create(
-            github="https://github.com/test",
+            website="https://github.com/test",
             linkedin="https://linkedin.com/test",
             about="I am a test developer",
             experience="I have 5 years of experience")
@@ -60,17 +60,6 @@ class ApplicationViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), len(self.applications))
     
-    
-    # def test_create_application(self):
-    #     token = self._authenticate_user(user_email=self.job_seeker.email)
-    #     application_data = {
-    #         'job' : 3,
-    #         'job_seeker' : 2,
-    #         'resume' : 2,
-    #     }
-    #     response = self.client.post(reverse('application-post'), application_data)
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    #     self.assertEqual(Application.objects.count(), len(self.applications) + 1)
     
     def test_update_application(self):
         application = self.applications[0]
@@ -117,15 +106,6 @@ class ApplicationViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['job'], application.job.id)
         self.assertEqual(response.data['job_seeker'], application.job_seeker.id)
-
-    @staticmethod
-    def _authenticate_user(user_email):
-        # Authenticate the user and obtain the authentication token
-        client = APIClient()
-        response = client.post(reverse('token_obtain_pair'), {'email': user_email, 'password': 'Password123'})
-
-    
-
 
     def test_retrieve_application_by_job_seeker(self):
         '''Test retrieving an application by the job seeker who made the application.'''
