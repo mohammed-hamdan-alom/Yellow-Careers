@@ -9,11 +9,11 @@ import Swal from "sweetalert2";
 import QuestionCreationPage from "./QuestionCreationPage";
 import "@/components/styling/button.css";
 import {
-  UserOutlined,
   FileTextOutlined,
   PoundOutlined,
   EnvironmentOutlined,
   EnterOutlined,
+  LineOutlined,
 } from "@ant-design/icons";
 import "@/components/styling/tag.css";
 
@@ -96,8 +96,8 @@ function JobCreationPage() {
         <CardContent>
           <form onSubmit={handleJobCreation} className="space-y-4">
             <div>
-              <Tag icon={<UserOutlined />} color="orange" className="tag-medium">
-                Job Title
+              <Tag icon={<LineOutlined />} color="orange" className="tag-medium">
+                Job Title <LineOutlined />
               </Tag>
               <Input
                 className="w-full mt-2 border-gray-900 rounded-md"
