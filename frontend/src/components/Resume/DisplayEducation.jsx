@@ -35,7 +35,7 @@ function DisplayEducation({ resumeId }) {
         <div key={index} className="mb-6">
           <div className="flex items-center mb-2">
             <GraduationCap className="mr-2 text-gray-700" size={20} />
-            <Label className="text-xl font-semibold">{education.course_name}</Label>
+            <Label data-testid="course-name" className="text-xl font-semibold">{education.course_name}</Label>
           </div>
           <p className="mb-2" data-testid="start-date">
             <span className="font-semibold">Start Date:</span> {education.start_date}

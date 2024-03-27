@@ -41,11 +41,17 @@ describe('DisplayLanguages', () => {
     expect(AxiosInstance.get).toHaveBeenCalledWith('api/resumes/1/languages/');
 
     for (const language of mockData) {
-      const languageString = `${language.language}`;
-      expect(await screen.findAllByText(`Language:`)).toBeVisible();
-      expect(await screen.findByText(languageString)).toBeInTheDocument();
-      expect(await screen.findByText(`Spoken proficiency: ${language.spoken_proficiency}`)).toBeInTheDocument();
-      expect(await screen.findByText(`Written proficiency: ${language.written_proficiency}`)).toBeVisible();
+      const languageString = await screen.getAllByTestId("language");
+      const spoken = await screen.getAllByTestId("spoken");
+      const written = await screen.getAllByTestId("written");
+
+      mockData.forEach(async (language, index) => {
+
+        expect(languageString[index]).toHaveTextContent(`${mockData[index].language}`)
+        expect(spoken[index]).toHaveTextContent(`${mockData[index].spoken_proficiency}`)
+        expect(written[index]).toHaveTextContent(`${mockData[index].written_proficiency}`)
+      });
+
     }
   });
 
@@ -56,7 +62,7 @@ describe('DisplayLanguages', () => {
   });
 
   it('should handle fetch error', async () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
     AxiosInstance.get.mockRejectedValue(new Error('Fetch error'));
 
     render(<DisplayLanguages resumeId="1" />);
