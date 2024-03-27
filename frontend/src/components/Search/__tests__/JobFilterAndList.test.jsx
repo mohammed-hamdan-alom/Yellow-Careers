@@ -47,6 +47,7 @@ const jobs = [
     address: { country: "France" },
     job_type: "FT",
     salary: 44976,
+    company: { company_name: "The Company" }
   },
   {
     id: 2,
@@ -55,6 +56,7 @@ const jobs = [
     address: { country: "France" },
     job_type: "IN",
     salary: 74726,
+    company: { company_name: "The Company" }
   },
   {
     id: 3,
@@ -64,6 +66,7 @@ const jobs = [
     address: { country: "Germany" },
     job_type: "TM",
     salary: 35685,
+    company: { company_name: "The Company" }
   },
   {
     id: 4,
@@ -73,6 +76,7 @@ const jobs = [
     address: { country: "Germany" },
     job_type: "PT",
     salary: 61939,
+    company: { company_name: "The Company" }
   },
 ];
 
@@ -168,6 +172,7 @@ describe("JobFilter component", () => {
       fireEvent.change(locationFilter, { target: { value: "France" } });
       fireEvent.keyDown(locationFilter, { key: "Enter", keyCode: 13 });
     });
+
     const jobs = await screen.findAllByRole("list");
     expect(jobs).toHaveLength(3);
     expect(screen.getByText("Contracting civil engineer")).toBeInTheDocument();
