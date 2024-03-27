@@ -19,7 +19,7 @@ class EmployerJobRelationCreateView(BaseEmployerJobRelationView, generics.Create
         instance = serializer.save()
         
         is_created_by_employer = EmployerJobRelation.objects.filter(job=instance.job).count() == 1
-        send_job_access_notification(instance.employer.email, instance.job.title, instance.employer.company.company_name, is_created_by_employer)
+        # send_job_access_notification(instance.employer.email, instance.job.title, instance.employer.company.company_name, is_created_by_employer)
 
 class EmployerJobRelationUpdateView(BaseEmployerJobRelationView, generics.RetrieveUpdateDestroyAPIView):
     pass

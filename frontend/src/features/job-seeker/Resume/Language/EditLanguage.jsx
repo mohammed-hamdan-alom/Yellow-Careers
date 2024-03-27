@@ -3,7 +3,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from "@/components/Alert/alert";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "antd";
 import { Select } from "antd";
 import BigAlert from "@/components/Alert/BigAlert";
 
@@ -12,7 +12,7 @@ function EditLanguage({
   post,
   resumeId,
   setLanguages,
-  lanugageId,
+  languageId,
   closeAddModal,
   closeEditModal,
 }) {
@@ -36,7 +36,7 @@ function EditLanguage({
       if (put) {
         try {
           const response = await AxiosInstance.get(
-            `api/resumes/${resumeId}/languages/update/${languageId}`,
+            `api/resumes/${resumeId}/languages/update/${languageId}`
           );
           setLanguage(response.data);
         } catch (error) {
@@ -85,6 +85,7 @@ function EditLanguage({
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    console.log(language);
     try {
       await AxiosInstance.put(`api/resumes/${resumeId}/languages/update/${languageId}`, language);
       showSuccess("Language Updated");
@@ -93,6 +94,7 @@ function EditLanguage({
 
       const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
       setLanguages(response.data);
+      location.reload();
       closeEditModal();
     } catch (error) {
       console.error(error);
@@ -102,6 +104,7 @@ function EditLanguage({
         setErrors(error.response.data);
       }
       showError("Updating Language Failed");
+      closeEditModal();
     }
   };
 
@@ -124,16 +127,17 @@ function EditLanguage({
         setErrors(error.response.data);
       }
       showError("Creating Language Failed");
+      closeAddModal();
     }
   };
 
   return (
-    <div className="p-12">
+    <div className="p-6">
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">Enter Language:</Label>
+        <div className="flex flex-col justify-between items-left mb-4">
+          <Label className="text-1xl">Enter Language:</Label>
           <Input
-            className="w-[400px]"
+            className="w-full"
             placeholder="Enter Language"
             type="text"
             name="language"
@@ -151,10 +155,10 @@ function EditLanguage({
             />
           )}
         </div>
-        <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">Spoken Proficiency:</Label>
+        <div className="flex flex-col justify-between items-left mb-4">
+          <Label className="text-1xl">Spoken Proficiency:</Label>
           <Select
-            className="w-[420px]"
+            className="w-full"
             name="spoken_proficiency"
             placeholder="Select Spoken Proficiency"
             value={language.spoken_proficiency}
@@ -172,10 +176,12 @@ function EditLanguage({
             />
           )}
         </div>
-        <div className="flex flex-row justify-between items-center mb-4">
-          <Label className="mr-4 w-[400px] text-2xl">Written Proficiency:</Label>
+        <div className="flex flex-col justify-between items-left mb-4">
+          <Label className="text-1xl">
+            Written Proficiency:
+          </Label>
           <Select
-            className="w-[420px]"
+            className="w-full"
             name="written_proficiency"
             placeholder="Select Written Proficiency"
             value={language.written_proficiency}

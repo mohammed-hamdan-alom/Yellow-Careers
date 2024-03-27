@@ -27,7 +27,7 @@ job_seeker_fixture = [
 
 resume_fixture = [
     {
-        'github': 'https://github.com/test',
+        'website': 'https://github.com/test',
         'linkedin': 'https://linkedin.com/test',
         'about': "I am a seasoned software engineer with a strong foundation in SQL database management and a meticulous approach to ensuring data integrity. Over the past 5 years, I've specialized in architecting and optimizing SQL databases, crafting robust schemas, and fine-tuning queries for optimal performance. My expertise extends to maintaining databases, implementing rigorous data validation processes, and establishing comprehensive backup and recovery strategies to safeguard critical information. In addition to database management, I possess advanced skills in web development, particularly in leveraging the Django framework to build scalable and responsive applications. My commitment to excellence and attention to detail are evident in the systems I develop, which prioritize security, reliability, and maintainability.",
         'experience': "Throughout my career, I've played a pivotal role in developing and maintaining mission-critical software solutions. As a software engineer, I've led initiatives to design and implement SQL databases that serve as the backbone of enterprise applications. I have a proven track record of optimizing database performance, reducing query execution times, and ensuring seamless scalability to accommodate growing data volumes. My experience also encompasses establishing robust data validation mechanisms to uphold data integrity standards and prevent unauthorized access or manipulation. Proficient in crafting intricate SQL queries, I specialize in extracting meaningful insights from complex datasets, driving informed decision-making across organizational levels. In tandem with database management, I've contributed to the development of Django-based web applications, delivering user-centric solutions that drive business growth and enhance user engagement. With a focus on continuous improvement, I thrive in dynamic environments where innovation and collaboration are paramount.",
@@ -254,7 +254,7 @@ class Command(BaseCommand):
     def seed_job_seeker_fixture(self):
         '''Seeding the fixtures'''
         resume = Resume.objects.create(
-            github=resume_fixture[0]['github'],
+            website=resume_fixture[0]['website'],
             linkedin=resume_fixture[0]['linkedin'],
             about=resume_fixture[0]['about'],
             experience=resume_fixture[0]['experience'],
@@ -403,7 +403,7 @@ class Command(BaseCommand):
         for i in range(self.JOB_SEEKER_COUNT):
 
             Resume.objects.create(
-                github=self.faker.url(),
+                website=self.faker.url(),
                 linkedin=self.faker.url(),
                 about=self.faker.paragraph_with_max_length(),
                 experience=self.faker.paragraph_with_max_length(),
@@ -578,7 +578,7 @@ class Command(BaseCommand):
                 Job.objects.create(
                     title = row['Role'],
                     description = row['Job Description'] + "\nBenefits: " + row['Benefits'] + "\nSkills: " + row['Skills'] + "\nResponsibilities: " + row['Responsibilities'],
-                    salary = random.randint(30000, 100000),
+                    salary = random.randint(30000, 200000),
                     address = new_address,
                     job_type = random.choice([choice[0] for choice in Job.JobType.choices])
                 )

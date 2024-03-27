@@ -12,10 +12,13 @@ const JobList = ({ jobs }) => {
   const handleSearch = (e) => {
     const query = e.target.value;
     setQuery(query);
-    const filteredResults = jobs.filter((item) =>
-      item.title.toLowerCase().includes(query.toLowerCase()),
-    );
-    setResults(filteredResults);
+    const titleFilter = (job) => job.title.toLowerCase().includes(query.toLowerCase());
+    const descriptionFilter = (job) => job.description.toLowerCase().includes(query.toLowerCase());
+    const companyFilter = (job) => job.company.company_name.toLowerCase().includes(query.toLowerCase());
+
+    const filteredResults = jobs.filter((job) => titleFilter(job) || descriptionFilter(job) || companyFilter(job));
+
+    setResults(filteredResults)
     setCurrentPage(1); // Reset to the first page when performing a new search
   };
 

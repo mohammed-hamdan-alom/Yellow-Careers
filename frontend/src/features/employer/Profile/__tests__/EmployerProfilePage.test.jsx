@@ -34,7 +34,7 @@ vi.mock("@/utils/AxiosInstance", () => ({
   },
 }));
 
-vi.mock("@/components/handleErrorAndShowMessage/handleErrorAndShowMessage", () => ({
+vi.mock("@/components/error_handler/error_display", () => ({
   handleErrorAndShowMessage: vi.fn(),
 }));
 
@@ -43,7 +43,7 @@ describe("EmployerProfile component", () => {
     render(
       <AuthContext.Provider value={{ user: mockUser }}>
         <EmployerProfilePage />
-      </AuthContext.Provider>,
+      </AuthContext.Provider>
     );
   });
 

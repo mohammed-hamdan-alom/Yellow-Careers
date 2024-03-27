@@ -8,22 +8,24 @@ import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessag
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 import "@/components/styling/button.css";
 
-const JobSeekerProfilePage = () => {
+const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
 
+  const [errors, setErrors] = useState("");
+
   const [formData, setFormData] = useState({
-    email: "",
-    first_name: "",
-    last_name: "",
-    other_names: "",
-    phone_number: "",
-    dob: "",
-    nationality: "",
-    sex: "",
+    email: user.email,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    other_names: user.other_names,
+    phone_number: user.phone_number,
+    dob: user.dob,
+    nationality: user.nationality,
+    sex: user.sex,
     address: {
-      city: "",
-      post_code: "",
-      country: "",
+      city: user.city,
+      post_code: user.postcode,
+      country: user.country,
     },
   });
 
@@ -35,7 +37,9 @@ const JobSeekerProfilePage = () => {
     const fetchJobSeekerData = async () => {
       if (user?.user_id) {
         try {
-          const response = await AxiosInstance.get(`/api/job-seekers/${user?.user_id}/`);
+          const response = await AxiosInstance.get(
+            `/api/job-seekers/${user?.user_id}/`
+          );
           if (response.status === 200) {
             const {
               email,
@@ -64,7 +68,11 @@ const JobSeekerProfilePage = () => {
               },
             });
           } else {
-            swal.fire("Failed to fetch", "Could not fetch job seeker profile.", "error");
+            swal.fire(
+              "Failed to fetch",
+              "Could not fetch job seeker profile.",
+              "error"
+            );
           }
         } catch (error) {
           handleErrorAndShowMessage("Error retrieving data:", error);
@@ -85,6 +93,12 @@ const JobSeekerProfilePage = () => {
           [name]: value,
         },
       }));
+    } else if (name === "sex") {
+      const sexValue = value === "Male" ? "M" : "F";
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: sexValue,
+      }));
     } else {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -103,10 +117,14 @@ const JobSeekerProfilePage = () => {
         );
 
         if (response.status === 200) {
-          swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
+          swal.fire(
+            "Profile Updated",
+            "Your profile has been updated successfully.",
+            "success"
+          );
         }
       } catch (error) {
-        handleErrorAndShowMessage("Error updating profile:", error);
+        setErrors(error.response.data);
       }
     }
   };
@@ -114,11 +132,14 @@ const JobSeekerProfilePage = () => {
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AxiosInstance.put("/api/job-seeker/change-password/", {
-        old_password: oldPassword,
-        new_password: newPassword,
-        confirm_password: confirmNewPassword,
-      });
+      const response = await AxiosInstance.put(
+        "/api/job-seeker/change-password/",
+        {
+          old_password: oldPassword,
+          new_password: newPassword,
+          confirm_password: confirmNewPassword,
+        }
+      );
 
       if (response.status === 200) {
         swal.fire({
@@ -137,13 +158,15 @@ const JobSeekerProfilePage = () => {
   };
 
   return (
-    <div>
+    <div className='mb-2'>
       <ProfileDetails
         formData={formData}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        errors={errors}
         userType="job-seeker"
       />
+
       <PasswordChangeSection
         oldPassword={oldPassword}
         setOldPassword={setOldPassword}
@@ -157,4 +180,4 @@ const JobSeekerProfilePage = () => {
   );
 };
 
-export default JobSeekerProfilePage;
+export default JobSeekerProfile;

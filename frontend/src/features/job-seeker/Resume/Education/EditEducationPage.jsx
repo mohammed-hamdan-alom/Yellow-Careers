@@ -40,7 +40,7 @@ function EditEducationPage({
       if (put) {
         try {
           const response = await AxiosInstance.get(
-            `api/resumes/${resumeId}/educations/update/${educationId}`,
+            `api/resumes/${resumeId}/educations/update/${educationId}`
           );
           setEducation(response.data);
         } catch (error) {
@@ -94,7 +94,7 @@ function EditEducationPage({
     try {
       await AxiosInstance.put(
         `api/resumes/${resumeId}/educations/update/${educationId}`,
-        education,
+        education
       );
       showSuccess("Education Updated");
       setErrors(defaultEducationState);
@@ -102,6 +102,7 @@ function EditEducationPage({
 
       const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
       setEducations(response.data);
+      location.reload();
       closeEditModal();
     } catch (error) {
       console.error(error);
@@ -265,7 +266,7 @@ function EditEducationPage({
         </div>
         {education.address && (
           <div className="flex flex-row w-full mt-8 justify-between items-center space-x-2">
-            <div className="flex flex-col justify-between items-center mb-4 ">
+            <div className="flex flex-col justify-between items-center mb-4 space-y-2">
               <Label className="w-full text-1xl">City</Label>
               <Input
                 className="w-full"
@@ -274,18 +275,15 @@ function EditEducationPage({
                 value={education.address.city}
                 onChange={handleEducationChange}
               />
-            </div>
-            <div className="mb-4">
               {errors.address && errors.address.city && (
                 <BigAlert
-                  className="ml-4"
                   message={"Enter valid city"}
                   description={""}
                   type="error"
                 />
               )}
             </div>
-            <div className="flex flex-col justify-between items-center mb-4">
+            <div className="flex flex-col justify-between items-center mb-4 space-y-2">
               <Label className="w-full text-1xl">Post Code</Label>
               <Input
                 className="w-full"
@@ -294,8 +292,6 @@ function EditEducationPage({
                 value={education.address.post_code}
                 onChange={handleEducationChange}
               />
-            </div>
-            <div className="mb-4">
               {errors.address && errors.address.post_code && (
                 <BigAlert
                   className="ml-4"
@@ -305,7 +301,7 @@ function EditEducationPage({
                 />
               )}
             </div>
-            <div className="flex flex-col justify-between items-center mb-4">
+            <div className="flex flex-col justify-between items-center mb-4 space-y-2">
               <Label className="w-full text-1xl">Country</Label>
               <Input
                 className="w-full"
@@ -314,8 +310,6 @@ function EditEducationPage({
                 value={education.address.country}
                 onChange={handleEducationChange}
               />
-            </div>
-            <div className="mb-4">
               {errors.address && errors.address.country && (
                 <BigAlert
                   className="ml-4"

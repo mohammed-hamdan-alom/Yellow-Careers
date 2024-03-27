@@ -4,6 +4,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Swal from "sweetalert2";
 
 function QuestionCreationPage({ jobId }) {
   const navigate = useNavigate();
@@ -15,6 +16,10 @@ function QuestionCreationPage({ jobId }) {
     jobId: jobId,
   });
 
+  const showJobCreatedSuccess = () => {
+    Swal.fire("Job Created", "Your job has been created successfully!", "success");
+  };
+
   useEffect(() => {
     AxiosInstance.get(`api/jobs/${jobId}/questions/`)
       .then((res) => {
@@ -24,7 +29,7 @@ function QuestionCreationPage({ jobId }) {
     setQuestionsChanged(false);
   }, [questionsChanged]);
 
-  const handleSubmit = (event) => {
+  const handleQuestionCreation = (event) => {
     event.preventDefault();
     AxiosInstance.post("api/questions/create/", {
       job: questionData.jobId,
@@ -48,8 +53,9 @@ function QuestionCreationPage({ jobId }) {
     });
   };
 
-  const handleSkip = (event) => {
+  const handleFinish = (event) => {
     event.preventDefault();
+    showJobCreatedSuccess();
     navigate(`/employer/job-details/${jobId}`);
   };
 
@@ -61,7 +67,7 @@ function QuestionCreationPage({ jobId }) {
 
   return (
     <div className="mt-4 w-full flex flex-col justify-start mr-10 p-6 bg-white rounded shadow">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form className="space-y-4">
         <h2 className="text-2xl font-bold">Add a question</h2>
         <div className="form-group">
           <Label className="text-xl font-semibold" style={{ color: "#4A5568" }}>
@@ -75,7 +81,7 @@ function QuestionCreationPage({ jobId }) {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
           />
           <div className="form-actions mt-4">
-            <Button onClick={handleSubmit} className="blueButton">
+            <Button onClick={handleQuestionCreation} className="blueButton">
               Add Question
             </Button>
           </div>
@@ -99,19 +105,11 @@ function QuestionCreationPage({ jobId }) {
         </ul>
       ))}
       <br></br>
-      <Button onClick={handleSkip} className="yellowButton mt-1">
+      <Button onClick={handleFinish} className="yellowButton mt-1">
         Submit
       </Button>
     </div>
   );
 }
-
-const Employer = ({ employer }) => {
-  return (
-    <div className="border-t border-b border-gray-300 py-4">
-      <Label className="text-lg font-semibold"></Label>
-    </div>
-  );
-};
 
 export default QuestionCreationPage;

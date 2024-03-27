@@ -97,6 +97,7 @@ class ProfessionalExperienceSerializer(serializers.ModelSerializer):
         instance.end_date = validated_data.get('end_date', instance.end_date)
         instance.company = validated_data.get('company', instance.company)
         instance.position = validated_data.get('position', instance.position)
+        instance.description = validated_data.get('description', instance.description)
         instance.save()
 
         return instance

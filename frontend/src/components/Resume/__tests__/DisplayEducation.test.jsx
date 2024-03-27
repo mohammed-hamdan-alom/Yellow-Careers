@@ -73,7 +73,7 @@ describe('DisplayEducation', () => {
   });
 
   it('should handle fetch error', async () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
     AxiosInstance.get.mockRejectedValue(new Error('Fetch error'));
 
     render(<DisplayEducation resumeId="1" />);

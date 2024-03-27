@@ -2,7 +2,7 @@ import { render, waitFor, screen, act } from "@testing-library/react";
 import { vi, describe, it, expect } from "vitest";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import UpdateResumePage from "../ResumePage";
+import UpdateResumePage from '../ResumePage';
 
 vi.mock("@/utils/AxiosInstance");
 
@@ -110,14 +110,14 @@ describe("UpdateResumePage", () => {
     });
   });
 
-  it("should create a new resume if none exists", async () => {
+  it('should create a new resume if none exists', async () => {
     AxiosInstance.get.mockResolvedValueOnce({
       status: 200,
       data: { resume: null },
     });
     AxiosInstance.post.mockResolvedValueOnce({
       status: 200,
-      data: { id: "789" },
+      data: { id: '789' },
     });
 
     await act(async () => {
@@ -132,7 +132,7 @@ describe("UpdateResumePage", () => {
       expect(AxiosInstance.get).toHaveBeenCalledWith(`api/job-seekers/123/`);
 
       expect(AxiosInstance.post).toHaveBeenCalledWith(`api/resumes/create/`, {
-        github: "",
+        website: "",
         linkedin: "",
         about: "",
         experience: "",

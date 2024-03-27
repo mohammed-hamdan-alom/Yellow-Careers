@@ -10,7 +10,7 @@ import "../styling/shadow.css";
 
 function DisplayResume({ resumeId }) {
   const defaultResumeState = {
-    github: "",
+    website: "",
     linkedin: "",
     about: "",
     experience: "",
