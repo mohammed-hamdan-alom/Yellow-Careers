@@ -194,6 +194,55 @@ class ApplicationViewTestCase(TestCase):
         response = view(request, job_id=job.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_list_applications_from_job_by_authorized_employer_with_job_seeker_without_address(self):
+        """Test retrieving the application list from a job by an authorized employer with a job without an address."""
+        resume=Resume.objects.get(pk=2)
+        job_seeker = JobSeeker.objects.create(
+            first_name =  'John',
+            last_name = 'Doe',
+            email = 'noaddress@example.com',
+            phone_number = '08012345678',
+            is_active = True,
+            dob = "1980-04-01",
+            nationality = "Indian",
+            sex = "F",
+            resume = resume
+        )
+        Application.objects.create(job=Job.objects.get(pk=1), job_seeker=job_seeker, resume=resume)
+        job = Job.objects.get(pk=1) 
+        employer = Employer.objects.get(pk=3)
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-all-get', args=[job.id]))
+        force_authenticate(request, user=employer)
+        view = ApplicationsFromJobListView.as_view()
+        response = view(request, job_id=job.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_list_applications_from_job_by_authorized_employer_with_job_without_description(self):
+        """Test retrieving the application list from a job by an authorized employer with a job without a description."""
+        resume=Resume.objects.create(website="", linkedin="", about="", experience="")
+        job_seeker = JobSeeker.objects.create(
+            first_name =  'John',
+            last_name = 'Doe',
+            email = 'noaddress@example.com',
+            phone_number = '08012345678',
+            is_active = True,
+            dob = "1980-04-01",
+            nationality = "Indian",
+            sex = "F",
+            resume = resume
+        )
+        Application.objects.create(job=Job.objects.get(pk=1), job_seeker=job_seeker, resume=resume)
+        job = Job.objects.get(pk=1) 
+        employer = Employer.objects.get(pk=3)
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-all-get', args=[job.id]))
+        force_authenticate(request, user=employer)
+        view = ApplicationsFromJobListView.as_view()
+        response = view(request, job_id=job.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
     def test_list_applications_from_job_by_unauthorized_employer(self):
         '''Test retrieving the application list from a job by an unauthorized employer.'''
         job = Job.objects.get(pk=1)
