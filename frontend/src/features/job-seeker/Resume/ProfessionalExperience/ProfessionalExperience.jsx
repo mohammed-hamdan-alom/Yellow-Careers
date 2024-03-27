@@ -7,21 +7,25 @@ import { showError, showSuccess } from "@/components/Alert/alert";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { SquarePen, MinusCircle } from "lucide-react";
+import { set } from "date-fns";
 
 function ProfessionalExperience({ resumeId }) {
   const [professionalExperiences, setProfessionalExperiences] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [openProfessionalExperienceId, setOpenProfessionalExperienceId] = useState(null);
 
   const showAddModal = () => {
     setIsAddModalOpen(true);
   };
 
-  const showEditModal = () => {
+  const showEditModal = (professionalExperienceId) => {
+    setOpenProfessionalExperienceId(professionalExperienceId);
     setIsEditModalOpen(true);
   };
 
   const closeEditModal = () => {
+    setOpenProfessionalExperienceId(null);
     setIsEditModalOpen(false);
   };
 
@@ -36,7 +40,7 @@ function ProfessionalExperience({ resumeId }) {
       }
       try {
         const response = await AxiosInstance.get(
-          `api/resumes/${resumeId}/professional-experiences/`,
+          `api/resumes/${resumeId}/professional-experiences/`
         );
         setProfessionalExperiences(response.data);
       } catch (error) {
@@ -50,11 +54,11 @@ function ProfessionalExperience({ resumeId }) {
   const handleDeleteProfessionalExperience = async (professionalExperienceObj) => {
     try {
       await AxiosInstance.delete(
-        `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`,
+        `api/resumes/${resumeId}/professional-experiences/update/${professionalExperienceObj.id}`
       );
       showSuccess("Professional Experience Deleted");
       setProfessionalExperiences((prevprofessionalExperiences) =>
-        prevprofessionalExperiences.filter((item) => item !== professionalExperienceObj),
+        prevprofessionalExperiences.filter((item) => item !== professionalExperienceObj)
       );
     } catch (error) {
       console.error("Error:", error);
@@ -72,39 +76,20 @@ function ProfessionalExperience({ resumeId }) {
             className="flex flex-col items-center justify-between mb-4"
           >
             <div className="flex flex-col w-full outline rounded m-3 p-2">
-              <Label className="text-1xl">
-                Job Title: {professionalExperience.position}
-              </Label>
-              <Label className="text-1xl">
-                Company: {professionalExperience.company}
-              </Label>
+              <Label className="text-1xl">Job Title: {professionalExperience.position}</Label>
+              <Label className="text-1xl">Company: {professionalExperience.company}</Label>
             </div>
 
             <div className="flex flex-row w-full items-center justify-end">
               <Button
                 className="mr-4"
                 variant="secondary"
-                onClick={showEditModal}
+                onClick={() => showEditModal(professionalExperience.id)}
               >
                 <SquarePen size={20} className="mr-2" />
                 Edit
               </Button>
 
-              <Modal
-                title="Edit Professional Experience"
-                open={isEditModalOpen}
-                onOpen={showEditModal}
-                onCancel={closeEditModal}
-                footer={null}
-              >
-                <EditProfessionalExperience
-                  put={true}
-                  professionalExperienceId={professionalExperience.id}
-                  resumeId={resumeId}
-                  setProfessionalExperiences={setProfessionalExperiences}
-                  closeEditModal={closeEditModal}
-                />
-              </Modal>
               <Button
                 variant="destructive"
                 onClick={() => {
@@ -115,6 +100,22 @@ function ProfessionalExperience({ resumeId }) {
                 Delete
               </Button>
             </div>
+
+            <Modal
+              title="Edit Professional Experience"
+              open={isEditModalOpen}
+              onOk={closeEditModal}
+              onCancel={closeEditModal}
+              footer={null}
+            >
+              <EditProfessionalExperience
+                put={true}
+                professionalExperienceId={professionalExperience.id}
+                resumeId={resumeId}
+                setProfessionalExperiences={setProfessionalExperiences}
+                closeEditModal={closeEditModal}
+              />
+            </Modal>
           </div>
         ))}
       </div>
@@ -126,7 +127,7 @@ function ProfessionalExperience({ resumeId }) {
         <Modal
           title="Add Professional Experience"
           open={isAddModalOpen}
-          onOpen={showAddModal}
+          onOk={closeAddModal}
           onCancel={closeAddModal}
           footer={null}
         >
