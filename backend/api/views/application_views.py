@@ -35,10 +35,6 @@ class ApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPIView):
             if not employer.is_company_admin:
                 if not user.id in employer_ids:
                     raise PermissionDenied("You do not have permission to view this application.")
-<<<<<<< HEAD
-        print(obj.resume.website)
-=======
->>>>>>> f10e0b9a428735df334c6f212259ce2e8121ff91
         return obj
 
 class JobSeekerApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPIView):
