@@ -3,7 +3,7 @@
         "model": "api.resume",
         "pk": 1,
         "fields": {
-            "github": "https://github.com/test",
+            "website": "https://github.com/test",
             "linkedin": "https://linkedin.com/test",
             "about" : "I am a test developer",
             "experience" : "I have 5 years of experience"
@@ -68,7 +68,7 @@
         "model": "api.resume",
         "pk": 2,
         "fields": {
-            "github": "https://github.com/test2",
+            "website": "https://github.com/test2",
             "linkedin": "https://linkedin.com/test2",
             "about" : "I am a test2 developer",
             "experience" : "I have 10 years of experience"

@@ -28,14 +28,14 @@ class ResumeSerializerTestCase(TestCase):
     
     def test_serializer_fields(self):
         serializer = ResumeSerializer()
-        expected_fields = {'id','github','linkedin', 'about', 'experience'}
+        expected_fields = {'id','website','linkedin', 'about', 'experience'}
         self.assertEqual(set(serializer.fields.keys()), expected_fields)
 
 
     def test_serializer_data(self):
         expected_data = {
             'id' : self.resume.id,
-            'github' : self.resume.github,
+            'website' : self.resume.website,
             'linkedin' : self.resume.linkedin,
             'about' : self.resume.about,
             'experience' : self.resume.experience
@@ -51,7 +51,7 @@ class ResumeSerializerTestCase(TestCase):
 
         # Test validation with invalid data (missing required fields)
         invalid_data = {
-            'githubb' : 'random', #doesn't exist
+            'website' : 'random', #doesn't exist
             'linkedin' : 'random',
             'about' : 'random',
             'experience' :'random'
@@ -261,7 +261,7 @@ class ProfessionalExperienceSerializerTestCase(TestCase):
     def test_update_professional_experience(self):
 
         self.resume2 = Resume.objects.create(
-            github="https://github.com/test",
+            website="https://github.com/test",
             linkedin="https://linkedin.com/test",
             about="I am a test developer",
             experience="I have 2 years of experience")
@@ -375,7 +375,7 @@ class EducationSerializerTestCase(TestCase):
     def test_update_education(self):
 
         self.resume3 = Resume.objects.create(
-            github="https://github.com/test",
+            website="https://github.com/test",
             linkedin="https://linkedin.com/test",
             about="I am a test developer",
             experience="I have 5 years of experience")

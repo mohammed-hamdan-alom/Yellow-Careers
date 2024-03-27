@@ -72,7 +72,7 @@ class ProfessionalExperience(models.Model):
 
 class Resume(models.Model):
     """Model that represents a resume"""
-    github = models.URLField(max_length=250,blank=True)
+    website = models.URLField(max_length=250,blank=True)
     linkedin = models.URLField(max_length=250,blank=True)
     about = models.TextField(max_length=2000,blank=True)
     experience = models.TextField(max_length=2000,blank=True)
