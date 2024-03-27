@@ -83,7 +83,7 @@ function Language({ resumeId }) {
                 footer={null}
                 open={isEditModalOpen}
                 onOk={() => setIsEditModalOpen(false)}
-                onClose={() => setIsEditModalOpen(false)}
+                onCancel={() => setIsEditModalOpen(false)}
               >
                 <EditLanguage
                   post={false}
@@ -107,7 +107,7 @@ function Language({ resumeId }) {
           open={isAddModalOpen}
           footer={null}
           onOk={() => setIsAddModalOpen(false)}
-          onClose={() => setIsAddModalOpen(false)}
+          onCancel={() => setIsAddModalOpen(false)}
         >
           <EditLanguage
             post={true}
