@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
+import { Switch } from "antd";
 import JobFilterAndList from "@/components/Search/JobFilterAndList";
+import "../styling/switch.css";
 
 function ArchivedJobsListPage() {
   const { user } = useContext(AuthContext);
@@ -47,12 +49,36 @@ function ArchivedJobsListPage() {
     fetchData();
   }, [userId]);
 
+  const handleSwitchChange = (checked) => {
+    setShowCompanyArchivedJobs(checked);
+  };
+
   return (
     <div>
       {showCompanyArchivedJobs ? (
-        <JobFilterAndList jobs={companyArchivedJobs} />
+        <div>
+          {companyArchivedJobs.length > 0 && (
+            <Switch
+              checkedChildren="Company Archived Jobs"
+              unCheckedChildren="Your Archived Jobs"
+              defaultChecked={showCompanyArchivedJobs}
+              onChange={handleSwitchChange}
+            />
+          )}
+          <JobFilterAndList jobs={companyArchivedJobs} />
+        </div>
       ) : (
-        <JobFilterAndList jobs={archivedJobs} />
+        <div>
+          {companyArchivedJobs.length > 0 && (
+            <Switch
+              checkedChildren="Company Archived Jobs"
+              unCheckedChildren="Your Archived Jobs"
+              defaultChecked={showCompanyArchivedJobs}
+              onChange={handleSwitchChange}
+            />
+          )}
+          <JobFilterAndList jobs={archivedJobs} />
+        </div>
       )}
     </div>
   );
