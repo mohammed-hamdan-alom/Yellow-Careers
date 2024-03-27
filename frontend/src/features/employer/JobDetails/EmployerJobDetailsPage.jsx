@@ -5,6 +5,7 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from "@/components/JobDetails/JobDetails";
 import Question from "@/components/QuestionsAndAnswers/Question";
 import { Button } from "antd";
+import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import "@/components/styling/button.css";
 import Swal from "sweetalert2";
 import { Label } from "@/components/ui/label";
@@ -121,11 +122,31 @@ const EmployerJobDetailsPage = () => {
     });
   };
 
+  const handleArchive = async () => {
+    try {
+      await AxiosInstance.put(`api/jobs/${jobId}/update-archive/`);
+      setJob({ ...job, isArchived: !job.isArchived });
+    } catch (error) {
+      console.error("Error archiving job:", error);
+    }
+  };
+
   return (
     <div>
-      <div className="mb-3">
+      <div className="mb-3 flex justify-between">
         <Button className="blueButton" onClick={handleClick}>
           See Applicants
+        </Button>
+        <Button className="yellowButton" onClick={handleArchive}>
+          {job.isArchived ? (
+            <>
+              <UploadOutlined /> Unarchive
+            </>
+          ) : (
+            <>
+              <DownloadOutlined /> Archive
+            </>
+          )}
         </Button>
       </div>
       <div className="mt-3 mb-8">
@@ -186,6 +207,7 @@ const EmployerJobDetailsPage = () => {
               <option disabled value="">
                 Select Employer:
               </option>
+
               {companyEmployers
                 .filter((employer) => !employers.some((e) => e.id === employer.id))
                 .map((employer) => (

@@ -108,6 +108,7 @@ function EditProfessionalExperience({
 
       const response = await AxiosInstance.get(`api/resumes/${resumeId}/professional-experiences/`);
       setProfessionalExperiences(response.data);
+      location.reload();
       closeEditModal();
     } catch (error) {
       console.error(error);

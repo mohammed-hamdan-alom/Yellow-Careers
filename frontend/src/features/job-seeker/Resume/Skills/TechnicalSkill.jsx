@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MinusCircle, PlusCircle } from "lucide-react";
-import { SquarePen } from "lucide-react";
 
 function TechnicalSkill({ resumeId }) {
   const [technicalSkills, setTechnicalSkills] = useState([]);
@@ -25,7 +24,7 @@ function TechnicalSkill({ resumeId }) {
         console.error("Error:", error);
       }
     };
-
+  
     fetchTechnicalSkills();
   }, [resumeId]);
 
@@ -37,16 +36,16 @@ function TechnicalSkill({ resumeId }) {
   const handleSubmitTechnicalSkills = async (event) => {
     event.preventDefault();
     try {
-      const response = await AxiosInstance.post(
-        `http://localhost:8000/api/resumes/${resumeId}/technical-skills/create/`,
-        {
-          skill: technicalSkill,
-        },
-      );
+      const response = await AxiosInstance.post(`api/resumes/${resumeId}/technical-skills/create/`, {
+        skill: technicalSkill,
+      });
       showSuccess("Technical Skill Added");
       setTechnicalSkill("");
       setErrors({ technicalSkill: "" });
-      setTechnicalSkills((prevTechnicalSkills) => [...prevTechnicalSkills, response.data]);
+      setTechnicalSkills((prevTechnicalSkills) => [
+        ...prevTechnicalSkills,
+        response.data,
+      ]);
     } catch (error) {
       console.error("Error:", error);
       let errorMessages = "";
@@ -57,13 +56,15 @@ function TechnicalSkill({ resumeId }) {
       showError("Creating Technical Skill Failed");
     }
   };
-
+  
   //Delete technical skill
   const handleDeleteTechnicalSkill = async (skillObj) => {
     try {
       await AxiosInstance.delete(`api/resumes/${resumeId}/technical-skills/update/${skillObj.id}`);
       showSuccess("Technical Skill Deleted");
-      setTechnicalSkills((prevSoftSkills) => prevSoftSkills.filter((item) => item !== skillObj));
+      setTechnicalSkills((prevSoftSkills) =>
+        prevSoftSkills.filter((item) => item !== skillObj)
+      );
     } catch (error) {
       console.error("Error:", error);
       showError("Deleting Technical Skill Failed");
@@ -75,23 +76,26 @@ function TechnicalSkill({ resumeId }) {
       <Label className="text-3xl mb-4">Technical Skills</Label>
       <div>
         {technicalSkills.map((skill) => (
-          <div key={skill.id} className="flex flex-row items-center justify-between mb-4">
+          <div
+            key={skill.id}
+            className="flex flex-row items-center justify-between mb-4"
+          >
             <div>
               <Label className="text-1xl">{skill.skill}</Label>
             </div>
             <div className="flex flex-row items-center">
               <Button
-                size="icon"
                 variant="destructive"
                 onClick={() => handleDeleteTechnicalSkill(skill)}
               >
-                <MinusCircle />
+                <MinusCircle className="mr-2"/>
+                Delete
               </Button>
             </div>
           </div>
         ))}
       </div>
-      <div className="flex flex-row items-center w-full mb-4">
+      <div className="flex flex-row items-center justify-between w-full mb-4">
         <Label className="text-1xl w-[180px]">Add technical skill:</Label>
         <Input
           name="technicalSkill"
@@ -100,12 +104,12 @@ function TechnicalSkill({ resumeId }) {
           onChange={handleTechnicalSkillChange}
         />
         <Button
-          size="icon"
-          className="w-10 h-10 ml-4"
+          className="ml-4"
           variant="secondary"
           onClick={handleSubmitTechnicalSkills}
         >
-          <PlusCircle />
+          <PlusCircle className="mr-2"/>
+          Add
         </Button>
       </div>
     </div>
