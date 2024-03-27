@@ -9,6 +9,8 @@ import Language from "./Language/Language";
 import Education from "./Education/Education";
 import ProfessionalExperience from "./ProfessionalExperience/ProfessionalExperience";
 
+
+
 function UpdateResumePage() {
   const [resumeId, setResumeId] = useState(null);
   const { user } = useContext(AuthContext);
@@ -24,7 +26,7 @@ function UpdateResumePage() {
       if (data.resume === null) {
         console.log("Resume not found");
         const response = await AxiosInstance.post(`api/resumes/create/`, {
-          github: "",
+          website: "",
           linkedin: "",
           about: "",
           experience: "",
@@ -43,17 +45,15 @@ function UpdateResumePage() {
 
   return (
     <div className="pb-96">
-      <div className="flex flex-row justify-left mt-4 ">
+      <div className="flex flex-col justify-between mt-4 ">
         <Education resumeId={resumeId} />
         <ProfessionalExperience resumeId={resumeId} />
-      </div>
-      <div className="flex flex-row justify-left sm:flex-wrap">
         <ResumeForm resumeId={resumeId} />
-        <SoftSkill resumeId={resumeId} />
-      </div>
-      <div className="flex flex-row justify-left mt-4 sm:flex-col">
         <Language resumeId={resumeId} />
-        <TechnicalSkill resumeId={resumeId} />
+        <div className="flex flex-row justify-between mt-4 space-x-6">
+          <SoftSkill resumeId={resumeId} />
+          <TechnicalSkill resumeId={resumeId} />
+        </div>
       </div>
     </div>
   );

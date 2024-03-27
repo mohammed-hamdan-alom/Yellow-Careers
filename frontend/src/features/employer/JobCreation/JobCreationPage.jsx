@@ -4,13 +4,12 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Input, InputNumber } from "antd";
-import { Select } from "antd";
+import { Input, InputNumber, Select, Modal } from "antd";
 import { Button } from "@/components/ui/button";
-const { TextArea } = Input;
 import Swal from "sweetalert2";
-import { Modal } from "antd";
 import QuestionCreationPage from "./QuestionCreationPage";
+
+const { TextArea } = Input;
 
 function JobCreationPage() {
   const { user } = useContext(AuthContext);
@@ -22,7 +21,7 @@ function JobCreationPage() {
     setIsAddModalOpen(true);
   };
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();    
 
   const [formData, setFormData] = useState({
     title: "",
@@ -38,15 +37,12 @@ function JobCreationPage() {
     country: "",
   });
 
-  const showJobCreatedSuccess = () => {
-    Swal.fire("Job Created", "Your job has been created successfully!", "success");
-  };
-
   const showJobCreatedError = () => {
     Swal.fire("Error", "There was an error creating the job.", "error");
   };
 
-  const handleSubmit = async (event) => {
+
+  const handleJobCreation = async (event) => {
     event.preventDefault();
     try {
       const jobResponse = await AxiosInstance.post("api/jobs/create-job", {
@@ -93,7 +89,7 @@ function JobCreationPage() {
           <CardTitle>Create a Job Listing</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleJobCreation}>
             <div className="flex flex-col mb-4">
               <Label className="text-2xl">Job Title</Label>
               <Input
@@ -180,7 +176,7 @@ function JobCreationPage() {
               </Button>
             </div>
           </form>
-          <Modal title="Create Questions" open={isAddModalOpen} footer={null}>
+          <Modal title="Create Questions" open={isAddModalOpen} footer={null} closeIcon={null}>
             <QuestionCreationPage jobId={jobId}></QuestionCreationPage>
           </Modal>
         </CardContent>

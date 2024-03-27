@@ -1,8 +1,8 @@
 import React from "react";
 import { Alert } from "antd";
 
-const BigAlert = ({ message, description, type }) => (
-  <Alert message={message} description={description} type={type} />
+const BigAlert = ({ message, description }) => (
+  <Alert message={message} description={description} type='error' />
 );
 
 export default BigAlert;

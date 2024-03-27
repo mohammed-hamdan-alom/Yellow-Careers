@@ -1,22 +1,34 @@
 import React from "react";
 import { vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import DashboardLayout from "../DashboardLayout";
+import AuthContext from "@/context/AuthContext";
+
+const logoutUser = vi.fn();
+
+vi.mock("@/context/AuthContext", () => ({
+  __esModule: true,
+  default: React.createContext()
+}));
 
 const user = {
   name: "John Doe",
   email: "john@example.com",
   imageUrl: "/path/to/image.jpg",
 };
+
+const logout = {
+  logoutUser: logoutUser
+}
+
 const navigation = [
   { name: "Dashboard", to: "/dashboard" },
   { name: "Profile", to: "/profile" },
   { name: "Settings", to: "/settings" },
 ];
 const userNavigation = [
-  { name: "Profile", href: "/profile" },
-  { name: "Settings", href: "/settings" },
+  { name: "Your Profile", href: "/profile" },
   { name: "Sign out", href: "#" },
 ];
 
@@ -50,7 +62,7 @@ describe("DashboardLayout component", () => {
     });
   });
 
-  test("renders user information and user navigation menu correctly", () => {
+  test("renders user information and user navigation menu correctly", async () => {
     render(
       <MemoryRouter>
         <DashboardLayout
@@ -61,32 +73,43 @@ describe("DashboardLayout component", () => {
         />
       </MemoryRouter>,
     );
-    expect(screen.getByText(user.name)).toBeInTheDocument();
     expect(screen.getByText(user.email)).toBeInTheDocument();
-    fireEvent.click(screen.getByText(user.name));
+
+    await act(async () => {
+      fireEvent.click(screen.getByText(user.email));
+    })
+
     userNavigation.forEach((item) => {
       expect(screen.getByText(item.name)).toBeInTheDocument();
     });
   });
 
-  test("clicking on logout button triggers logout function", () => {
-    const logoutUser = vi.fn();
+  test("clicking on logout button triggers logout function", async () => {
+
     render(
       <MemoryRouter>
-        <DashboardLayout
-          user={user}
-          navigation={navigation}
-          userNavigation={userNavigation}
-          baseUrl="/dashboard"
-          logoutUser={logoutUser}
-        />
+        <AuthContext.Provider value={logout}>
+          <DashboardLayout
+            user={user}
+            navigation={navigation}
+            userNavigation={userNavigation}
+            baseUrl="/dashboard"
+          />
+        </AuthContext.Provider>
       </MemoryRouter>,
     );
-    fireEvent.click(screen.getByText("Sign out"));
+    await act(async () => {
+      fireEvent.click(screen.getByText(user.email));
+    })
+
+    await act(async () => {
+      fireEvent.click(screen.getByText("Sign out"));
+    })
+
     expect(logoutUser).toHaveBeenCalled();
   });
 
-  test("mobile menu toggle works as expected", () => {
+  test("mobile menu toggle works as expected", async () => {
     render(
       <MemoryRouter>
         <DashboardLayout
@@ -98,7 +121,10 @@ describe("DashboardLayout component", () => {
       </MemoryRouter>,
     );
     const menuToggle = screen.getByRole("button", { name: "Open main menu" });
-    fireEvent.click(menuToggle);
-    expect(screen.getByText("Dashboard")).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.click(menuToggle);
+    })
+
+    expect(screen.getAllByText("Dashboard")[0]).toBeInTheDocument();
   });
 });

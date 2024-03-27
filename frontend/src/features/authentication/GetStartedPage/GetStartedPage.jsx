@@ -39,7 +39,7 @@ const GetStartedPage = () => {
             <div className="flex space-x-4 justify-center">
               <div className="flex flex-row items-center space-x-2">
                 <RadioGroupItem
-                  data-testid="jobseeker"
+                  data-testid="job-seeker"
                   value="job-seeker"
                   id="job-seeker"
                   onClick={handleOptionChange}
@@ -57,7 +57,7 @@ const GetStartedPage = () => {
               </div>
             </div>
           </RadioGroup>
-          <Button className="w-full mt-5" onClick={handleSubmit}>
+          <Button className="w-full mt-5" data-testid="submit" onClick={handleSubmit}>
             Go
             <div className="ml-1">
               <ArrowRightIcon />

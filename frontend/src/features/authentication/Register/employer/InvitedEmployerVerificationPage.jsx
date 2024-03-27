@@ -5,16 +5,20 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import BigAlert from "@/components/Alert/BigAlert";
 
-const InvitedEmployerVerificationPage = () => {
+const InvitedEmployerVerification = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const [errors, setErrors] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AxiosInstance.get(`api/invited-employer/get/?email=${email}`);
+      const response = await AxiosInstance.get(
+        `api/invited-employer/get/?email=${email}`
+      );
       if (response.data.email === email && response.data.code === code) {
         navigate(`/auth/register-employer`, {
           state: {
@@ -28,6 +32,7 @@ const InvitedEmployerVerificationPage = () => {
       }
     } catch (error) {
       console.error("Error verifying email and code:", error);
+      setErrors(error.response.data);
     }
   };
 
@@ -39,15 +44,26 @@ const InvitedEmployerVerificationPage = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="flex flex-col">
-            <div className="mb-4">
+            <div className="mb-4 space-y-2">
               <Label>Email</Label>
-              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
-            <div className="mb-4">
+            <div className="mb-4 space-y-2">
               <Label>Code</Label>
-              <Input type="text" value={code} onChange={(e) => setCode(e.target.value)} />
+              <Input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
             </div>
-            <Button type="submit">Verify</Button>
+            {errors && <BigAlert message={errors.error} />}
+            <Button className="mt-4" type="submit">
+              Verify
+            </Button>
           </form>
         </CardContent>
       </Card>
@@ -55,4 +71,4 @@ const InvitedEmployerVerificationPage = () => {
   );
 };
 
-export default InvitedEmployerVerificationPage;
+export default InvitedEmployerVerification;

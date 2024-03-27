@@ -10,6 +10,8 @@ import ProfileDetails from "@/components/Profile/ProfileDetails";
 const EmployerProfilePage = () => {
   const { user } = useContext(AuthContext);
 
+  const [errors, setErrors] = useState("");
+
   const [formData, setFormData] = useState({
     email: user?.email || "",
     first_name: user?.first_name || "",
@@ -67,14 +69,14 @@ const EmployerProfilePage = () => {
       try {
         const response = await AxiosInstance.put(
           `/api/employers/${user?.user_id}/update/`,
-          formData,
+          formData
         );
 
         if (response.status === 200) {
           swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
         }
       } catch (error) {
-        handleErrorAndShowMessage("Error updating profile:", error);
+        setErrors(error.response.data);
       }
     }
   };
@@ -98,6 +100,9 @@ const EmployerProfilePage = () => {
           timerProgressBar: true,
           showConfirmButton: false,
         });
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmNewPassword("");
       }
     } catch (error) {
       handleErrorAndShowMessage("Error updating password:", error);
@@ -105,11 +110,12 @@ const EmployerProfilePage = () => {
   };
 
   return (
-    <div>
+    <div className="mb-2">
       <ProfileDetails
         formData={formData}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        errors={errors}
         userType="employer"
       />
       <PasswordChangeSection

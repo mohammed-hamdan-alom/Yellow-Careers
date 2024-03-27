@@ -12,7 +12,7 @@ const PasswordChangeSection = ({
   onSubmit,
 }) => {
   return (
-    <div className="container mt-5">
+    <div>
       <Label className="text-lg mr-2">Change Password:</Label>
       <div className="mb-3">
         <Input.Password

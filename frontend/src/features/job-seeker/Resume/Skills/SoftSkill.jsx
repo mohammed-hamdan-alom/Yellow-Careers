@@ -18,7 +18,9 @@ function SoftSkill({ resumeId }) {
         return;
       }
       try {
-        const response = await AxiosInstance.get(`api/resumes/${resumeId}/soft-skills/`);
+        const response = await AxiosInstance.get(
+          `api/resumes/${resumeId}/soft-skills/`
+        );
         setSoftSkills(response.data);
       } catch (error) {
         console.error("Error:", error);
@@ -36,9 +38,12 @@ function SoftSkill({ resumeId }) {
   const handleSubmitSoftSkills = async (event) => {
     event.preventDefault();
     try {
-      const response = await AxiosInstance.post(`api/resumes/${resumeId}/soft-skills/create/`, {
-        skill: softSkill,
-      });
+      const response = await AxiosInstance.post(
+        `api/resumes/${resumeId}/soft-skills/create/`,
+        {
+          skill: softSkill,
+        }
+      );
       showSuccess("Soft Skill Added");
       setSoftSkill("");
       setErrors({ softSkill: "" });
@@ -57,9 +62,13 @@ function SoftSkill({ resumeId }) {
   //Delete soft skill
   const handleDeleteSoftSkill = async (skillObj) => {
     try {
-      await AxiosInstance.delete(`api/resumes/${resumeId}/soft-skills/update/${skillObj.id}`);
+      await AxiosInstance.delete(
+        `api/resumes/${resumeId}/soft-skills/update/${skillObj.id}`
+      );
       showSuccess("Soft Skill Deleted");
-      setSoftSkills((prevSoftSkills) => prevSoftSkills.filter((item) => item !== skillObj));
+      setSoftSkills((prevSoftSkills) =>
+        prevSoftSkills.filter((item) => item !== skillObj)
+      );
     } catch (error) {
       console.error("Error:", error);
       showError("Deleting Soft Skill Failed");
@@ -71,12 +80,14 @@ function SoftSkill({ resumeId }) {
       <Label className="text-3xl mb-4">Soft Skills</Label>
       <div className="">
         {softSkills.map((skill) => (
-          <div key={skill.id} className="flex justify-between items-center w-full mb-4">
-            <Label className="">{skill.skill}</Label>
+          <div
+            key={skill.id}
+            className="flex justify-between items-center w-full mb-4"
+          >
+            <Label className="text-1xl">{skill.skill}</Label>
             <Button
               data-testid="delete-soft-skill"
               variant="destructive"
-              size="icon"
               onClick={() => handleDeleteSoftSkill(skill)}
             >
               <MinusCircle className="mr-2" />
@@ -85,16 +96,17 @@ function SoftSkill({ resumeId }) {
           </div>
         ))}
       </div>
-      <div className="flex flex-row items-center w-full mb-4">
+      <div className="flex flex-row items-center justify-between w-full mb-4">
         <Label className="text-1xl w-[200px]">Add soft skill:</Label>
         <Input
           className="w-full"
           type="text"
           name="softSkill"
+          data-testid="add-soft-skill"
           value={softSkill}
           onChange={handleSoftSkillChange}
         />
-        <Button variant="secondary" className="w-10 h-10 ml-10" onClick={handleSubmitSoftSkills}>
+        <Button variant="secondary" data-testid="add-soft-skill-button" className="w-10 h-10 ml-10" onClick={handleSubmitSoftSkills}>
           <PlusCircle />
         </Button>
       </div>

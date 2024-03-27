@@ -19,6 +19,7 @@ urlpatterns = [
     path('jobs/<int:pk>/questions/', JobQuestionListView.as_view(), name='job-question-list'),
     path('jobs/<int:pk>/address/', AddressRetrieveJobView.as_view(), name='job-address'),
     path('jobs/<int:pk>/company/', JobCompanyRetrieveView.as_view(), name='job-company'),
+    path('jobs/<int:pk>/update-archive/', JobUpdateArchiveView.as_view(), name='update-job-archive'),
 
     path('addresses/', AddressListView.as_view(), name='address-list'),
     path('addresses/<int:pk>/', AddressRetrieveView.as_view(), name='address-get'),

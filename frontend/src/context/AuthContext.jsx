@@ -3,7 +3,6 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/alert";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 
 const AuthContext = createContext();
 
@@ -40,11 +39,16 @@ export const AuthProvider = ({ children }) => {
         setUser(userObj);
         localStorage.setItem("authTokens", JSON.stringify(data));
         navigate(
-          userObj.userType === "job_seeker" ? "/job-seeker/dashboard" : "/employer/dashboard",
+          userObj.userType === "job_seeker"
+            ? "/job-seeker/dashboard"
+            : "/employer/dashboard"
         );
+      } else {
+        throw new Error("Username or password does not exist");
       }
     } catch (error) {
-      showError("Username or Password does not exist");
+      console.error(error);
+      throw error;
     }
   };
 
@@ -66,9 +70,10 @@ export const AuthProvider = ({ children }) => {
       if (response.status === 201) {
         navigate("/auth/login");
         showSuccess("Registration Successful, Login Now");
-      }
+      } 
     } catch (error) {
-      handleErrorAndShowMessage("Error registering job seeker:", error);
+      console.error(error);
+      throw error
     }
   };
 
@@ -81,7 +86,7 @@ export const AuthProvider = ({ children }) => {
     otherNames,
     phoneNumber,
     company,
-    isAdmin,
+    isAdmin
   ) => {
     try {
       const response = await AxiosInstance.post("/api/employer-register/", {
@@ -95,13 +100,14 @@ export const AuthProvider = ({ children }) => {
         company: company,
         is_company_admin: isAdmin,
       });
-
       if (response.status === 201) {
         navigate("/auth/login");
         showSuccess("Registration Successful, Login Now");
+      } else {
+        throw new Error("Error registering employer");
       }
     } catch (error) {
-      handleErrorAndShowMessage("Error registering employer:", error);
+      throw error
     }
   };
 
@@ -167,12 +173,9 @@ export const AuthProvider = ({ children }) => {
       updateToken();
     }
     if (tokens) {
-      const intervalId = setInterval(
-        () => {
-          updateToken();
-        },
-        59 * 60 * 1000,
-      );
+      const intervalId = setInterval(() => {
+        updateToken();
+      }, 59 * 60 * 1000);
       return () => clearInterval(intervalId);
     } else {
       logoutUser();
@@ -181,6 +184,8 @@ export const AuthProvider = ({ children }) => {
   }, [authTokens]);
 
   return (
-    <AuthContext.Provider value={contextData}>{loading ? null : children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextData}>
+      {loading ? null : children}
+    </AuthContext.Provider>
   );
 };
