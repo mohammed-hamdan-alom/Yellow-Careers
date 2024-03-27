@@ -20,7 +20,6 @@ class ChangePasswordViewTestCase(APITestCase):
     def setUp(self):
         self.user = JobSeeker.objects.get(pk=1)
         self.serializer = ChangePasswordView(instance=self.user)
-        print(self.user.password)
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
 
@@ -33,7 +32,6 @@ class ChangePasswordViewTestCase(APITestCase):
             'confirm_password': 'NewPassword123!'
         }
         response = self.client.put(url, data)
-        print(response.data)
         # self.assertEqual(response.status_code, status.HTTP_200_OK)
         # self.assertEqual(response.data, {'message': 'Password changed successfully.'})
 

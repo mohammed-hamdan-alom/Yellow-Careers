@@ -73,7 +73,6 @@ class JobSeekerRegisterSerializer(serializers.ModelSerializer):
         return jobseeker
     
     def update(self, instance, validated_data):
-        print("UPDATE JOBSEEKER REGISTER SERIALIZER ")
         if 'password' in validated_data:
             password = validated_data.pop('password')
             password2 = validated_data.pop('password2')
