@@ -1,13 +1,20 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Input, InputNumber, Select, Modal } from "antd";
-import { Button } from "@/components/ui/button";
+import { Input, InputNumber, Select, Modal, Button, Tag } from "antd";
+import { HandCoins, Briefcase } from "lucide-react";
 import Swal from "sweetalert2";
 import QuestionCreationPage from "./QuestionCreationPage";
+import "@/components/styling/button.css";
+import {
+  UserOutlined,
+  FileTextOutlined,
+  PoundOutlined,
+  EnvironmentOutlined,
+} from "@ant-design/icons";
+import "@/components/styling/tag.css";
 
 const { TextArea } = Input;
 
@@ -20,8 +27,6 @@ function JobCreationPage() {
   const showAddModal = () => {
     setIsAddModalOpen(true);
   };
-
-  const navigate = useNavigate();    
 
   const [formData, setFormData] = useState({
     title: "",
@@ -40,7 +45,6 @@ function JobCreationPage() {
   const showJobCreatedError = () => {
     Swal.fire("Error", "There was an error creating the job.", "error");
   };
-
 
   const handleJobCreation = async (event) => {
     event.preventDefault();
@@ -83,38 +87,46 @@ function JobCreationPage() {
   };
 
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="flex justify-center items-center w-full">
       <Card className="w-1/2 px-12 py-6">
-        <CardHeader className="justify-center items-center mt-4">
-          <CardTitle>Create a Job Listing</CardTitle>
+        <CardHeader className="flex justify-center items-center mt-4">
+          <CardTitle className="text-2xl font-bold">Create a Job Listing</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleJobCreation}>
-            <div className="flex flex-col mb-4">
-              <Label className="text-2xl">Job Title</Label>
+          <form onSubmit={handleJobCreation} className="space-y-4">
+            <div>
+              <Tag icon={<UserOutlined />} color="pink" className="tag-medium">
+                Job Title
+              </Tag>
               <Input
-                className="w-full mt-2"
+                className="w-full mt-2 border-gray-900 rounded-md"
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
+                placeholder="e.g. Software Engineer"
               />
             </div>
-            <div className="flex flex-col mb-4">
-              <Label className="text-2xl">Job Description</Label>
+            <div>
+              <Tag icon={<FileTextOutlined />} color="volcano" className="tag-medium">
+                Job Description
+              </Tag>
               <TextArea
-                className="w-full mt-2"
+                className="w-full mt-2 border-gray-900 rounded-md"
                 type="text"
                 rows={4}
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
+                placeholder="e.g. We are looking for a Software Engineer to join our team..."
               />
             </div>
-            <div className="flex flex-col mb-4">
-              <Label className="text-2xl">Salary</Label>
+            <div className="flex items-center space-x-2">
+              <Tag icon={<PoundOutlined />} color="blue" className="tag-medium">
+                Salary
+              </Tag>
               <InputNumber
-                className="w-full mt-2"
+                className="w-full border-gray-900 rounded-md"
                 name="salary"
                 formatter={(value) => `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 parser={(value) => value.replace(/\£\s?|(,*)/g, "")}
@@ -122,44 +134,58 @@ function JobCreationPage() {
                 onChange={(value) => setFormData({ ...formData, salary: value })}
               />
             </div>
-            <div className="flex flex-row justify-between mb-4 space-x-4">
-              <div className="flex flex-col mb-4 ">
-                <Label className="text-2xl">Postcode</Label>
+            <div className="flex space-x-4">
+              <div>
+                <Tag icon={<EnvironmentOutlined />} color="green" className="tag-medium">
+                  Postcode
+                </Tag>
                 <Input
-                  className="w-full mt-2"
+                  className="w-full mt-2 border-gray-900 rounded-md"
                   type="text"
                   name="post_code"
                   value={addressData.post_code}
                   onChange={handleAddressChange}
+                  placeholder="e.g. SW1A 1AA"
                 />
               </div>
-              <div className="flex flex-col mb-4">
-                <Label className="text-2xl">City</Label>
+              <div>
+                <Tag icon={<EnvironmentOutlined />} color="green" className="tag-medium">
+                  City
+                </Tag>
                 <Input
-                  className="w-full mt-2"
+                  className="w-full mt-2 border-gray-900 rounded-md"
                   type="text"
                   name="city"
                   value={addressData.city}
                   onChange={handleAddressChange}
+                  placeholder="e.g. London"
                 />
               </div>
-              <div className="flex flex-col mb-4">
-                <Label className="text-2xl">Country</Label>
+              <div>
+                <Tag icon={<EnvironmentOutlined />} color="green" className="tag-medium">
+                  Country
+                </Tag>
                 <Input
-                  className="w-full mt-2"
+                  className="w-full mt-2 border-gray-900 rounded-md"
                   type="text"
                   name="country"
                   value={addressData.country}
                   onChange={handleAddressChange}
+                  placeholder="e.g. United Kingdom"
                 />
               </div>
             </div>
-
-            <div className="flex flex-col mb-4">
-              <Label className="text-2xl">Job Type</Label>
+            <div className="flex items-center space-x-2">
+              <Tag
+                icon={<Briefcase size={15} className="mr-2" />}
+                color="purple"
+                className="tag-medium inline-flex items-center"
+              >
+                Job Type
+              </Tag>
               <Select
                 data-testid="job_type"
-                className="w-full mt-2"
+                className="w-full border-gray-900 rounded-md"
                 name="job_type"
                 value={formData.job_type}
                 onChange={(value) => setFormData({ ...formData, job_type: value })}
@@ -171,7 +197,7 @@ function JobCreationPage() {
               </Select>
             </div>
             <div className="mt-12 w-full">
-              <Button type="submit" className="w-full" variant="outline">
+              <Button type="submit" className="blueButton w-full" variant="outline">
                 Create Job
               </Button>
             </div>
