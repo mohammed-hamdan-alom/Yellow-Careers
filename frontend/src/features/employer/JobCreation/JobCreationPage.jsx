@@ -104,6 +104,7 @@ function JobCreationPage() {
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
+                placeholder="e.g. Software Engineer"
               />
             </div>
             <div>
@@ -117,6 +118,7 @@ function JobCreationPage() {
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
+                placeholder="e.g. We are looking for a Software Engineer to join our team..."
               />
             </div>
             <div className="flex items-center space-x-2">
@@ -143,6 +145,7 @@ function JobCreationPage() {
                   name="post_code"
                   value={addressData.post_code}
                   onChange={handleAddressChange}
+                  placeholder="e.g. SW1A 1AA"
                 />
               </div>
               <div>
@@ -155,6 +158,7 @@ function JobCreationPage() {
                   name="city"
                   value={addressData.city}
                   onChange={handleAddressChange}
+                  placeholder="e.g. London"
                 />
               </div>
               <div>
@@ -167,6 +171,7 @@ function JobCreationPage() {
                   name="country"
                   value={addressData.country}
                   onChange={handleAddressChange}
+                  placeholder="e.g. United Kingdom"
                 />
               </div>
             </div>
