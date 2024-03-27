@@ -290,3 +290,16 @@ class JobViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         archived_jobs = [relation.job for relation in EmployerJobRelation.objects.filter(employer__company=admin.company) if relation.job.isArchived]
         self.assertEqual(len(response.data), len(archived_jobs))
+    
+    def test_archive_job(self):
+        '''Test archiving a job.'''
+        job = Job.objects.get(pk=1) 
+        employer = Employer.objects.get(pk=3)
+        factory = APIRequestFactory()
+        request = factory.put(reverse('update-job-archive', args=[job.id]))
+        force_authenticate(request, user=employer)
+        view = JobUpdateArchiveView.as_view()
+        response = view(request, pk=job.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        job.refresh_from_db()
+        self.assertTrue(job.isArchived)

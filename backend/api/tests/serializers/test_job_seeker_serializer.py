@@ -91,6 +91,31 @@ class JobSeekerSerializerTestCase(TestCase):
         self.assertFalse(serializer.is_valid())
         self.assertEqual(serializer.errors['address']['country'][0], 'Enter a valid value.')
 
+    def test_update_job_Seeker_without_address(self):
+        new_job_seeker = JobSeeker.objects.create(
+            first_name =  'John',
+            last_name = 'Doe',
+            email = 'noaddress@example.com',
+            phone_number = '08012345678',
+            is_active = True,
+            dob = "1980-04-01",
+            nationality = "Indian",
+            sex = "F",
+            resume = self.job_seeker.resume
+        )
+        address_data = {
+            'city': 'New City',
+            'country': 'New Country',
+            'post_code': '12345'
+        }
+        serializer = JobSeekerSerializer(instance=new_job_seeker,  data={'address': address_data}, partial=True)
+        self.assertTrue(serializer.is_valid())
+        if serializer.is_valid():
+            updated_job_seeker = serializer.save()
+            self.assertEqual(updated_job_seeker.address.city, address_data['city'])
+            self.assertEqual(updated_job_seeker.address.country, address_data['country'])
+            self.assertEqual(updated_job_seeker.address.post_code, address_data['post_code'])
+
 
 
 
