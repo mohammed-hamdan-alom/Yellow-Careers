@@ -3,7 +3,8 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Input, InputNumber, Select, Modal, Button, Tag } from "antd";
+import { Input, InputNumber, Select, Modal, Tag } from "antd";
+import { Button } from "@/components/ui/button";
 import { HandCoins, Briefcase } from "lucide-react";
 import Swal from "sweetalert2";
 import QuestionCreationPage from "./QuestionCreationPage";
@@ -47,6 +48,7 @@ function JobCreationPage() {
   };
 
   const handleJobCreation = async (event) => {
+    console.log("asdfauhifuha");
     event.preventDefault();
     try {
       const jobResponse = await AxiosInstance.post("api/jobs/create-job", {
@@ -95,7 +97,7 @@ function JobCreationPage() {
         <CardContent>
           <form onSubmit={handleJobCreation} className="space-y-4">
             <div>
-              <Tag icon={<UserOutlined />} color="pink" className="tag-medium">
+              <Tag icon={<UserOutlined />} color="orange" className="tag-medium">
                 Job Title
               </Tag>
               <Input
@@ -108,7 +110,7 @@ function JobCreationPage() {
               />
             </div>
             <div>
-              <Tag icon={<FileTextOutlined />} color="volcano" className="tag-medium">
+              <Tag icon={<FileTextOutlined />} color="red" className="tag-medium">
                 Job Description
               </Tag>
               <TextArea
