@@ -8,6 +8,7 @@ vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
   default: {
     put: vi.fn(),
+    get: vi.fn()
   },
 }));
 
@@ -43,15 +44,23 @@ describe('ResumeForm', () => {
   });
 
   it("submits the form", async () => {
+    AxiosInstance.get.mockResolvedValueOnce({
+      data: {
+        website: "",
+        linkedin: "",
+        about: "",
+        experience: "",
+      }
+    });
     const { getByLabelText, getByText } = render(<ResumeForm resumeId={resumeId} />);
 
-    const websiteInput = screen.getByLabelText('website:');
+    const websiteInput = screen.getByLabelText('Website:');
     const linkedinInput = screen.getByLabelText('LinkedIn:');
     const aboutInput = screen.getByLabelText('About:');
     const experienceInput = screen.getByLabelText('Experience:');
     const submitButton = screen.getByTestId('submit-button');
 
-    fireEvent.change(githubInput, { target: { value: "test-github" } });
+    fireEvent.change(websiteInput, { target: { value: "test-github" } });
     fireEvent.change(linkedinInput, { target: { value: "test-linkedin" } });
     fireEvent.change(aboutInput, { target: { value: "test-about" } });
     fireEvent.change(experienceInput, { target: { value: "test-experience" } });
@@ -62,7 +71,7 @@ describe('ResumeForm', () => {
 
     await waitFor(() => {
       expect(AxiosInstance.put).toHaveBeenCalledWith(`api/resumes/${resumeId}/update/`, {
-        github: "test-github",
+        website: "test-github",
         linkedin: "test-linkedin",
         about: "test-about",
         experience: "test-experience",
