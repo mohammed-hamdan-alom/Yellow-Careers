@@ -38,8 +38,6 @@ class EducationSerializer(serializers.ModelSerializer):
         address_serializer = AddressSerializer(data=address_data)  
         if address_serializer.is_valid():
             address = address_serializer.save()
-        else:
-            raise serializers.ValidationError(address_serializer.errors)
 
 
         education = Education.objects.create(address=address, **validated_data)
@@ -51,8 +49,6 @@ class EducationSerializer(serializers.ModelSerializer):
             address_serializer = AddressSerializer(instance.address, data=address_data)
             if address_serializer.is_valid():
                 address_serializer.save()
-            else:
-                raise serializers.ValidationError(address_serializer.errors)
 
         # Update the Education instance
         instance.course_name = validated_data.get('course_name', instance.course_name)
@@ -77,8 +73,6 @@ class ProfessionalExperienceSerializer(serializers.ModelSerializer):
         address_serializer = AddressSerializer(data=address_data)  
         if address_serializer.is_valid():
             address = address_serializer.save()
-        else:
-            raise serializers.ValidationError(address_serializer.errors)
 
         professional_experience = ProfessionalExperience.objects.create(address=address, **validated_data)
         return professional_experience
@@ -89,8 +83,6 @@ class ProfessionalExperienceSerializer(serializers.ModelSerializer):
             address_serializer = AddressSerializer(instance.address, data=address_data)
             if address_serializer.is_valid():
                 address_serializer.save()
-            else:
-                raise serializers.ValidationError(address_serializer.errors)
 
         # Update the Professional experience instance
         instance.start_date = validated_data.get('start_date', instance.start_date)

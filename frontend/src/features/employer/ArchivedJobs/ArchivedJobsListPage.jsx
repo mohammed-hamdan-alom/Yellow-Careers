@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
+import { Switch, Space } from "antd";
+import { Label } from "@/components/ui/label";
+import "../styling/switch.css";
 import JobFilterAndList from "@/components/Search/JobFilterAndList";
 
 function ArchivedJobsListPage() {
@@ -16,7 +19,13 @@ function ArchivedJobsListPage() {
         const archivedJobsResponse = await AxiosInstance.get(
           `api/employer/${userId}/jobs/archived/`
         );
-        setArchivedJobs(archivedJobsResponse.data);
+        const jobsWithCompany = await Promise.all(
+          archivedJobsResponse.data.map(async (job) => {
+            const companyRes = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
+            return { ...job, company: companyRes.data };
+          })
+        );
+        setArchivedJobs(jobsWithCompany);
 
         const employerResponse = await AxiosInstance.get(`api/employers/${userId}/`);
 
@@ -24,8 +33,14 @@ function ArchivedJobsListPage() {
           const companyArchivedJobsResponse = await AxiosInstance.get(
             `api/employer/${userId}/company-jobs/archived/`
           );
-          setCompanyArchivedJobs(companyArchivedJobsResponse.data);
-          setShowCompanyArchivedJobs(companyArchivedJobsResponse.data.length > 0);
+          const jobsWithCompany = await Promise.all(
+            companyArchivedJobsResponse.data.map(async (job) => {
+              const companyRes = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
+              return { ...job, company: companyRes.data };
+            })
+          );
+          setCompanyArchivedJobs(jobsWithCompany);
+          setShowCompanyArchivedJobs(jobsWithCompany.length > 0);
         }
       } catch (error) {
         console.error("Error fetching archived jobs:", error);
@@ -35,12 +50,44 @@ function ArchivedJobsListPage() {
     fetchData();
   }, [userId]);
 
+  const handleSwitchChange = (checked) => {
+    setShowCompanyArchivedJobs(checked);
+  };
+
   return (
     <div>
       {showCompanyArchivedJobs ? (
-        <JobFilterAndList jobs={companyArchivedJobs} />
+        <div>
+          <Label className="text-3xl">All Company Archived Jobs</Label>
+          <Space size={10} direction="vertical" />
+          <div>
+            {companyArchivedJobs.length > 0 && (
+              <Switch
+                checkedChildren="Company Jobs"
+                unCheckedChildren="Your Jobs"
+                defaultChecked={showCompanyArchivedJobs}
+                onChange={handleSwitchChange}
+              />
+            )}
+          </div>
+          <JobFilterAndList jobs={companyArchivedJobs} />
+        </div>
       ) : (
-        <JobFilterAndList jobs={archivedJobs} />
+        <div>
+          <Label className="text-3xl">Archived Jobs You Are Associated With</Label>
+          <Space size={10} direction="vertical" />
+          <div>
+            {companyArchivedJobs.length > 0 && (
+              <Switch
+                checkedChildren="Company Jobs"
+                unCheckedChildren="Your Jobs"
+                defaultChecked={showCompanyArchivedJobs}
+                onChange={handleSwitchChange}
+              />
+            )}
+          </div>
+          <JobFilterAndList jobs={archivedJobs} />
+        </div>
       )}
     </div>
   );

@@ -13,9 +13,12 @@ const job_seeker1 = {
 };
 
 const jobSeeker = {
+  email: "mail@gmail.com",
   first_name: "John",
   last_name: "Doe",
+  other_names: "Other",
   dob: "1990-01-01",
+  phone_number: "07914456782",
   nationality: "British",
   sex: "Male",
   address: {
@@ -76,10 +79,6 @@ const data = {
 };
 const navigate = vi.fn();
 
-vi.mock("@/components/ui/label", () => ({
-  Label: vi.fn(({ children }) => <label data-testid="mock-label">{children}</label>),
-}));
-
 vi.mock("react-router-dom", async (importOriginal) => {
   const actual = await importOriginal();
   return {
@@ -112,13 +111,13 @@ vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
   default: {
     get: vi.fn((url) => {
-      if (url == `/api/applications/1`) {
+      if (url == `api/applications/1`) {
         return Promise.resolve({ data: data.application });
-      } else if (url == `/api/applications/1/resume`) {
+      } else if (url == `api/applications/1/resume`) {
         return Promise.resolve({ data: data.resume });
-      } else if (url == `/api/jobs/1/questions`) {
+      } else if (url == `api/jobs/1/questions`) {
         return Promise.resolve({ data: data.questions });
-      } else if (url == `/api/job-seekers/1`) {
+      } else if (url == `api/job-seekers/1`) {
         return Promise.resolve({ data: jobSeeker });
       } else {
         return Promise.resolve({ data: data.answers });
@@ -167,32 +166,17 @@ describe("ApplicationDetails component with questions", () => {
   });
 
   test("render application info correctly", async () => {
-    const jobSeekerName = `${jobSeeker.first_name} ${jobSeeker.last_name}`;
-    // const dob = data.application.dob;
-    // const nationality = data.application.nationality;
-    // const sex = data.application.sex;
-    // const city = data.application.address.city;
-    // const postCode = data.application.address.post_code;
-    // const country = data.application.address.country;
+    const fullNameLabel = screen.getByTestId("full-name-label");
 
-    const jobSeekerElement = screen.getByText(`Job Seeker: ${jobSeekerName}`);
-    // const dobElement = screen.getByText(`Date of Birth: ${dob}`);
-    // const nationalityElement = screen.getByText(`Nationality: ${nationality}`);
-    // const sexElement = screen.getByText(`Sex: ${sex}`);
-    // const cityElement = screen.getByText(`City: ${city}`);
-    // const postCodeElement = screen.getByText(`Post Code: ${postCode}`);
-    // const countryElement = screen.getByText(`Country: ${country}`);
-    // const resumeElement = screen.getByTestId("mock-resume");
-    // const questionsAndAnswersElement = screen.getByTestId("mock-questionsandanswers");
-
-    expect(jobSeekerElement).toBeInTheDocument();
-    // expect(dobElement).toBeInTheDocument();
-    // expect(nationalityElement).toBeInTheDocument();
-    // expect(sexElement).toBeInTheDocument();
-    // expect(cityElement).toBeInTheDocument();
-    // expect(postCodeElement).toBeInTheDocument();
-    // expect(countryElement).toBeInTheDocument();
-    // expect(resumeElement).toBeInTheDocument();
-    // expect(questionsAndAnswersElement).toBeInTheDocument();
-  });
+    expect(fullNameLabel.textContent).toBe("Full name: John Doe");
+    expect(screen.getByText(`Other names: ${jobSeeker.other_names}`)).toBeInTheDocument();
+    expect(screen.getByText(`Email: ${jobSeeker.email}`)).toBeInTheDocument();
+    expect(screen.getByText(`Phone: ${jobSeeker.phone_number}`)).toBeInTheDocument();
+    expect(screen.getByText(`Date of Birth: ${jobSeeker.dob}`)).toBeInTheDocument();
+    expect(screen.getByText(`Nationality: ${jobSeeker.nationality}`)).toBeInTheDocument();
+    expect(screen.getByText(`Sex: Female`)).toBeInTheDocument();
+    expect(screen.getByText(`City: ${jobSeeker.address.city}`)).toBeInTheDocument();
+    expect(screen.getByText(`Post Code: ${jobSeeker.address.post_code}`)).toBeInTheDocument();
+    expect(screen.getByText(`Country: ${jobSeeker.address.country}`)).toBeInTheDocument();
+    });
 });
