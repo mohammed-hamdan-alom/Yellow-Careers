@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 from api.serializers import MyTokenObtainPairSerializer
-from rest_framework.test import APIRequestFactory, force_authenticate
+from rest_framework.test import APIRequestFactory
 from api.views import ApplicationRetrieveView
 
 
@@ -61,8 +61,9 @@ class ApplicationViewTestCase(TestCase):
     def test_retrieve_application(self):
         application = self.applications[0]
         request = self.request_factory.get(reverse('application-get', args=[application.id]), format='json')
-        request.user = self.user
-        request.META['HTTP_AUTHORIZATION'] = f'Token {self.token.key}'        
+        request.user = self.job_seeker
+        request.META['HTTP_AUTHORIZATION'] = f'Token {self.token.key}'
+        
         view = ApplicationRetrieveView.as_view()
         response = view(request, pk=application.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
