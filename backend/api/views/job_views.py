@@ -75,7 +75,7 @@ class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 		user = self.request.user
 
 		if hasattr(user, 'jobseeker'):
-			if job.isArchived:
+			if job.isArchived and not Application.objects.filter(job=job, job_seeker=user.jobseeker).exists():
 				raise PermissionDenied("You do not have permission to view this job.")
 			return job
 		elif hasattr(user,'employer'):

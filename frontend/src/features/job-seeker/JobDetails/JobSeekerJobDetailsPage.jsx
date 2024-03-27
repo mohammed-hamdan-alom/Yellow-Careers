@@ -2,10 +2,9 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "@/context/AuthContext";
 import { useParams, useNavigate } from "react-router-dom";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Button, Space } from "antd";
+import { Button, Space, Tooltip, FloatButton } from "antd";
 import "@/components/styling/button.css";
 import JobDetailsDisplay from "@/components/JobDetails/JobDetails";
-import { FloatButton } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
 import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
@@ -46,7 +45,7 @@ function JobSeekerJobDetailsPage() {
         setResume(responses[4].data);
         setAppliedJobs(responses[5].data);
         setIsJobApplied(
-          responses[5].data.some((appliedJob) => String(appliedJob.id) === String(jobId)),
+          responses[5].data.some((appliedJob) => String(appliedJob.id) === String(jobId))
         );
       } catch (error) {
         handleErrorAndShowMessage("Error fetching data:", error);
@@ -159,13 +158,25 @@ function JobSeekerJobDetailsPage() {
           </Button>
         )}
         {isJobSaved ? (
-          <Button className="redButton large-button" onClick={handleSave}>
-            Unsave
-          </Button>
+          <Tooltip title={job.isArchived ? "This job is archived" : ""} placement="right">
+            <Button
+              className="redButton large-button"
+              onClick={handleSave}
+              disabled={job.isArchived}
+            >
+              Unsave
+            </Button>
+          </Tooltip>
         ) : (
-          <Button className="blueButton large-button" onClick={handleSave}>
-            Save
-          </Button>
+          <Tooltip title={job.isArchived ? "This job is archived" : ""} placement="right">
+            <Button
+              className="blueButton large-button"
+              onClick={handleSave}
+              disabled={job.isArchived}
+            >
+              Save
+            </Button>
+          </Tooltip>
         )}
         <FloatButton
           tooltip={<div>Visit Company Page</div>}
