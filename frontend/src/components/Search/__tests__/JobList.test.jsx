@@ -79,7 +79,6 @@ vi.mock("../../../utils/AxiosInstance", () => ({
 }));
 
 describe('JobList component', () => {
-
     beforeEach(async () => {
         await act(async () => {
             render(

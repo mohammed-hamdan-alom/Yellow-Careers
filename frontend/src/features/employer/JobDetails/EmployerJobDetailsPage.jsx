@@ -202,6 +202,7 @@ const EmployerJobDetailsPage = () => {
                 {employer.id !== userId &&
                   currentEmployer.is_company_admin && employers.length > 1 && (
                     <Button
+                    data-testid="removeButton"
                       onClick={() => handleRemoveEmployer(employer.id)}
                       className="redButton ml-2"
                     >

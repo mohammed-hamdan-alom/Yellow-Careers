@@ -1,6 +1,6 @@
 import React from "react";
 import { vi } from "vitest";
-import { render, screen, fireEvent, act, cleanup, within } from "@testing-library/react";
+import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import EmployerJobDetailsPage from "../EmployerJobDetailsPage";
 import AxiosInstance from "@/utils/AxiosInstance";
@@ -173,12 +173,53 @@ describe("EmployerJobDetailsPage component", () => {
     expect(button).toHaveTextContent("See Applicants");
   });
 
+  test("renders Leave button", async () => {
+    const button = await screen.getAllByRole("button")[2];
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent("Leave");
+  });
+
+  test("renders Remove button", async () => {
+    const button = await screen.getByTestId("removeButton");
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent("Remove");
+  });
+
   test("See Applicants button redirects to job-applicants", async () => {
     const button = await screen.getAllByRole("button")[0];
     await act(async () => {
       fireEvent.click(button);
     });
     expect(navigate).toBeCalledWith(`/employer/job-applicants/1`);
+  });
+
+  test("Leave button redirects to dashboard", async () => {
+    const leaveButton = await screen.getAllByRole("button")[2];
+    await act(async () => {
+      fireEvent.click(leaveButton);
+    });
+    const okButton = await screen.getByText("OK");
+    await act(async () => {
+      fireEvent.click(okButton);
+    });
+    expect(navigate).toBeCalledWith(`/employer/dashboard`);
+    expect (AxiosInstance.delete).toBeCalledWith("api/employer-job-relations/delete/1/1/");
+  });
+
+  test("Remove button redirects to dashboard", async () => {
+    const removeButton = await screen.getByTestId("removeButton");
+    await act(async () => {
+      fireEvent.click(removeButton);
+    });
+    const yesButton = await screen.getByText("Yes");
+    await act(async () => {
+      fireEvent.click(yesButton);
+    });
+    const okButton = await screen.getByText("OK");
+    await act(async () => {
+      fireEvent.click(okButton);
+    });
+    expect(AxiosInstance.delete).toBeCalledWith("api/employer-job-relations/delete/1/2/");
   });
 
   test("renders JobDetails component", async () => {
@@ -254,4 +295,12 @@ describe("EmployerJobDetailsPage component", () => {
     });
     expect(AxiosInstance.post).toBeCalledWith("api/employer-job-relations/create/", employerToAdd);
   });
+
+  // test("leave takes you to dashboard", async () => {
+  //   const leaveButton = await screen.getByText("Leave");
+  //   await act(async () => {
+  //     fireEvent.click(leaveButton);
+  //   });
+  //   expect(navigate).toBeCalledWith("api/employer/dashboard/");
+  // });
 });
