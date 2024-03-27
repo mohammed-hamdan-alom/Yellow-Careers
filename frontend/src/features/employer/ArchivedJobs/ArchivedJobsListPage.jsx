@@ -74,7 +74,7 @@ function ArchivedJobsListPage() {
         </div>
       ) : (
         <div>
-          <Label className="text-3xl">Your Archived Jobs</Label>
+          <Label className="text-3xl">Archived Jobs You Are Associated With</Label>
           <Space size={10} direction="vertical" />
           <div>
             {companyArchivedJobs.length > 0 && (
