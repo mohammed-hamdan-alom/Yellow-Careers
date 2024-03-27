@@ -25,7 +25,6 @@ class JobSeekerRegisterView(generics.CreateAPIView):
 	serializer_class = JobSeekerRegisterSerializer
 
 class ChangePasswordView(generics.UpdateAPIView):
-    queryset = User.objects.all()
     serializer_class = ChangePasswordSerializer
 
     def get_object(self):
@@ -33,16 +32,19 @@ class ChangePasswordView(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        
-        # Retrieve validated data from serializer
-        old_password = serializer.validated_data.get('old_password')
-        new_password = serializer.validated_data.get('new_password')
+        serializer = self.get_serializer(data=request.data)
 
-        # Set the new password for the user
-        instance.set_password(new_password)
-        instance.save()
+        if serializer.is_valid():
+            old_password = serializer.validated_data.get("old_password")
+            new_password = serializer.validated_data.get("new_password")
+            confirm_password = serializer.validated_data.get("confirm_password")
+            
+            if not check_password(old_password, instance.password):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            if new_password != confirm_password:
+                return Response({"error": "New password and confirm password do not match."}, status=status.HTTP_400_BAD_REQUEST)
+            instance.set_password(new_password)
+            instance.save()
+            return Response({"message": "Password changed successfully."})
 
-        return Response({"message": "Password changed successfully."}, status=status.HTTP_200_OK)
-
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

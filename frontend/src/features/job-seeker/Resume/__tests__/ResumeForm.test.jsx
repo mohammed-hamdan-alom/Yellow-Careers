@@ -60,7 +60,7 @@ describe('ResumeForm', () => {
     const experienceInput = screen.getByLabelText('Experience:');
     const submitButton = screen.getByTestId('submit-button');
 
-    fireEvent.change(websiteInput, { target: { value: "test-github" } });
+    fireEvent.change(websiteInput, { target: { value: "test-website" } });
     fireEvent.change(linkedinInput, { target: { value: "test-linkedin" } });
     fireEvent.change(aboutInput, { target: { value: "test-about" } });
     fireEvent.change(experienceInput, { target: { value: "test-experience" } });
@@ -71,10 +71,10 @@ describe('ResumeForm', () => {
 
     await waitFor(() => {
       expect(AxiosInstance.put).toHaveBeenCalledWith(`api/resumes/${resumeId}/update/`, {
-        website: "test-github",
-        linkedin: "test-linkedin",
-        about: "test-about",
-        experience: "test-experience",
+        website: 'test-website',
+        linkedin: 'test-linkedin',
+        about: 'test-about',
+        experience: 'test-experience',
       });
     });
   });

@@ -10,8 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-bkf4(v=_e8iqe_bs)^-4)v&n$@1*$#qyt!5l2c__2jtdhnpe8%'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -181,4 +185,4 @@ AUTH_USER_MODEL = 'api.User'
 
 # SendGrid API Key
 
-SENDGRID_API_KEY = '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'
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')

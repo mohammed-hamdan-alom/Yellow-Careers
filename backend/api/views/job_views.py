@@ -75,7 +75,7 @@ class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 		user = self.request.user
 
 		if hasattr(user, 'jobseeker'):
-			if job.isArchived:
+			if job.isArchived and not Application.objects.filter(job=job, job_seeker=user.jobseeker).exists():
 				raise PermissionDenied("You do not have permission to view this job.")
 			return job
 		elif hasattr(user,'employer'):
@@ -88,10 +88,7 @@ class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 				return job
 			if employer.id in employer_ids:
 				return job
-			raise PermissionDenied("You do not have permission to view this job.")
-
-		else:
-			raise PermissionDenied("You do not have permission to view this job.")
+		raise PermissionDenied("You do not have permission to view this job.")
 	
 class EmployerBaseJobListingView(generics.ListAPIView):
     '''Base view to retrieve the jobs of an employer. The employer id is passed as a parameter in the URL.'''

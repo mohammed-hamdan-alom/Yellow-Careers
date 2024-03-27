@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
+import { Switch, Space } from "antd";
+import { Label } from "@/components/ui/label";
+import "../styling/switch.css";
 import JobFilterAndList from "@/components/Search/JobFilterAndList";
 
 function ArchivedJobsListPage() {
@@ -47,12 +50,44 @@ function ArchivedJobsListPage() {
     fetchData();
   }, [userId]);
 
+  const handleSwitchChange = (checked) => {
+    setShowCompanyArchivedJobs(checked);
+  };
+
   return (
     <div>
       {showCompanyArchivedJobs ? (
-        <JobFilterAndList jobs={companyArchivedJobs} />
+        <div>
+          <Label className="text-3xl">All Company Archived Jobs</Label>
+          <Space size={10} direction="vertical" />
+          <div>
+            {companyArchivedJobs.length > 0 && (
+              <Switch
+                checkedChildren="Company Jobs"
+                unCheckedChildren="Your Jobs"
+                defaultChecked={showCompanyArchivedJobs}
+                onChange={handleSwitchChange}
+              />
+            )}
+          </div>
+          <JobFilterAndList jobs={companyArchivedJobs} />
+        </div>
       ) : (
-        <JobFilterAndList jobs={archivedJobs} />
+        <div>
+          <Label className="text-3xl">Archived Jobs You Are Associated With</Label>
+          <Space size={10} direction="vertical" />
+          <div>
+            {companyArchivedJobs.length > 0 && (
+              <Switch
+                checkedChildren="Company Jobs"
+                unCheckedChildren="Your Jobs"
+                defaultChecked={showCompanyArchivedJobs}
+                onChange={handleSwitchChange}
+              />
+            )}
+          </div>
+          <JobFilterAndList jobs={archivedJobs} />
+        </div>
       )}
     </div>
   );

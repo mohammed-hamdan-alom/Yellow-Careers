@@ -38,7 +38,7 @@ const JobSeekerProfile = () => {
       if (user?.user_id) {
         try {
           const response = await AxiosInstance.get(
-            `/api/job-seekers/${user?.user_id}/`
+            `api/job-seekers/${user?.user_id}/`
           );
           if (response.status === 200) {
             const {
@@ -112,7 +112,7 @@ const JobSeekerProfile = () => {
     if (user?.user_id) {
       try {
         const response = await AxiosInstance.put(
-          `/api/job-seekers/${user?.user_id}/update/`,
+          `api/job-seekers/${user?.user_id}/update/`,
           formData
         );
 

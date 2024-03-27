@@ -3,10 +3,6 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
-from rest_framework import generics, status
-from rest_framework.response import Response
-from django.contrib.auth.hashers import check_password
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,11 +16,10 @@ class EmployerRegisterSerializer(serializers.ModelSerializer):
         queryset=Company.objects.all(),
         write_only=True,
     )
-    is_company_admin = serializers.BooleanField(default=False)
 
     class Meta:
         model = Employer
-        fields = ['email', 'password', 'password2', 'first_name', 'last_name', 'other_names', 'phone_number', 'company', 'is_company_admin']
+        fields = ['email', 'password', 'password2', 'company']
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields do not match"})
@@ -33,12 +28,7 @@ class EmployerRegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         employer = Employer.objects.create(
                         email=validated_data['email'],
-                        first_name=validated_data['first_name'],
-                        last_name=validated_data['last_name'],
-                        other_names=validated_data['other_names'],
-                        phone_number=validated_data['phone_number'],
-                        company=validated_data.get('company'),
-                        is_company_admin=validated_data['is_company_admin']
+                        company=validated_data.get('company')
                 )
         employer.set_password(validated_data['password'])
         employer.save()
@@ -73,14 +63,11 @@ class JobSeekerRegisterSerializer(serializers.ModelSerializer):
         return jobseeker
     
     def update(self, instance, validated_data):
-        print("UPDATE JOBSEEKER REGISTER SERIALIZER ")
         if 'password' in validated_data:
             password = validated_data.pop('password')
             password2 = validated_data.pop('password2')
             if password and password2 and password == password2:
                 instance.set_password(password)
-            else:
-                raise serializers.ValidationError({"password": "Password fields do not match"})
         
         return super().update(instance, validated_data)
 
@@ -108,14 +95,8 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         if attrs['new_password'] != attrs['confirm_password']:
-            raise serializers.ValidationError("New password and confirm password must match")
+            raise serializers.ValidationError("New password and confirm password do not match.")
         return attrs
-    
-    def validate_old_password(self, value):
-        user = self.context['request'].user
-        if not check_password(value, user.password):
-            raise serializers.ValidationError("Incorrect old password")
-        return value
     
     def validate_new_password(self, value):
         try:
