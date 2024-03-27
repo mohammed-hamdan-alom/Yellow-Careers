@@ -98,8 +98,12 @@ const ProfileDetails = ({ formData, handleChange, handleSubmit, userType }) => {
             <Select
               id="sex"
               name="sex"
-              value={formData.sex}
-              onChange={(value) => handleChange({ target: { name: "sex", value } })}
+              value={formData.sex === "M" ? "Male" : "Female"}
+              onChange={(value) =>
+                handleChange({
+                  target: { name: "sex", value },
+                })
+              }
             >
               <Option value="Male">Male</Option>
               <Option value="Female">Female</Option>

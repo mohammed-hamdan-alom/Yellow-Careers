@@ -12,18 +12,18 @@ const JobSeekerProfilePage = () => {
   const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
-    email: "",
-    first_name: "",
-    last_name: "",
-    other_names: "",
-    phone_number: "",
-    dob: "",
-    nationality: "",
-    sex: "",
+    email: user.email,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    other_names: user.other_names,
+    phone_number: user.phone_number,
+    dob: user.dob,
+    nationality: user.nationality,
+    sex: user.sex,
     address: {
-      city: "",
-      post_code: "",
-      country: "",
+      city: user.city,
+      post_code: user.postcode,
+      country: user.country,
     },
   });
 
@@ -85,6 +85,12 @@ const JobSeekerProfilePage = () => {
           [name]: value,
         },
       }));
+    } else if (name === "sex") {
+      const sexValue = value === "Male" ? "M" : "F";
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: sexValue,
+      }));
     } else {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -138,12 +144,14 @@ const JobSeekerProfilePage = () => {
 
   return (
     <div>
-      <ProfileDetails
-        formData={formData}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        userType="job-seeker"
-      />
+      <div style={{ marginBottom: "3%" }}>
+        <ProfileDetails
+          formData={formData}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          userType="job-seeker"
+        />
+      </div>
       <PasswordChangeSection
         oldPassword={oldPassword}
         setOldPassword={setOldPassword}
