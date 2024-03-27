@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useRouteLoaderData } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import JobDetailsDisplay from "@/components/JobDetails/JobDetails";
@@ -32,6 +32,16 @@ const EmployerJobDetailsPage = () => {
   const [companyEmployers, setCompanyEmployers] = useState([]);
   const [currentEmployer, setCurrentEmployer] = useState({});
 
+  const orderEmployers = (employers) => {
+    let newEmployers = employers;
+    let currentUser = employers.find((employer) => employer.id === user.user_id);
+    if (currentUser !== undefined) {
+    let otherEmployers = employers.filter((employer) => employer.id !== user.user_id);
+    newEmployers = [currentUser, ...otherEmployers];
+  }
+    return newEmployers;
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -48,7 +58,7 @@ const EmployerJobDetailsPage = () => {
         setCompany(responses[1].data);
         setAddress(responses[2].data);
         setQuestions(responses[3].data);
-        setEmployers(responses[4].data);
+        setEmployers(orderEmployers(responses[4].data));
         setCompanyEmployers(responses[5].data);
         setDataReceived(true);
 
@@ -131,6 +141,18 @@ const EmployerJobDetailsPage = () => {
     }
   };
 
+  const handleLeave = async () => {
+    try {
+      await AxiosInstance.delete(`api/employer-job-relations/delete/${jobId}/${userId}/`);
+      Swal.fire("Left", "You have left the job successfully!", "success").then(() => {
+        navigate("/employer/dashboard");
+      });
+    } catch (error) {
+      console.error("Error leaving job:", error);
+      Swal.fire("Error", "There was an error leaving the job.", "error");
+    }
+  };
+
   return (
     <div>
       <div className="mb-3 flex justify-between">
@@ -177,14 +199,20 @@ const EmployerJobDetailsPage = () => {
                 <span className="font-">
                   {employer.first_name} {employer.last_name}
                 </span>
-                {employer.id !== userId && currentEmployer.is_company_admin && (
-                  <Button
-                    onClick={() => handleRemoveEmployer(employer.id)}
-                    className="redButton ml-2"
-                  >
-                    Remove
-                  </Button>
-                )}
+                {employer.id !== userId &&
+                  currentEmployer.is_company_admin && employers.length > 1 && (
+                    <Button
+                      onClick={() => handleRemoveEmployer(employer.id)}
+                      className="redButton ml-2"
+                    >
+                      Remove
+                    </Button>
+                  )}
+                  {employer.id === userId && employers.length > 1 && (
+                    <Button onClick={handleLeave} className="redButton ml-2">
+                      Leave
+                    </Button>
+                  )}
               </li>
             ))}
           </ul>
