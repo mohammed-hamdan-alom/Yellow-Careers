@@ -3,10 +3,18 @@ import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Input, InputNumber, Select, Modal, Button } from "antd";
+import { Input, InputNumber, Select, Modal, Button, Tag } from "antd";
+import { HandCoins, Briefcase } from "lucide-react";
 import Swal from "sweetalert2";
 import QuestionCreationPage from "./QuestionCreationPage";
 import "@/components/styling/button.css";
+import {
+  UserOutlined,
+  FileTextOutlined,
+  PoundOutlined,
+  EnvironmentOutlined,
+} from "@ant-design/icons";
+import "@/components/styling/tag.css";
 
 const { TextArea } = Input;
 
@@ -87,9 +95,11 @@ function JobCreationPage() {
         <CardContent>
           <form onSubmit={handleJobCreation} className="space-y-4">
             <div>
-              <Label className="text-lg font-semibold">Job Title</Label>
+              <Tag icon={<UserOutlined />} color="pink" className="tag-medium">
+                Job Title
+              </Tag>
               <Input
-                className="w-full mt-2 border-gray-300 rounded-md"
+                className="w-full mt-2 border-gray-900 rounded-md"
                 type="text"
                 name="title"
                 value={formData.title}
@@ -97,9 +107,11 @@ function JobCreationPage() {
               />
             </div>
             <div>
-              <Label className="text-lg font-semibold">Job Description</Label>
+              <Tag icon={<FileTextOutlined />} color="volcano" className="tag-medium">
+                Job Description
+              </Tag>
               <TextArea
-                className="w-full mt-2 border-gray-300 rounded-md"
+                className="w-full mt-2 border-gray-900 rounded-md"
                 type="text"
                 rows={4}
                 name="description"
@@ -107,10 +119,12 @@ function JobCreationPage() {
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <Label className="text-lg font-semibold">Salary</Label>
+            <div className="flex items-center space-x-2">
+              <Tag icon={<PoundOutlined />} color="blue" className="tag-medium">
+                Salary
+              </Tag>
               <InputNumber
-                className="w-full mt-2 border-gray-300 rounded-md"
+                className="w-full border-gray-900 rounded-md"
                 name="salary"
                 formatter={(value) => `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 parser={(value) => value.replace(/\£\s?|(,*)/g, "")}
@@ -120,9 +134,11 @@ function JobCreationPage() {
             </div>
             <div className="flex space-x-4">
               <div>
-                <Label className="text-lg font-semibold">Postcode</Label>
+                <Tag icon={<EnvironmentOutlined />} color="green" className="tag-medium">
+                  Postcode
+                </Tag>
                 <Input
-                  className="w-full mt-2 border-gray-300 rounded-md"
+                  className="w-full mt-2 border-gray-900 rounded-md"
                   type="text"
                   name="post_code"
                   value={addressData.post_code}
@@ -130,9 +146,11 @@ function JobCreationPage() {
                 />
               </div>
               <div>
-                <Label className="text-lg font-semibold">City</Label>
+                <Tag icon={<EnvironmentOutlined />} color="green" className="tag-medium">
+                  City
+                </Tag>
                 <Input
-                  className="w-full mt-2 border-gray-300 rounded-md"
+                  className="w-full mt-2 border-gray-900 rounded-md"
                   type="text"
                   name="city"
                   value={addressData.city}
@@ -140,9 +158,11 @@ function JobCreationPage() {
                 />
               </div>
               <div>
-                <Label className="text-lg font-semibold">Country</Label>
+                <Tag icon={<EnvironmentOutlined />} color="green" className="tag-medium">
+                  Country
+                </Tag>
                 <Input
-                  className="w-full mt-2 border-gray-300 rounded-md"
+                  className="w-full mt-2 border-gray-900 rounded-md"
                   type="text"
                   name="country"
                   value={addressData.country}
@@ -150,11 +170,17 @@ function JobCreationPage() {
                 />
               </div>
             </div>
-            <div>
-              <Label className="text-lg font-semibold">Job Type</Label>
+            <div className="flex items-center space-x-2">
+              <Tag
+                icon={<Briefcase size={15} className="mr-2" />}
+                color="purple"
+                className="tag-medium inline-flex items-center"
+              >
+                Job Type
+              </Tag>
               <Select
                 data-testid="job_type"
-                className="w-full mt-2 border-gray-300 rounded-md"
+                className="w-full border-gray-900 rounded-md"
                 name="job_type"
                 value={formData.job_type}
                 onChange={(value) => setFormData({ ...formData, job_type: value })}
@@ -179,4 +205,5 @@ function JobCreationPage() {
     </div>
   );
 }
+
 export default JobCreationPage;
