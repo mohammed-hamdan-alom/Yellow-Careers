@@ -2,17 +2,18 @@ import React, { useContext, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input, InputNumber, Select, Modal, Button, Tag } from "antd";
-import { HandCoins, Briefcase } from "lucide-react";
+import { Input, InputNumber, Select, Modal, Tag } from "antd";
+import { Button } from "@/components/ui/button";
+import { Briefcase } from "lucide-react";
 import Swal from "sweetalert2";
 import QuestionCreationPage from "./QuestionCreationPage";
 import "@/components/styling/button.css";
 import {
-  UserOutlined,
   FileTextOutlined,
   PoundOutlined,
   EnvironmentOutlined,
+  EnterOutlined,
+  LineOutlined,
 } from "@ant-design/icons";
 import "@/components/styling/tag.css";
 
@@ -95,8 +96,8 @@ function JobCreationPage() {
         <CardContent>
           <form onSubmit={handleJobCreation} className="space-y-4">
             <div>
-              <Tag icon={<UserOutlined />} color="pink" className="tag-medium">
-                Job Title
+              <Tag icon={<LineOutlined />} color="orange" className="tag-medium">
+                Job Title <LineOutlined />
               </Tag>
               <Input
                 className="w-full mt-2 border-gray-900 rounded-md"
@@ -108,7 +109,7 @@ function JobCreationPage() {
               />
             </div>
             <div>
-              <Tag icon={<FileTextOutlined />} color="volcano" className="tag-medium">
+              <Tag icon={<FileTextOutlined />} color="red" className="tag-medium">
                 Job Description
               </Tag>
               <TextArea
@@ -121,12 +122,12 @@ function JobCreationPage() {
                 placeholder="e.g. We are looking for a Software Engineer to join our team..."
               />
             </div>
-            <div className="flex items-center space-x-2">
+            <div>
               <Tag icon={<PoundOutlined />} color="blue" className="tag-medium">
                 Salary
               </Tag>
               <InputNumber
-                className="w-full border-gray-900 rounded-md"
+                className="w-full border-gray-900 rounded-md mt-2"
                 name="salary"
                 formatter={(value) => `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 parser={(value) => value.replace(/\£\s?|(,*)/g, "")}
@@ -175,7 +176,7 @@ function JobCreationPage() {
                 />
               </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div>
               <Tag
                 icon={<Briefcase size={15} className="mr-2" />}
                 color="purple"
@@ -185,7 +186,7 @@ function JobCreationPage() {
               </Tag>
               <Select
                 data-testid="job_type"
-                className="w-full border-gray-900 rounded-md"
+                className="w-full border-gray-900 rounded-md mt-2"
                 name="job_type"
                 value={formData.job_type}
                 onChange={(value) => setFormData({ ...formData, job_type: value })}
