@@ -140,7 +140,7 @@ vi.mock("@/utils/AxiosInstance", () => ({
     delete: vi.fn((url) => {
       return Promise.resolve({});
     }),
-    then: vi.fn(() => {}),
+    then: vi.fn(() => { }),
     post: vi.fn(() => {
       return Promise.resolve({});
     }),
@@ -152,7 +152,7 @@ vi.mock("@/context/AuthContext", () => ({
   default: React.createContext(),
 }));
 
-describe("JobDetailsEmployer component", () => {
+describe("EmployerJobDetailsPage component", () => {
   beforeEach(async () => {
     await act(async () => {
       render(
@@ -211,7 +211,7 @@ describe("JobDetailsEmployer component", () => {
       )
     ).querySelector("h5");
     expect(employer1).toHaveLength(1);
-    expect(employer2).toHaveLength(2); //Appears in both employer job list and add employer list
+    expect(employer2).toHaveLength(1);
     expect(employer3).not.toBeInTheDocument();
     expect(employer4).not.toBeInTheDocument();
   });
@@ -228,24 +228,18 @@ describe("JobDetailsEmployer component", () => {
       fireEvent.click(removeButton);
       fireEvent.click(screen.getByText("Yes"));
     });
-    const employerToRemove = {
-      employer: 2,
-      job: 1,
-    };
+
     expect(AxiosInstance.delete).toBeCalledWith("api/employer-job-relations/delete/1/2/");
   });
 
-  test("employer dropdown contains all non-admin employers in company", async () => {
+  test("employer dropdown contains all employers not part of job", async () => {
     const selectEmployer = await screen.getAllByRole("option")[0];
-    const employer2 = await screen.getAllByRole("option")[1];
-    const employer3 = await screen.getAllByRole("option")[2];
-    const employer4 = await screen.getAllByRole("option")[3];
+    const employer3 = await screen.getAllByRole("option")[1];
+    const employer4 = await screen.getAllByRole("option")[2];
     expect(selectEmployer).toBeInTheDocument();
     expect(selectEmployer).toBeDisabled();
-    expect(employer2).toBeInTheDocument();
     expect(employer3).toBeInTheDocument();
     expect(employer4).toBeInTheDocument();
-    expect(employer2).toHaveTextContent("Jane Doe");
     expect(employer3).toHaveTextContent("Jonathon Doe");
     expect(employer4).toHaveTextContent("Joseph Doe");
   });
