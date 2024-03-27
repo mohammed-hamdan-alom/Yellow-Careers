@@ -13,6 +13,11 @@ vi.mock("@/utils/AxiosInstance", () => ({
   },
 }));
 
+Object.defineProperty(window, "location", {
+  configurable: true,
+  value: { reload: vi.fn() },
+});
+
 describe("EditLanguagePage Component", () => {
   beforeEach(() => {
     AxiosInstance.get.mockResolvedValue({ data: {} });

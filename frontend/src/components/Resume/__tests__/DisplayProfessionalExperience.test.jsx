@@ -1,5 +1,4 @@
 import { render, waitFor, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { vi, describe, it, expect } from 'vitest';
 import AxiosInstance from '@/utils/AxiosInstance';
 import DisplayProfessionalExperience from '../DisplayProfessionalExperience';
@@ -54,14 +53,21 @@ describe('DisplayProfessionalExperience', () => {
     expect(AxiosInstance.get).toHaveBeenCalledWith('api/resumes/1/professional-experiences/');
 
     mockData.forEach(async (experience, index) => {
-      expect(await screen.getAllByText(experience.position)).to.not.be.null;
-      expect(await screen.getAllByText(experience.start_date)).to.not.be.null;
-      expect(await screen.getAllByText(experience.end_date)).to.not.be.null;
-      expect(await screen.getAllByText(experience.company)).to.not.be.null;
-      expect(await screen.getAllByText(`Location: ${experience.address.post_code}, ${experience.address.city}, ${experience.address.country}`)).to.not.be.null;;
-      if (index < mockData.length - 1) {
-        expect(screen.getByTestId(`divider-${index}`)).to.not.be.null;
-      }
+      const positionLabel = screen.getAllByTestId("positionLabel")
+      const start_date = screen.getAllByTestId("start_date")
+      const end_date = screen.getAllByTestId("end_date")
+      const company = screen.getAllByTestId("company")
+      const position = screen.getAllByTestId("position")
+      const address = screen.getAllByTestId("address")
+
+      mockData.forEach(async (experience, index) => {
+        expect(positionLabel[index]).toHaveTextContent(`${mockData[index].position}`)
+        expect(start_date[index]).toHaveTextContent(`${mockData[index].start_date}`)
+        expect(end_date[index]).toHaveTextContent(`${mockData[index].end_date}`)
+        expect(company[index]).toHaveTextContent(`${mockData[index].company}`)
+        expect(position[index]).toHaveTextContent(`${mockData[index].position}`)
+        expect(address[index]).toHaveTextContent(`Location: ${experience.address.post_code}, ${experience.address.city}, ${experience.address.country}`)
+      });
     });
   });
 
@@ -74,7 +80,7 @@ describe('DisplayProfessionalExperience', () => {
   });
 
   it('should handle fetch error', async () => {
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
     AxiosInstance.get.mockRejectedValue(new Error('Fetch error'));
 
     await act(async () => {

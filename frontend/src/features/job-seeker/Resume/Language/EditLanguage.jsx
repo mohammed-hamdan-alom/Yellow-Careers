@@ -85,7 +85,6 @@ function EditLanguage({
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    console.log(language);
     try {
       await AxiosInstance.put(`api/resumes/${resumeId}/languages/update/${languageId}`, language);
       showSuccess("Language Updated");

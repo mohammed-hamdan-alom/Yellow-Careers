@@ -38,22 +38,22 @@ function DisplayProfessionalExperience({ resumeId }) {
         <div key={index} className="mb-6">
           <div className="flex items-center mb-2">
             <Briefcase className="mr-2 text-gray-700" size={20} />
-            <Label className="text-xl font-semibold">{professionalExperience.position}</Label>
+            <Label className="text-xl font-semibold" data-testid="positionLabel">{professionalExperience.position}</Label>
           </div>
-          <p className="mb-2">
+          <p className="mb-2" data-testid="start_date">
             <span className="font-semibold">Start Date:</span> {professionalExperience.start_date}
           </p>
-          <p className="mb-2">
+          <p className="mb-2" data-testid="end_date">
             <span className="font-semibold">End Date:</span> {professionalExperience.end_date}
           </p>
-          <p className="mb-2">
+          <p className="mb-2" data-testid="company">
             <span className="font-semibold">Company:</span> {professionalExperience.company}
           </p>
-          <p className="mb-2">
+          <p className="mb-2" data-testid="position">
             <span className="font-semibold">Position:</span> {professionalExperience.position}
           </p>
           {professionalExperience.address && (
-            <div className="flex items-center">
+            <div className="flex items-center" data-testid="address">
               <MapPin className="mr-2 text-gray-700" size={20} />
               <Label>
                 <strong>Location:</strong> {professionalExperience.address.post_code},{" "}
