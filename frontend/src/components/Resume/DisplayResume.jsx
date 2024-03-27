@@ -48,15 +48,15 @@ function DisplayResume({ resumeId }) {
         </div>
         <div className="flex space-x-20">
           <div className="flex flex-col">
-            <Label>GitHub:</Label>
+            <Label>Website:</Label>
             <span>
               <a
-                href={resume.github}
+                href={resume.website}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-500 hover:underline"
               >
-                {resume.github}
+                {resume.website}
               </a>
             </span>
           </div>
