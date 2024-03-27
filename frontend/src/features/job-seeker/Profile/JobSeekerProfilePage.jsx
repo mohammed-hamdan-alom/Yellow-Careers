@@ -11,7 +11,21 @@ import "@/components/styling/button.css";
 const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
 
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState({
+    email: "",
+    first_name: "",
+    last_name: "",
+    other_names: "",
+    phone_number: "",
+    dob: "",
+    nationality: "",
+    sex: "",
+    address: {
+      city: "",
+      post_code: "",
+      country: "",
+    },
+  });
 
   const [formData, setFormData] = useState({
     email: user.email,

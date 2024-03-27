@@ -129,9 +129,7 @@ const ProfileDetails = ({ formData, handleChange, handleSubmit, userType, errors
               value={formData.address.city}
               onChange={(e) => handleChange(e)}
             />
-            {errors
-              ? errors.address.city && <BigAlert message={errors.address.city} type="error" />
-              : null}
+            {errors.address.city && <BigAlert message={errors.address.city} type="error" />}
           </div>
           <div className="mb-3 space-y-2">
             <Label htmlFor="post_code">Post Code: </Label>
@@ -143,11 +141,9 @@ const ProfileDetails = ({ formData, handleChange, handleSubmit, userType, errors
               value={formData.address.post_code}
               onChange={(e) => handleChange(e)}
             />
-            {errors
-              ? errors.address.post_code && (
-                  <BigAlert message={errors.address.post_code} type="error" />
-                )
-              : null}
+            {errors.address.post_code && (
+              <BigAlert message={errors.address.post_code} type="error" />
+            )}
           </div>
           <div className="mb-3 space-y-2">
             <Label htmlFor="country">Country: </Label>
@@ -159,9 +155,7 @@ const ProfileDetails = ({ formData, handleChange, handleSubmit, userType, errors
               value={formData.address.country}
               onChange={(e) => handleChange(e)}
             />
-            {errors
-              ? errors.address.country && <BigAlert message={errors.address.country} type="error" />
-              : null}
+            {errors.address.country && <BigAlert message={errors.address.country} type="error" />}
           </div>
         </>
       )}
