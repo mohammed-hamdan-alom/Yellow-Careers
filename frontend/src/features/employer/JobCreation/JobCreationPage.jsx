@@ -2,10 +2,9 @@ import React, { useContext, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { Input, InputNumber, Select, Modal, Tag } from "antd";
 import { Button } from "@/components/ui/button";
-import { HandCoins, Briefcase } from "lucide-react";
+import { Briefcase } from "lucide-react";
 import Swal from "sweetalert2";
 import QuestionCreationPage from "./QuestionCreationPage";
 import "@/components/styling/button.css";
@@ -14,6 +13,7 @@ import {
   FileTextOutlined,
   PoundOutlined,
   EnvironmentOutlined,
+  EnterOutlined,
 } from "@ant-design/icons";
 import "@/components/styling/tag.css";
 
@@ -48,7 +48,6 @@ function JobCreationPage() {
   };
 
   const handleJobCreation = async (event) => {
-    console.log("asdfauhifuha");
     event.preventDefault();
     try {
       const jobResponse = await AxiosInstance.post("api/jobs/create-job", {
@@ -123,12 +122,12 @@ function JobCreationPage() {
                 placeholder="e.g. We are looking for a Software Engineer to join our team..."
               />
             </div>
-            <div className="flex items-center space-x-2">
+            <div>
               <Tag icon={<PoundOutlined />} color="blue" className="tag-medium">
                 Salary
               </Tag>
               <InputNumber
-                className="w-full border-gray-900 rounded-md"
+                className="w-full border-gray-900 rounded-md mt-2"
                 name="salary"
                 formatter={(value) => `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 parser={(value) => value.replace(/\£\s?|(,*)/g, "")}
@@ -177,7 +176,7 @@ function JobCreationPage() {
                 />
               </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div>
               <Tag
                 icon={<Briefcase size={15} className="mr-2" />}
                 color="purple"
@@ -187,7 +186,7 @@ function JobCreationPage() {
               </Tag>
               <Select
                 data-testid="job_type"
-                className="w-full border-gray-900 rounded-md"
+                className="w-full border-gray-900 rounded-md mt-2"
                 name="job_type"
                 value={formData.job_type}
                 onChange={(value) => setFormData({ ...formData, job_type: value })}
