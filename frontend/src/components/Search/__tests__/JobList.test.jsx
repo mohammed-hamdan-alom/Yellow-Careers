@@ -14,6 +14,7 @@ const jobs = [
     address: 501,
     job_type: "FT",
     salary: 44976,
+    company: { company_name: "The Company" }
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const jobs = [
     address: 502,
     job_type: "IN",
     salary: 74726,
+    company: { company_name: "The Company" }
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ const jobs = [
     address: 503,
     job_type: "TM",
     salary: 35685,
+    company: { company_name: "The Company" }
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const jobs = [
     address: 504,
     job_type: "PT",
     salary: 61939,
+    company: { company_name: "The Company" }
   },
 ];
 
