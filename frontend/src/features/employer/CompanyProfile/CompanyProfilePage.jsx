@@ -209,6 +209,7 @@ function CompanyProfilePage() {
               <div className="flex justify-between items-center">
                 <Label htmlFor={`employer-${employer.id}`} className="text-lg font-semibold">
                   {employer.first_name} {employer.last_name}
+                  {employer.is_company_admin && <span style={{ marginLeft: "5px" }}> (Admin)</span>}
                 </Label>
                 <Label htmlFor={`employer-email-${employer.id}`} className="text-gray-600">
                   Email: {employer.email}
