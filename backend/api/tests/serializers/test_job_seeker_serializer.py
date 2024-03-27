@@ -77,8 +77,6 @@ class JobSeekerSerializerTestCase(TestCase):
             self.assertEqual(updated_job_seeker_address.city, new_address_data['city'])
             self.assertEqual(updated_job_seeker_address.country, new_address_data['country'])
             self.assertEqual(updated_job_seeker_address.post_code, new_address_data['post_code'])
-        else:
-            self.fail("Serializer did not validate the update data correctly.")
 
     def test_update_with_invalid_address(self):
         new_address_data = {

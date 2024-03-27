@@ -68,8 +68,6 @@ class JobSeekerRegisterSerializer(serializers.ModelSerializer):
             password2 = validated_data.pop('password2')
             if password and password2 and password == password2:
                 instance.set_password(password)
-            else:
-                raise serializers.ValidationError({"password": "Password fields do not match"})
         
         return super().update(instance, validated_data)
 

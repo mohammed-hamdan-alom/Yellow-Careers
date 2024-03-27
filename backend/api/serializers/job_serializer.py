@@ -14,8 +14,6 @@ class JobSerializer(serializers.ModelSerializer):
         address_serializer = AddressSerializer(data=address_data)  
         if address_serializer.is_valid():
             address = address_serializer.save()
-        else:
-            raise serializers.ValidationError(address_serializer.errors)
 
         job = Job.objects.create(
             title=validated_data['title'],
