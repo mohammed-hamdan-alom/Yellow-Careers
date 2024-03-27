@@ -22,6 +22,7 @@ class UserSerializerTest(TestCase):
     
     def setUp(self):
         self.user = User.objects.get(email='johndoe@example.com')
+        self.employer = User.objects.get(id=4)
         self.serializer = UserSerializer(instance=self.user)
 
     def test_contains_expected_fields(self):
@@ -41,7 +42,7 @@ class UserSerializerTest(TestCase):
         invalid_serializer = UserSerializer(data=user_data)
         self.assertFalse(invalid_serializer.is_valid())
 
-    def test_token_with_additional_claims(self):
+    def test_token_with_additional_claims_as_job_seeker(self):
         
         token_serializer = MyTokenObtainPairSerializer()
 
@@ -50,6 +51,31 @@ class UserSerializerTest(TestCase):
 
         # Ensure the token contains the expected claims
         self.assertEqual(token['email'], self.user.email)
+
+    def test_token_with_additional_claims_as_employer(self):
+        token_serializer = MyTokenObtainPairSerializer()
+
+        # Generate token with additional claims
+        token = token_serializer.get_token(self.employer)
+
+        # Ensure the token contains the expected claims
+        self.assertEqual(token['email'], self.employer.email)
+    
+    def test_token_with_additional_claims_unauthorised_user(self):
+        user = User.objects.create_user(
+            first_name='John',
+            last_name='Doe',
+            email = 'unauthorised@example.com',
+            phone_number='08012345678',
+            password='Password123_'
+        )
+        token_serializer = MyTokenObtainPairSerializer()
+
+        # Generate token with additional claims
+        token = token_serializer.get_token(user)
+
+        # Ensure the token contains the expected claims
+        self.assertEqual(token['email'], user.email)
 
 class EmployerRegisterSerializerTest(TestCase):
     def setUp(self):
