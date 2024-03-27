@@ -75,7 +75,6 @@ const JobSeekerProfile = () => {
             );
           }
         } catch (error) {
-          console.log(error.response.data)
           handleErrorAndShowMessage("Error retrieving data:", error);
         }
       }

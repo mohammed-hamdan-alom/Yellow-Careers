@@ -10,6 +10,8 @@ import ProfileDetails from "@/components/Profile/ProfileDetails";
 const EmployerProfilePage = () => {
   const { user } = useContext(AuthContext);
 
+  const [errors, setErrors] = useState("");
+
   const [formData, setFormData] = useState({
     email: user?.email || "",
     first_name: user?.first_name || "",
@@ -74,7 +76,7 @@ const EmployerProfilePage = () => {
           swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
         }
       } catch (error) {
-        handleErrorAndShowMessage("Error updating profile:", error);
+        setErrors(error.response.data);
       }
     }
   };
@@ -110,6 +112,7 @@ const EmployerProfilePage = () => {
         formData={formData}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        errors={errors}
         userType="employer"
       />
       <PasswordChangeSection
