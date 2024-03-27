@@ -257,6 +257,32 @@ class ProfessionalExperienceSerializerTestCase(TestCase):
         }
         serializer = ProfessionalExperienceSerializer(data=invalid_data)
         self.assertFalse(serializer.is_valid())
+
+    def test_create_professional_experience(self):
+        resume5 = Resume.objects.create(
+            website="https://github.com/test",
+            linkedin="https://linkedin.com/test",
+            about="I am a test developer",
+            experience="I have 2 years of experience")
+        
+        validated_data = {
+            'start_date': '2003-02-20',
+            'end_date': '2014-01-01',
+            'company': 'HS',
+            'position': 'Updated pos',
+            'resume':5,
+            'address': {
+                'city': 'Updated City',
+                'post_code': '12345',
+                'country': 'Updated Country'
+            }
+        }
+        # serializer = ProfessionalExperienceSerializer(data=validated_data)
+        # self.assertTrue(serializer.is_valid())
+        # professional_experience = serializer.save()
+        # self.assertIsInstance(professional_experience, ProfessionalExperience)
+
+
     
     def test_update_professional_experience(self):
 
@@ -295,14 +321,14 @@ class ProfessionalExperienceSerializerTestCase(TestCase):
         self.assertTrue(updated_serializer.is_valid())
         updated_instance = updated_serializer.save()
 
-        updated_professional_experience_instance = updated_serializer.save()
+        # updated_professional_experience_instance = updated_serializer.save()
 
         #Assert that the instance attributes are updated correctly
-        self.assertIsNotNone(updated_professional_experience_instance)
-        self.assertEqual(updated_professional_experience_instance.start_date, datetime.date(2003, 2, 20))
-        self.assertEqual(updated_professional_experience_instance.end_date, datetime.date(2014, 1, 1))
-        self.assertEqual(updated_professional_experience_instance.company, updated_data['company'])
-        self.assertEqual(updated_professional_experience_instance.position, updated_data['position'])
+        self.assertIsNotNone(updated_instance)
+        self.assertEqual(updated_instance.start_date, datetime.date(2003, 2, 20))
+        self.assertEqual(updated_instance.end_date, datetime.date(2014, 1, 1))
+        self.assertEqual(updated_instance.company, updated_data['company'])
+        self.assertEqual(updated_instance.position, updated_data['position'])
 
         #Assert that the address of the instance is updated correctly
         updated_address = updated_instance.address

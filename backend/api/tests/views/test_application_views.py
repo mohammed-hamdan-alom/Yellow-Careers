@@ -39,7 +39,7 @@ class ApplicationViewTestCase(TestCase):
 
         self.address = Address.objects.create(city='London', post_code='12345', country='UK')
         self.resume = Resume.objects.create(
-            website="https://github.com/test",
+            github="https://github.com/test",
             linkedin="https://linkedin.com/test",
             about="I am a test developer",
             experience="I have 5 years of experience")

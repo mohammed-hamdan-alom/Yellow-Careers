@@ -5,7 +5,7 @@ from api.models.address import *
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIRequestFactory
-from api.views.resume_views import EducationCreateView
+from api.views.resume_views import EducationCreateView, ProfessionalExperienceCreateView
 
 #test application views fails
 class ResumeViewTestCase(TestCase):
@@ -276,6 +276,7 @@ class ProfessionalExperienceViewTestCase(TestCase):
 
     def setUp(self):
         self.resume = Resume.objects.get(pk=1)
+        self.company = Company.objects.get(pk=1)
         self.professionalexperiences = [ProfessionalExperience.objects.get(resume=self.resume.id)],
 
     def test_get_all_professionalexperiences(self):
@@ -290,6 +291,62 @@ class ProfessionalExperienceViewTestCase(TestCase):
         response = self.client.delete(reverse("resume-professional-experience-put", args=[self.resume.id, professionalexperience.id]))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(ProfessionalExperience.objects.count(), before_count - 1)
+
+
+    def test_create_professional_experience(self):
+        new_professional_experience_data = {
+            "start_date": "2022-01-01",
+            "end_date": "2022-12-31",
+            "address": {
+                "city": "london",
+                "post_code": "ew222",
+                "country":"UK"
+            },
+            "company": self.company.id,
+            "position": "boss",
+            "description": "A",
+            "resume": self.resume.id
+        }
+        factory = APIRequestFactory()
+        request = factory.post(reverse('resume-professional-experiences-post', args=[self.resume.id]), new_professional_experience_data, format='json')
+
+        view = ProfessionalExperienceCreateView.as_view()
+        response = view(request, resume_id=self.resume.id)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["start_date"], new_professional_experience_data["start_date"])
+        self.assertEqual(response.data["end_date"], new_professional_experience_data["end_date"])
+        self.assertEqual(int(response.data["company"]), new_professional_experience_data["company"])
+        self.assertEqual(response.data["position"], new_professional_experience_data["position"])
+        self.assertEqual(response.data["description"], new_professional_experience_data["description"])
+
+        response_address = response.data["address"]
+        expected_address = new_professional_experience_data["address"]
+        self.assertEqual(response_address["city"], expected_address["city"])
+        self.assertEqual(response_address["post_code"], expected_address["post_code"])
+        self.assertEqual(response_address["country"], expected_address["country"])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def test_get_application_resume(self):
         response = self.client.get(reverse("application-resume-get", args=[1]))
