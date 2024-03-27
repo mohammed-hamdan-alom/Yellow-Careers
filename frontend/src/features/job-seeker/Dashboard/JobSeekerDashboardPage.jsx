@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 
 const JobSeekerDashboardPage = () => {
-  const { user, updateToken } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const userId = user.user_id;
 
   const [jobs, setJobs] = useState(undefined);
@@ -20,7 +20,11 @@ const JobSeekerDashboardPage = () => {
         setResume(response.data);
         if (response.data.id !== undefined) {
           const res = await AxiosInstance.get(`api/job-seeker/${userId}/matched-jobs/`);
-          setJobs(res.data);
+          const jobsWithCompany = await Promise.all(res.data.map(async job => {
+            const companyRes = await AxiosInstance.get(`api/jobs/${job.id}/company/`);
+            return { ...job, company: companyRes.data };
+          }));          
+          setJobs(jobsWithCompany);
           setIsJobRetrieved(true);
         }
       } catch (error) {

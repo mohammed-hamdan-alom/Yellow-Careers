@@ -578,7 +578,7 @@ class Command(BaseCommand):
                 Job.objects.create(
                     title = row['Role'],
                     description = row['Job Description'] + "\nBenefits: " + row['Benefits'] + "\nSkills: " + row['Skills'] + "\nResponsibilities: " + row['Responsibilities'],
-                    salary = random.randint(30000, 100000),
+                    salary = random.randint(30000, 200000),
                     address = new_address,
                     job_type = random.choice([choice[0] for choice in Job.JobType.choices])
                 )

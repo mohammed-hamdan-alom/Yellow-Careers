@@ -37,13 +37,9 @@ describe("ProfileDetails component", () => {
   });
   test("renders job seeker fields when userType is 'job-seeker'", () => {
     render(<ProfileDetails formData={formData} userType="job-seeker" />);
-
-    // Assert that job seeker specific fields are rendered
     expect(screen.getByLabelText("Date of Birth:")).toBeInTheDocument();
     expect(screen.getByLabelText("Nationality:")).toBeInTheDocument();
     expect(screen.getByLabelText("Sex:")).toBeInTheDocument();
-
-    // Assert that non-job seeker specific fields are not rendered
     expect(screen.queryByLabelText("Some Other Field:")).not.toBeInTheDocument();
   });
   test("renders employer specific fields when userType is 'employer'", () => {

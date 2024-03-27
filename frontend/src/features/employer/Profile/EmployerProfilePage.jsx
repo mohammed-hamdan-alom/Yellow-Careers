@@ -69,7 +69,7 @@ const EmployerProfilePage = () => {
       try {
         const response = await AxiosInstance.put(
           `/api/employers/${user?.user_id}/update/`,
-          formData,
+          formData
         );
 
         if (response.status === 200) {
@@ -100,6 +100,9 @@ const EmployerProfilePage = () => {
           timerProgressBar: true,
           showConfirmButton: false,
         });
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmNewPassword("");
       }
     } catch (error) {
       handleErrorAndShowMessage("Error updating password:", error);
@@ -107,7 +110,7 @@ const EmployerProfilePage = () => {
   };
 
   return (
-    <div>
+    <div className="mb-2">
       <ProfileDetails
         formData={formData}
         handleChange={handleChange}

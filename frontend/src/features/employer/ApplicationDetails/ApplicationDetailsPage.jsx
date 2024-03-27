@@ -115,7 +115,7 @@ const ApplicationDetailsPage = () => {
       </div>
 
       <div className="mb-3">
-        <Label className="text-xl font-semibold">
+        <Label className="text-xl font-semibold" data-testid="full-name-label">
           Full name: {jobSeeker.first_name} {jobSeeker.last_name}
         </Label>
         <Label className="text-lg">
