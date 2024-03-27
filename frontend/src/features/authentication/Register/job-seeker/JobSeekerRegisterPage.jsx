@@ -182,6 +182,7 @@ const JobSeekerRegister = () => {
               <Label htmlFor="nationality">Nationality</Label>
               <Select
                 showSearch
+                data-testid="nationality"
                 id="nationality"
                 className="w-full bg-background"
                 placeholder="Select a Nationality"
