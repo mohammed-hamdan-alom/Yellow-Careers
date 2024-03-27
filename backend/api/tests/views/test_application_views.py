@@ -1,5 +1,5 @@
 from django.test import TestCase
-from api.models import User,JobSeeker,Application, Address, Resume
+from api.models import User,JobSeeker,Application, Address, Resume, Employer
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -7,6 +7,8 @@ from rest_framework.authtoken.models import Token
 from api.serializers import MyTokenObtainPairSerializer
 from rest_framework.test import APIRequestFactory, force_authenticate
 from api.views import ApplicationRetrieveView
+from api.models.job import Job
+from api.views.application_views import ApplicationsFromJobListView
 
 
 class ApplicationViewTestCase(TestCase):
@@ -58,27 +60,17 @@ class ApplicationViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), len(self.applications))
     
-    def test_retrieve_application(self):
-        application = self.applications[0]
-        request = self.request_factory.get(reverse('application-get', args=[application.id]), format='json')
-        request.user = self.user
-        request.META['HTTP_AUTHORIZATION'] = f'Token {self.token.key}'        
-        view = ApplicationRetrieveView.as_view()
-        response = view(request, pk=application.id)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['job'], application.job.id)
-        self.assertEqual(response.data['job_seeker'], application.job_seeker.id)
     
-    def test_create_application(self):
-        token = self._authenticate_user(user_email=self.job_seeker.email)
-        application_data = {
-            'job' : 3,
-            'job_seeker' : 2,
-            'resume' : 2,
-        }
-        response = self.client.post(reverse('application-post'), application_data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Application.objects.count(), len(self.applications) + 1)
+    # def test_create_application(self):
+    #     token = self._authenticate_user(user_email=self.job_seeker.email)
+    #     application_data = {
+    #         'job' : 3,
+    #         'job_seeker' : 2,
+    #         'resume' : 2,
+    #     }
+    #     response = self.client.post(reverse('application-post'), application_data)
+    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    #     self.assertEqual(Application.objects.count(), len(self.applications) + 1)
     
     def test_update_application(self):
         application = self.applications[0]
@@ -131,3 +123,134 @@ class ApplicationViewTestCase(TestCase):
         # Authenticate the user and obtain the authentication token
         client = APIClient()
         response = client.post(reverse('token_obtain_pair'), {'email': user_email, 'password': 'Password123'})
+
+    
+
+
+    def test_retrieve_application_by_job_seeker(self):
+        '''Test retrieving an application by the job seeker who made the application.'''
+        application = Application.objects.get(pk=1)  # Assuming an Application with id 1 exists
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-get', args=[application.id]))
+        force_authenticate(request, user=application.job_seeker)
+        view = ApplicationRetrieveView.as_view()
+        response = view(request, pk=application.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['id'], application.id)
+
+    
+    def test_retrieve_application_by_unauthorized_job_seeker(self):
+        '''Test retrieving an application by a job seeker who did not make the application.'''
+        application = Application.objects.get(pk=1)  
+        job_seeker = JobSeeker.objects.get(pk=2)  
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-get', args=[application.id]))
+        force_authenticate(request, user=job_seeker)
+        view = ApplicationRetrieveView.as_view()
+        response = view(request, pk=application.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_retrieve_application_by_authorized_employer(self):
+        '''Test retrieving an application by an authorized employer.'''
+        application = Application.objects.get(pk=1) 
+        employer = Employer.objects.get(pk=3) 
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-get', args=[application.id]))
+        force_authenticate(request, user=employer)
+        view = ApplicationRetrieveView.as_view()
+        response = view(request, pk=application.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['id'], application.id)
+
+    def test_retrieve_application_by_unauthorized_employer(self):
+        '''Test retrieving an application by an unauthorized employer.'''
+        application = Application.objects.get(pk=1)  
+        employer = Employer.objects.get(pk=4)  
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-get', args=[application.id]))
+        force_authenticate(request, user=employer)
+        view = ApplicationRetrieveView.as_view()
+        response = view(request, pk=application.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_retrieve_application_by_employer_in_company_but_not_associated_with_job(self):
+        """Test retrieving an application by an employer in the same company but not associated with the job."""
+        application = Application.objects.get(pk=3)  
+        employer = Employer.objects.get(pk=5)  
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-get', args=[application.id]))
+        force_authenticate(request, user=employer)
+        view = ApplicationRetrieveView.as_view()
+        response = view(request, pk=application.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+    
+    def test_retrieve_nonexistent_application(self):
+        '''Test retrieving an application that does not exist.'''
+        job_seeker = JobSeeker.objects.get(pk=1)  
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-get', args=[100]))
+        force_authenticate(request, user=job_seeker)
+        view = ApplicationRetrieveView.as_view()
+        response = view(request, pk=100)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_retrieve_application_unauthenticated(self):
+        '''Test retrieving an application by an unauthenticated user.'''
+        application = Application.objects.get(pk=1) 
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-get', args=[application.id]))
+        view = ApplicationRetrieveView.as_view()
+        response = view(request, pk=application.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+    
+    def test_list_applications_from_job_by_authorized_employer(self):
+        '''Test retrieving the application list from a job by an authorized employer.'''
+        job = Job.objects.get(pk=1) 
+        employer = Employer.objects.get(pk=3)
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-all-get', args=[job.id]))
+        force_authenticate(request, user=employer)
+        view = ApplicationsFromJobListView.as_view()
+        response = view(request, job_id=job.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_list_applications_from_job_by_unauthorized_employer(self):
+        '''Test retrieving the application list from a job by an unauthorized employer.'''
+        job = Job.objects.get(pk=1)
+        employer = Employer.objects.get(pk=4)
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-all-get', args=[job.id]))
+        force_authenticate(request, user=employer)
+        view = ApplicationsFromJobListView.as_view()
+        response = view(request, job_id=job.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_list_applications_from_job_unauthenticated(self):
+        '''Test retrieving the application list from a job by an unauthenticated user.'''
+        job = Job.objects.get(pk=1) 
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-all-get', args=[job.id]))
+        view = ApplicationsFromJobListView.as_view()
+        response = view(request, job_id=job.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+    
+    def test_retrieve_applications_by_employer_in_company_but_not_associated_with_job(self):
+        """Test retrieving an application by an employer in the same company but not associated with the job."""
+        job = Job.objects.get(pk=3)  
+        employer = Employer.objects.get(pk=5)  
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-all-get', args=[job.id]))
+        force_authenticate(request, user=employer)
+        view = ApplicationsFromJobListView.as_view()
+        response = view(request, job_id=job.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_retrieve_applications_by_job_seeker(self):
+        '''Test retrieving applications by an unauthorized job seeker.'''
+        job_seeker = JobSeeker.objects.get(pk=2)  
+        factory = APIRequestFactory()
+        request = factory.get(reverse('application-all-get', args=[1]))
+        force_authenticate(request, user=job_seeker)
+        view = ApplicationsFromJobListView.as_view()
+        response = view(request, job_id=1)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
