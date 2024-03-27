@@ -8,8 +8,10 @@ import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessag
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 import "@/components/styling/button.css";
 
-const JobSeekerProfilePage = () => {
+const JobSeekerProfile = () => {
   const { user } = useContext(AuthContext);
+
+  const [errors, setErrors] = useState("");
 
   const [formData, setFormData] = useState({
     email: "",
@@ -35,7 +37,9 @@ const JobSeekerProfilePage = () => {
     const fetchJobSeekerData = async () => {
       if (user?.user_id) {
         try {
-          const response = await AxiosInstance.get(`/api/job-seekers/${user?.user_id}/`);
+          const response = await AxiosInstance.get(
+            `/api/job-seekers/${user?.user_id}/`
+          );
           if (response.status === 200) {
             const {
               email,
@@ -64,9 +68,14 @@ const JobSeekerProfilePage = () => {
               },
             });
           } else {
-            swal.fire("Failed to fetch", "Could not fetch job seeker profile.", "error");
+            swal.fire(
+              "Failed to fetch",
+              "Could not fetch job seeker profile.",
+              "error"
+            );
           }
         } catch (error) {
+          console.log(error.response.data)
           handleErrorAndShowMessage("Error retrieving data:", error);
         }
       }
@@ -103,10 +112,14 @@ const JobSeekerProfilePage = () => {
         );
 
         if (response.status === 200) {
-          swal.fire("Profile Updated", "Your profile has been updated successfully.", "success");
+          swal.fire(
+            "Profile Updated",
+            "Your profile has been updated successfully.",
+            "success"
+          );
         }
       } catch (error) {
-        handleErrorAndShowMessage("Error updating profile:", error);
+        setErrors(error.response.data);
       }
     }
   };
@@ -114,11 +127,14 @@ const JobSeekerProfilePage = () => {
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AxiosInstance.put("/api/job-seeker/change-password/", {
-        old_password: oldPassword,
-        new_password: newPassword,
-        confirm_password: confirmNewPassword,
-      });
+      const response = await AxiosInstance.put(
+        "/api/job-seeker/change-password/",
+        {
+          old_password: oldPassword,
+          new_password: newPassword,
+          confirm_password: confirmNewPassword,
+        }
+      );
 
       if (response.status === 200) {
         swal.fire({
@@ -142,6 +158,7 @@ const JobSeekerProfilePage = () => {
         formData={formData}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        errors={errors}
         userType="job-seeker"
       />
       <PasswordChangeSection
@@ -157,4 +174,4 @@ const JobSeekerProfilePage = () => {
   );
 };
 
-export default JobSeekerProfilePage;
+export default JobSeekerProfile;

@@ -266,7 +266,7 @@ function EditEducationPage({
         </div>
         {education.address && (
           <div className="flex flex-row w-full mt-8 justify-between items-center space-x-2">
-            <div className="flex flex-col justify-between items-center mb-4 ">
+            <div className="flex flex-col justify-between items-center mb-4 space-y-2">
               <Label className="w-full text-1xl">City</Label>
               <Input
                 className="w-full"
@@ -275,18 +275,15 @@ function EditEducationPage({
                 value={education.address.city}
                 onChange={handleEducationChange}
               />
-            </div>
-            <div className="mb-4">
               {errors.address && errors.address.city && (
                 <BigAlert
-                  className="ml-4"
                   message={"Enter valid city"}
                   description={""}
                   type="error"
                 />
               )}
             </div>
-            <div className="flex flex-col justify-between items-center mb-4">
+            <div className="flex flex-col justify-between items-center mb-4 space-y-2">
               <Label className="w-full text-1xl">Post Code</Label>
               <Input
                 className="w-full"
@@ -295,8 +292,6 @@ function EditEducationPage({
                 value={education.address.post_code}
                 onChange={handleEducationChange}
               />
-            </div>
-            <div className="mb-4">
               {errors.address && errors.address.post_code && (
                 <BigAlert
                   className="ml-4"
@@ -306,7 +301,7 @@ function EditEducationPage({
                 />
               )}
             </div>
-            <div className="flex flex-col justify-between items-center mb-4">
+            <div className="flex flex-col justify-between items-center mb-4 space-y-2">
               <Label className="w-full text-1xl">Country</Label>
               <Input
                 className="w-full"
@@ -315,8 +310,6 @@ function EditEducationPage({
                 value={education.address.country}
                 onChange={handleEducationChange}
               />
-            </div>
-            <div className="mb-4">
               {errors.address && errors.address.country && (
                 <BigAlert
                   className="ml-4"
