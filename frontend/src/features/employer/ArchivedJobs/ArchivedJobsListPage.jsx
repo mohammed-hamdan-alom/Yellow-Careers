@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Switch } from "antd";
-import JobFilterAndList from "@/components/Search/JobFilterAndList";
+import { Switch, Space } from "antd";
+import { Label } from "@/components/ui/label";
 import "../styling/switch.css";
+import JobFilterAndList from "@/components/Search/JobFilterAndList";
 
 function ArchivedJobsListPage() {
   const { user } = useContext(AuthContext);
@@ -57,26 +58,34 @@ function ArchivedJobsListPage() {
     <div>
       {showCompanyArchivedJobs ? (
         <div>
-          {companyArchivedJobs.length > 0 && (
-            <Switch
-              checkedChildren="Company Archived Jobs"
-              unCheckedChildren="Your Archived Jobs"
-              defaultChecked={showCompanyArchivedJobs}
-              onChange={handleSwitchChange}
-            />
-          )}
+          <Label className="text-3xl">All Company Archived Jobs</Label>
+          <Space size={10} direction="vertical" />
+          <div>
+            {companyArchivedJobs.length > 0 && (
+              <Switch
+                checkedChildren="Company Jobs"
+                unCheckedChildren="Your Jobs"
+                defaultChecked={showCompanyArchivedJobs}
+                onChange={handleSwitchChange}
+              />
+            )}
+          </div>
           <JobFilterAndList jobs={companyArchivedJobs} />
         </div>
       ) : (
         <div>
-          {companyArchivedJobs.length > 0 && (
-            <Switch
-              checkedChildren="Company Archived Jobs"
-              unCheckedChildren="Your Archived Jobs"
-              defaultChecked={showCompanyArchivedJobs}
-              onChange={handleSwitchChange}
-            />
-          )}
+          <Label className="text-3xl">Archived Jobs You Are Associated With</Label>
+          <Space size={10} direction="vertical" />
+          <div>
+            {companyArchivedJobs.length > 0 && (
+              <Switch
+                checkedChildren="Company Jobs"
+                unCheckedChildren="Your Jobs"
+                defaultChecked={showCompanyArchivedJobs}
+                onChange={handleSwitchChange}
+              />
+            )}
+          </div>
           <JobFilterAndList jobs={archivedJobs} />
         </div>
       )}
