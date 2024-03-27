@@ -5,7 +5,9 @@ from rest_framework import status
 from django.core.serializers import serialize
 from rest_framework.test import APIRequestFactory
 from api.views.job_seeker_views import *
+from api.views.user_authentication_views import *
 from rest_framework.test import APITestCase, force_authenticate, APIRequestFactory
+from rest_framework.authtoken.models import Token
 
 
 class JobSeekerViewTestCase(TestCase):
@@ -224,3 +226,27 @@ class JobSeekerViewTestCase(TestCase):
         response = view(request, application_id=application.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['id'], application.job_seeker.id)
+
+    # def test_old_password_is_incorrect(self):
+    #     user = User.objects.create(
+    #         first_name="John",
+    #         last_name="Doe",
+    #         email="exampleuser100@example.com",
+    #         phone_number="08012345678",
+    #         is_active=True,
+    #         password="Password123_"
+    #     )
+    #     factory = APIRequestFactory()
+    #     token = Token.objects.create(user=user)
+    #     data = {
+    #         'old_password': 'WrongOldPassword123_',
+    #         'new_password': 'NewPassword123!',
+    #         'confirm_password': 'NewPassword123!'
+    #         }
+    #     view = ChangePasswordView.as_view()
+    #     request = factory.put('/api/job-seeker/change-password/', data)
+    #     request.user = user
+    #     response = view(request)
+            
+    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    #     self.assertIn('old_password', response.data)
