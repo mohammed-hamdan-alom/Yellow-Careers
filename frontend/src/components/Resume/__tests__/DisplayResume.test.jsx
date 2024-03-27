@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, act, screen } from '@testing-library/react';
 import { vi, describe, it, expect } from 'vitest'
 import AxiosInstance from "@/utils/AxiosInstance";
 import DisplayResume from '../DisplayResume';
@@ -16,6 +16,36 @@ vi.mock("@/utils/AxiosInstance", () => ({
     get: vi.fn(),
   },
 }));
+
+vi.mock("@/components/Resume/DisplaySoftSkills", async () => {
+  return {
+    default: vi.fn(() => <div data-testid="mock-displaysoftskills"></div>),
+  };
+});
+
+vi.mock("@/components/Resume/DisplayTechnicalSkills", async () => {
+  return {
+    default: vi.fn(() => <div data-testid="mock-displaytechnicalskills"></div>),
+  };
+});
+
+vi.mock("@/components/Resume/DisplayEducation", async () => {
+  return {
+    default: vi.fn(() => <div data-testid="mock-displayeducation"></div>),
+  };
+});
+
+vi.mock("@/components/Resume/DisplayLanguages", async () => {
+  return {
+    default: vi.fn(() => <div data-testid="mock-displaylanguages"></div>),
+  };
+});
+
+vi.mock("@/components/Resume/DisplayProfessionalExperience", async () => {
+  return {
+    default: vi.fn(() => <div data-testid="mock-displayprofessionalexperience"></div>),
+  };
+});
 
 describe('DisplayResume', () => {
   const mockResumeData = {
@@ -35,7 +65,9 @@ describe('DisplayResume', () => {
 
   it('should fetch and display resume data and nested components', async () => {
     const resumeId = '1';
-    render(<DisplayResume resumeId={resumeId} />);
+    await act(async () => {
+      render(<DisplayResume resumeId={resumeId} />);
+    })
 
     await waitFor(() => expect(AxiosInstance.get).toHaveBeenCalled());
     expect(AxiosInstance.get).toHaveBeenCalledWith(`api/resumes/${resumeId}/`);
@@ -59,11 +91,12 @@ describe('DisplayResume', () => {
     expect(linkedinLink).toHaveAttribute('href', mockResumeData.linkedin);
 
     // Check if nested components are rendered
-    expect(await screen.findByText('Soft Skills')).toBeInTheDocument();
-    expect(await screen.findByText('Technical Skills')).toBeInTheDocument();
-    expect(await screen.findByText('Languages')).toBeInTheDocument();
-    expect(await screen.findByText('Education')).toBeInTheDocument();
-    expect(await screen.findByText('Professional Experience')).toBeInTheDocument();
+    expect(await screen.findByTestId("mock-displaysoftskills")).toBeInTheDocument();
+    expect(await screen.findByTestId("mock-displaytechnicalskills")).toBeInTheDocument();
+    expect(await screen.findByTestId("mock-displayeducation")).toBeInTheDocument();
+    expect(await screen.findByTestId("mock-displaylanguages")).toBeInTheDocument();
+    expect(await screen.findByTestId("mock-displayprofessionalexperience")).toBeInTheDocument();
+
   });
 
   it('should not fetch resume data if resumeId is not provided', async () => {
@@ -73,7 +106,7 @@ describe('DisplayResume', () => {
   });
 
   it('should handle fetch error', async () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
     AxiosInstance.get.mockRejectedValue(new Error('Fetch error'));
 
     render(<DisplayResume resumeId="1" />);
