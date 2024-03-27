@@ -31,6 +31,7 @@ psycopg2-binary==2.9.9
 PyJWT==2.8.0
 pytest==7.4.2
 python-dateutil==2.8.2
+python-dotenv==1.0.1
 python-http-client==3.3.7
 pytz==2023.3.post1
 rapidfuzz==3.6.1
