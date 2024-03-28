@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from api.models import Address
 
 class AddressModelTestCase(TestCase):
+    '''Test case for the Address model'''
 
     fixtures = ['api/tests/fixtures/addresses.json']
 

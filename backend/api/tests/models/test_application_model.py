@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from api.models import Application, JobSeeker, Resume, Language, Education, SoftSkill, TechnicalSkill, ProfessionalExperience
 
 class ApplicationModelTestCase(TestCase):
+    '''Test case for the Application model'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
