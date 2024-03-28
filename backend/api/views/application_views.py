@@ -1,5 +1,5 @@
 from rest_framework import generics
-from api.models import Application, EmployerJobRelation,Employer
+from api.models import Application, EmployerJobRelation,Employer, Job
 from api.serializers.application_serializer import ApplicationSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import PermissionDenied
