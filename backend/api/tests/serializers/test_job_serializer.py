@@ -3,6 +3,7 @@ from api.models import Job
 from api.serializers import JobSerializer
 
 class JobSerializerTestCase(TestCase):
+    '''Test for the JobSerializer class in the serializers module.'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

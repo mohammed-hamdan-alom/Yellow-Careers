@@ -3,30 +3,35 @@ from rest_framework import serializers
 from . import AddressSerializer
 
 class ResumeSerializer(serializers.ModelSerializer):
+    '''Serializer for the Resume model handling creation and updating.'''
     class Meta:
         model = Resume
         fields = '__all__'
         read_only_fields = ('id', 'created_at', 'updated_at')
 
 class ResumeSoftSkillSerializer(serializers.ModelSerializer):
+    '''Serializer for the SoftSkill model handling creation and updating.'''
     class Meta:
         model = SoftSkill
         fields = ('id','skill')
         read_only_fields = ('id', 'created_at', 'updated_at')
 
 class ResumeTechnicalSkillSerializer(serializers.ModelSerializer):
+    '''Serializer for the TechnicalSkill model handling creation and updating.'''
     class Meta:
         model = TechnicalSkill
         fields = ('id','skill')
         read_only_fields = ('id', 'created_at', 'updated_at')
 
 class ResumeLanguageSerializer(serializers.ModelSerializer):
+    '''Serializer for the Language model handling creation and updating.'''
     class Meta:
         model = Language
         fields = ('id','language','spoken_proficiency','written_proficiency')
         read_only_fields = ('id', 'created_at', 'updated_at')
 
 class EducationSerializer(serializers.ModelSerializer):
+    '''Serializer for the Education model handling creation and updating.'''
     address = AddressSerializer()
     class Meta:
         model = Education
@@ -34,6 +39,7 @@ class EducationSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'created_at', 'updated_at')
     
     def create(self, validated_data):
+        '''Create and return a new `Education` instance, given the validated data.'''
         address_data = validated_data.pop('address')
         address_serializer = AddressSerializer(data=address_data)  
         if address_serializer.is_valid():
@@ -44,6 +50,7 @@ class EducationSerializer(serializers.ModelSerializer):
         return education
 
     def update(self, instance, validated_data):
+        '''Update and return an existing `Education` instance, given the validated data.'''
         address_data = validated_data.pop('address', None)
         if address_data:
             address_serializer = AddressSerializer(instance.address, data=address_data)
@@ -62,6 +69,7 @@ class EducationSerializer(serializers.ModelSerializer):
         return instance
 
 class ProfessionalExperienceSerializer(serializers.ModelSerializer):
+    '''Serializer for the ProfessionalExperience model handling creation and updating.'''
     address = AddressSerializer()
     class Meta:
         model = ProfessionalExperience
@@ -69,6 +77,7 @@ class ProfessionalExperienceSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'created_at', 'updated_at')
     
     def create(self, validated_data):
+        '''Create and return a new `ProfessionalExperience` instance, given the validated data.'''
         address_data = validated_data.pop('address')
         address_serializer = AddressSerializer(data=address_data)  
         if address_serializer.is_valid():
@@ -78,6 +87,7 @@ class ProfessionalExperienceSerializer(serializers.ModelSerializer):
         return professional_experience
     
     def update(self, instance, validated_data):
+        '''Update and return an existing `ProfessionalExperience` instance, given the validated data.'''
         address_data = validated_data.pop('address', None)
         if address_data:
             address_serializer = AddressSerializer(instance.address, data=address_data)

@@ -1,11 +1,11 @@
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from api.models import User
-from api.serializers import ChangePasswordSerializer
 
 class ChangePasswordViewTestCase(APITestCase):
+    '''Test module for changing password of a user.'''
+    
     def setUp(self):
         self.user = User.objects.create_user(email='test@example.com', password='oldPassword123!')
         self.client.force_authenticate(user=self.user)

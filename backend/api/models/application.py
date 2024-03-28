@@ -2,6 +2,8 @@ from django.db import models
 from .resume import *
 
 class ApplicationManager(models.Manager):
+    """Manager for the Application model that duplicates the resume when creating a new application"""
+    
     def create(self, *args, **kwargs):
         resume = kwargs.get('resume')
         if resume:

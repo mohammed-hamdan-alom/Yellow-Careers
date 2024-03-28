@@ -1,16 +1,15 @@
 from django.test import TestCase
-from api.models import JobSeeker, Address
+from api.models import JobSeeker
 from django.urls import reverse
 from rest_framework import status
-from django.core.serializers import serialize
 from rest_framework.test import APIRequestFactory
 from api.views.job_seeker_views import *
 from api.views.user_authentication_views import *
-from rest_framework.test import APITestCase, force_authenticate, APIRequestFactory
-from rest_framework.authtoken.models import Token
+from rest_framework.test import force_authenticate, APIRequestFactory
 
 
 class JobSeekerViewTestCase(TestCase):
+    '''Test case for the JobSeeker views.'''
     
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

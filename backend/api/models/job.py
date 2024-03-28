@@ -17,12 +17,6 @@ class Job(models.Model):
     address = models.OneToOneField('Address',blank=True,null=True, on_delete=models.CASCADE)
     job_type = models.CharField(max_length=20,choices=JobType.choices)
     isArchived = models.BooleanField(default=False)
-
-    def get_applications(self):
-        return Application.objects.filter(job=self)
-    
-    def get_employers_ids(self):
-        return EmployerJobRelation.objects.filter(job_id=self.id).values_list('employer', flat=True)
     
     def to_string(self):
         return f"{self.title} {self.description} {self.salary} {self.job_type}"

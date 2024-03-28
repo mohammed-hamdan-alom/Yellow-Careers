@@ -5,17 +5,21 @@ from django.shortcuts import get_object_or_404
 
 
 class BaseAnswerView:
+    '''Base view for the Answer model.'''
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
 
 class AnswerListView(BaseAnswerView, generics.ListAPIView):
+    '''List all answers.'''
     pass
 
 
 class AnswerCreateView(BaseAnswerView, generics.CreateAPIView):
+    '''Create an answer.'''
     pass
 
 class AnswerUpdateView(BaseAnswerView, generics.RetrieveUpdateDestroyAPIView):
+    '''Update an answer. The answer id is passed as a parameter in the url.'''
     pass
 
 class ApplicationAnswerListView(BaseAnswerView, generics.ListAPIView):

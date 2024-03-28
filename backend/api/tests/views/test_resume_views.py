@@ -7,8 +7,9 @@ from rest_framework import status
 from rest_framework.test import APIRequestFactory
 from api.views.resume_views import EducationCreateView, ProfessionalExperienceCreateView
 
-#test application views fails
+
 class ResumeViewTestCase(TestCase):
+    '''Test case for the Resume views.'''
 
     fixtures = ["api/tests/fixtures/addresses.json",
                 "api/tests/fixtures/answers.json",

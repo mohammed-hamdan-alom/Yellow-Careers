@@ -11,7 +11,7 @@ const navigation = [
   { name: "My Company", to: "/company" },
 ];
 
-const userNavigation = [{ name: "Your Profile", href: `${baseUrl}/profile` }, { name: "Sign out" }];
+const userNavigation = [{ name: "My Profile", href: `${baseUrl}/profile` }, { name: "Sign out" }];
 
 export default function EmployerLayout() {
   const { user } = useContext(AuthContext);
