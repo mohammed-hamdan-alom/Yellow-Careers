@@ -25,7 +25,7 @@ function QuestionCreationPage({ jobId }) {
       .then((res) => {
         setQuestions(res.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
     setQuestionsChanged(false);
   }, [questionsChanged]);
 
@@ -42,7 +42,7 @@ function QuestionCreationPage({ jobId }) {
         });
         setQuestionsChanged(true);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   const handleChange = (event) => {
@@ -62,7 +62,7 @@ function QuestionCreationPage({ jobId }) {
   const handleRemove = (id) => {
     AxiosInstance.delete(`api/questions/${id}/update/`)
       .then((res) => setQuestionsChanged(true))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   return (
