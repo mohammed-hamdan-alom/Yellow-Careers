@@ -8,7 +8,7 @@ import ArchivedJobsListPage from "../ArchivedJobsListPage";
 
 const navigate = vi.fn();
 
-vi.mock("@/features/employer/ToggleJobs/ToggleCompanyEmployerJobs", () => ({
+vi.mock("@/features/employer/ToggleJobs/EmployerJobList", () => ({
     default: vi.fn(() => <div data-testid="mock-togglecompanyemployerjobs"></div>),
 }));
 

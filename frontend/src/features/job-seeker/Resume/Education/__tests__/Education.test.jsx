@@ -5,6 +5,21 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import Education from "../Education";
 import { act } from "react-dom/test-utils";
 
+const educations = [
+  {
+    id: 1,
+    course_name: "Computer Science",
+    institution: "Sample University",
+    level: "Bachelor",
+    grade: "A",
+    address: {
+      post_code: "E6",
+      city: "London",
+      country: "England"
+    }
+  },
+];
+
 vi.mock("@/utils/AxiosInstance", () => ({
   __esModule: true,
   default: {
@@ -15,7 +30,7 @@ vi.mock("@/utils/AxiosInstance", () => ({
 
 describe("Education Component", () => {
   beforeEach(() => {
-    AxiosInstance.get.mockResolvedValue({ data: [] });
+    AxiosInstance.get.mockResolvedValue({ data: educations });
   });
 
   afterEach(() => {
@@ -31,21 +46,18 @@ describe("Education Component", () => {
   });
 
   test("deletes education when delete button is clicked", async () => {
-    const educations = [
-      {
-        id: 1,
-        course_name: "Computer Science",
-        institution: "Sample University",
-        level: "Bachelor",
-        grade: "A",
-      },
-    ];
+
     AxiosInstance.get.mockResolvedValue({ data: educations });
 
-    const { getByText } = render(<Education resumeId="sampleResumeId" />);
-    const deleteButton = await screen.findByText("Delete");
+    const resumeId = "sampleResumeId";
+    await act(async () => {
+      render(<Education resumeId={resumeId} />);
+    })
 
-    fireEvent.click(deleteButton);
+    const deleteButton = await screen.getByTestId("delete-button");
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    })
 
     await waitFor(() => expect(AxiosInstance.delete).toHaveBeenCalled());
   });

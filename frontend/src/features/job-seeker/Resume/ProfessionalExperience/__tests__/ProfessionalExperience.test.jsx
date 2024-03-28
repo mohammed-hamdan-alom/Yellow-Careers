@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { vi, describe, test, expect } from "vitest";
 import AxiosInstance from "@/utils/AxiosInstance";
 import ProfessionalExperience from "../ProfessionalExperience";
@@ -12,9 +12,20 @@ vi.mock("@/utils/AxiosInstance", () => ({
   },
 }));
 
+const professionalExperience = {
+  id: "sampleExperienceId",
+  position: "Software Engineer",
+  company: "XYZ Corp",
+  address: {
+    post_code: "E6",
+    city: "London",
+    country: "England"
+  }
+};
+
 describe("ProfessionalExperience Component", () => {
   beforeEach(() => {
-    AxiosInstance.get.mockResolvedValue({ data: [] });
+    AxiosInstance.get.mockResolvedValue({ data: [professionalExperience] });
   });
 
   afterEach(() => {
@@ -33,17 +44,18 @@ describe("ProfessionalExperience Component", () => {
 
   test("deletes professional experience when delete button is clicked", async () => {
     const resumeId = "sampleResumeId";
-    const professionalExperience = {
-      id: "sampleExperienceId",
-      position: "Software Engineer",
-      company: "XYZ Corp",
-    };
+
     AxiosInstance.get.mockResolvedValue({ data: [professionalExperience] });
 
-    render(<ProfessionalExperience resumeId={resumeId} />);
-    const deleteButton = await screen.findByRole("button", { name: /Delete/ });
+    await act(async () => {
+      render(<ProfessionalExperience resumeId={resumeId} />);
+    })
 
-    fireEvent.click(deleteButton);
+    const deleteButton = await screen.findByRole("button", { name: /Delete/ });
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    })
+
 
     await waitFor(() =>
       expect(AxiosInstance.delete).toHaveBeenCalledWith(
