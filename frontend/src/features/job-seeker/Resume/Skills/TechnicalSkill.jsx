@@ -24,7 +24,7 @@ function TechnicalSkill({ resumeId }) {
         console.error("Error:", error);
       }
     };
-  
+
     fetchTechnicalSkills();
   }, [resumeId]);
 
@@ -36,9 +36,12 @@ function TechnicalSkill({ resumeId }) {
   const handleSubmitTechnicalSkills = async (event) => {
     event.preventDefault();
     try {
-      const response = await AxiosInstance.post(`api/resumes/${resumeId}/technical-skills/create/`, {
-        skill: technicalSkill,
-      });
+      const response = await AxiosInstance.post(
+        `api/resumes/${resumeId}/technical-skills/create/`,
+        {
+          skill: technicalSkill,
+        },
+      );
       showSuccess("Technical Skill Added");
       setTechnicalSkill("");
       setErrors({ technicalSkill: "" });
@@ -56,7 +59,7 @@ function TechnicalSkill({ resumeId }) {
       showError("Creating Technical Skill Failed");
     }
   };
-  
+
   //Delete technical skill
   const handleDeleteTechnicalSkill = async (skillObj) => {
     try {
@@ -86,9 +89,10 @@ function TechnicalSkill({ resumeId }) {
             <div className="flex flex-row items-center">
               <Button
                 variant="destructive"
+                data-testid="delete-technical-skill"
                 onClick={() => handleDeleteTechnicalSkill(skill)}
               >
-                <MinusCircle className="mr-2"/>
+                <MinusCircle className="mr-2" />
                 Delete
               </Button>
             </div>
@@ -104,11 +108,13 @@ function TechnicalSkill({ resumeId }) {
           onChange={handleTechnicalSkillChange}
         />
         <Button
-          className="ml-4"
+          data-testid="add-technical-skill-button"
+          size="icon"
+          className="w-10 h-10 ml-4"
           variant="secondary"
           onClick={handleSubmitTechnicalSkills}
         >
-          <PlusCircle className="mr-2"/>
+          <PlusCircle className="mr-2" />
           Add
         </Button>
       </div>

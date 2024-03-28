@@ -1,10 +1,14 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { vi, describe, it } from 'vitest'
-import userEvent from '@testing-library/user-event';
-import AxiosInstance from 'axios';
+import { render, screen, waitFor, act } from '@testing-library/react';
+import { vi, describe, it, expect } from 'vitest'
+import AxiosInstance from '@/utils/AxiosInstance';
 import DisplayEducation from '../DisplayEducation';
 
-vi.mock('axios');
+vi.mock("@/utils/AxiosInstance", () => ({
+  __esModule: true,
+  default: {
+    get: vi.fn(),
+  },
+}));
 
 describe('DisplayEducation', () => {
   const mockData = [
@@ -41,24 +45,39 @@ describe('DisplayEducation', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should fetch and display educations', async () => {
-    render(<DisplayEducation resumeId="1" />);
+    await act(async () => {
+      render(<DisplayEducation resumeId="1" />);
+    })
+
 
     await waitFor(() => expect(AxiosInstance.get).toHaveBeenCalledTimes(1));
     expect(AxiosInstance.get).toHaveBeenCalledWith('api/resumes/1/educations/');
 
-    mockData.forEach((education) => {
-      expect(screen.getByText(education.course_name)).toBeInTheDocument();
-      expect(screen.getByText(`Start Date: ${education.start_date}`)).toBeInTheDocument();
-      expect(screen.getByText(`End Date: ${education.end_date}`)).toBeInTheDocument();
-      expect(screen.getByText(`Level: ${education.level}`)).toBeInTheDocument();
-      expect(screen.getByText(`Institution: ${education.institution}`)).toBeInTheDocument();
-      expect(screen.getByText(`Grade: ${education.grade}`)).toBeInTheDocument();
-      expect(screen.getByText(`Location: ${education.address.post_code}, ${education.address.city}, ${education.address.country}`)).toBeInTheDocument();
+
+    const courseNameString = await screen.getAllByTestId("course-name");
+    const startDate = await screen.getAllByTestId("start-date")
+    const endDate = await screen.getAllByTestId("end-date")
+    const level = await screen.getAllByTestId("level")
+    const institution = await screen.getAllByTestId("institution")
+    const grade = await screen.getAllByTestId("grade")
+    const location = await screen.getAllByTestId("location")
+
+
+    mockData.forEach(async (education, index) => {
+      expect(courseNameString[index]).toHaveTextContent(`${mockData[index].course_name}`)
+      expect(startDate[index]).toHaveTextContent(`Start Date: ${mockData[index].start_date}`);
+      expect(endDate[index]).toHaveTextContent(`End Date: ${mockData[index].end_date}`);
+      expect(level[index]).toHaveTextContent(`Level: ${mockData[index].level}`);
+      expect(institution[index]).toHaveTextContent(`Institution: ${mockData[index].institution}`);
+      expect(grade[index]).toHaveTextContent(`Grade: ${mockData[index].grade}`);
+      expect(location[index]).toHaveTextContent(`Location: ${mockData[index].address.post_code}, ${mockData[index].address.city}, ${mockData[index].address.country}`);
+
     });
+
   });
 
   it('should not fetch educations if resumeId is not provided', async () => {
@@ -68,7 +87,7 @@ describe('DisplayEducation', () => {
   });
 
   it('should handle fetch error', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
     AxiosInstance.get.mockRejectedValue(new Error('Fetch error'));
 
     render(<DisplayEducation resumeId="1" />);

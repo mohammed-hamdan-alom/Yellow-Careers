@@ -102,16 +102,12 @@ function SoftSkill({ resumeId }) {
           className="w-full"
           type="text"
           name="softSkill"
+          data-testid="add-soft-skill"
           value={softSkill}
           onChange={handleSoftSkillChange}
         />
-        <Button
-          variant="secondary"
-          className="ml-10"
-          onClick={handleSubmitSoftSkills}
-        >
-          <PlusCircle className="mr-2"/>
-          Add
+        <Button variant="secondary" data-testid="add-soft-skill-button" className="w-10 h-10 ml-10" onClick={handleSubmitSoftSkills}>
+          <PlusCircle />
         </Button>
       </div>
     </div>

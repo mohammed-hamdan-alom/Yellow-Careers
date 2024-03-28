@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act, cleanup } from "@testing-library/react";
 import { vi, describe, test, expect } from "vitest";
 import AxiosInstance from "@/utils/AxiosInstance";
 import SoftSkill from "../SoftSkill";
@@ -21,6 +21,7 @@ describe("SoftSkill Component", () => {
   });
 
   afterEach(() => {
+    cleanup;
     vi.clearAllMocks();
   });
 
@@ -37,10 +38,10 @@ describe("SoftSkill Component", () => {
     const resumeId = "sampleResumeId";
     render(<SoftSkill resumeId={resumeId} />);
 
-    const inputField = screen.getByRole("textbox", { name: /Add soft skill:/ });
+    const inputField = screen.getByTestId("add-soft-skill");
     fireEvent.change(inputField, { target: { value: "Communication" } });
 
-    const addButton = screen.getByRole("button", { name: /Add/ });
+    const addButton = screen.getByTestId("add-soft-skill-button");
     fireEvent.click(addButton);
 
     await waitFor(() =>
@@ -53,11 +54,12 @@ describe("SoftSkill Component", () => {
 
   test("deletes a soft skill", async () => {
     const resumeId = "sampleResumeId";
+    const mockSoftSkill = { id: "123", skill: "Communication" };
+    AxiosInstance.get.mockResolvedValueOnce({ data: [mockSoftSkill] });
+
     render(<SoftSkill resumeId={resumeId} />);
 
-    const mockSoftSkill = { id: "123", skill: "Communication" };
 
-    AxiosInstance.get.mockResolvedValueOnce({ data: [mockSoftSkill] });
 
     const deleteButton = await screen.findByTestId("delete-soft-skill");
     await act(async () => fireEvent.click(deleteButton));

@@ -86,14 +86,14 @@ function Language({ resumeId }) {
                   Spoken Proficiency:{" "}
                   {
                     SkillLevelOptions.find((option) => option.value === language.spoken_proficiency)
-                    ?.label
+                      ?.label
                   }
                 </Label>
                 <Label className="text-1xl">
                   Written Proficiency:{" "}
                   {
                     SkillLevelOptions.find((option) => option.value === language.written_proficiency)
-                    ?.label
+                      ?.label
                   }
                 </Label>
               </CardContent>

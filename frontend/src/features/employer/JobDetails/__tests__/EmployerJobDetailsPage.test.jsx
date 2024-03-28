@@ -1,6 +1,6 @@
 import React from "react";
 import { vi } from "vitest";
-import { render, screen, fireEvent, act, cleanup, within } from "@testing-library/react";
+import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import EmployerJobDetailsPage from "../EmployerJobDetailsPage";
 import AxiosInstance from "@/utils/AxiosInstance";
@@ -140,7 +140,7 @@ vi.mock("@/utils/AxiosInstance", () => ({
     delete: vi.fn((url) => {
       return Promise.resolve({});
     }),
-    then: vi.fn(() => {}),
+    then: vi.fn(() => { }),
     post: vi.fn(() => {
       return Promise.resolve({});
     }),
@@ -152,7 +152,7 @@ vi.mock("@/context/AuthContext", () => ({
   default: React.createContext(),
 }));
 
-describe("JobDetailsEmployer component", () => {
+describe("EmployerJobDetailsPage component", () => {
   beforeEach(async () => {
     await act(async () => {
       render(
@@ -173,12 +173,53 @@ describe("JobDetailsEmployer component", () => {
     expect(button).toHaveTextContent("See Applicants");
   });
 
+  test("renders Leave button", async () => {
+    const button = await screen.getAllByRole("button")[2];
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent("Leave");
+  });
+
+  test("renders Remove button", async () => {
+    const button = await screen.getByTestId("removeButton");
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent("Remove");
+  });
+
   test("See Applicants button redirects to job-applicants", async () => {
     const button = await screen.getAllByRole("button")[0];
     await act(async () => {
       fireEvent.click(button);
     });
     expect(navigate).toBeCalledWith(`/employer/job-applicants/1`);
+  });
+
+  test("Leave button redirects to dashboard", async () => {
+    const leaveButton = await screen.getAllByRole("button")[2];
+    await act(async () => {
+      fireEvent.click(leaveButton);
+    });
+    const okButton = await screen.getByText("OK");
+    await act(async () => {
+      fireEvent.click(okButton);
+    });
+    expect(navigate).toBeCalledWith(`/employer/dashboard`);
+    expect (AxiosInstance.delete).toBeCalledWith("api/employer-job-relations/delete/1/1/");
+  });
+
+  test("Remove button redirects to dashboard", async () => {
+    const removeButton = await screen.getByTestId("removeButton");
+    await act(async () => {
+      fireEvent.click(removeButton);
+    });
+    const yesButton = await screen.getByText("Yes");
+    await act(async () => {
+      fireEvent.click(yesButton);
+    });
+    const okButton = await screen.getByText("OK");
+    await act(async () => {
+      fireEvent.click(okButton);
+    });
+    expect(AxiosInstance.delete).toBeCalledWith("api/employer-job-relations/delete/1/2/");
   });
 
   test("renders JobDetails component", async () => {
@@ -211,7 +252,7 @@ describe("JobDetailsEmployer component", () => {
       )
     ).querySelector("h5");
     expect(employer1).toHaveLength(1);
-    expect(employer2).toHaveLength(2); //Appears in both employer job list and add employer list
+    expect(employer2).toHaveLength(1);
     expect(employer3).not.toBeInTheDocument();
     expect(employer4).not.toBeInTheDocument();
   });
@@ -228,24 +269,18 @@ describe("JobDetailsEmployer component", () => {
       fireEvent.click(removeButton);
       fireEvent.click(screen.getByText("Yes"));
     });
-    const employerToRemove = {
-      employer: 2,
-      job: 1,
-    };
+
     expect(AxiosInstance.delete).toBeCalledWith("api/employer-job-relations/delete/1/2/");
   });
 
-  test("employer dropdown contains all non-admin employers in company", async () => {
+  test("employer dropdown contains all employers not part of job", async () => {
     const selectEmployer = await screen.getAllByRole("option")[0];
-    const employer2 = await screen.getAllByRole("option")[1];
-    const employer3 = await screen.getAllByRole("option")[2];
-    const employer4 = await screen.getAllByRole("option")[3];
+    const employer3 = await screen.getAllByRole("option")[1];
+    const employer4 = await screen.getAllByRole("option")[2];
     expect(selectEmployer).toBeInTheDocument();
     expect(selectEmployer).toBeDisabled();
-    expect(employer2).toBeInTheDocument();
     expect(employer3).toBeInTheDocument();
     expect(employer4).toBeInTheDocument();
-    expect(employer2).toHaveTextContent("Jane Doe");
     expect(employer3).toHaveTextContent("Jonathon Doe");
     expect(employer4).toHaveTextContent("Joseph Doe");
   });
@@ -260,4 +295,12 @@ describe("JobDetailsEmployer component", () => {
     });
     expect(AxiosInstance.post).toBeCalledWith("api/employer-job-relations/create/", employerToAdd);
   });
+
+  // test("leave takes you to dashboard", async () => {
+  //   const leaveButton = await screen.getByText("Leave");
+  //   await act(async () => {
+  //     fireEvent.click(leaveButton);
+  //   });
+  //   expect(navigate).toBeCalledWith("api/employer/dashboard/");
+  // });
 });

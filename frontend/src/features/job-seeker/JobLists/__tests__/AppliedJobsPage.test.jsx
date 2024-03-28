@@ -2,7 +2,7 @@ import React from "react";
 import { vi } from "vitest";
 import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import AppliedJobListPage from "../applied-jobs/AppliedJobsListPage";
+import AppliedJobsPage from "@/features/job-seeker/JobLists/AppliedJobsPage";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
 
@@ -80,7 +80,7 @@ describe("AppliedJobsListPage component with no applied jobs", () => {
       render(
         <MemoryRouter>
           <AuthContext.Provider value={noAppliedJobsJobSeeker}>
-            <AppliedJobListPage />
+            <AppliedJobsPage />
           </AuthContext.Provider>
         </MemoryRouter>,
       );
@@ -103,7 +103,7 @@ describe("AppliedJobsListPage component with applied jobs", () => {
       render(
         <MemoryRouter>
           <AuthContext.Provider value={appliedJobsJobSeeker}>
-            <AppliedJobListPage />
+            <AppliedJobsPage />
           </AuthContext.Provider>
         </MemoryRouter>,
       );

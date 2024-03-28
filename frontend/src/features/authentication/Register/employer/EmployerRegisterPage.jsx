@@ -94,6 +94,7 @@ const EmployerRegister = () => {
             <div className="space-y-2 mb-4">
               <Label>Password</Label>
               <Input
+                data-testid="password"
                 type="password"
                 name="password"
                 value={password}
@@ -104,6 +105,7 @@ const EmployerRegister = () => {
             <div className="space-y-2 mb-4">
               <Label>Confirm Password</Label>
               <Input
+                data-testid="confirm-password"
                 type="password"
                 name="password2"
                 value={password2}
@@ -114,6 +116,7 @@ const EmployerRegister = () => {
             <div className="space-y-2 mb-4">
               <Label>First Name</Label>
               <Input
+                data-testid="first-name"
                 type="text"
                 name="first_name"
                 value={firstName}
@@ -124,6 +127,7 @@ const EmployerRegister = () => {
             <div className="space-y-2 mb-4">
               <Label>Last Name</Label>
               <Input
+                data-testid="last-name"
                 type="text"
                 name="last_name"
                 value={lastName}
@@ -134,6 +138,7 @@ const EmployerRegister = () => {
             <div className="space-y-2 mb-4">
               <Label>Other Names</Label>
               <Input
+                data-testid="other-names"
                 type="text"
                 name="other_names"
                 value={otherNames}
@@ -144,6 +149,7 @@ const EmployerRegister = () => {
             <div className="space-y-2 mb-4">
               <Label>Phone Number</Label>
               <Input
+                data-testid="phone-number"
                 type="text"
                 name="phone_number"
                 value={phoneNumber}
@@ -152,7 +158,7 @@ const EmployerRegister = () => {
               {errors.phone_number && <BigAlert message={errors.phone_number} />}
             </div>
             <br />
-            <Button type="submit">Register</Button>
+            <Button type="submit" data-testid="submit-button">Register</Button>
           </form>
         </CardContent>
       </Card>

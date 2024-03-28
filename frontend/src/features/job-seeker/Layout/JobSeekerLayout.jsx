@@ -15,7 +15,6 @@ const userNavigation = [{ name: "My Profile", href: `${baseUrl}/profile` }, { na
 
 export default function JobSeekerLayout() {
   const { user } = useContext(AuthContext);
-  console.log(user);
 
   const userInfo = {
     email: user.email,
