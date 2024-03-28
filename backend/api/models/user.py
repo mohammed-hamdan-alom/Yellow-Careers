@@ -3,9 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext as _
 from .employer_job_relation import EmployerJobRelation
 from .managers import CustomUserManager
-
 from django.core.validators import RegexValidator
-
 
 class User(AbstractUser):
     """Custom user model with email as primary key"""
@@ -55,13 +53,3 @@ class Employer(User):
     is_company_admin = models.BooleanField(default=False)
     class Meta:
         verbose_name = 'Employer'
-
-    def get_posted_jobs_by_self(self):
-        return self.employerjobrelation_set.all()
-
-    def get_all_posted_jobs(self):
-        if self.is_company_admin:
-            posted_jobs = EmployerJobRelation.objects.filter(employer__company_id=self.company.id)
-            return posted_jobs
-        else:
-            return self.employerjobrelation_set.all()

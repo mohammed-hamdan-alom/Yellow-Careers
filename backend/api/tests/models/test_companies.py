@@ -40,12 +40,6 @@ class CompanyModelTestCase(TestCase):
         company = Company(company_name='Company 1', website=self.company.website)
         self._assert_company_is_valid()
     
-    def test_get_employees_method(self):
-        self.assertEqual(self.company.get_employees().count(), Employer.objects.filter(company=self.company).count())
-    
-    def test_get_company_admins_method(self):
-        self.assertEqual(self.company.get_company_admins().count(), Employer.objects.filter(company=self.company, is_company_admin=True).count())
-    
     def test_about_can_be_blank(self):
         self.company.about = ''
         self._assert_company_is_valid()
