@@ -47,10 +47,6 @@ const employer = {
 
 const navigate = vi.fn();
 
-vi.mock("@/components/ui/label", () => ({
-  Label: vi.fn(({ children }) => <label data-testid="mock-label">{children}</label>),
-}));
-
 vi.mock("@/components/ui/input", () => ({
   Input: vi.fn(() => <input data-testid="mock-input"></input>),
 }));
@@ -64,6 +60,7 @@ vi.mock("antd", async (importOriginal) => {
   return {
     ...actual,
     Modal: ({ children }) => <div data-testid="mock-modal">{children}</div>,
+    Tag: vi.fn(({ children }) => <label data-testid="mock-tag">{children}</label>),
   };
 });
 
@@ -108,16 +105,16 @@ describe("JobCreation component", () => {
 
   afterEach(cleanup);
 
-  test("renders all Labels and Modal correctly", async () => {
-    const labels = await screen.getAllByTestId("mock-label");
-    expect(labels).toHaveLength(7);
-    expect(labels[0]).toHaveTextContent("Job Title");
-    expect(labels[1]).toHaveTextContent("Job Description");
-    expect(labels[2]).toHaveTextContent("Salary");
-    expect(labels[3]).toHaveTextContent("Postcode");
-    expect(labels[4]).toHaveTextContent("City");
-    expect(labels[5]).toHaveTextContent("Country");
-    expect(labels[6]).toHaveTextContent("Job Type");
+  test("renders all Tags and Modal correctly", async () => {
+    const tags = await screen.getAllByTestId("mock-tag");
+    expect(tags).toHaveLength(7);
+    expect(tags[0]).toHaveTextContent("Job Title");
+    expect(tags[1]).toHaveTextContent("Job Description");
+    expect(tags[2]).toHaveTextContent("Salary");
+    expect(tags[3]).toHaveTextContent("Postcode");
+    expect(tags[4]).toHaveTextContent("City");
+    expect(tags[5]).toHaveTextContent("Country");
+    expect(tags[6]).toHaveTextContent("Job Type");
     expect(screen.getByTestId("mock-modal")).toBeInTheDocument();
   });
 

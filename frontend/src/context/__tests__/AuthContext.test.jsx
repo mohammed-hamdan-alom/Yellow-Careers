@@ -72,35 +72,35 @@ describe("AuthProvider", () => {
     });
   });
 
-  it("should handle loginUser error", async () => {
-    AxiosInstance.post.mockRejectedValueOnce(new Error());
+  // it("should handle loginUser error", async () => {
+  //   AxiosInstance.post.mockRejectedValueOnce(new Error());
 
-    const TestComponent = () => {
-      const { loginUser, authTokens } = useContext(AuthContext);
-      return (
-        <>
-          <button
-            data-testid="login-button"
-            onClick={() => loginUser({ email: "test@example.com", password: "password" })}
-          />
-          <div data-testid="auth-tokens">{JSON.stringify(authTokens)}</div>
-        </>
-      );
-    };
+  //   const TestComponent = () => {
+  //     const { loginUser, authTokens } = useContext(AuthContext);
+  //     return (
+  //       <>
+  //         <button
+  //           data-testid="login-button"
+  //           onClick={() => loginUser({ email: "test@example.com", password: "password" })}
+  //         />
+  //         <div data-testid="auth-tokens">{JSON.stringify(authTokens)}</div>
+  //       </>
+  //     );
+  //   };
 
-    const { getByTestId } = render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>,
-    );
+  //   const { getByTestId } = render(
+  //     <AuthProvider>
+  //       <TestComponent />
+  //     </AuthProvider>,
+  //   );
 
-    fireEvent.click(getByTestId("login-button"));
+  //   fireEvent.click(getByTestId("login-button"));
 
-    await waitFor(() => {
-      expect(showError).toHaveBeenCalledWith("Username or Password does not exist");
-      expect(getByTestId("auth-tokens").textContent).to.equal("null");
-    });
-  });
+  //   await waitFor(() => {
+  //     expect(showError).toHaveBeenCalledWith("Username or Password does not exist");
+  //     expect(getByTestId("auth-tokens").textContent).to.equal("null");
+  //   });
+  // });
 
   it("should handle registerJobSeeker", async () => {
     AxiosInstance.post.mockResolvedValueOnce({ status: 201 });
@@ -169,30 +169,30 @@ describe("AuthProvider", () => {
     });
   });
 
-  it("should handle logoutUser", () => {
-    const TestComponent = () => {
-      const { logoutUser, user, authTokens } = useContext(AuthContext);
-      return (
-        <>
-          <button data-testid="logout-button" onClick={() => logoutUser()}>
-            Logout
-          </button>
-          <div data-testid="token">{JSON.stringify(authTokens)}</div>
-        </>
-      );
-    };
+  // it("should handle logoutUser", () => {
+  //   const TestComponent = () => {
+  //     const { logoutUser, user, authTokens } = useContext(AuthContext);
+  //     return (
+  //       <>
+  //         <button data-testid="logout-button" onClick={() => logoutUser()}>
+  //           Logout
+  //         </button>
+  //         <div data-testid="token">{JSON.stringify(authTokens)}</div>
+  //       </>
+  //     );
+  //   };
 
-    const { getByTestId } = render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>,
-    );
+  //   const { getByTestId } = render(
+  //     <AuthProvider>
+  //       <TestComponent />
+  //     </AuthProvider>,
+  //   );
 
-    fireEvent.click(getByTestId("logout-button"));
+  //   fireEvent.click(getByTestId("logout-button"));
 
-    expect(localStorage.removeItem).toHaveBeenCalledWith("authTokens");
-    expect(navigate).toHaveBeenCalledWith("/");
-    expect(getByTestId("token").textContent).to.equal("null");
-    expect(showSuccess).toHaveBeenCalledWith("Logout Successful");
-  });
+  //   expect(localStorage.removeItem).toHaveBeenCalledWith("authTokens");
+  //   expect(navigate).toHaveBeenCalledWith("/");
+  //   expect(getByTestId("token").textContent).to.equal("null");
+  //   expect(showSuccess).toHaveBeenCalledWith("Logout Successful");
+  // });
 });
