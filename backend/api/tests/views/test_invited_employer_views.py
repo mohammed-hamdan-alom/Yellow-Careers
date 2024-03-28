@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIRequestFactory
-from rest_framework.test import force_authenticate
 from api.models import InvitedEmployer
 from api.views import InvitedEmployerRetrieveByEmailView
 from api.views.invited_employer_views import InvitedEmployerCreateView, InvitedEmployerDeleteByEmailView
@@ -10,6 +9,7 @@ from unittest.mock import patch
 
 
 class InvitedEmployerRetrieveByEmailViewTestCase(TestCase):
+    '''Test case for the InvitedEmployerRetrieveByEmailView.'''
      
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
