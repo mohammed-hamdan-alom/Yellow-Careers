@@ -3,6 +3,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 def send_email(to_emails, subject, html_content):
+    '''Send an email to the specified email addresses with the given subject and content.'''
     message = Mail(
         from_email='seg.yellow.careers@gmail.com',
         to_emails=to_emails,
@@ -17,9 +18,7 @@ def send_email(to_emails, subject, html_content):
         raise Exception('Error in sending email')
     
 def send_employer_invitation_email(email, company_name, code):
-    """
-    Send an invitation email to a new employer.
-    """
+    """Send an invitation email to a new employer."""
     subject = f"You're invited to join {company_name} on Yellow Careers"
     html_content = (
         f"<h3>{company_name} has invited you to join as an employer in the company.</h3>\n\n"
@@ -28,9 +27,7 @@ def send_employer_invitation_email(email, company_name, code):
     send_email(email, subject, html_content)
 
 def send_job_application_confirmation(email, job_title, company_name):
-    """
-    Send a confirmation email to a jobseeker after applying for a job.
-    """
+    """Send a confirmation email to a jobseeker after applying for a job."""
     subject = f"Application Received for {job_title} at {company_name}"
     html_content = (
         f"<h3>Your application for {job_title} at {company_name} has been received.</h3>\n\n"
@@ -39,9 +36,7 @@ def send_job_application_confirmation(email, job_title, company_name):
     send_email(email, subject, html_content)
 
 def send_job_application_result(email, job_title, company_name, is_accepted):
-    """
-    Send an email to a jobseeker notifying them of acceptance or rejection for a job.
-    """
+    """Send an email to a jobseeker notifying them of acceptance or rejection for a job."""
     if is_accepted:
         subject = f"You've been accepted to join {company_name} as a {job_title}"
         html_content = (
@@ -60,9 +55,7 @@ def send_job_application_result(email, job_title, company_name, is_accepted):
     send_email(email, subject, html_content)
 
 def send_job_access_notification(email, job_title, company_name, is_created_by_employer):
-    """
-    Send an email to an employer when they either create a job listing or when they are added to it.
-    """
+    """Send an email to an employer when they either create a job listing or when they are added to it."""
     if is_created_by_employer:
         subject = f"Job Listing Created for {job_title}"
         html_content = (
