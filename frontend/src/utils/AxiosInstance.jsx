@@ -13,7 +13,7 @@ if (authTokens && authTokens.access) {
 }
 
 const AxiosInstance = axios.create({
-  baseURL: "http://3.84.253.199:8000/",
+  baseURL: "API_BASE_URL",
   timeout: 10000,
   headers: headers,
 });
