@@ -57,7 +57,7 @@ class ApplicationViewTestCase(TestCase):
         self.request_factory = APIRequestFactory()
     
     def test_list_applications(self):
-        response = self.client.get(reverse('application-list'))
+        response = self.client.get(reverse('application_list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), len(self.applications))
     
@@ -69,7 +69,7 @@ class ApplicationViewTestCase(TestCase):
             'job_seeker' : 1,
             'resume' : 2,
         }
-        response = self.client.put(reverse('application-put', args=[application.id]), updated_application_data, content_type='application/json')
+        response = self.client.put(reverse('application_put', args=[application.id]), updated_application_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         application.refresh_from_db()
         self.assertEqual(application.job.id, updated_application_data['job'])
@@ -82,7 +82,7 @@ class ApplicationViewTestCase(TestCase):
             'job_seeker' : 1,
             'resume' : 2,
         }
-        response = self.client.put(reverse('application-put', args=[application.id]), updated_application_data, content_type='application/json')
+        response = self.client.put(reverse('application_put', args=[application.id]), updated_application_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Application.objects.count(), len(self.applications))
     
@@ -92,18 +92,18 @@ class ApplicationViewTestCase(TestCase):
             'job_seeker' : 1,
             'resume' : 2,
         }
-        response = self.client.post(reverse('application-post'), application_data)
+        response = self.client.post(reverse('application_post'), application_data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Application.objects.count(), len(self.applications))
     
     def test_invalid_delete_application(self):
-        response = self.client.delete(reverse('application-put', args=[10]))
+        response = self.client.delete(reverse('application_put', args=[10]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Application.objects.count(), len(self.applications))
 
     def test_retrieve_job_seeker_application(self):
         application = self.applications[0]
-        response = self.client.get(reverse('job-seeker-application-get', args=[application.job_seeker.id, application.job.id]))
+        response = self.client.get(reverse('job_seeker_application_get', args=[application.job_seeker.id, application.job.id]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['job'], application.job.id)
         self.assertEqual(response.data['job_seeker'], application.job_seeker.id)
@@ -112,7 +112,7 @@ class ApplicationViewTestCase(TestCase):
         '''Test retrieving an application by the job seeker who made the application.'''
         application = Application.objects.get(pk=1)  # Assuming an Application with id 1 exists
         factory = APIRequestFactory()
-        request = factory.get(reverse('application-get', args=[application.id]))
+        request = factory.get(reverse('application_get', args=[application.id]))
         force_authenticate(request, user=application.job_seeker)
         view = ApplicationRetrieveView.as_view()
         response = view(request, pk=application.id)
@@ -125,7 +125,7 @@ class ApplicationViewTestCase(TestCase):
         application = Application.objects.get(pk=1)  
         job_seeker = JobSeeker.objects.get(pk=2)  
         factory = APIRequestFactory()
-        request = factory.get(reverse('application-get', args=[application.id]))
+        request = factory.get(reverse('application_get', args=[application.id]))
         force_authenticate(request, user=job_seeker)
         view = ApplicationRetrieveView.as_view()
         response = view(request, pk=application.id)
@@ -136,7 +136,7 @@ class ApplicationViewTestCase(TestCase):
         application = Application.objects.get(pk=1) 
         employer = Employer.objects.get(pk=3) 
         factory = APIRequestFactory()
-        request = factory.get(reverse('application-get', args=[application.id]))
+        request = factory.get(reverse('application_get', args=[application.id]))
         force_authenticate(request, user=employer)
         view = ApplicationRetrieveView.as_view()
         response = view(request, pk=application.id)
@@ -148,7 +148,7 @@ class ApplicationViewTestCase(TestCase):
         application = Application.objects.get(pk=1)  
         employer = Employer.objects.get(pk=4)  
         factory = APIRequestFactory()
-        request = factory.get(reverse('application-get', args=[application.id]))
+        request = factory.get(reverse('application_get', args=[application.id]))
         force_authenticate(request, user=employer)
         view = ApplicationRetrieveView.as_view()
         response = view(request, pk=application.id)
@@ -159,7 +159,7 @@ class ApplicationViewTestCase(TestCase):
         application = Application.objects.get(pk=3)  
         employer = Employer.objects.get(pk=5)  
         factory = APIRequestFactory()
-        request = factory.get(reverse('application-get', args=[application.id]))
+        request = factory.get(reverse('application_get', args=[application.id]))
         force_authenticate(request, user=employer)
         view = ApplicationRetrieveView.as_view()
         response = view(request, pk=application.id)
@@ -169,7 +169,7 @@ class ApplicationViewTestCase(TestCase):
         '''Test retrieving an application that does not exist.'''
         job_seeker = JobSeeker.objects.get(pk=1)  
         factory = APIRequestFactory()
-        request = factory.get(reverse('application-get', args=[100]))
+        request = factory.get(reverse('application_get', args=[100]))
         force_authenticate(request, user=job_seeker)
         view = ApplicationRetrieveView.as_view()
         response = view(request, pk=100)
@@ -179,7 +179,7 @@ class ApplicationViewTestCase(TestCase):
         '''Test retrieving an application by an unauthenticated user.'''
         application = Application.objects.get(pk=1) 
         factory = APIRequestFactory()
-        request = factory.get(reverse('application-get', args=[application.id]))
+        request = factory.get(reverse('application_get', args=[application.id]))
         view = ApplicationRetrieveView.as_view()
         response = view(request, pk=application.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

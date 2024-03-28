@@ -327,30 +327,8 @@ class ProfessionalExperienceViewTestCase(TestCase):
         self.assertEqual(response_address["post_code"], expected_address["post_code"])
         self.assertEqual(response_address["country"], expected_address["country"])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     def test_get_application_resume(self):
-        response = self.client.get(reverse("application-resume-get", args=[1]))
+        response = self.client.get(reverse("application_resume_get", args=[1]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["id"], 1)
 

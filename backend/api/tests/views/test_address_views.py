@@ -24,13 +24,13 @@ class AddressViewTestCase(TestCase):
                           Address.objects.get(pk=4)]
     
     def test_list_addresses(self):
-        response = self.client.get(reverse('address-list'))
+        response = self.client.get(reverse('address_list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), len(self.addresses))
     
     def test_retrieve_address(self):
         address = self.addresses[0]
-        response = self.client.get(reverse('address-get', args=[address.id]))
+        response = self.client.get(reverse('address_get', args=[address.id]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['city'], address.city)
         self.assertEqual(response.data['post_code'], address.post_code)
@@ -38,7 +38,7 @@ class AddressViewTestCase(TestCase):
 
     def test_retrieve_job_address(self):
         job = Job.objects.get(pk=1)
-        response = self.client.get(reverse('job-address', args=[job.id]))
+        response = self.client.get(reverse('job_address', args=[job.id]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['city'], job.address.city)
         self.assertEqual(response.data['post_code'], job.address.post_code)
@@ -50,7 +50,7 @@ class AddressViewTestCase(TestCase):
             'post_code' : 'BM9 8YH',
             'country' : 'UK'
         }
-        response = self.client.post(reverse('address-post'), address_data)
+        response = self.client.post(reverse('address_post'), address_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Address.objects.count(), len(self.addresses) + 1)
     
@@ -61,7 +61,7 @@ class AddressViewTestCase(TestCase):
             'post_code': 'PL 45',
             'country' : 'France'
         }
-        response = self.client.put(reverse('address-put', args=[address.id]), updated_address_data, content_type='application/json')
+        response = self.client.put(reverse('address_put', args=[address.id]), updated_address_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         address.refresh_from_db()
         self.assertEqual(address.city, updated_address_data['city'])
@@ -70,7 +70,7 @@ class AddressViewTestCase(TestCase):
     
     def test_delete_address(self):
         address = self.addresses[0]
-        response = self.client.delete(reverse('address-put', args=[address.id]), content_type='application/json')
+        response = self.client.delete(reverse('address_put', args=[address.id]), content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Address.objects.count(), len(self.addresses) - 1)
     
@@ -81,7 +81,7 @@ class AddressViewTestCase(TestCase):
             'post_code' : 'BM9 8YH',
             'country' : 'UK'
         }
-        response = self.client.put(reverse('address-put', args=[address.id]), updated_address_data, content_type='application/json')
+        response = self.client.put(reverse('address_put', args=[address.id]), updated_address_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Address.objects.count(), len(self.addresses))
 
@@ -91,16 +91,16 @@ class AddressViewTestCase(TestCase):
             'post_code' : 'BM9 8YH',
             'country' : 'UK'
         }
-        response = self.client.post(reverse('address-post'), address_data)
+        response = self.client.post(reverse('address_post'), address_data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Address.objects.count(), len(self.addresses))
     
     def test_retrieve_invalid_address(self):
-        response = self.client.get(reverse('address-get', args=[100]))
+        response = self.client.get(reverse('address_get', args=[100]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
     
     def test_delete_invalid_address(self):
-        response = self.client.delete(reverse('address-put', args=[100]), content_type='application/json')
+        response = self.client.delete(reverse('address_put', args=[100]), content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Address.objects.count(), len(self.addresses))
 

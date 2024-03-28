@@ -24,7 +24,7 @@ class AnswerViewTestCase(TestCase):
                         Answer.objects.get(pk=4),]
     
     def test_list_answers(self):
-        response = self.client.get(reverse('answer-list'))
+        response = self.client.get(reverse('answer_list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), len(self.answers))
     
@@ -34,7 +34,7 @@ class AnswerViewTestCase(TestCase):
             'answer' : 'I am a very good problem solver',
             'application' : 2,
         }
-        response = self.client.post(reverse('answer-post'), answer_data)
+        response = self.client.post(reverse('answer_post'), answer_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Answer.objects.count(), len(self.answers) + 1)
     
@@ -45,7 +45,7 @@ class AnswerViewTestCase(TestCase):
             'answer' : 'Changed answer',
             'application' : 2,
         }
-        response = self.client.put(reverse('answer-put', args=[answer.id]), updated_answer_data, content_type='application/json')
+        response = self.client.put(reverse('answer_put', args=[answer.id]), updated_answer_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         answer.refresh_from_db()
         self.assertEqual(answer.question.id, updated_answer_data['question'])
@@ -54,7 +54,7 @@ class AnswerViewTestCase(TestCase):
     
     def test_delete_answer(self):
         answer = self.answers[0]
-        response = self.client.delete(reverse('answer-put', args=[answer.id]), content_type='application/json')
+        response = self.client.delete(reverse('answer_put', args=[answer.id]), content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Answer.objects.count(), len(self.answers) - 1)
     
@@ -65,7 +65,7 @@ class AnswerViewTestCase(TestCase):
             'answer' : 'k'*2001,
             'application' : 2,
         }
-        response = self.client.put(reverse('answer-put', args=[answer.id]), updated_answer_data, content_type='application/json')
+        response = self.client.put(reverse('answer_put', args=[answer.id]), updated_answer_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         answer.refresh_from_db()
         self.assertNotEqual(answer.question.id, updated_answer_data['question'])
@@ -79,12 +79,12 @@ class AnswerViewTestCase(TestCase):
             'answer' : 'k'*2001,
             'application' : 2,
         }
-        response = self.client.post(reverse('answer-post'), answer_data)
+        response = self.client.post(reverse('answer_post'), answer_data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Answer.objects.count(), len(self.answers))
     
     def test_delete_invalid_answer(self):
-        response = self.client.delete(reverse('answer-put', args=[100]), content_type='application/json')
+        response = self.client.delete(reverse('answer_put', args=[100]), content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Answer.objects.count(), len(self.answers))
 
@@ -95,12 +95,12 @@ class AnswerViewTestCase(TestCase):
         questions = Question.objects.filter(job=job)
         question_ids = [question.id for question in questions]
         answers = Answer.objects.filter(question__in=question_ids, application=application)
-        response = self.client.get(reverse('application-answer-list', args=[application.id]))
+        response = self.client.get(reverse('application_answer_list', args=[application.id]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), len(answers))
 
     def test_invalid_list_application_answers(self):
         '''Test that the endpoint returns a 404 status code when the application does not exist.'''
-        response = self.client.get(reverse('application-answer-list', args=[100]))
+        response = self.client.get(reverse('application_answer_list', args=[100]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.data, {'detail': 'Not found.'})

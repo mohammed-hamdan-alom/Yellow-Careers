@@ -289,7 +289,7 @@ class JobViewTestCase(TestCase):
         job = Job.objects.get(pk=1) 
         employer = Employer.objects.get(pk=3)
         factory = APIRequestFactory()
-        request = factory.put(reverse('update-job-archive', args=[job.id]))
+        request = factory.put(reverse('update_job_archive', args=[job.id]))
         force_authenticate(request, user=employer)
         view = JobUpdateArchiveView.as_view()
         response = view(request, pk=job.id)

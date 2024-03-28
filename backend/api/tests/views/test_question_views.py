@@ -89,7 +89,7 @@ class QuestionViewTestCase(TestCase):
 
     def test_questions_for_a_job(self):
         job = Job.objects.get(pk=1)
-        response = self.client.get(reverse('job-question-list', args=[job.id]))
+        response = self.client.get(reverse('job_question_list', args=[job.id]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
 

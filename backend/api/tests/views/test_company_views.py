@@ -92,7 +92,7 @@ class CompanyViewTestCase(TestCase):
 
     def test_get_company_of_job(self):
         job = Job.objects.get(pk=1)
-        response = self.client.get(reverse('job-company', args=[job.id]))
+        response = self.client.get(reverse('job_company', args=[job.id]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         relation = EmployerJobRelation.objects.filter(job=job).first()
         self.assertEqual(response.data['company_name'], relation.employer.company.company_name)
