@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import "./switch.css";
 import JobFilterAndList from "@/components/Search/JobFilterAndList";
 
-const ToggleCompanyEmployerJobs = ({ isAdmin, companyJobs, employerJobs, text }) => {
+const EmployerJobList = ({ isAdmin, companyJobs, employerJobs, text }) => {
   const [showCompanyJobs, setShowCompanyJobs] = useState(isAdmin);
 
   const handleSwitchChange = (checked) => {
@@ -54,4 +54,4 @@ const ToggleCompanyEmployerJobs = ({ isAdmin, companyJobs, employerJobs, text })
   );
 };
 
-export default ToggleCompanyEmployerJobs;
+export default EmployerJobList;

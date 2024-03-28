@@ -66,7 +66,7 @@ const JobApplicantsPage = () => {
   return (
     <div>
       <div>
-        <Button className="yellowButton mb-2" onClick={handleShowDetails}>
+        <Button className="yellow-button mb-2" onClick={handleShowDetails}>
           {" "}
           Job Details{" "}
         </Button>

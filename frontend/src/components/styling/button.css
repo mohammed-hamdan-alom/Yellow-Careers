@@ -1,13 +1,13 @@
-.yellowButton,
-.blueButton,
-.redButton,
+.yellow-button,
+.blue-button,
+.red-button,
 .large-button {
   line-height: 1;
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
-.yellowButton {
+.yellow-button {
   background-color: #ffd700 !important;
   color: white;
   border: none;
@@ -15,12 +15,12 @@
   border-radius: 4px;
 }
 
-.yellowButton:hover {
+.yellow-button:hover {
   background-color: #ffc107 !important;
   color: white !important;
 }
 
-.blueButton {
+.blue-button {
   background-color: #2196f3 !important;
   color: white;
   border: none;
@@ -28,12 +28,12 @@
   border-radius: 4px;
 }
 
-.blueButton:hover {
+.blue-button:hover {
   background-color: #0b7dda !important;
   color: white !important;
 }
 
-.redButton {
+.red-button {
   background-color: #f44336 !important;
   color: white;
   border: none;
@@ -41,7 +41,7 @@
   border-radius: 4px;
 }
 
-.redButton:hover {
+.red-button:hover {
   background-color: #d32f2f !important;
   color: white !important;
 }

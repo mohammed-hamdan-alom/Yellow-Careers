@@ -81,7 +81,7 @@ function QuestionCreationPage({ jobId }) {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
           />
           <div className="form-actions mt-4">
-            <Button onClick={handleQuestionCreation} className="blueButton">
+            <Button onClick={handleQuestionCreation} className="blue-button">
               Add Question
             </Button>
           </div>
@@ -98,14 +98,14 @@ function QuestionCreationPage({ jobId }) {
         <ul key={question.id} className="list-disc ml-5">
           <li className="flex justify-between items-center">
             <span>{question.question}</span>
-            <Button onClick={() => handleRemove(question.id)} className="redButton mt-1">
+            <Button onClick={() => handleRemove(question.id)} className="red-button mt-1">
               Remove
             </Button>
           </li>
         </ul>
       ))}
       <br></br>
-      <Button onClick={handleFinish} className="yellowButton mt-1">
+      <Button onClick={handleFinish} className="yellow-button mt-1">
         Submit
       </Button>
     </div>

@@ -10,8 +10,6 @@ urlpatterns = [
     path('employer-register/', EmployerRegisterView.as_view(), name='auth_employer_register'),
     path('jobseeker-register/', JobSeekerRegisterView.as_view(), name='auth_jobseeker_register'),
 
-    # path('register/', RegisterView.as_view(), name='auth_register'),
-    # path('dashboard/', test_api_endpoint, name="test"),
 
     path('jobs/create-job', JobCreationView.as_view(), name='create_job'),
     path('jobs/all-jobs', JobListingView.as_view(), name='all_jobs'),
@@ -91,7 +89,6 @@ urlpatterns = [
     path('job-seeker/<int:pk>/matched-jobs/', JobSeekerMatchedJobsListingView.as_view(), name='job-seeker-matched-jobs'),
     path('job-seeker/application/<int:application_id>/', JobSeekerFromApplicationRetrieveView.as_view(), name='job-seeker-from-application-get'),
     path('job-seeker/change-password/', ChangePasswordView.as_view(), name='job-seeker-change-password'),
-
 
     path('saved-jobs/', SavedJobsListView.as_view(), name='saved-jobs-list'),
     path('saved-jobs/create/', SavedJobsCreateView.as_view(), name='saved-jobs-create'),
