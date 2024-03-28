@@ -46,7 +46,7 @@ function EditLanguage({
     };
 
     fetchLanguage();
-  }, []);
+  }, [languageId]);
 
   const handleLanguageChange = (event) => {
     setLanguage({
