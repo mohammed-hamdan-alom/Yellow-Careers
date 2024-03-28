@@ -45,10 +45,10 @@ function UpdateResumePage() {
 
   return (
     <div className="pb-96">
-      <div className="flex flex-col justify-between mt-4 ">
+      <div className="flex flex-col justify-between mt-4 space-y-12">
+        <ResumeForm resumeId={resumeId} />
         <Education resumeId={resumeId} />
         <ProfessionalExperience resumeId={resumeId} />
-        <ResumeForm resumeId={resumeId} />
         <Language resumeId={resumeId} />
         <div className="flex flex-row justify-between mt-4 space-x-6">
           <SoftSkill resumeId={resumeId} />

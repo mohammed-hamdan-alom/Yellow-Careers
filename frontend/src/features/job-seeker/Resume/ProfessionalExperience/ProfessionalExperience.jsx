@@ -6,26 +6,32 @@ import { Modal } from "antd";
 import { showError, showSuccess } from "@/components/Alert/alert";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { SquarePen, MinusCircle } from "lucide-react";
-import { set } from "date-fns";
+import {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { SquarePen, MinusCircle, MapPin, Calendar } from "lucide-react";
 
 function ProfessionalExperience({ resumeId }) {
   const [professionalExperiences, setProfessionalExperiences] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [openProfessionalExperienceId, setOpenProfessionalExperienceId] = useState(null);
+  const [editingProfessionalExperience, setEditingProfessionalExperience] = useState(null);
 
   const showAddModal = () => {
     setIsAddModalOpen(true);
   };
 
-  const showEditModal = (professionalExperienceId) => {
-    setOpenProfessionalExperienceId(professionalExperienceId);
+  const showEditModal = (professionalExperience) => {
+    setEditingProfessionalExperience(professionalExperience);
     setIsEditModalOpen(true);
   };
 
   const closeEditModal = () => {
-    setOpenProfessionalExperienceId(null);
     setIsEditModalOpen(false);
   };
 
@@ -71,51 +77,71 @@ function ProfessionalExperience({ resumeId }) {
       <Label className="text-3xl mb-4">Professional Experience</Label>
       <div>
         {professionalExperiences.map((professionalExperience) => (
-          <div
-            key={professionalExperience.id}
-            className="flex flex-col items-center justify-between mb-4"
-          >
-            <div className="flex flex-col w-full outline rounded m-3 p-2">
-              <Label className="text-1xl">Job Title: {professionalExperience.position}</Label>
-              <Label className="text-1xl">Company: {professionalExperience.company}</Label>
-            </div>
-
-            <div className="flex flex-row w-full items-center justify-end">
-              <Button
-                className="mr-4"
-                variant="secondary"
-                onClick={() => showEditModal(professionalExperience.id)}
-              >
-                <SquarePen size={20} className="mr-2" />
-                Edit
-              </Button>
-
-              <Button
-                variant="destructive"
-                onClick={() => {
-                  handleDeleteProfessionalExperience(professionalExperience);
-                }}
-              >
-                <MinusCircle className="mr-2" size={20} />
-                Delete
-              </Button>
-            </div>
-
-            <Modal
-              title="Edit Professional Experience"
-              open={isEditModalOpen}
-              onOk={closeEditModal}
-              onCancel={closeEditModal}
-              footer={null}
-            >
-              <EditProfessionalExperience
-                put={true}
-                professionalExperienceId={professionalExperience.id}
-                resumeId={resumeId}
-                setProfessionalExperiences={setProfessionalExperiences}
-                closeEditModal={closeEditModal}
-              />
-            </Modal>
+          <div className='my-6' key={professionalExperience.id}>
+            <Card>
+              <CardHeader>
+                <CardTitle>{professionalExperience.position}, {professionalExperience.company}</CardTitle>
+                <CardDescription>
+                 <div className="flex flex-row items-center mt-2">
+                  <Calendar className="w-4 h-4 mr-1"/>
+                  {new Date(professionalExperience.start_date).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  }) +
+                    " - " +
+                    new Date(professionalExperience.end_date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </div>
+                  <div className="flex flex-row">
+                    <MapPin className="w-4 h-4 mr-1"/>{professionalExperience.address.city}, {professionalExperience.address.country}{" "}
+                    {professionalExperience.address.post_code}
+                  </div>
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {professionalExperience.description}
+              </CardContent>
+              <CardFooter>
+                <div className="flex flex-row items-center justify-start">
+                  <Button
+                    variant="secondary"
+                    className="mr-4"
+                    onClick={() => showEditModal(professionalExperience)}
+                  >
+                    <SquarePen className="w-5 h-5 mr-2" />
+                    Edit
+                  </Button>
+                  <Button
+                    variant='destructive'
+                    className="mr-4"
+                    onClick={() => handleDeleteProfessionalExperience(professionalExperience)}
+                  >
+                    <MinusCircle className="w-5 h-5 mr-2" />
+                    Delete
+                  </Button>
+                  <Modal
+                    title="Edit Professional Experience"
+                    open={isEditModalOpen}
+                    onOk={closeEditModal}
+                    onCancel={closeEditModal}
+                    footer={null}
+                  >
+                    <EditProfessionalExperience
+                      post={false}
+                      put={true}
+                      resumeId={resumeId}
+                      professionalExperienceId={editingProfessionalExperience ? editingProfessionalExperience.id : null}
+                      setProfessionalExperiences={setProfessionalExperiences}
+                      closeEditModal={closeEditModal}
+                    />
+                  </Modal>
+                </div>
+              </CardFooter>
+            </Card>
           </div>
         ))}
       </div>
