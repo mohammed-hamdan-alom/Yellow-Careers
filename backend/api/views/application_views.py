@@ -7,17 +7,21 @@ from api.matchmaker.matchmaker import *
 from api.utils.send_email import send_job_application_confirmation, send_job_application_result
 
 class BaseApplicationView:
+    '''Base view for the Application model.'''
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
 
 class ApplicationListView(BaseApplicationView, generics.ListAPIView):
+    '''List all applications.'''
     pass
 
 class ApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPIView):
+    '''Retrieve an application. The application id is passed as a parameter in the url.'''
+
     def get_object(self):
         user = self.request.user
         obj = super().get_object()
-        
+
         if hasattr(user, 'jobseeker'):
             if not obj.job_seeker.id == user.id:
                 raise PermissionDenied("You do not have permission to view this application.")
@@ -38,6 +42,7 @@ class ApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPIView):
         return obj
 
 class JobSeekerApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPIView):
+    '''Retrieve an application. The application id is passed as a parameter in the url.'''
         
     def get_object(self):
         job_seeker_id = self.kwargs.get('job_seeker_id')
@@ -45,6 +50,7 @@ class JobSeekerApplicationRetrieveView(BaseApplicationView, generics.RetrieveAPI
         return get_object_or_404(Application, job_seeker_id=job_seeker_id, job_id=job_id)
 
 class ApplicationCreateView(BaseApplicationView, generics.CreateAPIView):
+    '''Create an application.'''
     def perform_create(self, serializer):
         instance = serializer.save()
 
@@ -52,6 +58,7 @@ class ApplicationCreateView(BaseApplicationView, generics.CreateAPIView):
         send_job_application_confirmation(instance.job_seeker.email, instance.job.title, relation.employer.company.company_name)
 
 class ApplicationUpdateView(BaseApplicationView, generics.RetrieveUpdateDestroyAPIView):
+    '''Update an application. The application id is passed as a parameter in the url.'''
     def perform_update(self, serializer):
         before_decision = self.get_object().status
         instance = serializer.save()

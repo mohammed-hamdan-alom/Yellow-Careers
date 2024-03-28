@@ -7,6 +7,8 @@ from api.serializers import InvitedEmployerSerializer
 from api.utils.send_email import send_employer_invitation_email
 
 class InvitedEmployerCreateView(generics.CreateAPIView):
+    '''Create view for the InvitedEmployer model.'''
+
     queryset = InvitedEmployer.objects.all()
     serializer_class = InvitedEmployerSerializer
 
@@ -17,6 +19,7 @@ class InvitedEmployerCreateView(generics.CreateAPIView):
         send_employer_invitation_email(instance.email, instance.company.company_name, code)
 
 class InvitedEmployerRetrieveByEmailView(APIView):
+    '''Retrieve view for the InvitedEmployer model. The email is passed as a query parameter.'''
     def get(self, request, *args, **kwargs):
         email = request.query_params.get('email')
         if not email:
@@ -30,6 +33,7 @@ class InvitedEmployerRetrieveByEmailView(APIView):
             return Response({'error': 'InvitedEmployer with this email does not exist'}, status=status.HTTP_404_NOT_FOUND)
         
 class InvitedEmployerDeleteByEmailView(APIView):
+    '''Delete view for the InvitedEmployer model. The email is passed as a query parameter.'''
     def delete(self, request, *args, **kwargs):
         email = request.query_params.get('email')
         if not email:
