@@ -19,14 +19,15 @@ class JobCreationView(generics.CreateAPIView):
 	serializer_class = JobSerializer
 
 class JobUpdateArchiveView(generics.UpdateAPIView):
-    queryset = Job.objects.all()
-    serializer_class = JobSerializer
+	'''Archive a job.'''
+	queryset = Job.objects.all()
+	serializer_class = JobSerializer
 
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.isArchived = not instance.isArchived
-        instance.save()
-        return Response(self.get_serializer(instance).data)
+	def update(self, request, *args, **kwargs):
+		instance = self.get_object()
+		instance.isArchived = not instance.isArchived
+		instance.save()
+		return Response(self.get_serializer(instance).data)
 
 class JobsAppliedListView(generics.ListAPIView):
 	'''Retrieve the job of an application for a user. The job seekers id is passed as a parameter in the url.'''
