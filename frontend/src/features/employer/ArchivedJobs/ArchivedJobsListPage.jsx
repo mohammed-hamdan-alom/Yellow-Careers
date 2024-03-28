@@ -1,17 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Switch, Space } from "antd";
-import { Label } from "@/components/ui/label";
-import "../styling/switch.css";
-import JobFilterAndList from "@/components/Search/JobFilterAndList";
+import ToggleCompanyEmployerJobs from "../ToggleJobs/ToggleCompanyEmployerJobs";
 
 function ArchivedJobsListPage() {
   const { user } = useContext(AuthContext);
   const userId = user.user_id;
-  const [archivedJobs, setArchivedJobs] = useState([]);
+  const [employerArchivedJobs, setEmployerArchivedJobs] = useState([]);
   const [companyArchivedJobs, setCompanyArchivedJobs] = useState([]);
   const [showCompanyArchivedJobs, setShowCompanyArchivedJobs] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +23,7 @@ function ArchivedJobsListPage() {
             return { ...job, company: companyRes.data };
           })
         );
-        setArchivedJobs(jobsWithCompany);
+        setEmployerArchivedJobs(jobsWithCompany);
 
         const employerResponse = await AxiosInstance.get(`api/employers/${userId}/`);
 
@@ -44,51 +42,26 @@ function ArchivedJobsListPage() {
         }
       } catch (error) {
         console.error("Error fetching archived jobs:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, [userId]);
 
-  const handleSwitchChange = (checked) => {
-    setShowCompanyArchivedJobs(checked);
-  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      {showCompanyArchivedJobs ? (
-        <div>
-          <Label className="text-3xl">All Company Archived Jobs</Label>
-          <Space size={10} direction="vertical" />
-          <div>
-            {companyArchivedJobs.length > 0 && (
-              <Switch
-                checkedChildren="Company Jobs"
-                unCheckedChildren="Your Jobs"
-                defaultChecked={showCompanyArchivedJobs}
-                onChange={handleSwitchChange}
-              />
-            )}
-          </div>
-          <JobFilterAndList jobs={companyArchivedJobs} />
-        </div>
-      ) : (
-        <div>
-          <Label className="text-3xl">Archived Jobs You Are Associated With</Label>
-          <Space size={10} direction="vertical" />
-          <div>
-            {companyArchivedJobs.length > 0 && (
-              <Switch
-                checkedChildren="Company Jobs"
-                unCheckedChildren="Your Jobs"
-                defaultChecked={showCompanyArchivedJobs}
-                onChange={handleSwitchChange}
-              />
-            )}
-          </div>
-          <JobFilterAndList jobs={archivedJobs} />
-        </div>
-      )}
+      <ToggleCompanyEmployerJobs
+        isAdmin={showCompanyArchivedJobs}
+        companyJobs={companyArchivedJobs}
+        employerJobs={employerArchivedJobs}
+        text={"Archived"}
+      />
     </div>
   );
 }
