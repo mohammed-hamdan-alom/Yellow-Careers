@@ -3,12 +3,18 @@ import JobSummary from "../JobSummary/JobSummary";
 import { Input } from "@/components/ui/input";
 import { Pagination } from "antd";
 
+/**
+ * Renders a list of jobs with search and pagination functionality.
+ */
 const JobList = ({ jobs }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
+  /**
+   * Handles the search functionality by filtering the jobs based on the query.
+   */
   const handleSearch = (e) => {
     const query = e.target.value;
     setQuery(query);
@@ -26,10 +32,16 @@ const JobList = ({ jobs }) => {
     setResults(jobs);
   }, [jobs]);
 
+  /**
+   * Handles the page change event.
+   */
   const handlePageChange = (page, pageSize) => {
     setCurrentPage(page);
   };
 
+  /**
+   * Handles the page size change event.
+   */
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };

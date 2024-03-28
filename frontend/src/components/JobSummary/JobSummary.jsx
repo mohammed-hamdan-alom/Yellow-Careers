@@ -3,10 +3,17 @@ import { useNavigate } from "react-router-dom";
 import JobCard from "../JobCard/JobCard";
 import AuthContext from "@/context/AuthContext";
 
+/**
+ * Renders a summary of a job.
+ */
 const JobSummary = ({ job }) => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
+  /**
+   * Handles the click event when the job summary is clicked.
+   * Navigates to the job details page based on the user type.
+   */
   const handleClick = () => {
     if (user && user.user_type === "employer") {
       navigate(`/employer/job-details/${job.id}`);

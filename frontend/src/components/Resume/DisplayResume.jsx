@@ -8,6 +8,9 @@ import DisplayProfessionalExperience from "@/components/Resume/DisplayProfession
 import { Label } from "@/components/ui/label";
 import "../styling/shadow.css";
 
+/**
+ * Component for displaying a full resume.
+ */
 function DisplayResume({ resumeId }) {
   const defaultResumeState = {
     website: "",
@@ -18,6 +21,9 @@ function DisplayResume({ resumeId }) {
 
   const [resume, setResume] = useState(defaultResumeState);
 
+  /**
+   * Fetches the resume data from the API.
+   */
   useEffect(() => {
     const fetchResume = async () => {
       if (!resumeId) {
@@ -83,4 +89,5 @@ function DisplayResume({ resumeId }) {
     </div>
   );
 }
+
 export default DisplayResume;

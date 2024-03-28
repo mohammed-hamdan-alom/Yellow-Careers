@@ -4,9 +4,15 @@ import { Tag } from "antd";
 import "../styling/tag.css";
 import "../styling/shadow.css";
 
+/**
+ * Component to display the soft skills of a resume.
+ */
 function DisplaySoftSkills({ resumeId }) {
   const [softSkills, setSoftSkills] = useState([]);
 
+  /**
+   * Fetches the soft skills data from the API.
+   */
   useEffect(() => {
     const fetchSoftSkills = async () => {
       if (!resumeId) {
@@ -22,6 +28,7 @@ function DisplaySoftSkills({ resumeId }) {
 
     fetchSoftSkills();
   }, [resumeId]);
+
   return (
     <div className="bg-white shadow-pink rounded-md p-6 mt-6">
       <h3 className="text-lg font-semibold mb-2">

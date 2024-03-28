@@ -4,10 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { showError, showSuccess } from "@/components/Alert/alert";
 import AxiosInstance from "@/utils/AxiosInstance";
 
+/**
+ * AuthContext provides authentication-related functionality and state to its children components.
+ */
 const AuthContext = createContext();
 
 export default AuthContext;
 
+/**
+ * AuthProvider is a wrapper component that provides the AuthContext to its children components.
+ */
 export const AuthProvider = ({ children }) => {
   const [authTokens, setAuthTokens] = useState(() => {
     const token = localStorage.getItem("authTokens");
@@ -23,6 +29,10 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
+  /**
+   * loginUser is a function to log in a user.
+   * The user is redirected to the appropriate dashboard based on their user type.
+   */
   const loginUser = async (user) => {
     try {
       const response = await AxiosInstance.post("/api/token/", {
@@ -52,6 +62,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  /**
+   * registerJobSeeker is a function to register a job seeker.
+   */
   const registerJobSeeker = async (user) => {
     try {
       const response = await AxiosInstance.post("/api/jobseeker-register/", {
@@ -70,13 +83,16 @@ export const AuthProvider = ({ children }) => {
       if (response.status === 201) {
         navigate("/auth/login");
         showSuccess("Registration Successful, Login Now");
-      } 
+      }
     } catch (error) {
       console.error(error);
-      throw error
+      throw error;
     }
   };
 
+  /**
+   * registerEmployer is a function to register an employer.
+   */
   const registerEmployer = async (
     email,
     password,
@@ -107,10 +123,13 @@ export const AuthProvider = ({ children }) => {
         throw new Error("Error registering employer");
       }
     } catch (error) {
-      throw error
+      throw error;
     }
   };
 
+  /**
+   * updateToken is a function to update the authentication token.
+   */
   let updateToken = async () => {
     try {
       let response = await AxiosInstance.post("/api/token/refresh/", {
@@ -135,6 +154,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  /**
+   * logoutUser is a function to log out the user.
+   */
   const logoutUser = () => {
     setAuthTokens(null);
     setUser(null);
@@ -166,7 +188,9 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Refresh token every 59 minutes
+  /**
+   * Refreshes token every 59 minutes.
+   */
   useEffect(() => {
     const tokens = localStorage.getItem("authTokens");
     if (loading && tokens) {

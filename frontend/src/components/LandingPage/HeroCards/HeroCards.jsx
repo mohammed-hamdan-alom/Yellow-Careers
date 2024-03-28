@@ -12,6 +12,10 @@ import { Check, Linkedin } from "lucide-react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import shazaib from "../assets/shazaib.png";
 
+/**
+ * Renders the Hero Cards section of the landing page.
+ * This component displays testimonial and team information.
+ */
 export const HeroCards = () => {
   return (
     <div className="hidden lg:flex flex-row flex-wrap gap-8 relative w-[700px] h-[500px]">

@@ -6,9 +6,15 @@ import { Tag } from "antd";
 import "../styling/tag.css";
 import "../styling/shadow.css";
 
+/**
+ * Component for displaying education information in a resume.
+ */
 function DisplayEducation({ resumeId }) {
   const [educations, setEducations] = useState([]);
 
+   /**
+   * Fetches the education data for the specified resume ID.
+   */
   useEffect(() => {
     const fetchEducations = async () => {
       if (!resumeId) {
@@ -21,6 +27,7 @@ function DisplayEducation({ resumeId }) {
         console.error("Error:", error);
       }
     };
+
     fetchEducations();
   }, [resumeId]);
 

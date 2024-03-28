@@ -6,9 +6,15 @@ import { Tag } from "antd";
 import "../styling/tag.css";
 import "../styling/shadow.css";
 
+/**
+ * Component to display professional experiences in a resume.
+ */
 function DisplayProfessionalExperience({ resumeId }) {
   const [professionalExperiences, setProfessionalExperiences] = useState([]);
 
+  /**
+   * Fetches the professional experiences for the given resume ID.
+   */
   useEffect(() => {
     const fetchProfessionalExperiences = async () => {
       if (!resumeId) {

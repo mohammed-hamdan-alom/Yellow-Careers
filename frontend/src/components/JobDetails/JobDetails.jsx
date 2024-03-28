@@ -4,7 +4,14 @@ import { MapPin, HandCoins, Briefcase } from "lucide-react";
 import { Tag } from "antd";
 import "@/components/styling/tag.css";
 
+/**
+ * Component for displaying job details.
+ */
 const JobDetailsDisplay = ({ title, description, companyName, salary, jobType, address }) => {
+
+  /**
+   * Formats the description by splitting it into lines and adding line breaks.
+   */
   const formattedDescription = description
     ? description.split("\n").map((line, index) => (
         <React.Fragment key={index}>

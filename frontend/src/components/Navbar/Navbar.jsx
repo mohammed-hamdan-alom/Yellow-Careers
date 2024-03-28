@@ -5,6 +5,11 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 
+
+/**
+ * Navbar component.
+ * Renders the navigation bar with a logo and menu options.
+ */
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (

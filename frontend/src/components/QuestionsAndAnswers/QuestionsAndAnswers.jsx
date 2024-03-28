@@ -3,6 +3,9 @@ import { Label } from "@/components/ui/label";
 import Question from "./Question";
 import { Speech } from "lucide-react";
 
+/**
+ * Component for rendering a list of questions and their corresponding answers.
+ */
 const QuestionsAndAnswers = ({ questions, answers }) => {
   return (
     <div>

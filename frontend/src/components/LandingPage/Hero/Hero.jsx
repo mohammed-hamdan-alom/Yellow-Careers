@@ -2,6 +2,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { HeroCards } from "../HeroCards/HeroCards";
 import { NavLink } from "react-router-dom";
 
+/**
+ * Renders the Hero section of the landing page.
+ */
 export const Hero = () => {
   return (
     <section className="container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">

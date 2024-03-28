@@ -2,6 +2,9 @@ import { useContext } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 
+/**
+ * A component that acts as a private route, allowing access only to authenticated users with specific roles.
+ */
 const PrivateRoute = ({ role, ...props }) => {
   const { user } = useContext(AuthContext);
 

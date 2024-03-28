@@ -1,5 +1,8 @@
 import swal from "sweetalert2";
 
+/**
+ * Displays an error message using a toast notification.
+ */
 export const showError = (message) => {
   swal.fire({
     title: message,
@@ -12,6 +15,9 @@ export const showError = (message) => {
   });
 };
 
+/**
+ * Displays a success message using a toast notification.
+ */
 export const showSuccess = (message) => {
   swal.fire({
     title: message,

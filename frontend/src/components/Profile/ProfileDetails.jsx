@@ -9,6 +9,9 @@ import moment from "moment";
 
 const { Option } = Select;
 
+/**
+ * ProfileDetails component displays the profile details form.
+ */
 const ProfileDetails = ({ formData, handleChange, handleSubmit, userType, errors }) => {
   
   const { address = {} } = errors;

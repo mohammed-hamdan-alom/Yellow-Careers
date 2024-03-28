@@ -7,6 +7,9 @@ import "@/components/styling/filter.css";
 import "@/components/styling/tag.css";
 import { Tag } from "antd";
 
+/**
+ * Component that displays a job filter and list.
+ */
 const JobFilterAndList = ({ jobs }) => {
   const [results, setResults] = useState([]);
   const [filters, setFilters] = useState({
@@ -16,6 +19,9 @@ const JobFilterAndList = ({ jobs }) => {
   });
   const [countries, setCountries] = useState([]);
 
+  /**
+   * Event handler for the pay filter change.
+   */
   const onPayChangeFilter = (e) => {
     const value = e;
     setFilters({
@@ -25,6 +31,9 @@ const JobFilterAndList = ({ jobs }) => {
     applyFilters(value, filters.contractType, filters.location);
   };
 
+  /**
+   * Event handler for the contract type filter change.
+   */
   const onCTChangeFilter = (e) => {
     const value = e;
     setFilters({
@@ -34,6 +43,9 @@ const JobFilterAndList = ({ jobs }) => {
     applyFilters(filters.pay, value, filters.location);
   };
 
+  /**
+   * Event handler for the location filter change.
+   */
   const onLocationChangeFilter = (e) => {
     const value = e;
     setFilters({
@@ -43,6 +55,9 @@ const JobFilterAndList = ({ jobs }) => {
     applyFilters(filters.pay, filters.contractType, value);
   };
 
+  /**
+   * Applies the selected filters to the job list.
+   */
   const applyFilters = (pay, ct, location) => {
     const payFilter = (job) => job.salary >= pay;
     const ctFilter = (job) => job.job_type == ct;
@@ -67,7 +82,9 @@ const JobFilterAndList = ({ jobs }) => {
     setResults(filteredResults);
   };
 
-  //Gets unique countries from all addresses
+  /**
+   * Gets unique countries from all addresses
+   */
   useEffect(() => {
     AxiosInstance.get(`api/addresses/`)
       .then((res) => {
@@ -77,7 +94,9 @@ const JobFilterAndList = ({ jobs }) => {
       .catch((error) => console.log(error));
   }, []);
 
-  //Refreshes job list once data has been received
+  /**
+   * Refreshes job list once data has been received
+   */
   useEffect(() => {
     setResults(jobs);
   }, [jobs]);

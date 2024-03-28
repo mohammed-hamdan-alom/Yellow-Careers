@@ -2,6 +2,9 @@ import React from "react";
 import { Input, Button } from "antd";
 import { Label } from "@/components/ui/label";
 
+/**
+ * Component for the password change section.
+ */
 const PasswordChangeSection = ({
   oldPassword,
   setOldPassword,

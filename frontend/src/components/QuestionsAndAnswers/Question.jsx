@@ -1,6 +1,9 @@
 import React from "react";
 import { Label } from "@/components/ui/label";
 
+/**
+ * Renders a styled question.
+ */
 const Question = ({ question }) => {
   return (
     <div className="border-t border-b border-gray-300 py-4">

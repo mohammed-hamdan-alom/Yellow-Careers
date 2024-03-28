@@ -4,9 +4,15 @@ import { Tag } from "antd";
 import "../styling/tag.css";
 import "../styling/shadow.css";
 
+/**
+ * Component for displaying technical skills in a resume.
+ */
 function DisplayTechnicalSkills({ resumeId }) {
   const [technicalSkills, setTechnicalSkills] = useState([]);
 
+  /**
+   * Fetches the technical skills data from the API.
+   */
   useEffect(() => {
     const fetchTechnicalSkills = async () => {
       if (!resumeId) {

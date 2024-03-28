@@ -4,9 +4,15 @@ import { Tag } from "antd";
 import "../styling/tag.css";
 import "../styling/shadow.css";
 
+/**
+ * Component for displaying languages in a resume.
+ */
 function DisplayLanguages({ resumeId }) {
   const [languages, setLanguages] = useState([]);
 
+  /**
+   * Fetches the languages data from the API.
+   */
   useEffect(() => {
     const fetchLanguages = async () => {
       if (!resumeId) {
@@ -22,6 +28,7 @@ function DisplayLanguages({ resumeId }) {
 
     fetchLanguages();
   }, [resumeId]);
+
   return (
     <div className="bg-white shadow-orange rounded-md p-6 mt-6">
       <h3 className="text-lg font-semibold mb-2">

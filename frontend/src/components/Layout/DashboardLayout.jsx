@@ -6,11 +6,16 @@ import AuthContext from "@/context/AuthContext";
 import logo from "./assets/yellow-careers-logo.png";
 import styled from "styled-components";
 
+/**
+ * Helper function to concatenate CSS classes.
+ */
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-// Styled NavLink component
+/**
+ * CustomNavLink component.
+ */
 const CustomNavLink = styled(NavLink)`
   position: relative; /* Position relative for absolute positioning of the underline */
 
@@ -40,6 +45,9 @@ const CustomNavLink = styled(NavLink)`
   }
 `;
 
+/**
+ * DashboardLayout component.
+ */
 const DashboardLayout = ({ user, navigation, userNavigation, baseUrl }) => {
   const authContext = useContext(AuthContext);
   const location = useLocation();

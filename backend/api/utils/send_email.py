@@ -23,7 +23,7 @@ def send_employer_invitation_email(email, company_name, code):
     subject = f"You're invited to join {company_name} on Yellow Careers"
     html_content = (
         f"<h3>{company_name} has invited you to join as an employer in the company.</h3>\n\n"
-        f"<p>When registering, please use the following code to create your account: {code}</p>"
+        f"<p>When registering, please use your email and the following code to create your account: {code}</p>"
     )
     send_email(email, subject, html_content)
 
