@@ -2,14 +2,12 @@ from django.test import TestCase
 from api.models import Resume, SoftSkill, TechnicalSkill, Language, ProfessionalExperience, Education
 from api.serializers import ResumeSerializer, ResumeSoftSkillSerializer, ResumeTechnicalSkillSerializer, ResumeLanguageSerializer, ProfessionalExperienceSerializer, EducationSerializer
 from api.models import Resume, SoftSkill, TechnicalSkill, Language, ProfessionalExperience, Education, Address
-from api.serializers import ResumeSerializer, ResumeSoftSkillSerializer, ResumeTechnicalSkillSerializer, ResumeLanguageSerializer, ProfessionalExperienceSerializer, EducationSerializer, AddressSerializer
+from api.serializers import ResumeSerializer, ResumeSoftSkillSerializer, ResumeTechnicalSkillSerializer, ResumeLanguageSerializer, ProfessionalExperienceSerializer, EducationSerializer
 import datetime
-from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APIRequestFactory, force_authenticate
 from api.views.resume_views import *
 
 class ResumeSerializerTestCase(TestCase):
+    '''Test case for the ResumeSerializer class'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

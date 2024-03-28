@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from django.shortcuts import get_object_or_404
 
@@ -19,14 +19,15 @@ class JobCreationView(generics.CreateAPIView):
 	serializer_class = JobSerializer
 
 class JobUpdateArchiveView(generics.UpdateAPIView):
-    queryset = Job.objects.all()
-    serializer_class = JobSerializer
+	'''Archive a job.'''
+	queryset = Job.objects.all()
+	serializer_class = JobSerializer
 
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.isArchived = not instance.isArchived
-        instance.save()
-        return Response(self.get_serializer(instance).data)
+	def update(self, request, *args, **kwargs):
+		instance = self.get_object()
+		instance.isArchived = not instance.isArchived
+		instance.save()
+		return Response(self.get_serializer(instance).data)
 
 class JobsAppliedListView(generics.ListAPIView):
 	'''Retrieve the job of an application for a user. The job seekers id is passed as a parameter in the url.'''
@@ -74,7 +75,7 @@ class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 		job = super().get_object()
 		user = self.request.user
 
-		if hasattr(user, 'jobseeker'):
+		if hasattr(user, 'jobseeker'): # Job Seeker can only see unarchived jobs
 			if job.isArchived and not Application.objects.filter(job=job, job_seeker=user.jobseeker).exists():
 				raise PermissionDenied("You do not have permission to view this job.")
 			return job
@@ -82,11 +83,11 @@ class JobRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 			employer = Employer.objects.get(user_ptr_id=user.id)
 			employer_ids = EmployerJobRelation.objects.filter(job_id=job.id).values_list('employer', flat=True)
 			job_company = Employer.objects.get(id=employer_ids[0]).company
-			if not employer.company == job_company:
+			if not employer.company == job_company: # Employers can only see jobs in their own company
 				raise PermissionDenied("You do not have permission to view this job.")
-			if employer.is_company_admin:
+			if employer.is_company_admin: # Admins can see all jobs in their company 
 				return job
-			if employer.id in employer_ids:
+			if employer.id in employer_ids: # Employers can only see their own jobs
 				return job
 		raise PermissionDenied("You do not have permission to view this job.")
 	

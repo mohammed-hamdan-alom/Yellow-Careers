@@ -4,6 +4,7 @@ from api.models import Answer
 from api.serializers import AnswerSerializer
 
 class AnswerSerializerTestCase(TestCase):
+    '''Test the AnswerSerializer.'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

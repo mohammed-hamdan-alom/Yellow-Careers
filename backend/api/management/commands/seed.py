@@ -1,12 +1,11 @@
 import random
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from faker import Faker
-from api.models import User, JobSeeker, Employer, Job, Application, Resume, SoftSkill, TechnicalSkill, Language, Education, ProfessionalExperience, Address, Company, Question, Answer, EmployerJobRelation
+from api.models import *
 from faker.providers import BaseProvider
 from halo import Halo
 import csv
 
-#TODO: SHOULD MOVE TO SEPERATE FILES
 job_seeker_fixture = [
     {
         'email': 'john.doe@example.com',

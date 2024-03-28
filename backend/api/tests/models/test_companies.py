@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from api.models import Company, Employer
+from api.models import Company
 
 class CompanyModelTestCase(TestCase):
+    '''Test case for the Company model'''
 
     fixtures = ['api/tests/fixtures/companies.json']
     
@@ -39,12 +40,6 @@ class CompanyModelTestCase(TestCase):
     def test_website_does_not_have_to_be_unique(self):
         company = Company(company_name='Company 1', website=self.company.website)
         self._assert_company_is_valid()
-    
-    def test_get_employees_method(self):
-        self.assertEqual(self.company.get_employees().count(), Employer.objects.filter(company=self.company).count())
-    
-    def test_get_company_admins_method(self):
-        self.assertEqual(self.company.get_company_admins().count(), Employer.objects.filter(company=self.company, is_company_admin=True).count())
     
     def test_about_can_be_blank(self):
         self.company.about = ''

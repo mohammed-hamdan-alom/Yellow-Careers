@@ -13,7 +13,7 @@ class JobSeekerAdmin(admin.ModelAdmin):
 
 @admin.register(Employer)
 class EmployerAdmin(admin.ModelAdmin):
-    list_display = ['first_name','last_name','email','phone_number','company','is_company_admin']
+    list_display = ['id', 'first_name','last_name','email','phone_number','company','is_company_admin']
 
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
@@ -22,7 +22,7 @@ class JobAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ['job_seeker','job','date_applied']
+    list_display = ['id', 'job_seeker','job','date_applied']
 
 @admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
@@ -30,23 +30,23 @@ class ResumeAdmin(admin.ModelAdmin):
 
 @admin.register(SoftSkill)
 class SoftSkillAdmin(admin.ModelAdmin):
-    list_display = ['resume','skill','id']
+    list_display = ['id', 'resume','skill']
 
 @admin.register(TechnicalSkill)
 class TechnicalSkillAdmin(admin.ModelAdmin):
-    list_display = ['resume','skill','id']
+    list_display = ['id', 'resume','skill']
 
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
-    list_display = ['resume','language','spoken_proficiency', 'written_proficiency']
+    list_display = ['id', 'resume','language','spoken_proficiency', 'written_proficiency']
 
 @admin.register(Education)
 class EducationAdmin(admin.ModelAdmin):
-    list_display = ['resume','start_date','end_date', 'address', 'level', 'institution', 'grade']
+    list_display = ['id', 'resume','start_date','end_date', 'address', 'level', 'institution', 'grade']
 
 @admin.register(ProfessionalExperience)
 class ProfessionalExperienceAdmin(admin.ModelAdmin):
-    list_display = ['resume','start_date','end_date', 'address', 'company', 'position', 'description']
+    list_display = ['id', 'resume','start_date','end_date', 'address', 'company', 'position', 'description']
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
@@ -55,12 +55,12 @@ class AddressAdmin(admin.ModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ['job','question']
+    list_display = ['id', 'job','question']
     ordering = ['job']
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ['application','question','answer']
+    list_display = ['id', 'application','question','answer']
     ordering = ['application']
 
 @admin.register(Company)
@@ -70,10 +70,10 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(EmployerJobRelation)
 class EmployerJobRelationAdmin(admin.ModelAdmin):
-    list_display = ['employer','job']
+    list_display = ['id', 'employer','job']
     ordering = ['employer']
 
 @admin.register(SavedJobs)
 class SavedJobsAdmin(admin.ModelAdmin):
-    list_display = ['job_seeker','job']
+    list_display = ['id', 'job_seeker','job']
     ordering = ['job_seeker']
