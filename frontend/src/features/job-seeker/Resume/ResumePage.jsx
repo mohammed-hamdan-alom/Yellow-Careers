@@ -34,6 +34,7 @@ function UpdateResumePage() {
         AxiosInstance.patch(`api/job-seekers/${userId}/update/`, {
           resume: response.data.id,
         });
+        window.location.reload();
       }
       return data.resume;
     }
