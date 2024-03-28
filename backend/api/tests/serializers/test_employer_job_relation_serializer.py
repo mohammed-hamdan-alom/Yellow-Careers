@@ -3,6 +3,7 @@ from api.models import EmployerJobRelation
 from api.serializers import EmployerJobRelationSerializer
 
 class EmployerJobRelationSerializerTestCase(TestCase):
+    '''Test for EmployerJobRelationSerializer'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

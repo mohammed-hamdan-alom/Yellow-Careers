@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 from api.models import User, Company, JobSeeker
 from api.serializers import UserSerializer, MyTokenObtainPairSerializer, EmployerRegisterSerializer, JobSeekerRegisterSerializer, ChangePasswordSerializer
@@ -8,6 +7,7 @@ from rest_framework.test import APIRequestFactory
 
 
 class UserSerializerTest(TestCase):
+    '''Test module for User serializer'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

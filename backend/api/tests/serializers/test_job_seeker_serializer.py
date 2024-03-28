@@ -5,6 +5,7 @@ from django.forms.models import model_to_dict
 from collections import OrderedDict
 
 class JobSeekerSerializerTestCase(TestCase):
+    '''Test case for the JobSeekerSerializer class'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
