@@ -92,7 +92,7 @@ class ApplicationsFromJobListView(BaseApplicationView, generics.ListAPIView):
         
         if employer.is_company_admin or employer.id in employer_ids: # Employers can only see application list for their own jobs or all jobs if they are admin
             applications = Application.objects.filter(job_id = job_id)
-            return getMatchedApplicantsForJob(Job.objects.get(id=job_id), applications) # Match applications to job
+            return getMatchedApplicationsForJob(Job.objects.get(id=job_id), applications) # Match applications to job
         else:
             raise PermissionDenied("You do not have permission to view this application.")
         
