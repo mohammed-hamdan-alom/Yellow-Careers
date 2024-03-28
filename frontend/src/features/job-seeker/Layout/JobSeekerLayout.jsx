@@ -11,7 +11,7 @@ const navigation = [
   { name: "Applied Jobs", to: "/applied-jobs" },
 ];
 
-const userNavigation = [{ name: "Your Profile", href: `${baseUrl}/profile` }, { name: "Sign out" }];
+const userNavigation = [{ name: "My Profile", href: `${baseUrl}/profile` }, { name: "Sign out" }];
 
 export default function JobSeekerLayout() {
   const { user } = useContext(AuthContext);
