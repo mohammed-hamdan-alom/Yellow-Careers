@@ -149,18 +149,18 @@ function JobSeekerJobDetailsPage() {
       </div>
       <Space>
         {isJobApplied ? (
-          <Button className="yellowButton large-button" onClick={handleSeeApplication}>
+          <Button className="yellow-button large-button" onClick={handleSeeApplication}>
             See Application
           </Button>
         ) : (
-          <Button className="yellowButton large-button" onClick={handleApply}>
+          <Button className="yellow-button large-button" onClick={handleApply}>
             Apply
           </Button>
         )}
         {isJobSaved ? (
           <Tooltip title={job.isArchived ? "This job is archived" : ""} placement="right">
             <Button
-              className="redButton large-button"
+              className="red-button large-button"
               onClick={handleSave}
               disabled={job.isArchived}
             >
@@ -170,7 +170,7 @@ function JobSeekerJobDetailsPage() {
         ) : (
           <Tooltip title={job.isArchived ? "This job is archived" : ""} placement="right">
             <Button
-              className="blueButton large-button"
+              className="blue-button large-button"
               onClick={handleSave}
               disabled={job.isArchived}
             >

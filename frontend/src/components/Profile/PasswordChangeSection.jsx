@@ -37,7 +37,7 @@ const PasswordChangeSection = ({
         />
       </div>
       <div style={{ marginTop: "25px" }}>
-        <Button className="yellowButton" onClick={onSubmit}>
+        <Button className="yellow-button" onClick={onSubmit}>
           Change Password
         </Button>
       </div>
