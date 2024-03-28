@@ -485,3 +485,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux,intellij,visualstudiocode,react,django,python
 backend/api/migrations/0001_initial.py
+frontend/coverage
