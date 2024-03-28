@@ -11,6 +11,10 @@ const ToggleCompanyEmployerJobs = ({ isAdmin, companyJobs, employerJobs, text })
     setShowCompanyJobs(checked);
   };
 
+  if (companyJobs.length === 0 && employerJobs.length === 0) {
+    return <Label className="text-3xl text-gray-700">There are no {text} jobs to view.</Label>;
+  }
+
   return (
     <div>
       {showCompanyJobs ? (
