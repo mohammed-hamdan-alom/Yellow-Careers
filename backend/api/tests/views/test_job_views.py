@@ -1,5 +1,5 @@
-from django.test import TestCase, Client
-from rest_framework.test import APITestCase, force_authenticate, APIRequestFactory
+from django.test import TestCase
+from rest_framework.test import  force_authenticate, APIRequestFactory
 from api.models import Job, Employer, Application, SavedJobs, EmployerJobRelation, Address
 from django.urls import reverse
 from rest_framework import status
@@ -7,6 +7,7 @@ from rest_framework.authtoken.models import Token
 from api.views.job_views import *
 
 class JobViewTestCase(TestCase):
+    '''Test case for the Job views.'''
     
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
@@ -28,8 +29,6 @@ class JobViewTestCase(TestCase):
         self.company_admin = Employer.objects.get(pk=3)
         self.employee = Employer.objects.get(pk=4)
         self.token = Token.objects.get_or_create(user=self.employee)
-
-        
 
     def test_create_job(self):
         '''Test creating a job.'''
@@ -203,12 +202,6 @@ class JobViewTestCase(TestCase):
         '''Test listing of matched jobs for a job seeker with invalid job seeker id.'''
         response = self.client.get(reverse('job-seeker-matched-jobs', args=[100]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
-
-
-
-
-
 
     def test_retrieve_job_by_job_seeker(self):
         '''Test retrieving a job by a job seeker.'''

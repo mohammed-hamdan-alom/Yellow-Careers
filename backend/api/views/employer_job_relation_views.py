@@ -2,7 +2,6 @@ from rest_framework import generics
 from api.models import EmployerJobRelation
 from api.serializers.employer_job_relation_serializer import EmployerJobRelationSerializer
 from django.shortcuts import get_object_or_404
-from api.utils.send_email import send_job_access_notification
 
 class BaseEmployerJobRelationView:
     queryset = EmployerJobRelation.objects.all()

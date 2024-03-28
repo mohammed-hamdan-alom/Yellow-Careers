@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from api.models import SavedJobs
 
 class SavedJobsModelTest(TestCase):
+    '''Test case for the SavedJobs model'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

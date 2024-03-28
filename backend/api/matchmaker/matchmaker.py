@@ -1,4 +1,4 @@
-from api.models import Job, JobSeeker, Application
+from api.models import Application
 from Levenshtein import ratio
 from gensim.models import Word2Vec
 import numpy as np
@@ -19,6 +19,7 @@ def custom_tokenize(text):
     return tokens
 
 def getMatchedJobsForJobSeeker(job_seeker, jobs):
+    """Returns a list of jobs in order of how well they match the job seeker's resume."""
     resume = job_seeker.get_resume().to_string()
     job_scores = {}
     for job in jobs:
@@ -35,7 +36,8 @@ def getMatchedJobsForJobSeeker(job_seeker, jobs):
     applied_jobs = [application.job for application in applications]
     return list(filter(lambda x: x not in applied_jobs, matched_jobs))
 
-def getMatchedApplicantsForJob(job, applications):
+def getMatchedApplicationsForJob(job, applications):
+    """Returns a list of applications in order of how well they match the job description."""
     job_description = job.to_string()
     application_scores = {}
     for application in applications:
@@ -51,6 +53,7 @@ def getMatchedApplicantsForJob(job, applications):
     return matched_applications
 
 def calculateLocationScore(job, job_seeker):
+    """Returns a score between 0 and 1 based on the similarity of the job location and job seeker location."""
     try:
         job_location = job.address
         job_seeker_location = job_seeker.address
@@ -65,9 +68,11 @@ def calculateLocationScore(job, job_seeker):
         return 0
 
 def calculateLevenshteinScore(job_description, resume):
+    """Returns a score between 0 and 1 based on the similarity of the job description and resume."""
     return ratio(job_description, resume)
 
 def calculateAverageWordEmbedding(text):
+    """Returns the average word embedding of the text."""
     tokens = custom_tokenize(text)
     embeddings = [model.wv[word] for word in tokens if word in model.wv]
     if embeddings:
@@ -76,6 +81,7 @@ def calculateAverageWordEmbedding(text):
         return np.zeros(model.vector_size)
 
 def calculateWord2VecSimilarity(job_description, resume):
+    """Returns a score between 0 and 1 based on the similarity of the job description and resume."""
     resume_embedding = calculateAverageWordEmbedding(resume)
     job_embedding = calculateAverageWordEmbedding(job_description)
     similarity = cosine_similarity([resume_embedding], [job_embedding])[0][0]

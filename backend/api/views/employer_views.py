@@ -1,11 +1,7 @@
 from rest_framework import generics
 from api.models import Employer, EmployerJobRelation
-from api.serializers import EmployerSerializer, ChangePasswordSerializer
+from api.serializers import EmployerSerializer
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.hashers import check_password
-from rest_framework.response import Response
-from rest_framework import generics, status
-
 
 class BaseEmployerView:
     queryset = Employer.objects.all()

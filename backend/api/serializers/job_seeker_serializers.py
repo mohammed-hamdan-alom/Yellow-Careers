@@ -1,10 +1,10 @@
-from api.models import JobSeeker, Address
+from api.models import JobSeeker
 from . import AddressSerializer
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-# from django.core.exceptions import ValidationError
 
 class JobSeekerSerializer(serializers.ModelSerializer):
+    """Serializer for the JobSeeker model handling creation and updating."""
     address = AddressSerializer(required=False)
 
     class Meta:
@@ -12,6 +12,7 @@ class JobSeekerSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'first_name', 'last_name', 'other_names', 'phone_number', 'dob', 'nationality' , 'sex' , 'address', 'resume']
 
     def create(self, validated_data):
+        '''Create and return a new `JobSeeker` instance, given the validated data.'''
         address_data = validated_data.pop('address', None)
         address = None
 
@@ -24,6 +25,7 @@ class JobSeekerSerializer(serializers.ModelSerializer):
         return job_seeker
 
     def update(self, instance, validated_data):
+        '''Update and return an existing `JobSeeker` instance, given the validated data.'''
         address_data = validated_data.pop('address', None)
 
         if address_data:

@@ -4,6 +4,8 @@ from django.urls import reverse
 from rest_framework import status
 
 class EmployerJobRelationViewTestCase(TestCase):
+    '''Test case for the EmployerJobRelation views.'''
+    
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
                 'api/tests/fixtures/applications.json',
