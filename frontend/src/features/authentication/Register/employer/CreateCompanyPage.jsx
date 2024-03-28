@@ -31,7 +31,6 @@ const CreateCompany = () => {
         company
       );
       if (response.status === 201) {
-        console.log(response);
         showSuccess("Company Created");
         navigate(`/auth/register-employer`, {
           state: { companyId: response.data.id, registerEmail: adminEmail, isAdmin: true },
