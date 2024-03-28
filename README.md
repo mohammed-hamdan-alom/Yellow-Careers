@@ -1,104 +1,39 @@
-# Yellow Careers
+# Yellow Careers 
 
-Job Hiring app that matches jobs listed by employers to users who are looking for jobs. 
+Job Hiring Platform.
 
-## Setting up Dev Environment (Mac and Windows) 
+## Deployed Version
 
-### For mac:
+The deployed version of the web application can be found [here](https://yellow-careers.vercel.app/).
 
-Install Homebrew
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
+### Access credentials
 
-Install python
-```bash
-brew install python
-```
-Install node:
-```
-brew install node
-```
+Jobseeker
+Username: john.doe@example.com
+Password: ```Password123_```
 
-Check your installations with:
-```
-python3 --version
-```
-```
-node -v
-npm -v
-```
+Employer (admin)
+Username: jane.doe@example.com
+Password: ```Password123_```
 
-### For Windows:
+Employer (non-admin)
+Username: charlie.doe@example.com
+Password: ```Password123_```
 
-You will need Winget (it comes with windows but if you don't have it for some reason get it from [here](https://winget.run/))
+## Authors
 
-Install Python:
-```
-winget install -e --id Python.Python.3.11
-```
-Install node:
-```
-winget install -e --id OpenJS.NodeJS.LTS
-```
-Check your installations with:
-```
-python --version
-```
-```
-node -v
-npm -v
-```
+Team YellowCard:
+- Omar Ahmad (omar.1.ahmad@kcl.ac.uk)
+- Mohammed Alom (mohammed.1.alom@kcl.ac.uk)
+- Muhammad Islam (muhammad.islam@kcl.ac.uk)
+- Malik Shahzaib Khan (malik.khan@kcl.ac.uk)
+- Mohammad Ibrahim Khan (mohammad.i.khan@kcl.ac.uk)
+- Nithursan Muraleetharan (nithursan.muraleetharan@kcl.ac.uk)
+- Ahmad Ramadan (ahmad.ramadan@kcl.ac.uk)
+- Mohammed Ibrahim Uddin (mohammed.i.uddin@kcl.ac.uk)
 
+## Acknowledgements 
 
-## Setting up and running the app
+The layout component used for our user interface can be found at [here](https://tailwindui.com/components/application-ui/application-shells/stacked)
 
-First enter the frontend directory with ```cd frontend``` (from the root directory) and enter the following commands:
-
-Install the node packages:
-```
-npm install
-```
-
-Run the app in development mode:
-```
-npm run dev
-```
-
-Now, enter the backend directory with ```cd backend``` (from the root directory) and enter the following commands:
-
-Install virtualenv:
-```
-pip3 install virtualenv
-```
-
-Create a new virtual environment:
-```
-virtualenv venv
-```
-
-Activate the virtual environment:
-(Mac)
-```
-source venv/bin/activate 
-```
-(Windows)
-```
-venv/Scripts/activate
-```
-
-Install all the dependencies:
-```bash
-pip3 install -r requirements.txt
-```
-
-Make migrations and migrate:
-```
-python3 manage.py makemigrations
-python3 manage.py migrate
-```
-
-Start the REST api:
-```
-python3 manage.py runserver
-```
+The matchmaker was trained using a wordToVec [from](https://pypi.org/project/gensim/) and the dataset that was used to train the model came [from](https://www.kaggle.com/datasets/ravindrasinghrana/job-description-dataset).
