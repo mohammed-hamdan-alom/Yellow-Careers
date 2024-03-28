@@ -12,6 +12,7 @@ from api.models import JobSeeker
 from api.models import Employer
 
 class ResumeModelTestCase(TestCase):
+    '''Test case for the Resume model'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

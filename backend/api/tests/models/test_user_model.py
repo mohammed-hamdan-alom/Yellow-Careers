@@ -8,6 +8,7 @@ from api.models import EmployerJobRelation
 from api.models import Application
 
 class UserModelTestCase(TestCase):
+    '''Test case for the User model'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
