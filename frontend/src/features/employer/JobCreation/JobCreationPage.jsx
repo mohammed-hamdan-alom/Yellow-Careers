@@ -66,7 +66,7 @@ function JobCreationPage() {
       showAddModal();
     } catch (error) {
       showJobCreatedError();
-      console.log(error);
+      console.error(error);
     }
   };
 
