@@ -3,7 +3,6 @@ from .address import Address
 from .user import JobSeeker
 from django.utils.translation import gettext as _
 
-
 class SoftSkill(models.Model):
     """Model that represents a soft skill"""
     skill = models.CharField(max_length=30)

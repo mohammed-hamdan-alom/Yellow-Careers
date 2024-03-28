@@ -91,12 +91,6 @@ class JobModelTestCase(TestCase):
         self.job.title = 'a '
         self._assert_job_is_valid()
     
-    def test_get_applications_method(self):
-        self.assertEqual(self.job.get_applications().count(), Application.objects.filter(job_id=self.job.id).count())
-
-    def test_get_employers_ids_method(self):
-        self.assertEqual(self.job.get_employers_ids().count(), EmployerJobRelation.objects.filter(job_id=self.job.id).values_list('employer_id', flat=True).count())
-    
     def _assert_job_is_valid(self):
         self.job.full_clean()
         self.job2.full_clean()

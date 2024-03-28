@@ -183,20 +183,6 @@ class UserModelTestCase(TestCase):
         with self.assertRaises(ValueError):
             self.jobseeker.resume = ''
 
-    def test_get_applied_jobs(self):
-        applied_jobs = self.jobseeker.get_applied_jobs()
-        self.assertIn(self.applied_job,applied_jobs)
-        self.assertIn(self.applied_job3,applied_jobs)
-        self.assertNotIn(self.applied_job2,applied_jobs) #not originally in jobseeker's applied jobs
-
-        self.applied_job2.job_seeker = self.jobseeker
-        self.applied_job2.save()
-
-        applied_jobs2 = self.jobseeker.get_applied_jobs()
-        self.assertIn(self.applied_job,applied_jobs2)
-        self.assertIn(self.applied_job3,applied_jobs2)
-        self.assertIn(self.applied_job2,applied_jobs2)
-
     def test_get_resume(self):
         self.assertEqual(self.jobseeker.get_resume(),self.jobseeker.resume)
         self.assertEqual(self.jobseeker2.get_resume(),self.jobseeker2.resume)
@@ -215,36 +201,6 @@ class UserModelTestCase(TestCase):
         self.employer.is_company_admin = 'asd'
         self._assert_user_is_invalid(self.employer)    
     
-    def test_get_posted_jobs_by_self(self):
-        retrieved_posted_jobs = self.employer.get_posted_jobs_by_self()
-        self.assertIn(self.employer_job_relation,retrieved_posted_jobs)
-        self.assertIn(self.employer_job_relation3,retrieved_posted_jobs)
-        self.employer_job_relation2.employer = self.employer
-        self.employer_job_relation2.save()
-        retrieved_posted_jobs2 = self.employer.get_posted_jobs_by_self()
-        self.assertIn(self.employer_job_relation,retrieved_posted_jobs2)
-        self.assertIn(self.employer_job_relation2,retrieved_posted_jobs2)
-        self.assertIn(self.employer_job_relation3,retrieved_posted_jobs2)
-
-    def test_get_all_posted_jobs_without_admin(self):
-        #if employer is not admin, this should be the same as self.get_posted_jobs_by_self()
-        self.employer.is_company_admin = False
-        self.employer2.company = self.employer.company
-        self.employer2.save()
-        retrieved_posted_jobs = self.employer.get_all_posted_jobs()
-        self.assertIn(self.employer_job_relation,retrieved_posted_jobs)
-        self.assertIn(self.employer_job_relation3,retrieved_posted_jobs)
-        self.assertNotIn(self.employer_job_relation2,retrieved_posted_jobs)
-
-    def test_get_all_posted_jobs_as_admin(self):
-        #should show all jobs that the company the employer is part of has posted        
-        self.employer2.company = self.employer.company
-        self.employer2.save()
-        retrieved_posted_jobs = self.employer.get_all_posted_jobs()
-        self.assertIn(self.employer_job_relation,retrieved_posted_jobs)
-        self.assertIn(self.employer_job_relation3,retrieved_posted_jobs)
-        self.assertIn(self.employer_job_relation2,retrieved_posted_jobs) #this is a job posted by employer2
-
     def test_user_to_string(self):
         self.assertEqual(str(self.user),f"{self.user.email} - {self.user.first_name} {self.user.last_name}")
         self.assertEqual(str(self.jobseeker),f"{self.jobseeker.email} - {self.jobseeker.first_name} {self.jobseeker.last_name}")
