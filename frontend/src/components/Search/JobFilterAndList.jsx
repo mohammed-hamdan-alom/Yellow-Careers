@@ -74,7 +74,7 @@ const JobFilterAndList = ({ jobs }) => {
         const countries = res.data.map((address) => address.country);
         setCountries(Array.from(new Set(countries)));
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, []);
 
   //Refreshes job list once data has been received
