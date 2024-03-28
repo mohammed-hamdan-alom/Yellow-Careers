@@ -118,7 +118,7 @@ professional_experiences = [
     }
 ]
 
-employer_fixture = [
+employer_fixtures = [
     {
         'email': 'jane.doe@example.com',
         'first_name': 'Jane',
@@ -126,6 +126,14 @@ employer_fixture = [
         'other_names': 'Elizabeth',
         'phone_number': '+1234567890',
         "is_company_admin": True,
+    },
+    {
+        'email': 'charlie.doe@example.com',
+        'first_name': 'Charlie',
+        'last_name': 'Doe',
+        'other_names': 'Charles',
+        'phone_number': '+1234567890',
+        "is_company_admin": False,
     }
 ]
               
@@ -325,21 +333,36 @@ class Command(BaseCommand):
             about='Yellow Careers is a platform that connects job seekers with employers. We aim to make the job search process as seamless as possible.',
         )
 
-        main_employer = Employer.objects.create(
-            email=employer_fixture[0]['email'],
-            first_name=employer_fixture[0]['first_name'],
-            last_name=employer_fixture[0]['last_name'],
-            other_names=employer_fixture[0]['other_names'],
-            phone_number=employer_fixture[0]['phone_number'],
-            is_company_admin=employer_fixture[0]['is_company_admin'],
+        admin_employer = Employer.objects.create(
+            email=employer_fixtures[0]['email'],
+            first_name=employer_fixtures[0]['first_name'],
+            last_name=employer_fixtures[0]['last_name'],
+            other_names=employer_fixtures[0]['other_names'],
+            phone_number=employer_fixtures[0]['phone_number'],
+            is_company_admin=employer_fixtures[0]['is_company_admin'],
             company=company,
             is_superuser=True,
             is_staff=True,
         )
-        main_employer.set_password(self.PASSWORD)
-        main_employer.save()
+        admin_employer.set_password(self.PASSWORD)
+        admin_employer.save()
 
         employers = []
+
+        employer = Employer.objects.create(
+            email=employer_fixtures[1]['email'],
+            first_name=employer_fixtures[1]['first_name'],
+            last_name=employer_fixtures[1]['last_name'],
+            other_names=employer_fixtures[1]['other_names'],
+            phone_number=employer_fixtures[1]['phone_number'],
+            is_company_admin=employer_fixtures[1]['is_company_admin'],
+            company=company,
+        )
+        employer.set_password(self.PASSWORD)
+        employer.save()
+        employers.append(employer)
+
+        
         for i in range(3):
             employer = Employer.objects.create(
                 email=self.generate_unique_email(),
@@ -371,13 +394,14 @@ class Command(BaseCommand):
             for question in job['questions']:
                 Question.objects.create(question=question['question'], job=new_job)
 
-        EmployerJobRelation.objects.create(employer=main_employer, job=new_jobs[0])
+        EmployerJobRelation.objects.create(employer=admin_employer, job=new_jobs[0])
         EmployerJobRelation.objects.create(employer=employers[2], job=new_jobs[0])
         EmployerJobRelation.objects.create(employer=employers[1], job=new_jobs[0])
         EmployerJobRelation.objects.create(employer=employers[0], job=new_jobs[1])
         EmployerJobRelation.objects.create(employer=employers[1], job=new_jobs[1])
+        EmployerJobRelation.objects.create(employer=employer, job=new_jobs[1])
         EmployerJobRelation.objects.create(employer=employers[1], job=new_jobs[2])
-        EmployerJobRelation.objects.create(employer=main_employer, job=new_jobs[3])
+        EmployerJobRelation.objects.create(employer=admin_employer, job=new_jobs[3])
         
     def seed_address(self):
         '''Seed an adress'''
