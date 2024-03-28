@@ -1,4 +1,3 @@
-"""Unit tests for the Managers model."""
 from django.test import TestCase
 from api.models import User
 from django.contrib.auth import get_user_model

@@ -1,4 +1,3 @@
-"""Unit tests for the Resume model."""
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from api.models import Resume
@@ -7,9 +6,7 @@ from api.models import TechnicalSkill
 from api.models import Language
 from api.models import Education
 from api.models import ProfessionalExperience
-from api.models import User
 from api.models import JobSeeker
-from api.models import Employer
 
 class ResumeModelTestCase(TestCase):
     '''Test case for the Resume model'''
