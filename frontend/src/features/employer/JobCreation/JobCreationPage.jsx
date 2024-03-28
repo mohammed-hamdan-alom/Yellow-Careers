@@ -12,7 +12,6 @@ import {
   FileTextOutlined,
   PoundOutlined,
   EnvironmentOutlined,
-  EnterOutlined,
   LineOutlined,
 } from "@ant-design/icons";
 import "@/components/styling/tag.css";

@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import { Switch, Space } from "antd";
-import { Label } from "@/components/ui/label";
-import "../styling/switch.css";
-import JobFilterAndList from "@/components/Search/JobFilterAndList";
+import ToggleCompanyEmployerJobs from "../ToggleJobs/ToggleCompanyEmployerJobs";
 
 function EmployerDashboardPage() {
   const { user } = useContext(AuthContext);
@@ -12,6 +9,7 @@ function EmployerDashboardPage() {
   const [employerJobs, setEmployerJobs] = useState([]);
   const [companyJobs, setCompanyJobs] = useState([]);
   const [showCompanyJobs, setShowCompanyJobs] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,51 +41,26 @@ function EmployerDashboardPage() {
         }
       } catch (error) {
         console.error("Error fetching jobs:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, [userId]);
 
-  const handleSwitchChange = (checked) => {
-    setShowCompanyJobs(checked);
-  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      {showCompanyJobs ? (
-        <div>
-          <Label className="text-3xl">All Company Jobs</Label>
-          <Space size={10} direction="vertical" />
-          <div>
-            {companyJobs.length > 0 && (
-              <Switch
-                checkedChildren="Company Jobs"
-                unCheckedChildren="Your Jobs"
-                defaultChecked={showCompanyJobs}
-                onChange={handleSwitchChange}
-              />
-            )}
-          </div>
-          <JobFilterAndList jobs={companyJobs} />
-        </div>
-      ) : (
-        <div>
-          <Label className="text-3xl">Jobs You Are Associated With</Label>
-          <Space size={10} direction="vertical" />
-          <div>
-            {companyJobs.length > 0 && (
-              <Switch
-                checkedChildren="Company Jobs"
-                unCheckedChildren="Your Jobs"
-                defaultChecked={showCompanyJobs}
-                onChange={handleSwitchChange}
-              />
-            )}
-          </div>
-          <JobFilterAndList jobs={employerJobs} />
-        </div>
-      )}
+      <ToggleCompanyEmployerJobs
+        isAdmin={showCompanyJobs}
+        companyJobs={companyJobs}
+        employerJobs={employerJobs}
+        text={"Active"}
+      />
     </div>
   );
 }
