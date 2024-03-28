@@ -79,7 +79,7 @@ function ResumeForm({ resumeId }) {
           <Label className='text-1xl' htmlFor='experience'>Experience:</Label>
           <Textarea name="experience" id='experience' value={resume.experience} onChange={handleResumeChange} />
         </div>
-        <Button type="submit" className="mt-4" data-testid='submit-button'>Update Resume</Button>
+        <Button type="submit" className="w-full mt-6" variant='outline' data-testid='submit-button'>Update Resume</Button>
       </form>
     </div>
   );

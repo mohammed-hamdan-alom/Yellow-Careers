@@ -4,6 +4,14 @@ import AxiosInstance from "@/utils/AxiosInstance";
 import { showError, showSuccess } from "@/components/Alert/alert";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { SquarePen, MinusCircle } from "lucide-react";
 import { Modal } from "antd";
 
@@ -42,9 +50,7 @@ function Language({ resumeId }) {
         return;
       }
       try {
-        const response = await AxiosInstance.get(
-          `api/resumes/${resumeId}/languages/`
-        );
+        const response = await AxiosInstance.get(`api/resumes/${resumeId}/languages/`);
         setLanguages(response.data);
       } catch (error) {
         console.error("Error:", error);
@@ -56,13 +62,9 @@ function Language({ resumeId }) {
   //Delete language
   const handleDeleteLanguage = async (languageObj) => {
     try {
-      await AxiosInstance.delete(
-        `api/resumes/${resumeId}/languages/update/${languageObj.id}`
-      );
+      await AxiosInstance.delete(`api/resumes/${resumeId}/languages/update/${languageObj.id}`);
       showSuccess("Language Deleted");
-      setLanguages((prevLanguages) =>
-        prevLanguages.filter((item) => item !== languageObj)
-      );
+      setLanguages((prevLanguages) => prevLanguages.filter((item) => item !== languageObj));
     } catch (error) {
       console.error("Error:", error);
       showError("Deleting Language Failed");
@@ -74,71 +76,71 @@ function Language({ resumeId }) {
       <Label className="text-3xl mb-4">Languages</Label>
       <div>
         {languages.map((language) => (
-          <div
-            key={language.id}
-            className="flex flex-row items-center justify-between mb-4"
-          >
-            <div className="flex flex-col outline-slate-400 w-full mr-5 rounded p-2">
-              <Label className="text-1xl">{language.language}</Label>
-              <Label className="text-1xl">
-                Spoken:{" "}
-                {
-                  SkillLevelOptions.find(
-                    (option) => option.value === language.spoken_proficiency
-                  )?.label
-                }
-              </Label>
-              <Label className="text-1xl">
-                Written:{" "}
-                {
-                  SkillLevelOptions.find(
-                    (option) => option.value === language.written_proficiency
-                  )?.label
-                }
-              </Label>
-            </div>
-            <div className="flex flex-row items-center">
-              <Button
-                className="mr-4"
-                variant="secondary"
-                onClick={() => {
-                  setEditingLanguageId(language.id);
-                  showEditModal();
-                }}
-              >
-                <SquarePen className="w-5 h-5 mr-1" />
-                Edit
-              </Button>
-              <Modal
-                title="Edit Language"
-                footer={null}
-                open={isEditModalOpen}
-                onOk={closeEditModal}
-                onCancel={closeEditModal}
-              >
-                <EditLanguage
-                  post={false}
-                  put={true}
-                  resumeId={resumeId}
-                  languageId={editingLanguageId}
-                  setLanguages={setLanguages}
-                  closeEditModal={closeEditModal}
-                />
-              </Modal>
-              <Button
-                data-testid="delete-button"
-                variant="destructive"
-                onClick={() => handleDeleteLanguage(language)}
-              >
-                <MinusCircle className="mr-1" />
-                Delete
-              </Button>
-            </div>
+          <div className='my-6' key={language.id}>
+            <Card className="flex flex-col outline-slate-400 w-full mr-5 rounded p-2">
+              <CardHeader>
+                <CardTitle>{language.language}</CardTitle>
+              </CardHeader>
+              <CardContent className='flex flex-col'>
+                <Label className="text-1xl">
+                  Spoken Proficiency:{" "}
+                  {
+                    SkillLevelOptions.find((option) => option.value === language.spoken_proficiency)
+                      ?.label
+                  }
+                </Label>
+                <Label className="text-1xl">
+                  Written Proficiency:{" "}
+                  {
+                    SkillLevelOptions.find((option) => option.value === language.written_proficiency)
+                      ?.label
+                  }
+                </Label>
+              </CardContent>
+              <CardFooter>
+
+                <Button
+                  className="mr-4"
+                  variant="secondary"
+                  onClick={() => {
+                    setEditingLanguageId(language.id);
+                    showEditModal();
+                  }}
+                >
+                  <SquarePen className="w-5 h-5 mr-1" />
+                  Edit
+                </Button>
+                <Modal
+                  title="Edit Language"
+                  footer={null}
+                  open={isEditModalOpen}
+                  onOk={closeEditModal}
+                  onCancel={closeEditModal}
+                >
+                  <EditLanguage
+                    post={false}
+                    put={true}
+                    resumeId={resumeId}
+                    languageId={editingLanguageId}
+                    setLanguages={setLanguages}
+                    closeEditModal={closeEditModal}
+                  />
+                </Modal>
+                <Button
+                  data-testid="delete-button"
+                  variant="destructive"
+                  onClick={() => handleDeleteLanguage(language)}
+                >
+                  <MinusCircle className="mr-1" />
+                  Delete
+                </Button>
+              </CardFooter>
+            </Card>
           </div>
         ))}
       </div>
       <div>
-        <Button variant="outline" className='w-full' onClick={showAddModal}>
+        <Button variant="outline" className="w-full" onClick={showAddModal}>
           + Add Language
         </Button>
         <Modal

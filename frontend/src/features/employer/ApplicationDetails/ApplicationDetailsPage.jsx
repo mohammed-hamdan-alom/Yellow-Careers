@@ -109,7 +109,7 @@ const ApplicationDetailsPage = () => {
         }}
       >
         <Label className="text-3xl font-bold">Application Details</Label>
-        <Button className="blueButton" onClick={markAsRead}>
+        <Button className="blue-button" onClick={markAsRead}>
           {application.status === "R" ? "Mark Application as Unread" : "Mark Application as Read"}
         </Button>
       </div>

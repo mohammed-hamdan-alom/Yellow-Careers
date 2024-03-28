@@ -7,9 +7,12 @@ import { Label } from "@/components/ui/label";
 import { Input, Button } from "antd";
 import { handleErrorAndShowMessage } from "@/components/handleErrorAndShowMessage/handleErrorAndShowMessage";
 import "@/components/styling/button.css";
+import "@/components/styling/tag.css";
+import { Tag } from "antd";
+import Swal from "sweetalert2";
 
 function CompanyProfilePage() {
-  const [employer, setEmployer] = useState([]);
+  const [currentEmployer, setCurrentEmployer] = useState([]);
   const [companyData, setCompanyData] = useState({
     company_name: "",
     about: "",
@@ -31,7 +34,7 @@ function CompanyProfilePage() {
     const fetchData = async () => {
       try {
         const employerResponse = await AxiosInstance.get(`api/employers/${userId}`);
-        setEmployer(employerResponse.data);
+        setCurrentEmployer(employerResponse.data);
 
         const companyResponse = await AxiosInstance.get(
           `api/companies/${employerResponse.data.company}`,
@@ -101,6 +104,30 @@ function CompanyProfilePage() {
     }
   };
 
+  const handleRemoveEmployer = async (id) => {
+    Swal.fire({
+      title: "Are you sure you want to remove this employer from the company? The employer's account will be deleted.",
+      showCancelButton: true,
+      confirmButtonText: `Yes`,
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        AxiosInstance.delete(`api/employers/${id}/update/`)
+          .then(() => {
+            Swal.fire("Removed", "The employer has been removed successfully and their account has been deleted!", "success").then(
+              () => {
+                window.location.reload();
+              }
+            );
+          })
+          .catch((error) => {
+            console.error("Error removing employer:", error);
+            Swal.fire("Error", "There was an error removing the employer.", "error");
+          });
+      }
+    });
+  };
+
   return (
     <div>
       {!showEdit && (
@@ -133,10 +160,10 @@ function CompanyProfilePage() {
               value={companyData.website}
             />
           </div>
-          {employer.is_company_admin && (
+          {currentEmployer.is_company_admin && (
             <div className="mt-5">
               <Button
-                className="yellowButton"
+                className="yellow-button"
                 type="submit"
                 onClick={() => {
                   setEditedCompanyData(companyData);
@@ -192,10 +219,10 @@ function CompanyProfilePage() {
             </Label>
             {errors.website && <p>{errors.website}</p>}
           </div>
-          <Button type="submit" className="blueButton mr-2" onClick={handleSubmit}>
+          <Button type="submit" className="blue-button mr-2" onClick={handleSubmit}>
             Update
           </Button>
-          <Button type="button" className="redButton" onClick={() => setShowEdit(false)}>
+          <Button type="button" className="red-button" onClick={() => setShowEdit(false)}>
             Cancel
           </Button>
         </form>
@@ -207,20 +234,36 @@ function CompanyProfilePage() {
           {employers.map((employer) => (
             <li key={employer.id} className="border p-4 rounded-md">
               <div className="flex justify-between items-center">
-                <Label htmlFor={`employer-${employer.id}`} className="text-lg font-semibold">
-                  {employer.first_name} {employer.last_name}
-                  {employer.is_company_admin && <span style={{ marginLeft: "5px" }}> (Admin)</span>}
-                </Label>
-                <Label htmlFor={`employer-email-${employer.id}`} className="text-gray-600">
-                  Email: {employer.email}
-                </Label>
+                <div className="flex items-center">
+                  <Label htmlFor={`employer-${employer.id}`} className="text-lg font-semibold">
+                    {employer.first_name} {employer.last_name}
+                    {employer.is_company_admin && (
+                      <Tag color="green" className="tag-medium ml-2">
+                        Admin
+                      </Tag>
+                  )}
+                  </Label>
+                  {currentEmployer.is_company_admin && !employer.is_company_admin && (
+                    <Button
+                      onClick={() => handleRemoveEmployer(employer.id)}
+                      className="red-button ml-2"
+                    >
+                      Remove
+                    </Button>
+                  )}
+                </div>
+                <div className="flex items-center">
+                  <Label htmlFor={`employer-email-${employer.id}`} className="text-gray-600">
+                    Email: {employer.email}
+                  </Label>
+                </div>
               </div>
             </li>
           ))}
         </ul>
       </div>
 
-      {employer.is_company_admin && (
+      {currentEmployer.is_company_admin && (
         <div className="mt-3">
           <Label className="text-2xl font-bold">Invite Employers:</Label>
           <form onSubmit={handleInviteSubmit}>
@@ -233,7 +276,7 @@ function CompanyProfilePage() {
                 required
               />
             </div>
-            <Button htmlType="submit" className="blueButton">
+            <Button htmlType="submit" className="blue-button">
               Send Invite
             </Button>
           </form>
