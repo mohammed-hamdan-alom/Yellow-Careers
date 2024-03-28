@@ -197,7 +197,7 @@ function JobCreationPage() {
               </Select>
             </div>
             <div className="mt-12 w-full">
-              <Button type="submit" className="blueButton w-full" variant="outline">
+              <Button type="submit" className="blue-button w-full" variant="outline">
                 Create Job
               </Button>
             </div>

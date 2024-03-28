@@ -105,7 +105,7 @@ function JobQuestionsPage() {
         </div>
       ))}
       <div style={{ marginTop: "25px" }}>
-        <Button className="yellowButton large-button" type="primary" onClick={handleApply}>
+        <Button className="yellow-button large-button" type="primary" onClick={handleApply}>
           Apply
         </Button>
       </div>

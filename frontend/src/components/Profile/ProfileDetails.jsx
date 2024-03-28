@@ -161,7 +161,7 @@ const ProfileDetails = ({ formData, handleChange, handleSubmit, userType, errors
       )}
 
       <div style={{ marginTop: "25px" }}>
-        <Button className="yellowButton" onClick={handleSubmit}>
+        <Button className="yellow-button" onClick={handleSubmit}>
           Submit
         </Button>
       </div>

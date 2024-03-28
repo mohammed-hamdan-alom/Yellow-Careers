@@ -49,7 +49,7 @@ function EditProfessionalExperience({
     };
 
     fetchProfessionalExperience();
-  }, []);
+  }, [professionalExperienceId]);
 
   const handleProfessionalExperienceChange = (event) => {
     const { name, value } = event.target;

@@ -12,7 +12,7 @@ const JobFilterAndList = ({ jobs }) => {
   const [filters, setFilters] = useState({
     pay: "all",
     contractType: "all",
-    location: "all", //Location is treated as only country
+    location: "all", // Location is treated as only country
   });
   const [countries, setCountries] = useState([]);
 

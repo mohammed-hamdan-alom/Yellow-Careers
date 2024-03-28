@@ -89,7 +89,6 @@ urlpatterns = [
     path('job-seeker/application/<int:application_id>/', JobSeekerFromApplicationRetrieveView.as_view(), name='job-seeker-from-application-get'),
     path('job-seeker/change-password/', ChangePasswordView.as_view(), name='job-seeker-change-password'),
 
-
     path('saved-jobs/', SavedJobsListView.as_view(), name='saved-jobs-list'),
     path('saved-jobs/create/', SavedJobsCreateView.as_view(), name='saved-jobs-create'),
     path('saved-jobs/<int:pk>/', SavedJobsRetrieveView.as_view(), name='saved-jobs-get'),

@@ -49,7 +49,7 @@ function EditEducationPage({
       }
     };
     fetchEducation();
-  }, []);
+  }, [educationId]);
 
   const handleStartDateChange = (date) => {
     if (date) {
@@ -99,7 +99,6 @@ function EditEducationPage({
       showSuccess("Education Updated");
       setErrors(defaultEducationState);
       setEducation(defaultEducationState);
-
       const response = await AxiosInstance.get(`api/resumes/${resumeId}/educations/`);
       setEducations(response.data);
       location.reload();

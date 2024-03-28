@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import AxiosInstance from "@/utils/AxiosInstance";
-import ToggleCompanyEmployerJobs from "../ToggleJobs/ToggleCompanyEmployerJobs";
+import EmployerJobList from "../ToggleJobs/EmployerJobList";
 
 function ArchivedJobsListPage() {
   const { user } = useContext(AuthContext);
@@ -56,7 +56,7 @@ function ArchivedJobsListPage() {
 
   return (
     <div>
-      <ToggleCompanyEmployerJobs
+      <EmployerJobList
         isAdmin={showCompanyArchivedJobs}
         companyJobs={companyArchivedJobs}
         employerJobs={employerArchivedJobs}

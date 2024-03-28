@@ -156,10 +156,10 @@ const EmployerJobDetailsPage = () => {
   return (
     <div>
       <div className="mb-3 flex justify-between">
-        <Button className="blueButton" onClick={handleClick}>
+        <Button className="blue-button" onClick={handleClick}>
           See Applicants
         </Button>
-        <Button className="yellowButton" onClick={handleArchive}>
+        <Button className="yellow-button" onClick={handleArchive}>
           {job.isArchived ? (
             <>
               <UploadOutlined /> Unarchive
@@ -203,13 +203,13 @@ const EmployerJobDetailsPage = () => {
                   currentEmployer.is_company_admin && employers.length > 1 && (
                     <Button
                       onClick={() => handleRemoveEmployer(employer.id)}
-                      className="redButton ml-2"
+                      className="red-button ml-2"
                     >
                       Remove
                     </Button>
                   )}
                   {employer.id === userId && employers.length > 1 && (
-                    <Button onClick={handleLeave} className="redButton ml-2">
+                    <Button onClick={handleLeave} className="red-button ml-2">
                       Leave
                     </Button>
                   )}
@@ -245,7 +245,7 @@ const EmployerJobDetailsPage = () => {
                 ))}
             </select>
             <Button
-              className="yellowButton bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4"
+              className="yellow-button bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4"
               type="submit"
               onClick={handleSubmit}
             >
