@@ -1,10 +1,7 @@
-from django.shortcuts import render
+from api.models import Employer, JobSeeker
+from api.serializers import MyTokenObtainPairSerializer, EmployerRegisterSerializer, JobSeekerRegisterSerializer
 
-from api.models import User, Employer, JobSeeker
-from api.serializers import UserSerializer, MyTokenObtainPairSerializer, EmployerRegisterSerializer, JobSeekerRegisterSerializer
-
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -12,19 +9,23 @@ from django.contrib.auth.hashers import check_password
 from api.serializers import ChangePasswordSerializer
 
 class MyTokenObtainPairView(TokenObtainPairView):
-	serializer_class = MyTokenObtainPairSerializer
+    '''Custom token obtain pair view.'''
+    serializer_class = MyTokenObtainPairSerializer
 
 class EmployerRegisterView(generics.CreateAPIView):
-	queryset = Employer.objects.all()
-	permission_classes = ([AllowAny])
-	serializer_class = EmployerRegisterSerializer
+    '''Create view for the Employer model.'''
+    queryset = Employer.objects.all()
+    permission_classes = ([AllowAny])
+    serializer_class = EmployerRegisterSerializer
 
 class JobSeekerRegisterView(generics.CreateAPIView):
-	queryset = JobSeeker.objects.all()
-	permission_classes = ([AllowAny])
-	serializer_class = JobSeekerRegisterSerializer
+    '''Create view for the JobSeeker model.'''
+    queryset = JobSeeker.objects.all()
+    permission_classes = ([AllowAny])
+    serializer_class = JobSeekerRegisterSerializer
 
 class ChangePasswordView(generics.UpdateAPIView):
+    '''Change password view.'''
     serializer_class = ChangePasswordSerializer
 
     def get_object(self):
