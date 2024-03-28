@@ -3,9 +3,10 @@ from django.urls import reverse
 from api.views import JobCreationView
 from rest_framework import status
 from api.models import Job, Address 
-from api.serializers import JobSerializer
 
 class JobsCreationTestCase(APITestCase):
+    '''Test case for the JobCreationView view.'''
+    
     def setUp(self):
         self.factory = APIRequestFactory()
         self.view = JobCreationView.as_view()

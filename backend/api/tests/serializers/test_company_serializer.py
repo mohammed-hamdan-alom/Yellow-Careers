@@ -3,6 +3,7 @@ from api.models import Company
 from api.serializers import CompanySerializer
 
 class CompanySerializerTestCase(TestCase):
+    '''Tests for the CompanySerializer class in the CompanySerializer module.'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

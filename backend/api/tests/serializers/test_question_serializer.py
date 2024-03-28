@@ -3,6 +3,7 @@ from api.models import Question
 from api.serializers import QuestionSerializer
 
 class JobSerializerTestCase(TestCase):
+    '''Test for the QuestionSerializer serializer class'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

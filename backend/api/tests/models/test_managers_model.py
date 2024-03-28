@@ -1,4 +1,3 @@
-"""Unit tests for the Managers model."""
 from django.test import TestCase
 from api.models import User
 from django.contrib.auth import get_user_model
@@ -6,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserModelTestCase(TestCase):
+    '''Test case for the User model'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

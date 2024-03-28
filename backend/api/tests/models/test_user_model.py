@@ -1,4 +1,3 @@
-"""Unit tests for the User model."""
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from api.models import User
@@ -8,6 +7,7 @@ from api.models import EmployerJobRelation
 from api.models import Application
 
 class UserModelTestCase(TestCase):
+    '''Test case for the User model'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',

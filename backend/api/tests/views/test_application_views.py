@@ -4,7 +4,6 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, force_authenticate
 from rest_framework.authtoken.models import Token
-from api.serializers import MyTokenObtainPairSerializer
 from rest_framework.test import APIRequestFactory
 from api.views import ApplicationRetrieveView
 from api.models.job import Job
@@ -12,6 +11,8 @@ from api.views.application_views import ApplicationsFromJobListView
 
 
 class ApplicationViewTestCase(TestCase):
+    '''Test case for the Application views.'''
+    
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
                 'api/tests/fixtures/applications.json',

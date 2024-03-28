@@ -1,9 +1,9 @@
 from django.test import TestCase
-from rest_framework.test import APIClient
 from api.models import Address
 from api.serializers import AddressSerializer
 
 class AddressSerializerTestCase(TestCase):
+    '''Test the AddressSerializer class.'''
 
     fixtures = ['api/tests/fixtures/addresses.json']
     

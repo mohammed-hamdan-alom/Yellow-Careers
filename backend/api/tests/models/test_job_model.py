@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from api.models import Job, Application, EmployerJobRelation
+from api.models import Job
 
 class JobModelTestCase(TestCase):
+    '''Test case for the Job model'''
 
     fixtures = ['api/tests/fixtures/addresses.json',
                 'api/tests/fixtures/answers.json',
