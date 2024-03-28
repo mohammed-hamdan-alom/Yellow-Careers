@@ -1,8 +1,9 @@
-from api.models import Job, Address
+from api.models import Job
 from rest_framework import serializers
 from . import AddressSerializer
 
 class JobSerializer(serializers.ModelSerializer):
+    """Serializer for the Job model handling creation and updating."""
     address = AddressSerializer()
 
     class Meta:
@@ -10,6 +11,7 @@ class JobSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
+        '''Create a new job with the given data.'''
         address_data = validated_data.pop('address')
         address_serializer = AddressSerializer(data=address_data)  
         if address_serializer.is_valid():

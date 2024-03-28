@@ -2,6 +2,7 @@ from django.db import models
 from .resume import *
 
 class ApplicationManager(models.Manager):
+    """
     def create(self, *args, **kwargs):
         resume = kwargs.get('resume')
         if resume:
