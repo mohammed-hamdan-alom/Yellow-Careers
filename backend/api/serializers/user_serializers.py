@@ -21,7 +21,7 @@ class EmployerRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employer
-        fields = ['email', 'password', 'password2', 'company']
+        fields = ['email', 'password', 'password2', 'company', 'first_name', 'last_name', 'other_names', 'phone_number', 'is_company_admin']
 
     def validate(self, attrs):
         '''Validate the password fields to ensure they match.'''
@@ -32,9 +32,14 @@ class EmployerRegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         '''Create a new employer with the given data.'''
         employer = Employer.objects.create(
-                        email=validated_data['email'],
-                        company=validated_data.get('company')
-                )
+            email=validated_data['email'],
+            company=validated_data.get('company'),
+            first_name=validated_data.get('first_name'),
+            last_name=validated_data.get('last_name'),
+            other_names=validated_data.get('other_names'),
+            phone_number=validated_data.get('phone_number'),
+            is_company_admin=validated_data.get('is_company_admin'),
+        )
         employer.set_password(validated_data['password'])
         employer.save()
         return employer
